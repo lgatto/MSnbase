@@ -71,7 +71,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/lgatto/MSnbase/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -142,11 +142,11 @@ document.addEventListener("DOMContentLoaded", function() {
 <p>Raw mass spectrometry file are generally several hundreds of MB large and most of this is used for binary raw spectrum data. As such, data containers can easily grow very large and thus require large amounts of RAM. This requirement is being tackled by avoiding to load the raw data into memory and using on-disk random access to the content of <code>mzXML</code>/<code>mzML</code> data files on demand. When focusing on reporter ion quantitation, a direct solution for this is to trim the spectra using the <code>trimMz</code> method to select the area of interest and thus substantially reduce the size of the <code>Spectrum</code> objects. This is illustrated in section @ref(sec:trim).</p>
 <p><strong>Parallel processing</strong> The independent handling of spectra is ideally suited for parallel processing. The <code>quantify</code> method for example performs reporter peaks quantitation in parallel.</p>
 <p>Parallel support is provided by the <em><a href="https://bioconductor.org/packages/3.13/BiocParallel">BiocParallel</a></em> and various backends including multicore (forking, default on Linux), simple networf network of workstations (SNOW, default on Windows) using sockets, forking or MPI among others. We refer readers to the documentation in <em><a href="https://bioconductor.org/packages/3.13/BiocParallel">BiocParallel</a></em>. Automatic parallel processing of spectra is only established for a certain number of spectra (per file). This value (default is 1000) can be set with the <code>setMSnbaseParallelThresh</code> function.</p>
-<p>In sock-based parallel processing, the main worker process has to start new R instances and connect to them via sock. Sometimes these connections can not be established and the processes get stuck. To test this, users can disable parallel processing by disabling parallel processing with <code>register(SerialParam())</code>. To avoid these deadlocks, it is possible to initiate the parallel processing setup explicitly at the beginning of the script using, for example</p>
+<p>In sock-based parallel processing, the main worker process has to start new R instances and connect to them via sock. Sometimes these connections can not be established and the processes get stuck. To test this, users can disable parallel processing by disabling parallel processing with <code><a href="https://rdrr.io/pkg/BiocParallel/man/register.html">register(SerialParam())</a></code>. To avoid these deadlocks, it is possible to initiate the parallel processing setup explicitly at the beginning of the script using, for example</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"doParallel"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/doParallel/man/registerDoParallel.html">registerDoParallel</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="co">## using 3 slave nodes</span>
-<span class="fu">register</span><span class="op">(</span><span class="fu">DoparParam</span><span class="op">(</span><span class="op">)</span>, default <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/register.html">register</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/DoparParam-class.html">DoparParam</a></span><span class="op">(</span><span class="op">)</span>, default <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="co">## rest of script comes below</span></code></pre></div>
 <p><strong>On-disk access</strong> Developmenets in version 2 of the package have solved the memory issue by implementing and <em>on-disk</em> version the of data class storing raw data (<em>MSnExp</em>, see section @ref(sec:msnexp)), where the spectra a accessed on-disk only when required. The <em>benchmarking</em> vignette compares the on-disk and in-memory implemenatations<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. See details below.</p>
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function() {
 ## - - - Spectra data - - -
 ##  MS level(s): 2 
 ##  Number of spectra: 55 
-##  MSn retention times: 19:9 - 50:18 minutes
+##  MSn retention times: 19:09 - 50:18 minutes
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <span class="va">sp</span></code></pre></div>
 <pre><code>## Object of class "Spectrum2"
 ##  Precursor: 520.7833 
-##  Retention time: 19:9 
+##  Retention time: 19:09 
 ##  Charge: 2 
 ##  MSn level: 2 
 ##  Peaks count: 1922 
@@ -364,7 +364,7 @@ document.addEventListener("DOMContentLoaded", function() {
 <code class="sourceCode R"><span class="va">M</span></code></pre></div>
 <pre><code>## Object of class "MSmap"
 ##  Map [75, 401]
-##   [1]  Retention time: 30:1 - 34:58 
+##   [1]  Retention time: 30:01 - 34:58 
 ##   [2]  M/Z: 521 - 523 (res 0.005)</code></pre>
 <p>The <code>M</code> map object can be rendered as a heatmap with <code>plot</code>, as shown on figure @ref(fig:mapheat).</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
@@ -391,7 +391,7 @@ Heat map of a chunk of the MS data.
 <code class="sourceCode R"><span class="va">M2</span></code></pre></div>
 <pre><code>## Object of class "MSmap"
 ##  Map [12, 901]
-##   [1]  Retention time: 30:1 - 30:5 
+##   [1]  Retention time: 30:01 - 30:05 
 ##   [2]  M/Z: 100 - 1000 (res 1)</code></pre>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/MSmap-class.html">plot3D</a></span><span class="op">(</span><span class="va">M2</span><span class="op">)</span></code></pre></div>
@@ -422,11 +422,11 @@ Raw MS2 spectrum with details about reporter ions.
 ## - - - Spectra data - - -
 ##  MS level(s): 2 
 ##  Number of spectra: 3 
-##  MSn retention times: 19:9 - 36:17 minutes
+##  MSn retention times: 19:09 - 36:17 minutes
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Data [logically] subsetted 3 spectra: Wed Nov 18 18:18:35 2020 
+## Data [logically] subsetted 3 spectra: Sun Dec 27 15:15:32 2020 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -771,12 +771,12 @@ This figure illustrated the effect or the <code>removePeaks</code> and <code>cle
 ## - - - Spectra data - - -
 ##  MS level(s): 2 
 ##  Number of spectra: 55 
-##  MSn retention times: 19:9 - 50:18 minutes
+##  MSn retention times: 19:09 - 50:18 minutes
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Wed Nov 18 18:18:42 2020 
-## Spectra cleaned: Wed Nov 18 18:18:43 2020 
+## Curves &lt;= 400 set to '0': Sun Dec 27 15:15:38 2020 
+## Spectra cleaned: Sun Dec 27 15:15:39 2020 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -844,9 +844,9 @@ The different quantitation methods. See text for details.
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Wed Nov 18 18:18:42 2020 
-## Spectra cleaned: Wed Nov 18 18:18:43 2020 
-## iTRAQ4 quantification by trapezoidation: Wed Nov 18 18:18:46 2020 
+## Curves &lt;= 400 set to '0': Sun Dec 27 15:15:38 2020 
+## Spectra cleaned: Sun Dec 27 15:15:39 2020 
+## iTRAQ4 quantification by trapezoidation: Sun Dec 27 15:15:43 2020 
 ##  MSnbase version: 1.1.22</code></pre>
 <div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span><span class="op">(</span><span class="va">qnt</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -916,7 +916,7 @@ The different quantitation methods. See text for details.
 ## [5,]   133   133
 ## [6,]   133   133</code></pre>
 <div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/Chromatogram-class.html">productMz</a></span><span class="op">(</span><span class="va">srm</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu">productMz</span><span class="op">(</span><span class="va">srm</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>##        mzmin   mzmax
 ## [1,]  26.996  26.996
 ## [2,]  70.996  70.996
@@ -994,7 +994,7 @@ The different quantitation methods. See text for details.
 <code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/impute-methods.html">impute</a></span><span class="op">(</span><span class="va">naset</span>, <span class="st">"min"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/pSet-class.html">processingData</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data imputation using min Wed Nov 18 18:18:48 2020 
+## Data imputation using min Sun Dec 27 15:15:44 2020 
 ##  MSnbase version: 1.15.6</code></pre>
 <div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -1033,7 +1033,7 @@ Mixed imputation method. Black cells represent presence of quantitation values a
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Data imputation using mixed Wed Nov 18 18:18:49 2020 
+## Data imputation using mixed Sun Dec 27 15:15:45 2020 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>Please read <code><a href="../reference/impute-methods.html">?impute</a></code> for a description of the different methods.</p>
@@ -1118,13 +1118,13 @@ Experiment-wide normalised MS2 spectra. The y-axes of the individual spectra is 
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Wed Nov 18 18:18:42 2020 
-## Spectra cleaned: Wed Nov 18 18:18:43 2020 
-## iTRAQ4 quantification by trapezoidation: Wed Nov 18 18:18:46 2020 
-## Subset [55,4][54,4] Wed Nov 18 18:18:47 2020 
-## Removed features with more than 0 NAs: Wed Nov 18 18:18:47 2020 
-## Dropped featureData's levels Wed Nov 18 18:18:47 2020 
-## Combined 54 features into 40 using median: Wed Nov 18 18:18:51 2020 
+## Curves &lt;= 400 set to '0': Sun Dec 27 15:15:38 2020 
+## Spectra cleaned: Sun Dec 27 15:15:39 2020 
+## iTRAQ4 quantification by trapezoidation: Sun Dec 27 15:15:43 2020 
+## Subset [55,4][54,4] Sun Dec 27 15:15:43 2020 
+## Removed features with more than 0 NAs: Sun Dec 27 15:15:43 2020 
+## Dropped featureData's levels Sun Dec 27 15:15:43 2020 
+## Combined 54 features into 40 using median: Sun Dec 27 15:15:47 2020 
 ##  MSnbase version: 2.17.3</code></pre>
 <p>Of interest is also the <code>iPQF</code> spectra-to-protein summarisation method, which integrates peptide spectra characteristics and quantitative values for protein quantitation estimation. See <code><a href="../reference/iPQF.html">?iPQF</a></code> and references therein for details.</p>
 </div>
@@ -1167,11 +1167,11 @@ Experiment-wide normalised MS2 spectra. The y-axes of the individual spectra is 
 <code class="sourceCode R"><span class="va">siquant</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">msexp</span>, method <span class="op">=</span> <span class="st">"SIn"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/pSet-class.html">processingData</a></span><span class="op">(</span><span class="va">siquant</span><span class="op">)</span></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data loaded: Wed Nov 18 18:18:41 2020 
-## Filtered 2 unidentified peptides out [Wed Nov 18 18:18:42 2020] 
-## Quantitation by total ion current [Wed Nov 18 18:18:51 2020] 
-## Combined 3 features into 3 using sum: Wed Nov 18 18:18:51 2020 
-## Quantification by SIn [Wed Nov 18 18:18:51 2020] 
+## Data loaded: Sun Dec 27 15:15:37 2020 
+## Filtered 2 unidentified peptides out [Sun Dec 27 15:15:38 2020] 
+## Quantitation by total ion current [Sun Dec 27 15:15:47 2020] 
+## Combined 3 features into 3 using sum: Sun Dec 27 15:15:47 2020 
+## Quantification by SIn [Sun Dec 27 15:15:47 2020] 
 ##  MSnbase version: 2.17.3</code></pre>
 <div class="sourceCode" id="cb148"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span><span class="op">(</span><span class="va">siquant</span><span class="op">)</span></code></pre></div>
@@ -1448,7 +1448,7 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Combined [27,4] and [24,4] MSnSets Wed Nov 18 18:19:05 2020 
+## Combined [27,4] and [24,4] MSnSets Sun Dec 27 15:15:59 2020 
 ##  MSnbase version: 2.17.3</code></pre>
 <p>In summary, when experiments with different samples need to be combined (along the columns), one needs to (1) clarify the sample names using <code>updateSampleNames</code> or better manually, for biological relevance and (2) update the feature data variable labels with <code>updateFvarLabels</code>. The individual experiments (there can be more than 2) can then easily be combined with the <code>combine</code> method while retaining the meta-data.</p>
 <p>If runs for the same sample (different fractions for example) need to be combines, one needs to (1) differentiate the feature provenance with <code>updateFeatureNames</code> prior to use <code>combine</code>.</p>
@@ -1543,7 +1543,7 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 <div id="session-information" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#session-information" class="anchor"></a>Session information</h1>
-<pre><code>## R Under development (unstable) (2020-11-12 r79424)
+<pre><code>## R Under development (unstable) (2020-12-24 r79679)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 20.04.1 LTS
 ## 
@@ -1563,21 +1563,21 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 ##  [8] datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] gplots_3.1.0         msdata_0.31.0        pRoloc_1.31.0       
-##  [4] BiocParallel_1.25.1  MLInterfaces_1.71.0  cluster_2.1.0       
+##  [1] gplots_3.1.1         msdata_0.31.0        pRoloc_1.31.0       
+##  [4] BiocParallel_1.25.2  MLInterfaces_1.71.2  cluster_2.1.0       
 ##  [7] annotate_1.69.0      XML_3.99-0.5         AnnotationDbi_1.53.0
-## [10] IRanges_2.25.2       pRolocdata_1.29.0    Rdisop_1.51.0       
-## [13] zoo_1.8-8            MSnbase_2.17.3       ProtGenerics_1.23.1 
-## [16] S4Vectors_0.29.3     mzR_2.25.0           Rcpp_1.0.5          
+## [10] IRanges_2.25.6       pRolocdata_1.29.0    Rdisop_1.51.0       
+## [13] zoo_1.8-8            MSnbase_2.17.3       ProtGenerics_1.23.5 
+## [16] S4Vectors_0.29.6     mzR_2.25.1           Rcpp_1.0.5          
 ## [19] Biobase_2.51.0       BiocGenerics_0.37.0  ggplot2_3.3.2       
-## [22] BiocStyle_2.19.0    
+## [22] BiocStyle_2.19.1    
 ## 
 ## loaded via a namespace (and not attached):
 ##   [1] BiocFileCache_1.15.1  systemfonts_0.3.2     plyr_1.8.6           
 ##   [4] splines_4.1.0         digest_0.6.27         foreach_1.5.1        
 ##   [7] htmltools_0.5.0       viridis_0.5.1         magrittr_2.0.1       
 ##  [10] memoise_1.1.0         doParallel_1.0.16     mixtools_1.2.0       
-##  [13] limma_3.47.0          recipes_0.1.15        gower_0.2.2          
+##  [13] limma_3.47.3          recipes_0.1.15        gower_0.2.2          
 ##  [16] askpass_1.1           pkgdown_1.6.1.9000    lpSolve_5.6.15       
 ##  [19] prettyunits_1.1.1     colorspace_2.0-0      blob_1.2.1           
 ##  [22] rappdirs_0.3.1        textshaping_0.2.1     xfun_0.19            
@@ -1587,34 +1587,34 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 ##  [34] zlibbioc_1.37.0       kernlab_0.9-29        scales_1.1.1         
 ##  [37] vsn_3.59.0            mvtnorm_1.1-1         DBI_1.1.0            
 ##  [40] viridisLite_0.3.0     xtable_1.8-4          progress_1.2.2       
-##  [43] bit_4.0.4             proxy_0.4-24          mclust_5.4.6         
-##  [46] preprocessCore_1.53.0 lava_1.6.8.1          prodlim_2019.11.13   
-##  [49] sampling_2.8          httr_1.4.2            FNN_1.1.3            
-##  [52] RColorBrewer_1.1-2    ellipsis_0.3.1        farver_2.0.3         
-##  [55] pkgconfig_2.0.3       nnet_7.3-14           dbplyr_2.0.0         
-##  [58] caret_6.0-86          labeling_0.4.2        tidyselect_1.1.0     
-##  [61] rlang_0.4.8           reshape2_1.4.4        munsell_0.5.0        
-##  [64] tools_4.1.0           LaplacesDemon_16.1.4  generics_0.1.0       
-##  [67] RSQLite_2.2.1         evaluate_0.14         stringr_1.4.0        
-##  [70] mzID_1.29.0           yaml_2.2.1            ragg_0.4.0           
-##  [73] ModelMetrics_1.2.2.2  knitr_1.30            bit64_4.0.5          
-##  [76] fs_1.5.0              caTools_1.18.0        purrr_0.3.4          
-##  [79] randomForest_4.6-14   dendextend_1.14.0     ncdf4_1.17           
-##  [82] nlme_3.1-150          xml2_1.3.2            biomaRt_2.47.1       
-##  [85] compiler_4.1.0        filelock_1.0.2        curl_4.3             
-##  [88] e1071_1.7-4           affyio_1.61.0         tibble_3.0.4         
-##  [91] stringi_1.5.3         highr_0.8             desc_1.2.0           
-##  [94] lattice_0.20-41       Matrix_1.2-18         vctrs_0.3.5          
-##  [97] pillar_1.4.6          lifecycle_0.2.0       BiocManager_1.30.10  
-## [100] MALDIquant_1.19.3     bitops_1.0-6          data.table_1.13.2    
-## [103] R6_2.5.0              pcaMethods_1.83.0     affy_1.69.0          
-## [106] bookdown_0.21         KernSmooth_2.23-18    gridExtra_2.3        
-## [109] codetools_0.2-18      MASS_7.3-53           gtools_3.8.2         
-## [112] assertthat_0.2.1      openssl_1.4.3         rprojroot_2.0.2      
-## [115] withr_2.3.0           mgcv_1.8-33           hms_0.5.3            
-## [118] rpart_4.1-15          timeDate_3043.102     coda_0.19-4          
-## [121] class_7.3-17          rmarkdown_2.5         segmented_1.3-0      
-## [124] pROC_1.16.2           lubridate_1.7.9.2</code></pre>
+##  [43] bit_4.0.4             proxy_0.4-24          mclust_5.4.7         
+##  [46] preprocessCore_1.53.1 MsCoreUtils_1.3.2     lava_1.6.8.1         
+##  [49] prodlim_2019.11.13    sampling_2.8          httr_1.4.2           
+##  [52] FNN_1.1.3             RColorBrewer_1.1-2    ellipsis_0.3.1       
+##  [55] farver_2.0.3          pkgconfig_2.0.3       nnet_7.3-14          
+##  [58] dbplyr_2.0.0          caret_6.0-86          labeling_0.4.2       
+##  [61] tidyselect_1.1.0      rlang_0.4.9           reshape2_1.4.4       
+##  [64] munsell_0.5.0         tools_4.1.0           LaplacesDemon_16.1.4 
+##  [67] generics_0.1.0        RSQLite_2.2.1         evaluate_0.14        
+##  [70] stringr_1.4.0         mzID_1.29.0           yaml_2.2.1           
+##  [73] ragg_0.4.0            ModelMetrics_1.2.2.2  knitr_1.30           
+##  [76] bit64_4.0.5           fs_1.5.0              caTools_1.18.0       
+##  [79] purrr_0.3.4           randomForest_4.6-14   dendextend_1.14.0    
+##  [82] ncdf4_1.17            nlme_3.1-151          xml2_1.3.2           
+##  [85] biomaRt_2.47.1        compiler_4.1.0        filelock_1.0.2       
+##  [88] curl_4.3              e1071_1.7-4           affyio_1.61.0        
+##  [91] tibble_3.0.4          stringi_1.5.3         highr_0.8            
+##  [94] desc_1.2.0            lattice_0.20-41       Matrix_1.3-0         
+##  [97] vctrs_0.3.6           pillar_1.4.7          lifecycle_0.2.0      
+## [100] BiocManager_1.30.10   MALDIquant_1.19.3     bitops_1.0-6         
+## [103] data.table_1.13.4     R6_2.5.0              pcaMethods_1.83.0    
+## [106] affy_1.69.0           bookdown_0.21         KernSmooth_2.23-18   
+## [109] gridExtra_2.3         codetools_0.2-18      MASS_7.3-53          
+## [112] gtools_3.8.2          assertthat_0.2.1      openssl_1.4.3        
+## [115] rprojroot_2.0.2       withr_2.3.0           mgcv_1.8-33          
+## [118] hms_0.5.3             rpart_4.1-15          timeDate_3043.102    
+## [121] coda_0.19-4           class_7.3-17          rmarkdown_2.6        
+## [124] segmented_1.3-1       pROC_1.16.2           lubridate_1.7.9.2</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">

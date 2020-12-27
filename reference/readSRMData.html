@@ -113,7 +113,7 @@ returns the results as a MChromatograms() object." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lgatto/MSnbase/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -137,7 +137,7 @@ returns the results as a MChromatograms() object." />
 
     <div class="ref-description">
     <p>The <code>readSRMData</code> function reads MRM/SRM data from provided <em>mzML</em> files and
-returns the results as a <code><a href='MChromatograms-class.html'>MChromatograms()</a></code> object.</p>
+returns the results as a <code><a href='MChromatograms.html'>MChromatograms()</a></code> object.</p>
     </div>
 
     <pre class="usage"><span class='fu'>readSRMData</span><span class='op'>(</span><span class='va'>files</span>, pdata <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
@@ -158,13 +158,13 @@ descriptions.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code><a href='MChromatograms-class.html'>MChromatograms()</a></code> object. See details above for more information.</p>
+    <p>A <code><a href='MChromatograms.html'>MChromatograms()</a></code> object. See details above for more information.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>readSRMData</code> supports reading chromatogram entries from <em>mzML</em> files. If
 multiple files are provided the same precursor and product m/z for SRM/MRM
 chromatograms are expected across files. The number of columns of the
-resulting <code><a href='MChromatograms-class.html'>MChromatograms()</a></code> object corresponds to the number of files. Each
+resulting <code><a href='MChromatograms.html'>MChromatograms()</a></code> object corresponds to the number of files. Each
 row in the <code>MChromatograms</code> object is supposed to contain chromatograms
 with same polarity, precursor and product m/z. If chromatograms with
 redundant polarity, precursor and product m/z values and precursor collision
@@ -181,7 +181,7 @@ object depends on the total list of unique precursor and product m/z
 isolation windows (and precursor collision energies) found across all input
 files. In cases in which not each file has chromatgraphic data for the same
 polarity, precursor m/z, product m/z and collision energy,
-an empty <code><a href='Chromatogram-class.html'>Chromatogram()</a></code> object is reported for the specific precursor
+an empty <code><a href='Chromatogram.html'>Chromatogram()</a></code> object is reported for the specific precursor
 and product m/z combination of the respective file (and a warning is
 thrown).</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
@@ -359,7 +359,7 @@ thrown).</p>
 #&gt; [136,]  89.0  89.0
 #&gt; [137,]  89.0  89.0</div><div class='input'>
 <span class='co'>## Access the product m/z.</span>
-<span class='fu'><a href='Chromatogram-class.html'>productMz</a></span><span class='op'>(</span><span class='va'>mrm</span><span class='op'>)</span>
+<span class='fu'>productMz</span><span class='op'>(</span><span class='va'>mrm</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;          mzmin   mzmax
 #&gt;   [1,]  26.996  26.996
 #&gt;   [2,]  70.996  70.996

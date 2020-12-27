@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Container for multiple Chromatogram objects — MChromatograms-class • MSnbase</title>
+<title>Container for multiple Chromatogram objects — MChromatograms • MSnbase</title>
 
 
 <!-- jquery -->
@@ -39,73 +39,10 @@
 
 
 
-<meta property="og:title" content="Container for multiple Chromatogram objects — MChromatograms-class" />
+<meta property="og:title" content="Container for multiple Chromatogram objects — MChromatograms" />
 <meta property="og:description" content="The MChromatograms class allows to store
-    Chromatogram objects in a matrix-like
-    two-dimensional structure.
-MChromatograms: create an instance of class
-    MChromatograms.
-MChromatograms objects can, just like a matrix,
-    be subsetted using the [ method. Single elements, rows or columns
-    can be replaced using e.g. x[1, 1] &amp;lt;- value where value
-    has to be a Chromatogram object or a list of such objects.
-plot: plots a MChromatograms object. For each row
-    in the object one plot is created, i.e. all Chromatogram
-    objects in the same row are added to the same plot.
-phenoData: accesses the phenotypical desccription of the
-    samples. Returns an AnnotatedDataFrame object.
-pData: accesses the phenotypical description of the
-    samples. Returns a data.frame.
-pData&amp;lt;-: replace the phenotype data.
-$ and $&amp;lt;-: get or replace individual columns of
-    the object's pheno data.
-colnames&amp;lt;-: replace or set the column names of the
-    MChromatograms object. Does also set the rownames of the
-    phenoData.
-sampleNames: get the sample names.
-sampleNames&amp;lt;-: replace or set the sample names of the
-    MChromatograms object (i.e. the rownames of the pheno data
-    and colnames of the data matrix.
-isEmpty: returns TRUE if the MChromatograms
-    object or all of its Chromatogram objects is/are empty or contain
-    only NA intensities.
-featureNames: returns the feature names of the
-    MChromatograms object.
-featureNames&amp;lt;-: set the feature names.
-featureData: return the feature data.
-featureData&amp;lt;-: replace the object's feature data.
-fData: return the feature data as a data.frame.
-fData&amp;lt;-: replace the object's feature data by passing a
-    data.frame
-fvarLabels: return the feature data variable names (i.e.
-    column names).
-rownames&amp;lt;-: replace the rownames (and featureNames) of
-    the object.
-precursorMz: return the precursor m/z from the chromatograms. The
-method returns a matrix with 2 columns (&quot;mzmin&quot; and
-&quot;mzmax&quot;) and as many rows as there are rows in the
-MChromatograms object. Each row contains the precursor m/z of the
-chromatograms in that row. An error is thrown if the chromatograms within one
-row have different precursor m/z values.
-productMz: return the product m/z from the chromatograms. The
-method returns a matrix with 2 columns (&quot;mzmin&quot; and
-&quot;mzmax&quot;) and as many rows as there are rows in the
-MChromatograms object. Each row contains the product m/z of the
-chromatograms in that row. An error is thrown if the chromatograms within one
-row have different product m/z values.
-mz: returns the m/z for each row of the MChromatograms object
-as a two-column matrix (with columns &quot;mzmin&quot; and
-&quot;mzmax&quot;).
-polarity: returns the polarity of the scans/chromatograms: `1`,
-`0` or `-1` for positive, negative or unknown polarity.
-bin aggregates intensity values of chromatograms in discrete bins
-along the retention time axis. By default, individual Chromatogram
-objects of one row are binned into the same bins. The function returns a
-MChromatograms object with binned chromatograms.
-clean: removes 0-intensity data points. Either all of them
-(with all = TRUE) or all except those adjacent to non-zero
-intensities (all = FALSE; default). See clean
-documentation for more details and examples." />
+Chromatogram() objects in a matrix-like
+two-dimensional structure." />
 
 
 
@@ -177,7 +114,7 @@ documentation for more details and examples." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lgatto/MSnbase/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -195,77 +132,14 @@ documentation for more details and examples." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Container for multiple Chromatogram objects</h1>
-    <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/DataClasses.R'><code>R/DataClasses.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/functions-MChromatograms.R'><code>R/functions-MChromatograms.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-MChromatograms.R'><code>R/methods-MChromatograms.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/lgatto/MSnbase/blob/master/R/functions-MChromatograms.R'><code>R/functions-MChromatograms.R</code></a>, <a href='https://github.com/lgatto/MSnbase/blob/master/R/methods-MChromatograms.R'><code>R/methods-MChromatograms.R</code></a></small>
     <div class="hidden name"><code>MChromatograms-class.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>The <code>MChromatograms</code> class allows to store
-    <code><a href='Chromatogram-class.html'>Chromatogram</a></code> objects in a <code>matrix</code>-like
-    two-dimensional structure.</p>
-<p><code>MChromatograms</code>: create an instance of class
-    <code>MChromatograms</code>.</p>
-<p><code>MChromatograms</code> objects can, just like a <code>matrix</code>,
-    be subsetted using the <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code> method. Single elements, rows or columns
-    can be replaced using e.g. <code>x[1, 1] &lt;- value</code> where <code>value</code>
-    has to be a <code>Chromatogram</code> object or a <code>list</code> of such objects.</p>
-<p><code>plot</code>: plots a <code>MChromatograms</code> object. For each row
-    in the object one plot is created, i.e. all <code><a href='Chromatogram-class.html'>Chromatogram</a></code>
-    objects in the same row are added to the same plot.</p>
-<p><code>phenoData</code>: accesses the phenotypical desccription of the
-    samples. Returns an <code>AnnotatedDataFrame</code> object.</p>
-<p><code>pData</code>: accesses the phenotypical description of the
-    samples. Returns a <code>data.frame</code>.</p>
-<p><code>pData&lt;-</code>: replace the phenotype data.</p>
-<p><code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code> and <code>$&lt;-</code>: get or replace individual columns of
-    the object's pheno data.</p>
-<p><code>colnames&lt;-</code>: replace or set the column names of the
-    <code>MChromatograms</code> object. Does also set the <code>rownames</code> of the
-    <code>phenoData</code>.</p>
-<p><code>sampleNames</code>: get the sample names.</p>
-<p><code>sampleNames&lt;-</code>: replace or set the sample names of the
-    <code>MChromatograms</code> object (i.e. the <code>rownames</code> of the pheno data
-    and <code>colnames</code> of the data matrix.</p>
-<p><code>isEmpty</code>: returns <code>TRUE</code> if the <code>MChromatograms</code>
-    object or all of its <code>Chromatogram</code> objects is/are empty or contain
-    only <code>NA</code> intensities.</p>
-<p><code>featureNames</code>: returns the feature names of the
-    <code>MChromatograms</code> object.</p>
-<p><code>featureNames&lt;-</code>: set the feature names.</p>
-<p><code>featureData</code>: return the feature data.</p>
-<p><code>featureData&lt;-</code>: replace the object's feature data.</p>
-<p><code>fData</code>: return the feature data as a <code>data.frame</code>.</p>
-<p><code>fData&lt;-</code>: replace the object's feature data by passing a
-    <code>data.frame</code></p>
-<p><code>fvarLabels</code>: return the feature data variable names (i.e.
-    column names).</p>
-<p><code>rownames&lt;-</code>: replace the rownames (and featureNames) of
-    the object.</p>
-<p><code>precursorMz</code>: return the precursor m/z from the chromatograms. The
-method returns a <code>matrix</code> with 2 columns (<code>"mzmin"</code> and
-<code>"mzmax"</code>) and as many rows as there are rows in the
-<code>MChromatograms</code> object. Each row contains the precursor m/z of the
-chromatograms in that row. An error is thrown if the chromatograms within one
-row have different precursor m/z values.</p>
-<p><code>productMz</code>: return the product m/z from the chromatograms. The
-method returns a <code>matrix</code> with 2 columns (<code>"mzmin"</code> and
-<code>"mzmax"</code>) and as many rows as there are rows in the
-<code>MChromatograms</code> object. Each row contains the product m/z of the
-chromatograms in that row. An error is thrown if the chromatograms within one
-row have different product m/z values.</p>
-<p><code>mz</code>: returns the m/z for each row of the <code>MChromatograms</code> object
-as a two-column <code>matrix</code> (with columns <code>"mzmin"</code> and
-<code>"mzmax"</code>).</p>
-<p><code>polarity</code>: returns the polarity of the scans/chromatograms: `1`,
-`0` or `-1` for positive, negative or unknown polarity.</p>
-<p><code>bin</code> aggregates intensity values of chromatograms in discrete bins
-along the retention time axis. By default, individual <code>Chromatogram</code>
-objects of one row are binned into the same bins. The function returns a
-<code>MChromatograms</code> object with binned chromatograms.</p>
-<p><code>clean</code>: removes 0-intensity data points. Either all of them
-(with <code>all = TRUE</code>) or all except those adjacent to non-zero
-intensities (<code>all = FALSE</code>; default). See <code><a href='clean-methods.html'>clean</a></code>
-documentation for more details and examples.</p>
+<code><a href='Chromatogram.html'>Chromatogram()</a></code> objects in a <code>matrix</code>-like
+two-dimensional structure.</p>
     </div>
 
     <pre class="usage">MChromatograms(data, phenoData, featureData, ...)
@@ -358,31 +232,43 @@ polarity(object)
 bin(object, binSize = 0.5, breaks = numeric(), fun = max)
 
 # S4 method for MChromatograms
-clean(object, all = FALSE, na.rm = FALSE)</pre>
+clean(object, all = FALSE, na.rm = FALSE)
+
+# S4 method for MChromatograms
+normalize(object, method = c("max", "sum"))
+
+# S4 method for MChromatograms
+filterIntensity(object, intensity = 0, ...)
+
+# S4 method for MChromatograms,Chromatogram
+alignRt(x, y, method = c("closest", "approx"), ...)
+
+# S4 method for MChromatograms
+c(x, ...)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>A <code>list</code> of <code><a href='Chromatogram-class.html'>Chromatogram</a></code> objects.</p></td>
+      <td><p>for <code>MChromatograms</code>: a <code>list</code> of <code><a href='Chromatogram.html'>Chromatogram()</a></code> objects.</p></td>
     </tr>
     <tr>
       <th>phenoData</th>
-      <td><p>either a <code>data.frame</code>, <code>AnnotatedDataFrame</code> or
+      <td><p>for <code>MChromatograms</code>: either a <code>data.frame</code>,
 <code>AnnotatedDataFrame</code> describing the phenotypical information of the
 samples.</p></td>
     </tr>
     <tr>
       <th>featureData</th>
-      <td><p>either a <code>data.frame</code> or <code>AnnotatedDataFrame</code>
-with additional information for each row of chromatograms.</p></td>
+      <td><p>for <code>MChromatograms</code>: either a <code>data.frame</code> or
+<code>AnnotatedDataFrame</code> with additional information for each row of
+chromatograms.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional parameters to be passed to the
-<code><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></code> constructor, such as <code>nrow</code>, <code>ncol</code>
-and <code>byrow</code>.</p></td>
+      <td><p>for <code>MChromatograms</code>: additional parameters to be passed to the
+<code>matrix</code> constructor, such as <code>nrow</code>, <code>ncol</code> and <code>byrow</code>.</p></td>
     </tr>
     <tr>
       <th>object</th>
@@ -390,70 +276,67 @@ and <code>byrow</code>.</p></td>
     </tr>
     <tr>
       <th>x</th>
-      <td><p>For all methods: a <code>MChromatograms</code> object.</p></td>
+      <td><p>for all methods: a <code>MChromatograms</code> object.</p></td>
     </tr>
     <tr>
       <th>i</th>
-      <td><p>For <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>: <code>numeric</code>, <code>logical</code> or <code>character</code>
+      <td><p>for <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>: <code>numeric</code>, <code>logical</code> or <code>character</code>
 defining which row(s) to extract.</p></td>
     </tr>
     <tr>
       <th>j</th>
-      <td><p>For <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>: <code>numeric</code>, <code>logical</code> or <code>character</code>
+      <td><p>for <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>: <code>numeric</code>, <code>logical</code> or <code>character</code>
 defining which columns(s) to extract.</p></td>
     </tr>
     <tr>
       <th>drop</th>
-      <td><p>For <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether to drop the
-dimensionality of the returned object (if possible). The default is
-<code>drop = FALSE</code>, i.e. each subsetting returns a <code>MChromatograms</code>
-object (or a <code>Chromatogram</code> object if a single element is
-extracted).</p></td>
+      <td><p>for <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether to drop the dimensionality of the
+returned object (if possible). The default is <code>drop = FALSE</code>, i.e. each
+subsetting returns a <code>MChromatograms</code> object (or a <code>Chromatogram</code> object
+if a single element is extracted).</p></td>
     </tr>
     <tr>
       <th>value</th>
-      <td><p>For <code>[&lt;-</code>: the replacement object(s). Can be a <code>list</code>
-    of <code><a href='Chromatogram-class.html'>Chromatogram</a></code> objects or, if length of <code>i</code> and
-    <code>j</code> are 1, a single <code><a href='Chromatogram-class.html'>Chromatogram</a></code> object.</p>
-<p>For <code>pData&lt;-</code>: a <code>data.frame</code> with the number of rows matching
-    the number of columns of <code>object</code>.</p>
-<p>For <code>colnames</code>: a <code>character</code> with the new column names.</p></td>
+      <td><p>for <code>[&lt;-</code>: the replacement object(s). Can be a <code>list</code>
+of [Chromatogram()<code>objects or, if length of</code>i<code>and</code>j<code>are 1, a single</code>Chromatogram` object.</p><pre>For `pData&lt;-`: a `data.frame` with the number of rows matching
+the number of columns of `object`.
+
+For `colnames`: a `character` with the new column names.
+</pre></td>
     </tr>
     <tr>
       <th>col</th>
-      <td><p>For <code>plot</code>: the color to be used for plotting. Either a
+      <td><p>for <code>plot</code>: the color to be used for plotting. Either a
 vector of length 1 or equal to <code><a href='https://rdrr.io/r/base/nrow.html'>ncol(x)</a></code>.</p></td>
     </tr>
     <tr>
       <th>lty</th>
-      <td><p>For <code>plot</code>: the line type (see <code>plot</code> in the
-<code>graphics</code> package
-for more details. Can be either a vector of length 1 or of length equal
+      <td><p>for <code>plot</code>: the line type (see <code>plot</code> in the <code>graphics</code> package
+for more details). Can be either a vector of length 1 or of length equal
 to <code><a href='https://rdrr.io/r/base/nrow.html'>ncol(x)</a></code>.</p></td>
     </tr>
     <tr>
       <th>type</th>
-      <td><p>For <code>plot</code>: the type of plot (see
-<code>plot</code> from the <code>graphics</code> package for more details.
-Can be either a vector
-of length 1 or of length equal to <code><a href='https://rdrr.io/r/base/nrow.html'>ncol(x)</a></code>.</p></td>
+      <td><p>for <code>plot</code>: the type of plot (see <code>plot</code> from the <code>graphics</code>
+package for more details). Can be either a vector of length 1 or of
+length equal to <code><a href='https://rdrr.io/r/base/nrow.html'>ncol(x)</a></code>.</p></td>
     </tr>
     <tr>
       <th>xlab</th>
-      <td><p>For <code>plot</code>: the x-axis label.</p></td>
+      <td><p>for <code>plot</code>: the x-axis label.</p></td>
     </tr>
     <tr>
       <th>ylab</th>
-      <td><p>For <code>plot</code>: the y-axis label.</p></td>
+      <td><p>for <code>plot</code>: the y-axis label.</p></td>
     </tr>
     <tr>
       <th>main</th>
-      <td><p>For <code>plot</code>: the plot title. If not provided the mz range
+      <td><p>for <code>plot</code>: the plot title. If not provided the mz range
 will be used as plot title.</p></td>
     </tr>
     <tr>
       <th>name</th>
-      <td><p>For <code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code>, the name of the pheno data column.</p></td>
+      <td><p>for <code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code>, the name of the pheno data column.</p></td>
     </tr>
     <tr>
       <th>binSize</th>
@@ -462,7 +345,7 @@ will be used as plot title.</p></td>
     </tr>
     <tr>
       <th>breaks</th>
-      <td><p>for <code>bin</code>: <code>numeric</code> defining the bins. Usually not
+      <td><p>For <code>bin</code>: <code>numeric</code> defining the bins. Usually not
 required as the function calculates the bins automatically based on
 <code>binSize</code> and the retention time range of chromatograms in the same
 row.</p></td>
@@ -474,57 +357,170 @@ values falling within each bin.</p></td>
     </tr>
     <tr>
       <th>all</th>
-      <td><p>for <code>clean</code>: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether all 0 intensities
+      <td><p>for <code>clean</code>: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether all 0-intensities
 should be removed (<code>all = TRUE</code>), or whether 0-intensities
 adjacent to peaks should be kept (<code>all = FALSE</code>; default).</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
       <td><p>for <code>clean</code>: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether all <code>NA</code>
-intensities should be removed prior to clean 0 intensity data points.</p></td>
+intensities should be removed prior to clean 0-intensity data points.</p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>. For <code>normalise</code>: defining whether each
+chromatogram should be normalized to its maximum signal
+(<code>method = "max"</code>) or total signal (<code>method = "sum"</code>).
+For <code>alignRt</code>: alignment methods (see documentation for <code>alignRt</code> in the
+<code><a href='Chromatogram.html'>Chromatogram()</a></code> help page. Defaults to <code>method = "closest"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>intensity</th>
+      <td><p>for <code>filterIntensity</code>: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code> or <code>function</code> to use to
+filter intensities. See description for details.</p></td>
+    </tr>
+    <tr>
+      <th>y</th>
+      <td><p>for <code>alignRt</code>: a <code><a href='Chromatogram.html'>Chromatogram()</a></code> object against which <code>x</code> should be
+aligned against.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>For <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code>: the subset of the <code>MChromatograms</code> object. If a
-    single element is extracted (e.g. if <code>i</code> and <code>j</code> are of length
-    1) a <code><a href='Chromatogram-class.html'>Chromatogram</a></code> object is returned. Otherwise (if
-    <code>drop = FALSE</code>, the default, is specified) a <code>MChromatograms</code>
-    object is returned. If <code>drop = TRUE</code> is specified, the method
-    returns a <code>list</code> of <code>Chromatogram</code> objects.</p>
-<p>For <code>phenoData</code>: an <code>AnnotatedDataFrame</code> representing the
-    pheno data of the object.</p>
-<p>For <code>pData</code>: a <code>data.frame</code> representing the pheno data of
-    the object.</p>
-<p>For <code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code>: the value of the corresponding column in the pheno data
-    table of the object.</p>
+single element is extracted (e.g. if <code>i</code> and <code>j</code> are of length
+1) a <code><a href='Chromatogram.html'>Chromatogram()</a></code> object is returned. Otherwise (if
+<code>drop = FALSE</code>, the default, is specified) a <code>MChromatograms</code>
+object is returned. If <code>drop = TRUE</code> is specified, the method
+returns a <code>list</code> of <code>Chromatogram</code> objects.</p><pre>For `phenoData`: an `AnnotatedDataFrame` representing the
+pheno data of the object.
+
+For `pData`: a `data.frame` representing the pheno data of
+the object.
+
+For `$`: the value of the corresponding column in the pheno data
+table of the object.
+
+For all other methods see function description.
+</pre>
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>MChromatograms</code> class extends the base <code>matrix</code> class
-    and hence allows to store <code><a href='Chromatogram-class.html'>Chromatogram</a></code> objects in a
-    two-dimensional array. Each row is supposed to contain
-    <code>Chromatogram</code> objects for one MS data <em>slice</em> with a common
-    m/z and rt range. Columns contain <code>Chromatogram</code> objects from the
-    same sample.</p>
-<p><code>plot</code>: if <code>nrow(x) &gt; 1</code> the plot area is split into
-    <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(x)</a></code> sub-plots and the chromatograms of one row are plotted in
-    each.</p>
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+and hence allows to store <code><a href='Chromatogram.html'>Chromatogram()</a></code> objects in a
+two-dimensional array. Each row is supposed to contain
+<code>Chromatogram</code> objects for one MS data <em>slice</em> with a common
+m/z and rt range. Columns contain <code>Chromatogram</code> objects from the
+same sample.</p>
+    <h2 class="hasAnchor" id="object-creation"><a class="anchor" href="#object-creation"></a>Object creation</h2>
 
-    <p>Subsetting with <code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code> will always return a <code>MChromatograms</code>
-    object (with the exception of extracting a single element)
-    unless <code>drop = TRUE</code> is specified. This is different from the
-    default subsetting behaviour of <code>matrix</code>-like objects.</p>
+    
+
+
+<p><code>MChromatograms</code> are returned by a <code><a href='chromatogram,MSnExp-method.html'>chromatogram()</a></code> function from an <code>MSnExp</code>
+or <code>OnDiskMSnExp</code>. Alternatively, the <code>MChromatograms</code> constructor function
+can be used.</p>
+    <h2 class="hasAnchor" id="data-access"><a class="anchor" href="#data-access"></a>Data access</h2>
+
+    
+
+<ul>
+<li><p><code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code> and <code>$&lt;-</code>: get or replace individual columns of the object's phenodata.</p></li>
+<li><p><code>colnames</code> and <code>colnames&lt;-</code>: replace or set the column names of the
+<code>MChromatograms</code> object. Does also set the <code>rownames</code> of the <code>phenoData</code>.</p></li>
+<li><p><code>fData</code>: return the feature data as a <code>data.frame</code>.</p></li>
+<li><p><code>fData&lt;-</code>: replace the object's feature data by passing a <code>data.frame</code>.</p></li>
+<li><p><code>featureData</code>: return the feature data.</p></li>
+<li><p><code>featureData&lt;-</code>: replace the object's feature data.</p></li>
+<li><p><code>featureNames</code>: returns the feature names of the <code>MChromatograms</code> object.</p></li>
+<li><p><code>featureNames&lt;-</code>: set the feature names.</p></li>
+<li><p><code>fvarLabels</code>: return the feature data variable names (i.e. column names).</p></li>
+<li><p><code>isEmpty</code>: returns <code>TRUE</code> if the <code>MChromatograms</code> object or all of its
+<code>Chromatogram</code> objects is/are empty or contain only <code>NA</code> intensities.</p></li>
+<li><p><code>mz</code>: returns the m/z for each row of the <code>MChromatograms</code> object
+as a two-column <code>matrix</code> (with columns <code>"mzmin"</code> and <code>"mzmax"</code>).</p></li>
+<li><p><code>pData</code>: accesses the phenotypical description of the samples. Returns a
+<code>data.frame</code>.</p></li>
+<li><p><code>pData&lt;-</code>: replace the phenotype data.</p></li>
+<li><p><code>phenoData</code>: accesses the phenotypical description of the samples. Returns
+an <code>AnnotatedDataFrame</code> object.</p></li>
+<li><p><code>polarity</code>: returns the polarity of the scans/chromatograms: <code>1</code>, <code>0</code> or
+<code>-1</code> for positive, negative or unknown polarity.</p></li>
+<li><p><code>precursorMz</code>: return the precursor m/z from the chromatograms. The
+method returns a <code>matrix</code> with 2 columns (<code>"mzmin"</code> and <code>"mzmax"</code>) and as
+many rows as there are rows in the <code>MChromatograms</code> object. Each row
+contains the precursor m/z of the chromatograms in that row. An error is
+thrown if the chromatograms within one row have different precursor m/z
+values.</p></li>
+<li><p><code>productMz</code>: return the product m/z from the chromatograms. The method
+returns a <code>matrix</code> with 2 columns (<code>"mzmin"</code> and <code>"mzmax"</code>) and as many
+rows as there are rows in the <code>MChromatograms</code> object. Each row contains
+the product m/z of the chromatograms in that row. An error is thrown if
+the chromatograms within one row have different product m/z values.</p></li>
+<li><p><code>rownames&lt;-</code>: replace the rownames (and featureNames) of the object.</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="data-subsetting-combining-and-filtering"><a class="anchor" href="#data-subsetting-combining-and-filtering"></a>Data subsetting, combining and filtering</h2>
+
+    
+
+<ul>
+<li><p><code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code> subset (similar to a <code>matrix</code>) by row and column (with parameters <code>i</code>
+and <code>j</code>).</p></li>
+<li><p><code>[&lt;-</code> replace individual or multiple elements. <code>value</code> has to be either a
+single <code>Chromatogram</code> obhect or a <code>list</code> of <code>Chromatogram</code> objects.</p></li>
+<li><p><code>c</code> concatenate (row-wise) <code>MChromatogram</code> objects with the
+<strong>same number of samples (columns)</strong>.</p></li>
+<li><p><code>filterIntensity</code>: filter each <code><a href='Chromatogram.html'>Chromatogram()</a></code> object within the
+<code>MChromatograms</code> removing data points with intensities below the user
+provided threshold. If <code>intensity</code> is a <code>numeric</code> value, the returned
+chromatogram will only contain data points with intensities &gt; <code>intensity</code>.
+In addition it is possible to provide a function to perform the filtering.
+This function is expected to take the input <code>Chromatogram</code> (<code>object</code>) and
+to return a logical vector with the same length then there are data points
+in <code>object</code> with <code>TRUE</code> for data points that should be kept and <code>FALSE</code>
+for data points that should be removed. See the <code>filterIntensity</code>
+documentation in the <code><a href='Chromatogram.html'>Chromatogram()</a></code> help page for details and examples.</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="data-processing-and-manipulation"><a class="anchor" href="#data-processing-and-manipulation"></a>Data processing and manipulation</h2>
+
+    
+
+<ul>
+<li><p><code>alignRt</code>: align all chromatograms in an <code>MChromatograms</code> object against
+the chromatogram specified with <code>y</code>. See documentation on <code>alignRt</code> in the
+<code><a href='Chromatogram.html'>Chromatogram()</a></code> help page.</p></li>
+<li><p><code>bin</code>: aggregates intensity values of chromatograms in discrete bins
+along the retention time axis. By default, individual <code>Chromatogram</code>
+objects of one row are binned into the same bins. The function returns a
+<code>MChromatograms</code> object with binned chromatograms.</p></li>
+<li><p><code>clean</code>: removes 0-intensity data points. Either all of them
+(with <code>all = TRUE</code>) or all except those adjacent to non-zero
+intensities (<code>all = FALSE</code>; default). See <code><a href='clean-methods.html'>clean()</a></code> documentation for more
+details and examples.</p></li>
+<li><p><code>normalize</code>, <code>normalise</code>: <em>normalises</em> the intensities of a chromatogram by
+dividing them either by the maximum intensity (<code>method = "max"</code>) or total
+intensity (<code>method = "sum"</code>) of the chromatogram.</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="data-visualization"><a class="anchor" href="#data-visualization"></a>Data visualization</h2>
+
+    
+
+<ul>
+<li><p><code>plot</code>: plots a <code>MChromatograms</code> object. For each row in the object one
+plot is created, i.e. all <code><a href='Chromatogram.html'>Chromatogram()</a></code> objects in the same row are
+added to the same plot. If <code>nrow(x) &gt; 1</code> the plot area is split into
+<code><a href='https://rdrr.io/r/base/nrow.html'>nrow(x)</a></code> sub-plots and the chromatograms of one row are plotted in
+each.</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='Chromatogram-class.html'>Chromatogram</a></code> for the class representing chromatogram
-    data.
-    <code><a href='chromatogram,MSnExp-method.html'>chromatogram</a></code> for the method to extract a
-    <code>MChromatograms</code> object from a <code><a href='MSnExp-class.html'>MSnExp</a></code> or
-    <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code> object.
-    <code><a href='readSRMData.html'>readSRMData</a></code> for the function to read chromatographic data
-    of an SRM/MRM experiment.</p></div>
+    <div class='dont-index'><p><code>Chromatogram()] for the class representing chromatogram data. [chromatogram()] for the method to extract a </code>MChromatograms<code>object from a</code>MSnExp<code>or</code>OnDiskMSnExp<code> object. [readSRMData()</code> for the function to read chromatographic data
+of an SRM/MRM experiment.</p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Johannes Rainer</p>
@@ -532,13 +528,13 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## Creating some chromatogram objects to put them into a MChromatograms object</span>
 <span class='va'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>25</span>, sd <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>ch1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, <span class='va'>ints</span><span class='op'>)</span>
+<span class='va'>ch1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, <span class='va'>ints</span><span class='op'>)</span>
 <span class='va'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>32</span>, sd <span class='op'>=</span> <span class='fl'>90</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>ch2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, <span class='va'>ints</span><span class='op'>)</span>
+<span class='va'>ch2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, <span class='va'>ints</span><span class='op'>)</span>
 <span class='va'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>19</span>, sd <span class='op'>=</span> <span class='fl'>120</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>ch3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, <span class='va'>ints</span><span class='op'>)</span>
+<span class='va'>ch3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, <span class='va'>ints</span><span class='op'>)</span>
 <span class='va'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>21</span>, sd <span class='op'>=</span> <span class='fl'>40</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>ch4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, <span class='va'>ints</span><span class='op'>)</span>
+<span class='va'>ch4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, <span class='va'>ints</span><span class='op'>)</span>
 
 <span class='co'>## Create a MChromatograms object with 2 rows and 2 columns</span>
 <span class='va'>chrs</span> <span class='op'>&lt;-</span> <span class='fu'>MChromatograms</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>ch1</span>, <span class='va'>ch2</span>, <span class='va'>ch3</span>, <span class='va'>ch4</span><span class='op'>)</span>, nrow <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
@@ -610,15 +606,18 @@ intensities should be removed prior to clean 0 intensity data points.</p></td>
 </div><div class='output co'>#&gt;      mzmin mzmax
 #&gt; [1,]    NA    NA
 #&gt; [2,]    NA    NA</div><div class='input'>
+
+<span class='co'>## Data visualization</span>
+
 <span class='co'>## Create some random Chromatogram objects</span>
 <span class='va'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>123</span>, mean <span class='op'>=</span> <span class='fl'>200</span>, sd <span class='op'>=</span> <span class='fl'>32</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>ch1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, intensity <span class='op'>=</span> <span class='va'>ints</span>, mz <span class='op'>=</span> <span class='fl'>231</span><span class='op'>)</span>
+<span class='va'>ch1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, intensity <span class='op'>=</span> <span class='va'>ints</span>, mz <span class='op'>=</span> <span class='fl'>231</span><span class='op'>)</span>
 <span class='va'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>122</span>, mean <span class='op'>=</span> <span class='fl'>250</span>, sd <span class='op'>=</span> <span class='fl'>43</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>ch2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, intensity <span class='op'>=</span> <span class='va'>ints</span>, mz <span class='op'>=</span> <span class='fl'>231</span><span class='op'>)</span>
+<span class='va'>ch2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, intensity <span class='op'>=</span> <span class='va'>ints</span>, mz <span class='op'>=</span> <span class='fl'>231</span><span class='op'>)</span>
 <span class='va'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>125</span>, mean <span class='op'>=</span> <span class='fl'>590</span>, sd <span class='op'>=</span> <span class='fl'>120</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>ch3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, intensity <span class='op'>=</span> <span class='va'>ints</span>, mz <span class='op'>=</span> <span class='fl'>542</span><span class='op'>)</span>
+<span class='va'>ch3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, intensity <span class='op'>=</span> <span class='va'>ints</span>, mz <span class='op'>=</span> <span class='fl'>542</span><span class='op'>)</span>
 <span class='va'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>124</span>, mean <span class='op'>=</span> <span class='fl'>1200</span>, sd <span class='op'>=</span> <span class='fl'>509</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>ch4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, intensity <span class='op'>=</span> <span class='va'>ints</span>, mz <span class='op'>=</span> <span class='fl'>542</span><span class='op'>)</span>
+<span class='va'>ch4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span>, intensity <span class='op'>=</span> <span class='va'>ints</span>, mz <span class='op'>=</span> <span class='fl'>542</span><span class='op'>)</span>
 
 <span class='co'>## Combine into a 2x2 MChromatograms object</span>
 <span class='va'>chrs</span> <span class='op'>&lt;-</span> <span class='fu'>MChromatograms</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>ch1</span>, <span class='va'>ch2</span>, <span class='va'>ch3</span>, <span class='va'>ch4</span><span class='op'>)</span>, byrow <span class='op'>=</span> <span class='cn'>TRUE</span>, ncol <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>

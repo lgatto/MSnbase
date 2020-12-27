@@ -120,7 +120,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lgatto/MSnbase/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -144,7 +144,7 @@
 
     <div class="ref-description">
     <p>This method cleans out individual spectra (<code>Spectrum</code> instances),
-  chromatograms (<code><a href='Chromatogram-class.html'>Chromatogram</a></code> instances)
+  chromatograms (<code><a href='Chromatogram.html'>Chromatogram</a></code> instances)
   or whole experiments (<code>MSnExp</code> instances) of 0-intensity
   peaks. Unless <code>all</code> is set to <code>FALSE</code>, original 0-intensity
   values are retained only around peaks. If more than two 0's were
@@ -173,8 +173,8 @@
       <code>OnDiskMSnExp</code> and is only relevant for developers.</p></dd>
 
     <dt><code>signature(object = "Chromatogram", all = "logical",
-	na.rm = "logical")</code></dt><dd><p>Cleans the <code><a href='Chromatogram-class.html'>Chromatogram</a></code> instance and returns
-      a cleaned <code><a href='Chromatogram-class.html'>Chromatogram</a></code> object. If
+	na.rm = "logical")</code></dt><dd><p>Cleans the <code><a href='Chromatogram.html'>Chromatogram</a></code> instance and returns
+      a cleaned <code><a href='Chromatogram.html'>Chromatogram</a></code> object. If
       <code>na.rm</code> is <code>TRUE</code> (default is <code>FALSE</code>) all
       <code>NA</code> intensities are removed before cleaning the chromatogram.</p></dd>
   
@@ -211,10 +211,10 @@
 </div><div class='output co'>#&gt; - - - Processing information - - -
 #&gt; Data loaded: Wed May 11 18:54:39 2011 
 #&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt; Spectra cleaned: Wed Nov 18 18:16:07 2020 
+#&gt; Spectra cleaned: Sun Dec 27 15:14:02 2020 
 #&gt;  MSnbase version: 1.1.22 </div><div class='input'>
 <span class='co'>## Create a simple Chromatogram object</span>
-<span class='va'>chr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>12</span>,
+<span class='va'>chr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>12</span>,
                     intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>20</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>123</span>, <span class='fl'>124343</span>, <span class='fl'>3432</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'>## Remove 0-intensity values keeping those adjacent to peaks</span>
@@ -226,7 +226,7 @@
 <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1]     20    123 124343   3432</div><div class='input'>
 <span class='co'>## Clean a Chromatogram with NAs.</span>
-<span class='va'>chr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram-class.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>12</span>,
+<span class='va'>chr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Chromatogram.html'>Chromatogram</a></span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>12</span>,
                     intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>20</span>, <span class='cn'>NA</span>, <span class='cn'>NA</span>, <span class='fl'>0</span>, <span class='fl'>123</span>, <span class='fl'>124343</span>, <span class='fl'>3432</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>chr</span> <span class='op'>&lt;-</span> <span class='fu'>clean</span><span class='op'>(</span><span class='va'>chr</span>, all <span class='op'>=</span> <span class='cn'>FALSE</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span>
