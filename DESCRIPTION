@@ -77,7 +77,6 @@ Imports:
     BiocParallel,
     IRanges (>= 2.13.28),
     plyr,
-    preprocessCore,
     vsn,
     grid,
     stats4,
