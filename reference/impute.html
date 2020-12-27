@@ -40,13 +40,13 @@
 
 
 <meta property="og:title" content="Quantitative proteomics data imputation — impute,MSnSet-method" />
-<meta property="og:description" content="The `impute` method performs data imputation on `MSnSet` instances
+<meta property="og:description" content="The impute method performs data imputation on MSnSet instances
 using a variety of methods.
 Users should proceed with care when imputing data and take
 precautions to assure that the imputation produce valid results,
 in particular with naive imputations such as replacing missing
 values with 0.
-See [MsCoreUtils::impute_matrix()] for details on the different
+See MsCoreUtils::impute_matrix() for details on the different
 imputation methods available and strategies." />
 
 
@@ -142,13 +142,13 @@ imputation methods available and strategies." />
     </div>
 
     <div class="ref-description">
-    <p>The `impute` method performs data imputation on `MSnSet` instances
+    <p>The <code>impute</code> method performs data imputation on <code>MSnSet</code> instances
 using a variety of methods.</p>
 <p>Users should proceed with care when imputing data and take
 precautions to assure that the imputation produce valid results,
 in particular with naive imputations such as replacing missing
 values with 0.</p>
-<p>See [MsCoreUtils::impute_matrix()] for details on the different
+<p>See <code><a href='https://rdrr.io/pkg/MsCoreUtils/man/imputation.html'>MsCoreUtils::impute_matrix()</a></code> for details on the different
 imputation methods available and strategies.</p>
     </div>
 
@@ -160,19 +160,19 @@ imputation methods available and strategies.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>An `MSnSet` object with missing values to be
+      <td><p>An <code>MSnSet</code> object with missing values to be
 imputed.</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>`character(1)` defining the imputation method. See
-`MsCoreUtils::imputeMethods()` for available ones. See
-[MsCoreUtils::impute_matrix()] for details.</p></td>
+      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> defining the imputation method. See
+<code><a href='https://rdrr.io/pkg/MsCoreUtils/man/imputation.html'>MsCoreUtils::imputeMethods()</a></code> for available ones. See
+<code><a href='https://rdrr.io/pkg/MsCoreUtils/man/imputation.html'>MsCoreUtils::impute_matrix()</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>Additional parameters passed to the inner imputation
-function. See [MsCoreUtils::impute_matrix()] for details.</p></td>
+function. See <code><a href='https://rdrr.io/pkg/MsCoreUtils/man/imputation.html'>MsCoreUtils::impute_matrix()</a></code> for details.</p></td>
     </tr>
     </table>
 
@@ -211,7 +211,7 @@ function. See [MsCoreUtils::impute_matrix()] for details.</p></td>
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt; Data imputation using min Sun Dec 27 18:09:02 2020 
+#&gt; Data imputation using min Sun Dec 27 20:11:52 2020 
 #&gt;  MSnbase version: 1.15.6 </div><div class='input'>
 <span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'>"imputeLCMD"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
     <span class='fu'>impute</span><span class='op'>(</span><span class='va'>naset</span>, method <span class='op'>=</span> <span class='st'>"QRILC"</span><span class='op'>)</span>
@@ -238,7 +238,7 @@ function. See [MsCoreUtils::impute_matrix()] for details.</p></td>
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt; Data imputation using MinDet Sun Dec 27 18:09:02 2020 
+#&gt; Data imputation using MinDet Sun Dec 27 20:11:52 2020 
 #&gt;  MSnbase version: 1.15.6 </div><div class='input'>
 <span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='http://www.stat.psu.edu/~jls/misoftwa.html#aut'>"norm"</a></span><span class='op'>)</span><span class='op'>)</span>
     <span class='fu'>impute</span><span class='op'>(</span><span class='va'>naset</span>, method <span class='op'>=</span> <span class='st'>"MLE"</span><span class='op'>)</span>
@@ -258,7 +258,7 @@ function. See [MsCoreUtils::impute_matrix()] for details.</p></td>
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt; Data imputation using MLE Sun Dec 27 18:09:02 2020 
+#&gt; Data imputation using MLE Sun Dec 27 20:11:52 2020 
 #&gt;  MSnbase version: 1.15.6 </div><div class='input'>
 <span class='fu'>impute</span><span class='op'>(</span><span class='va'>naset</span>, <span class='st'>"mixed"</span>,
        randna <span class='op'>=</span> <span class='fu'>fData</span><span class='op'>(</span><span class='va'>naset</span><span class='op'>)</span><span class='op'>$</span><span class='va'>randna</span>,
@@ -278,7 +278,7 @@ function. See [MsCoreUtils::impute_matrix()] for details.</p></td>
 #&gt; experimentData: use 'experimentData(object)'
 #&gt; Annotation:  
 #&gt; - - - Processing information - - -
-#&gt; Data imputation using mixed Sun Dec 27 18:09:02 2020 
+#&gt; Data imputation using mixed Sun Dec 27 20:11:52 2020 
 #&gt;  MSnbase version: 1.15.6 </div><div class='input'>
 
 <span class='co'>## neighbour averaging</span>

@@ -41,10 +41,10 @@
 
 <meta property="og:title" content="Extract chromatogram object(s) — chromatogram,MSnExp-method" />
 <meta property="og:description" content="The chromatogram method extracts chromatogram(s) from an
-    MSnExp or OnDiskMSnExp object.
-    Depending on the provided parameters this can be a total ion chromatogram
-    (TIC), a base peak chromatogram (BPC) or an extracted ion chromatogram
-    (XIC) extracted from each sample/file." />
+MSnExp or OnDiskMSnExp object.
+Depending on the provided parameters this can be a total ion chromatogram
+(TIC), a base peak chromatogram (BPC) or an extracted ion chromatogram
+(XIC) extracted from each sample/file." />
 
 
 
@@ -140,10 +140,10 @@
 
     <div class="ref-description">
     <p>The <code>chromatogram</code> method extracts chromatogram(s) from an
-    <code><a href='MSnExp-class.html'>MSnExp</a></code> or <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code> object.
-    Depending on the provided parameters this can be a total ion chromatogram
-    (TIC), a base peak chromatogram (BPC) or an extracted ion chromatogram
-    (XIC) extracted from each sample/file.</p>
+<code><a href='MSnExp-class.html'>MSnExp</a></code> or <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code> object.
+Depending on the provided parameters this can be a total ion chromatogram
+(TIC), a base peak chromatogram (BPC) or an extracted ion chromatogram
+(XIC) extracted from each sample/file.</p>
     </div>
 
     <pre class="usage"><span class='co'># S4 method for MSnExp</span>
@@ -211,40 +211,41 @@ depend on the architecture. Default is
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>chromatogram</code> returns a <code><a href='MChromatograms.html'>MChromatograms</a></code> object with
-    the number of columns corresponding to the number of files in
-    <code>object</code> and number of rows the number of specified ranges (i.e.
-    number of rows of matrices provided with arguments <code>mz</code> and/or
-    <code>rt</code>). The `featureData` of the returned object contains columns
-    <code>"mzmin"</code> and <code>"mzmax"</code> with the values from input argument
-    <code>mz</code> (if used) and <code>"rtmin"</code> and <code>"rtmax"</code> if the input
-    argument <code>rt</code> was used.</p>
+the number of columns corresponding to the number of files in
+<code>object</code> and number of rows the number of specified ranges (i.e.
+number of rows of matrices provided with arguments <code>mz</code> and/or
+<code>rt</code>). The <code>featureData</code> of the returned object contains columns
+<code>"mzmin"</code> and <code>"mzmax"</code> with the values from input argument
+<code>mz</code> (if used) and <code>"rtmin"</code> and <code>"rtmax"</code> if the input
+argument <code>rt</code> was used.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Arguments <code>rt</code> and <code>mz</code> allow to specify the MS
-    data slice from which the chromatogram should be extracted.
-    The parameter <code>aggregationSum</code> allows to specify the function to be
-    used to aggregate the intensities across the mz range for the same
-    retention time. Setting <code>aggregationFun = "sum"</code> would e.g. allow
-    to calculate the <em>total ion chromatogram</em> (TIC),
-    <code>aggregationFun = "max"</code> the <em>base peak chromatogram</em> (BPC).
-    The length of the extracted <code><a href='Chromatogram.html'>Chromatogram</a></code> object,
-    i.e. the number of available data points, corresponds to the number of
-    scans/spectra measured in the specified retention time range. If in a
-    specific scan (for a give retention time) no signal was measured in the
-    specified mz range, a <code>NA_real_</code> is reported as intensity for the
-    retention time (see Notes for more information). This can be changed
-    using the <code>missing</code> parameter.</p>
-<p>By default or if <code>mz</code> and/or <code>rt</code> are numeric vectors, the
-    function extracts one <code><a href='Chromatogram.html'>Chromatogram</a></code> object for each file
-    in the <code><a href='MSnExp-class.html'>MSnExp</a></code> or <code><a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a></code>
-    object. Providing a numeric matrix with argument <code>mz</code> or <code>rt</code>
-    enables to extract multiple chromatograms per file, one for each row in
-    the matrix. If the number of columns of <code>mz</code> or <code>rt</code> are not
-    equal to 2, <code>range</code> is called on each row of the matrix.</p>
+data slice from which the chromatogram should be extracted.
+The parameter <code>aggregationSum</code> allows to specify the function to be
+used to aggregate the intensities across the mz range for the same
+retention time. Setting <code>aggregationFun = "sum"</code> would e.g. allow
+to calculate the <em>total ion chromatogram</em> (TIC),
+<code>aggregationFun = "max"</code> the <em>base peak chromatogram</em> (BPC).
+The length of the extracted <code><a href='Chromatogram.html'>Chromatogram</a></code> object,
+i.e. the number of available data points, corresponds to the number of
+scans/spectra measured in the specified retention time range. If in a
+specific scan (for a give retention time) no signal was measured in the
+specified mz range, a <code>NA_real_</code> is reported as intensity for the
+retention time (see Notes for more information). This can be changed
+using the <code>missing</code> parameter.</p><pre>By default or if \code{mz} and/or \code{rt} are numeric vectors, the
+function extracts one \code{\link{Chromatogram}} object for each file
+in the \code{\linkS4class{MSnExp}} or \code{\linkS4class{OnDiskMSnExp}}
+object. Providing a numeric matrix with argument \code{mz} or \code{rt}
+enables to extract multiple chromatograms per file, one for each row in
+the matrix. If the number of columns of \code{mz} or \code{rt} are not
+equal to 2, \code{range} is called on each row of the matrix.
+</pre>
+
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='Chromatogram.html'>Chromatogram</a></code> and <code><a href='MChromatograms.html'>MChromatograms</a></code> for the
-    classes that represent single and multiple chromatograms.</p></div>
+classes that represent single and multiple chromatograms.</p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Johannes Rainer</p>
