@@ -186,10 +186,12 @@ If NA values are present, a message will be shown. Details on how
       <th>method</th>
       <td><p>The summerising function. Currently, mean, median,
     weighted mean, sum, median polish, robust summarisation (using
-    <code><a href='https://rdrr.io/pkg/MASS/man/rlm.html'>MASS::rlm</a></code>), iPQF (see <code><a href='iPQF.html'>iPQF</a></code> for details) and NTR
-    (see <code><a href='normToReference.html'>NTR</a></code> for details) are implemented, but
-    user-defined functions can also be supplied. Note that the robust
-    menthods assumes that the data are already log-transformed.</p></td>
+    <code><a href='https://rdrr.io/pkg/MASS/man/rlm.html'>MASS::rlm</a></code>, implemented in
+    <code><a href='https://rdrr.io/pkg/MsCoreUtils/man/robustSummary.html'>MsCoreUtils::robustSummary()</a></code>), iPQF (see <code><a href='iPQF.html'>iPQF</a></code>
+    for details) and NTR (see <code><a href='normToReference.html'>NTR</a></code> for details) are
+    implemented, but user-defined functions can also be supplied. Note
+    that the robust menthods assumes that the data are already
+    log-transformed.</p></td>
     </tr>
     <tr>
       <th>fcol</th>
