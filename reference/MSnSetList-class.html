@@ -359,7 +359,7 @@
 #&gt; 
 #&gt; $B
 #&gt; [1] 871   4
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>msnl</span>, <span class='va'>normalise</span><span class='op'>)</span> <span class='co'>## an MSnSetList</span>
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>msnl</span>, <span class='va'>normalise</span>, method <span class='op'>=</span> <span class='st'>"quantiles"</span><span class='op'>)</span> <span class='co'>## an MSnSetList</span>
 </div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 2 objects.</div><div class='input'>
 <span class='fu'>fData</span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; DataFrame with 2 rows and 0 columns</div><div class='input'><span class='fu'>fData</span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span><span class='op'>$</span><span class='va'>X</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>msnl</span>, <span class='va'>nrow</span><span class='op'>)</span>
