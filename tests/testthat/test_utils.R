@@ -213,7 +213,7 @@ test_that("formatRt", {
     expect_equal(tn, formatRt(tc))
     expect_true(is.na(formatRt("")))
     expect_warning(is.na(formatRt("aaa")))
-    expect_warning(is.na(formatRt(TRUE)))
+    expect_error(formatRt(TRUE))
 })
 
 test_that("formatFileSpectrumNames", {
