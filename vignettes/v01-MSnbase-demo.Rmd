@@ -302,7 +302,7 @@ details about how to generate new *ReporterIons* objects.
 
 ```{r ReporterIons}
 iTRAQ4
-TMT10
+TMT16
 ```
 
 ## Chromatogram objects {#sec:chromatograms}
@@ -1107,7 +1107,7 @@ edited.
 A set of imputation methods are available in the `impute`
 method: it takes an *MSnSet* instance as input, the name of the
 imputation method to be applied (one of
-`r paste(imputeMethods(), collapse=", ")`),
+`r paste(MsCoreUtils::imputeMethods(), collapse=", ")`),
 possible additional parameters and returns an updated for *MSnSet*
 without any missing values. Below, we apply a deterministic minimum
 value imputation on the `naset` example data:
@@ -1180,8 +1180,8 @@ x
 ```
 
 
-Please read `?impute` for a description of the different
-methods.
+Please read `?MsCoreUtils::impute_matix()` for a description of the
+different methods.
 
 ## Normalisation {#sec:norm}
 
