@@ -50,44 +50,43 @@ depend on the architecture. Default is
 }
 \value{
 \code{chromatogram} returns a \code{\link{MChromatograms}} object with
-    the number of columns corresponding to the number of files in
-    \code{object} and number of rows the number of specified ranges (i.e.
-    number of rows of matrices provided with arguments \code{mz} and/or
-    \code{rt}). The `featureData` of the returned object contains columns
-    \code{"mzmin"} and \code{"mzmax"} with the values from input argument
-    \code{mz} (if used) and \code{"rtmin"} and \code{"rtmax"} if the input
-    argument \code{rt} was used.
+the number of columns corresponding to the number of files in
+\code{object} and number of rows the number of specified ranges (i.e.
+number of rows of matrices provided with arguments \code{mz} and/or
+\code{rt}). The \code{featureData} of the returned object contains columns
+\code{"mzmin"} and \code{"mzmax"} with the values from input argument
+\code{mz} (if used) and \code{"rtmin"} and \code{"rtmax"} if the input
+argument \code{rt} was used.
 }
 \description{
 The \code{chromatogram} method extracts chromatogram(s) from an
-    \code{\linkS4class{MSnExp}} or \code{\linkS4class{OnDiskMSnExp}} object.
-    Depending on the provided parameters this can be a total ion chromatogram
-    (TIC), a base peak chromatogram (BPC) or an extracted ion chromatogram
-    (XIC) extracted from each sample/file.
+\code{\linkS4class{MSnExp}} or \code{\linkS4class{OnDiskMSnExp}} object.
+Depending on the provided parameters this can be a total ion chromatogram
+(TIC), a base peak chromatogram (BPC) or an extracted ion chromatogram
+(XIC) extracted from each sample/file.
 }
 \details{
 Arguments \code{rt} and \code{mz} allow to specify the MS
-    data slice from which the chromatogram should be extracted.
-    The parameter \code{aggregationSum} allows to specify the function to be
-    used to aggregate the intensities across the mz range for the same
-    retention time. Setting \code{aggregationFun = "sum"} would e.g. allow
-    to calculate the \emph{total ion chromatogram} (TIC),
-    \code{aggregationFun = "max"} the \emph{base peak chromatogram} (BPC).
-    The length of the extracted \code{\link{Chromatogram}} object,
-    i.e. the number of available data points, corresponds to the number of
-    scans/spectra measured in the specified retention time range. If in a
-    specific scan (for a give retention time) no signal was measured in the
-    specified mz range, a \code{NA_real_} is reported as intensity for the
-    retention time (see Notes for more information). This can be changed
-    using the \code{missing} parameter.
-
-    By default or if \code{mz} and/or \code{rt} are numeric vectors, the
-    function extracts one \code{\link{Chromatogram}} object for each file
-    in the \code{\linkS4class{MSnExp}} or \code{\linkS4class{OnDiskMSnExp}}
-    object. Providing a numeric matrix with argument \code{mz} or \code{rt}
-    enables to extract multiple chromatograms per file, one for each row in
-    the matrix. If the number of columns of \code{mz} or \code{rt} are not
-    equal to 2, \code{range} is called on each row of the matrix.
+data slice from which the chromatogram should be extracted.
+The parameter \code{aggregationSum} allows to specify the function to be
+used to aggregate the intensities across the mz range for the same
+retention time. Setting \code{aggregationFun = "sum"} would e.g. allow
+to calculate the \emph{total ion chromatogram} (TIC),
+\code{aggregationFun = "max"} the \emph{base peak chromatogram} (BPC).
+The length of the extracted \code{\link{Chromatogram}} object,
+i.e. the number of available data points, corresponds to the number of
+scans/spectra measured in the specified retention time range. If in a
+specific scan (for a give retention time) no signal was measured in the
+specified mz range, a \code{NA_real_} is reported as intensity for the
+retention time (see Notes for more information). This can be changed
+using the \code{missing} parameter.\preformatted{By default or if \code{mz} and/or \code{rt} are numeric vectors, the
+function extracts one \code{\link{Chromatogram}} object for each file
+in the \code{\linkS4class{MSnExp}} or \code{\linkS4class{OnDiskMSnExp}}
+object. Providing a numeric matrix with argument \code{mz} or \code{rt}
+enables to extract multiple chromatograms per file, one for each row in
+the matrix. If the number of columns of \code{mz} or \code{rt} are not
+equal to 2, \code{range} is called on each row of the matrix.
+}
 }
 \examples{
 ## Read a test data file.
@@ -140,7 +139,7 @@ plot(rtime(chr), intensity(chr), xlab = "rtime", ylab = "intensity")
 }
 \seealso{
 \code{\link{Chromatogram}} and \code{\link{MChromatograms}} for the
-    classes that represent single and multiple chromatograms.
+classes that represent single and multiple chromatograms.
 }
 \author{
 Johannes Rainer

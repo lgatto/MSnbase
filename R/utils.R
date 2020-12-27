@@ -29,23 +29,27 @@ get.atomic.mass <- function()
   get("atomic.mass",envir=.MSnbaseEnv)
 }
 
-formatRt <- function(rt) {
-    ans <- NA
-    if (is.numeric(rt)) {
-        min <- floor(rt/60)
-        sec <- round(rt-(min*60))
-        ans <- sprintf("%d:%02d", min, sec)
-    } else if (is.character(rt)) {
-        ans <- strsplit(rt, ":")
-        ans <- sapply(ans, function(x) {
-            x <- as.numeric(x)
-            60 * x[1] + x[2]
-        })
-    } else {
-        warning("Input must be numeric of character.")
-    }
-    return(ans)
-}
+
+##'  This function is used to convert retention times. Conversion is
+##'  seconds to/from the more human friendly format "mm:sec". The
+##'  implementation is from [MsCoreUtils::formatRt()].
+##' 
+##' @title Format Retention Time
+##' 
+##' @param rt retention time in seconds (`numeric`) or "mm:sec"
+##'     (`character`).
+##' 
+##' @return A vector of same length as `rt`.
+##' 
+##' @author Laurent Gatto and Sebastian Gibb
+##'
+##' @examples
+##' 
+##' formatRt(1524)
+##' formatRt("25:24")
+formatRt <- function(rt)
+    MsCoreUtils::formatRt(rt)
+
 
 #' @param fileIds numeric, could be a vector
 #' @param spectrumIds numeric, could be a vector

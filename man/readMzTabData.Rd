@@ -55,7 +55,7 @@ head(fData(psms))
 }
 \seealso{
 See \code{\link{MzTab}} and \code{\link{MSnSetList}} for
-    details about the inners of \code{readMzTabData}.
+details about the inners of \code{readMzTabData}.
 }
 \author{
 Laurent Gatto

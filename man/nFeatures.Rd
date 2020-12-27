@@ -14,7 +14,7 @@ structure.}
 }
 \value{
 An updated \code{MSnSet} with a new feature variable
-    \code{fcol.nFeatures}.
+\code{fcol.nFeatures}.
 }
 \description{
 This function computes the number of features in the group defined

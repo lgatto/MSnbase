@@ -37,21 +37,21 @@ The algorithm is described in Nikolovski et al., briefly it works as
 follows:
 
 \enumerate{
- \item Find reference run (column) for each protein (grouped rows).
- We use the run (column) with the lowest number of \code{NA}.
- If multiple candidates are available we use the one with the highest
- intensity. This step is skipped if the user use his own \code{reference}
- vector.
- \item For each protein (grouped rows) and each run (column):
- \enumerate{
-   \item Find peptides (grouped rows) shared by the current run (column) and
-   the reference run (column).
-   \item Sum the shared peptides (grouped rows) for the current run (column)
-   and the reference run (column).
-   \item The ratio of the shared peptides (grouped rows) of the current run
-   (column) and the reference run (column) is the new intensity for the
-   current protein for the current run.
- }
+\item Find reference run (column) for each protein (grouped rows).
+We use the run (column) with the lowest number of \code{NA}.
+If multiple candidates are available we use the one with the highest
+intensity. This step is skipped if the user use his own \code{reference}
+vector.
+\item For each protein (grouped rows) and each run (column):
+\enumerate{
+\item Find peptides (grouped rows) shared by the current run (column) and
+the reference run (column).
+\item Sum the shared peptides (grouped rows) for the current run (column)
+and the reference run (column).
+\item The ratio of the shared peptides (grouped rows) of the current run
+(column) and the reference run (column) is the new intensity for the
+current protein for the current run.
+}
 }
 }
 \examples{
@@ -75,5 +75,5 @@ quantification for plant Golgi protein localization and abundance. Plant Physiol
 \code{\link[MSnbase]{combineFeatures}}
 }
 \author{
-Sebastian Gibb <mail@sebastiangibb.de>, Pavel Shliaha
+Sebastian Gibb \href{mailto:mail@sebastiangibb.de}{mail@sebastiangibb.de}, Pavel Shliaha
 }

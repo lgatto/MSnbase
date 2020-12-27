@@ -30,9 +30,9 @@ defining rows that should not be used to set \code{NA}s.}
 }
 \value{
 An instance of class \code{MSnSet}, as \code{object}, but
-    with the appropriate number/proportion of missing values.  The
-    returned object has an additional feature meta-data columns,
-    \code{nNA}
+with the appropriate number/proportion of missing values.  The
+returned object has an additional feature meta-data columns,
+\code{nNA}
 }
 \description{
 These functions take an instance of class

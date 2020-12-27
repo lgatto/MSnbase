@@ -8,18 +8,18 @@
 \S4method{impute}{MSnSet}(object, method, ...)
 }
 \arguments{
-\item{object}{An `MSnSet` object with missing values to be
+\item{object}{An \code{MSnSet} object with missing values to be
 imputed.}
 
-\item{method}{`character(1)` defining the imputation method. See
-`MsCoreUtils::imputeMethods()` for available ones. See
-[MsCoreUtils::impute_matrix()] for details.}
+\item{method}{\code{character(1)} defining the imputation method. See
+\code{MsCoreUtils::imputeMethods()} for available ones. See
+\code{\link[MsCoreUtils:imputation]{MsCoreUtils::impute_matrix()}} for details.}
 
 \item{...}{Additional parameters passed to the inner imputation
-function. See [MsCoreUtils::impute_matrix()] for details.}
+function. See \code{\link[MsCoreUtils:imputation]{MsCoreUtils::impute_matrix()}} for details.}
 }
 \description{
-The `impute` method performs data imputation on `MSnSet` instances
+The \code{impute} method performs data imputation on \code{MSnSet} instances
 using a variety of methods.
 
 Users should proceed with care when imputing data and take
@@ -27,7 +27,7 @@ precautions to assure that the imputation produce valid results,
 in particular with naive imputations such as replacing missing
 values with 0.
 
-See [MsCoreUtils::impute_matrix()] for details on the different
+See \code{\link[MsCoreUtils:imputation]{MsCoreUtils::impute_matrix()}} for details on the different
 imputation methods available and strategies.
 }
 \examples{

@@ -24,7 +24,7 @@ combined into semicolon-separated values into a single
 row/observation.
 }
 \details{
-An important side-effect of reducing a `data.frame` is that all
+An important side-effect of reducing a \code{data.frame} is that all
 columns other than the key are converted to characters when they
 are collapsed to a semi-column separated value (even if only one
 value is present) as soon as one observation of transformed.

@@ -11,7 +11,7 @@ factorsAsStrings(x)
 }
 \value{
 A \code{data.frame} where \code{factors} are converted to
-    \code{characters}.
+\code{characters}.
 }
 \description{
 This function produces the opposite as the \code{stringsAsFactors}

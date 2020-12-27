@@ -25,7 +25,7 @@ feature data variable names should be returned.}
 }
 \value{
 For \code{selectFeatureData}: updated object containing only
-    selected feature variables.
+selected feature variables.
 
 For \code{requiredFvarLabels}: \code{character} with the required feature
 variable names.

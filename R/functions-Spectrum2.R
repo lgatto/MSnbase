@@ -44,15 +44,16 @@ calculateFragments_Spectrum2 <- function(sequence, object, tolerance=0.1,
 }
 
 show_Spectrum2 <- function(spectrum) {
-  cat("Object of class \"",class(spectrum),"\"\n",sep="")
-  if (length(spectrum@merged)>1)
-    cat(" Merged from ",length(spectrum@merged),"MSn spectra\n")
-  cat(" Precursor:",spectrum@precursorMz,"\n")
-  cat(" Retention time:",formatRt(spectrum@rt),"\n")
-  cat(" Charge:",spectrum@precursorCharge,"\n")
-  cat(" MSn level:",spectrum@msLevel,"\n")
-  cat(" Peaks count:",spectrum@peaksCount,"\n")
-  cat(" Total ion count:",sum(spectrum@intensity),"\n")
+    cat("Object of class \"",class(spectrum),"\"\n",sep="")
+    if (length(spectrum@merged) > 1)
+        cat(" Merged from ",length(spectrum@merged),"MSn spectra\n")
+    cat(" Precursor:",spectrum@precursorMz,"\n")
+    if (length(spectrum@rt))
+        cat(" Retention time:",formatRt(spectrum@rt),"\n")
+    cat(" Charge:",spectrum@precursorCharge,"\n")
+    cat(" MSn level:",spectrum@msLevel,"\n")
+    cat(" Peaks count:",spectrum@peaksCount,"\n")
+    cat(" Total ion count:",sum(spectrum@intensity),"\n")
 }
 
 removeReporters_Spectrum2 <- function(object, reporters=NULL, clean=FALSE) {

@@ -7,6 +7,7 @@
 - Re-implement `normalise,MSnSet-method` with
   `MsCoreUtils::normalize_matrix()`.
 - Illustrate `ReporterIons` class using TMT16.
+- Re-implement `formatRt()` using `MsCoreUtils::formatRt()`.
 
 ## Changes in 2.17.3
 - Add `normalize,Chromatogram` method.

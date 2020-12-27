@@ -28,8 +28,8 @@ the next or previous spectrum of level \code{msLevel}.}
 }
 \value{
 An object of class \code{Spectrum1} or \code{Spectrum2},
-    depending on the value of \code{msLevel} or \code{NULL}, of no
-    spectrum is found.
+depending on the value of \code{msLevel} or \code{NULL}, of no
+spectrum is found.
 }
 \description{
 Navigate an \code{MSnExp} object by moving to the next or previous

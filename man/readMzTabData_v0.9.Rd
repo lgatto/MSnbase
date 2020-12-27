@@ -39,7 +39,7 @@ pep
 }
 \seealso{
 \code{\link{writeMzTabData}} to save an
-    \code{"\linkS4class{MSnSet}"} as an \code{mzTab} file.
+\code{"\linkS4class{MSnSet}"} as an \code{mzTab} file.
 }
 \author{
 Laurent Gatto

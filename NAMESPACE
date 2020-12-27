@@ -14,7 +14,9 @@ import(scales)
 import(lattice)
 import(methods)
 
-importFrom(MsCoreUtils, closest, rbindFill, impute_matrix, normalize_matrix)
+importFrom(MsCoreUtils, closest, rbindFill,
+           impute_matrix, normalize_matrix,
+           formatRt)
 importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
            xmlAttrs)
 importFrom(graphics, abline, axis, grid, legend, lines, points, text,

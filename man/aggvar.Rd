@@ -18,8 +18,8 @@ within protein groups, typically \code{max} or
 }
 \value{
 A \code{matrix} providing the number of features per
-    protein group (\code{nb_feats} column) and the aggregation
-    summarising distance (\code{agg_dist} column).
+protein group (\code{nb_feats} column) and the aggregation
+summarising distance (\code{agg_dist} column).
 }
 \description{
 This function evaluates the variability within all protein group
@@ -50,7 +50,7 @@ plot(res1[, "agg_dist"], res2[, "agg_dist"],
 }
 \seealso{
 \code{\link{combineFeatures}} to combine PSMs
-    quantitation into peptides and/or into proteins.
+quantitation into peptides and/or into proteins.
 }
 \author{
 Laurent Gatto

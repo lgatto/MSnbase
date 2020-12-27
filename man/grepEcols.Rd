@@ -25,8 +25,8 @@ named.}
 }
 \value{
 Depending on \code{value}, the matching column names of
-    indices. In case of \code{getEcols}, a \code{character} of
-    column names.
+indices. In case of \code{getEcols}, a \code{character} of
+column names.
 }
 \description{
 Given a text spread sheet \code{f} and a \code{pattern} to

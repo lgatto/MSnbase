@@ -3,7 +3,7 @@
 \name{iPQF}
 \alias{iPQF}
 \title{iPQF: iTRAQ (and TMT) Protein Quantification based on
-    Features}
+Features}
 \usage{
 iPQF(
   object,
@@ -64,10 +64,10 @@ head(exprs(prot))
 }
 \references{
 iPQF: a new peptide-to-protein summarization method
-    using peptide spectra characteristics to improve protein
-    quantification. Fischer M, Renard BY.  Bioinformatics. 2016
-    Apr 1;32(7):1040-7. doi:10.1093/bioinformatics/btv675. Epub
-    2015 Nov 20. PubMed PMID:26589272.
+using peptide spectra characteristics to improve protein
+quantification. Fischer M, Renard BY.  Bioinformatics. 2016
+Apr 1;32(7):1040-7. doi:10.1093/bioinformatics/btv675. Epub
+2015 Nov 20. PubMed PMID:26589272.
 }
 \author{
 Martina Fischer

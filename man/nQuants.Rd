@@ -17,11 +17,11 @@ consistency with other functions.)}
 }
 \value{
 A \code{matrix} of dimensions
-    \code{length(levels(groupBy))} by \code{ncol(x)}
+\code{length(levels(groupBy))} by \code{ncol(x)}
 
 A \code{matrix} of dimensions
-    \code{length(levels(factor(fData(object)[, fcol])))} by
-    \code{ncol(object)} of integers.
+\code{length(levels(factor(fData(object)[, fcol])))} by
+\code{ncol(object)} of integers.
 }
 \description{
 This function counts the number of quantified features, i.e
@@ -53,6 +53,6 @@ head(exprs(msnset2))
 head(exprs(msnset2) * (n/m))
 }
 \author{
-Laurent Gatto <lg390@cam.ac.uk>, Sebastian Gibb
-    <mail@sebastiangibb.de>
+Laurent Gatto \href{mailto:lg390@cam.ac.uk}{lg390@cam.ac.uk}, Sebastian Gibb
+\href{mailto:mail@sebastiangibb.de}{mail@sebastiangibb.de}
 }
