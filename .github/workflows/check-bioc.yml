@@ -203,12 +203,10 @@ jobs:
           BiocManager::install(deps$package[deps$diff != 0])
 
           ## For running the checks
-          message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
+          message(paste('****', Sys.time(), 'installing rcmdcheck ****'))
           remotes::install_cran("rcmdcheck")
-          BiocManager::install("BiocCheck")
 
           ## Manual dependency (not yet on Bioc)
-          BiocManager::install("lgatto/ProtGenerics")
           BiocManager::install("magick")
         shell: Rscript {0}
 
@@ -248,18 +246,6 @@ jobs:
           ## Install BiocGenerics
           BiocManager::install("BiocGenerics")
           BiocGenerics:::testPackage()
-        shell: Rscript {0}
-
-      - name: BiocCheck
-        run: |
-          ## This syntax works on Windows as well as other OS
-          ## plus it doesn't break the GHA workflow in case BiocCheck finds
-          ## an error (for example, the package is bigger than the maximum
-          ## allowed size). We want the rest of the GHA to proceed even if
-          ## there is a BiocCheck error in order to see the full output and
-          ## run the tests on all operating systems.
-          BiocCheck::BiocCheck(dir('check', 'tar.gz$', full.names = TRUE), `no-check-R-ver` = TRUE, `no-check-bioc-help` = TRUE)
-          ## For more options check http://bioconductor.org/packages/release/bioc/vignettes/BiocCheck/inst/doc/BiocCheck.html
         shell: Rscript {0}
 
       - name: Install covr
