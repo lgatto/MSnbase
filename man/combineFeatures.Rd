@@ -40,11 +40,12 @@
 
   \item{method}{ The summerising function. Currently, mean, median,
     weighted mean, sum, median polish, robust summarisation (using
-    \code{MASS::rlm}), iPQF (see \code{\link{iPQF}} for details) and NTR
-    (see \code{\link{NTR}} for details) are implemented, but
-    user-defined functions can also be supplied. Note that the robust
-    menthods assumes that the data are already log-transformed.
-  }
+    \code{MASS::rlm}, implemented in
+    \code{MsCoreUtils::robustSummary()}), iPQF (see \code{\link{iPQF}}
+    for details) and NTR (see \code{\link{NTR}} for details) are
+    implemented, but user-defined functions can also be supplied. Note
+    that the robust menthods assumes that the data are already
+    log-transformed.  }
 
   \item{fcol}{Feature meta-data label (fData column name) defining how
     to summerise the features. It must be present in

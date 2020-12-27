@@ -8,6 +8,7 @@
   `MsCoreUtils::normalize_matrix()`.
 - Illustrate `ReporterIons` class using TMT16.
 - Re-implement `formatRt()` using `MsCoreUtils::formatRt()`.
+- Use `MsCoreUtils::robustSummary()` (deleted code in this package).
 
 ## Changes in 2.17.3
 - Add `normalize,Chromatogram` method.
