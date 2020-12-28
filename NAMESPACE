@@ -16,7 +16,8 @@ import(methods)
 
 importFrom(MsCoreUtils, closest, rbindFill,
            impute_matrix, normalize_matrix,
-           robustSummary, formatRt)
+           robustSummary, medianPolish,
+           formatRt)
 importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
            xmlAttrs)
 importFrom(graphics, abline, axis, grid, legend, lines, points, text,

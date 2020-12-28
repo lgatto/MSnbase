@@ -9,6 +9,7 @@
 - Illustrate `ReporterIons` class using TMT16.
 - Re-implement `formatRt()` using `MsCoreUtils::formatRt()`.
 - Use `MsCoreUtils::robustSummary()` (deleted code in this package).
+- Use `MsCoreUtils::medianPolish()`.
 
 ## Changes in 2.17.3
 - Add `normalize,Chromatogram` method.

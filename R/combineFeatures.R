@@ -193,12 +193,7 @@ combineMatrixFeatures <- function(matr,    ## matrix
     if (is.character(method)) {
         ## Using a predefined function
         if (method == "medpolish") {
-            summarisedFeatures <- by(matr,
-                                     groupBy,
-                                     function(x) {
-                                         medpol <- medpolish(x, trace.iter = verbose, ...)
-                                         return(medpol$overall + medpol$col)
-                                     })
+            summarisedFeatures <- by(matr, groupBy, MsCoreUtils::medianPolish, ...)
         } else if (method == "robust") {
             summarisedFeatures <- by(matr, groupBy, MsCoreUtils::robustSummary, ...)
         } else if (method == "weighted.mean") {
