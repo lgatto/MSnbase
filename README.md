@@ -1,6 +1,5 @@
 [![codecov.io](https://codecov.io/github/lgatto/MSnbase/coverage.svg?branch=master)](https://codecov.io/github/lgatto/MSnbase?branch=master)
-
-
+[![R-CMD-check-bioc](https://github.com/lgatto/MSnbase/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/lgatto/MSnbase/actions?query=workflow%3AR-CMD-check-bioc)
 
 
 # The `MSnbase` package
@@ -29,7 +28,7 @@ vignette. More vignettes are available in the *Articles* tab.
 
 ## Installation
 
-To install *[MSnbase](https://bioconductor.org/packages/3.11/MSnbase)*
+To install the package: 
 
 
 ```r
