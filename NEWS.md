@@ -1,5 +1,9 @@
 # MSnbase 2.17
 
+## Changes in 2.17.5
+
+- Nothing yet.
+
 ## Changes in 2.17.4
 
 - Re-implement `impute,MSnSet-method` with
