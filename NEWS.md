@@ -2,7 +2,7 @@
 
 ## Changes in 2.17.5
 
-- Nothing yet.
+- Import quantify generic from ProtGenerics.
 
 ## Changes in 2.17.4
 
