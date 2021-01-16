@@ -85,7 +85,7 @@
 
       
 
-      </header><script src="v05-MSnbase-development_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="v05-MSnbase-development_files/header-attrs-2.6/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>A short introduction to <em>MSnbase</em> development</h1>
@@ -325,7 +325,7 @@
 <div id="miape-minimum-information-about-a-proteomics-experiment" class="section level2">
 <h2 class="hasAnchor">
 <a href="#miape-minimum-information-about-a-proteomics-experiment" class="anchor"></a><code>MIAPE</code>: Minimum Information About a Proteomics Experiment</h2>
-<p>The Minimum Information About a Proteomics Experiment <span class="citation">(Taylor et al. 2007, 2008)</span> <code>MIAPE</code> class describes the experiment, including contact details, information about the mass spectrometer and control and analysis software.</p>
+<p>The Minimum Information About a Proteomics Experiment <span class="citation">(Chris F. Taylor et al. 2007; Chris F. Taylor et al. 2008)</span> <code>MIAPE</code> class describes the experiment, including contact details, information about the mass spectrometer and control and analysis software.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">getClass</span><span class="op">(</span><span class="st">"MIAPE"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Class "MIAPE" [package "MSnbase"]
@@ -552,7 +552,7 @@
 <a href="#session-information" class="anchor"></a>Session information</h1>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## R Under development (unstable) (2020-12-24 r79679)
+<pre><code>## R Under development (unstable) (2021-01-14 r79832)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
 ## Running under: Ubuntu 20.04.1 LTS
 ## 
@@ -572,8 +572,8 @@
 ## [8] methods   base     
 ## 
 ## other attached packages:
-## [1] MSnbase_2.17.5      ProtGenerics_1.23.5 S4Vectors_0.29.6   
-## [4] mzR_2.25.1          Rcpp_1.0.5          Biobase_2.51.0     
+## [1] MSnbase_2.17.5      ProtGenerics_1.23.6 S4Vectors_0.29.6   
+## [4] mzR_2.25.1          Rcpp_1.0.6          Biobase_2.51.0     
 ## [7] BiocGenerics_0.37.0 BiocStyle_2.19.1   
 ## 
 ## loaded via a namespace (and not attached):
@@ -584,40 +584,40 @@
 ## [13] rlang_0.4.10          preprocessCore_1.53.1 rmarkdown_2.6        
 ## [16] pkgdown_1.6.1.9000    textshaping_0.2.1     desc_1.2.0           
 ## [19] BiocParallel_1.25.2   stringr_1.4.0         munsell_0.5.0        
-## [22] compiler_4.1.0        xfun_0.19             pkgconfig_2.0.3      
-## [25] systemfonts_0.3.2     pcaMethods_1.83.0     htmltools_0.5.0      
-## [28] tidyselect_1.1.0      tibble_3.0.4          bookdown_0.21        
+## [22] compiler_4.1.0        xfun_0.20             pkgconfig_2.0.3      
+## [25] systemfonts_0.3.2     pcaMethods_1.83.0     htmltools_0.5.1      
+## [28] tidyselect_1.1.0      tibble_3.0.5          bookdown_0.21        
 ## [31] IRanges_2.25.6        codetools_0.2-18      XML_3.99-0.5         
-## [34] crayon_1.3.4          dplyr_1.0.2           MASS_7.3-53          
+## [34] crayon_1.3.4          dplyr_1.0.3           MASS_7.3-53          
 ## [37] grid_4.1.0            gtable_0.3.0          lifecycle_0.2.0      
-## [40] affy_1.69.0           magrittr_2.0.1        MsCoreUtils_1.3.2    
-## [43] scales_1.1.1          ncdf4_1.17            stringi_1.5.3        
-## [46] impute_1.65.0         fs_1.5.0              affyio_1.61.0        
-## [49] doParallel_1.0.16     limma_3.47.3          ellipsis_0.3.1       
-## [52] ragg_0.4.0            generics_0.1.0        vctrs_0.3.6          
-## [55] iterators_1.0.13      tools_4.1.0           glue_1.4.2           
-## [58] purrr_0.3.4           yaml_2.2.1            colorspace_2.0-0     
-## [61] BiocManager_1.30.10   vsn_3.59.0            MALDIquant_1.19.3    
-## [64] memoise_1.1.0         knitr_1.30</code></pre>
+## [40] affy_1.69.0           DBI_1.1.1             magrittr_2.0.1       
+## [43] MsCoreUtils_1.3.2     scales_1.1.1          ncdf4_1.17           
+## [46] stringi_1.5.3         impute_1.65.0         fs_1.5.0             
+## [49] affyio_1.61.0         doParallel_1.0.16     limma_3.47.3         
+## [52] ellipsis_0.3.1        ragg_0.4.1            generics_0.1.0       
+## [55] vctrs_0.3.6           iterators_1.0.13      tools_4.1.0          
+## [58] glue_1.4.2            purrr_0.3.4           yaml_2.2.1           
+## [61] colorspace_2.0-0      BiocManager_1.30.10   vsn_3.59.1           
+## [64] MALDIquant_1.19.3     memoise_1.1.0         knitr_1.30</code></pre>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references">
-<div id="ref-Gentleman2004">
-<p>Gentleman, Robert C., Vincent J. Carey, Douglas M. Bates, Ben Bolstad, Marcel Dettling, Sandrine Dudoit, Byron Ellis, et al. 2004. “Bioconductor: Open Software Development for Computational Biology and Bioinformatics.” <em>Genome Biol</em> 5 (10): –80. <a href="https://doi.org/10.1186/gb-2004-5-10-r80">https://doi.org/10.1186/gb-2004-5-10-r80</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Gentleman2004" class="csl-entry">
+Gentleman, Robert C., Vincent J. Carey, Douglas M. Bates, Ben Bolstad, Marcel Dettling, Sandrine Dudoit, Byron Ellis, et al. 2004. <span>“Bioconductor: Open Software Development for Computational Biology and Bioinformatics.”</span> <em>Genome Biol</em> 5 (10): –80. <a href="https://doi.org/10.1186/gb-2004-5-10-r80">https://doi.org/10.1186/gb-2004-5-10-r80</a>.
 </div>
-<div id="ref-Ross2004">
-<p>Ross, Philip L., Yulin N. Huang, Jason N. Marchese, Brian Williamson, Kenneth Parker, Stephen Hattan, Nikita Khainovski, et al. 2004. “Multiplexed Protein Quantitation in Saccharomyces Cerevisiae Using Amine-Reactive Isobaric Tagging Reagents.” <em>Mol Cell Proteomics</em> 3 (12): 1154–69. <a href="https://doi.org/10.1074/mcp.M400129-MCP200">https://doi.org/10.1074/mcp.M400129-MCP200</a>.</p>
+<div id="ref-Ross2004" class="csl-entry">
+Ross, Philip L., Yulin N. Huang, Jason N. Marchese, Brian Williamson, Kenneth Parker, Stephen Hattan, Nikita Khainovski, et al. 2004. <span>“Multiplexed Protein Quantitation in Saccharomyces Cerevisiae Using Amine-Reactive Isobaric Tagging Reagents.”</span> <em>Mol Cell Proteomics</em> 3 (12): 1154–69. <a href="https://doi.org/10.1074/mcp.M400129-MCP200">https://doi.org/10.1074/mcp.M400129-MCP200</a>.
 </div>
-<div id="ref-Taylor2008">
-<p>Taylor, Chris F, Pierre-Alain Binz, Ruedi Aebersold, Michel Affolter, Robert Barkovich, Eric W Deutsch, David M Horn, et al. 2008. “Guidelines for Reporting the Use of Mass Spectrometry in Proteomics.” <em>Nat. Biotechnol.</em> 26 (8): 860–1. <a href="https://doi.org/10.1038/nbt0808-860">https://doi.org/10.1038/nbt0808-860</a>.</p>
+<div id="ref-Taylor2007" class="csl-entry">
+Taylor, Chris F., Norman W. Paton, Kathryn S. Lilley, Pierre-Alain Binz, Randall K. Julian, Andrew R. Jones, Weimin Zhu, et al. 2007. <span>“The Minimum Information about a Proteomics Experiment (MIAPE).”</span> <em>Nat Biotechnol</em> 25 (8): 887–93. <a href="https://doi.org/10.1038/nbt1329">https://doi.org/10.1038/nbt1329</a>.
 </div>
-<div id="ref-Taylor2007">
-<p>Taylor, Chris F., Norman W. Paton, Kathryn S. Lilley, Pierre-Alain Binz, Randall K. Julian, Andrew R. Jones, Weimin Zhu, et al. 2007. “The Minimum Information About a Proteomics Experiment (Miape).” <em>Nat Biotechnol</em> 25 (8): 887–93. <a href="https://doi.org/10.1038/nbt1329">https://doi.org/10.1038/nbt1329</a>.</p>
+<div id="ref-Taylor2008" class="csl-entry">
+Taylor, Chris F, Pierre-Alain Binz, Ruedi Aebersold, Michel Affolter, Robert Barkovich, Eric W Deutsch, David M Horn, et al. 2008. <span>“Guidelines for Reporting the Use of Mass Spectrometry in Proteomics.”</span> <em>Nat. Biotechnol.</em> 26 (8): 860–61. <a href="https://doi.org/10.1038/nbt0808-860">https://doi.org/10.1038/nbt0808-860</a>.
 </div>
-<div id="ref-Thompson2003">
-<p>Thompson, Andrew, Jürgen Schäfer, Karsten Kuhn, Stefan Kienle, Josef Schwarz, Günter Schmidt, Thomas Neumann, R Johnstone, A Karim A Mohammed, and Christian Hamon. 2003. “Tandem Mass Tags: A Novel Quantification Strategy for Comparative Analysis of Complex Protein Mixtures by MS/MS.” <em>Anal. Chem.</em> 75 (8): 1895–1904.</p>
+<div id="ref-Thompson2003" class="csl-entry">
+Thompson, Andrew, Jürgen Schäfer, Karsten Kuhn, Stefan Kienle, Josef Schwarz, Günter Schmidt, Thomas Neumann, R Johnstone, A Karim A Mohammed, and Christian Hamon. 2003. <span>“Tandem Mass Tags: A Novel Quantification Strategy for Comparative Analysis of Complex Protein Mixtures by <span>MS/MS</span>.”</span> <em>Anal. Chem.</em> 75 (8): 1895–1904.
 </div>
 </div>
 </div>
