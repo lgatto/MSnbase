@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.6</span>
       </span>
     </div>
 
@@ -435,7 +435,7 @@ Raw MS2 spectrum with details about reporter ions.
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Data [logically] subsetted 3 spectra: Thu Jan 21 14:03:00 2021 
+## Data [logically] subsetted 3 spectra: Thu Jan 21 14:39:50 2021 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -784,8 +784,8 @@ This figure illustrated the effect or the <code>removePeaks</code> and <code>cle
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Thu Jan 21 14:03:08 2021 
-## Spectra cleaned: Thu Jan 21 14:03:09 2021 
+## Curves &lt;= 400 set to '0': Thu Jan 21 14:39:57 2021 
+## Spectra cleaned: Thu Jan 21 14:39:58 2021 
 ##  MSnbase version: 1.1.22 
 ## - - - Meta data  - - -
 ## phenoData
@@ -853,9 +853,9 @@ The different quantitation methods. See text for details.
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Thu Jan 21 14:03:08 2021 
-## Spectra cleaned: Thu Jan 21 14:03:09 2021 
-## iTRAQ4 quantification by trapezoidation: Thu Jan 21 14:03:13 2021 
+## Curves &lt;= 400 set to '0': Thu Jan 21 14:39:57 2021 
+## Spectra cleaned: Thu Jan 21 14:39:58 2021 
+## iTRAQ4 quantification by trapezoidation: Thu Jan 21 14:40:02 2021 
 ##  MSnbase version: 1.1.22</code></pre>
 <div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span><span class="op">(</span><span class="va">qnt</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -1003,7 +1003,7 @@ The different quantitation methods. See text for details.
 <code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">impute</span><span class="op">(</span><span class="va">naset</span>, <span class="st">"min"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/pSet-class.html">processingData</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data imputation using min Thu Jan 21 14:03:15 2021 
+## Data imputation using min Thu Jan 21 14:40:04 2021 
 ##  MSnbase version: 1.15.6</code></pre>
 <div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -1042,7 +1042,7 @@ Mixed imputation method. Black cells represent presence of quantitation values a
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Data imputation using mixed Thu Jan 21 14:03:16 2021 
+## Data imputation using mixed Thu Jan 21 14:40:05 2021 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>Please read <code>?MsCoreUtils::impute_matix()</code> for a description of the different methods.</p>
 </div>
@@ -1126,14 +1126,14 @@ Experiment-wide normalised MS2 spectra. The y-axes of the individual spectra is 
 ## - - - Processing information - - -
 ## Data loaded: Wed May 11 18:54:39 2011 
 ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-## Curves &lt;= 400 set to '0': Thu Jan 21 14:03:08 2021 
-## Spectra cleaned: Thu Jan 21 14:03:09 2021 
-## iTRAQ4 quantification by trapezoidation: Thu Jan 21 14:03:13 2021 
-## Subset [55,4][54,4] Thu Jan 21 14:03:13 2021 
-## Removed features with more than 0 NAs: Thu Jan 21 14:03:13 2021 
-## Dropped featureData's levels Thu Jan 21 14:03:13 2021 
-## Combined 54 features into 40 using median: Thu Jan 21 14:03:18 2021 
-##  MSnbase version: 2.17.5</code></pre>
+## Curves &lt;= 400 set to '0': Thu Jan 21 14:39:57 2021 
+## Spectra cleaned: Thu Jan 21 14:39:58 2021 
+## iTRAQ4 quantification by trapezoidation: Thu Jan 21 14:40:02 2021 
+## Subset [55,4][54,4] Thu Jan 21 14:40:02 2021 
+## Removed features with more than 0 NAs: Thu Jan 21 14:40:02 2021 
+## Dropped featureData's levels Thu Jan 21 14:40:02 2021 
+## Combined 54 features into 40 using median: Thu Jan 21 14:40:06 2021 
+##  MSnbase version: 2.17.6</code></pre>
 <p>Of interest is also the <code>iPQF</code> spectra-to-protein summarisation method, which integrates peptide spectra characteristics and quantitative values for protein quantitation estimation. See <code><a href="../reference/iPQF.html">?iPQF</a></code> and references therein for details.</p>
 </div>
 <div id="sec:lf" class="section level1">
@@ -1175,12 +1175,12 @@ Experiment-wide normalised MS2 spectra. The y-axes of the individual spectra is 
 <code class="sourceCode R"><span class="va">siquant</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">msexp</span>, method <span class="op">=</span> <span class="st">"SIn"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/pSet-class.html">processingData</a></span><span class="op">(</span><span class="va">siquant</span><span class="op">)</span></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data loaded: Thu Jan 21 14:03:07 2021 
-## Filtered 2 unidentified peptides out [Thu Jan 21 14:03:07 2021] 
-## Quantitation by total ion current [Thu Jan 21 14:03:18 2021] 
-## Combined 3 features into 3 using sum: Thu Jan 21 14:03:18 2021 
-## Quantification by SIn [Thu Jan 21 14:03:18 2021] 
-##  MSnbase version: 2.17.5</code></pre>
+## Data loaded: Thu Jan 21 14:39:56 2021 
+## Filtered 2 unidentified peptides out [Thu Jan 21 14:39:57 2021] 
+## Quantitation by total ion current [Thu Jan 21 14:40:07 2021] 
+## Combined 3 features into 3 using sum: Thu Jan 21 14:40:07 2021 
+## Quantification by SIn [Thu Jan 21 14:40:07 2021] 
+##  MSnbase version: 2.17.6</code></pre>
 <div class="sourceCode" id="cb148"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/tidyeval.html">exprs</a></span><span class="op">(</span><span class="va">siquant</span><span class="op">)</span></code></pre></div>
 <pre><code>##         dummyiTRAQ.mzXML
@@ -1456,8 +1456,8 @@ Boxplot and scatterplot comparing intensities of the 4 reporter ions (or their s
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Combined [27,4] and [24,4] MSnSets Thu Jan 21 14:03:34 2021 
-##  MSnbase version: 2.17.5</code></pre>
+## Combined [27,4] and [24,4] MSnSets Thu Jan 21 14:40:21 2021 
+##  MSnbase version: 2.17.6</code></pre>
 <p>In summary, when experiments with different samples need to be combined (along the columns), one needs to (1) clarify the sample names using <code>updateSampleNames</code> or better manually, for biological relevance and (2) update the feature data variable labels with <code>updateFvarLabels</code>. The individual experiments (there can be more than 2) can then easily be combined with the <code>combine</code> method while retaining the meta-data.</p>
 <p>If runs for the same sample (different fractions for example) need to be combines, one needs to (1) differentiate the feature provenance with <code>updateFeatureNames</code> prior to use <code>combine</code>.</p>
 </div>
@@ -1575,7 +1575,7 @@ PCA plot of the averaged <em>MSnSet</em>. The point sizes are proportional to th
 ##  [4] BiocParallel_1.25.2  MLInterfaces_1.71.2  cluster_2.1.0       
 ##  [7] annotate_1.69.0      XML_3.99-0.5         AnnotationDbi_1.53.0
 ## [10] IRanges_2.25.6       pRolocdata_1.29.0    Rdisop_1.51.0       
-## [13] zoo_1.8-8            MSnbase_2.17.5       ProtGenerics_1.23.6 
+## [13] zoo_1.8-8            MSnbase_2.17.6       ProtGenerics_1.23.6 
 ## [16] S4Vectors_0.29.6     mzR_2.25.1           Rcpp_1.0.6          
 ## [19] Biobase_2.51.0       BiocGenerics_0.37.0  ggplot2_3.3.3       
 ## [22] BiocStyle_2.19.1    
