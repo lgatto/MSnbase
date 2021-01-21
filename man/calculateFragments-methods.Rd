@@ -63,7 +63,7 @@
 
       You could change the \code{tolerance} (default \code{0.1}) and
       decide whether this tolerance should be applied relative to the target m/z
-      (default \code{relative = FALSE}) or absolute (\code{relative = FALSE})
+      (\code{relative = TRUE}) or absolute (default \code{relative = FALSE})
       to match the theoretical fragment MZ with the MZ of the spectrum. When
       (\code{relative = TRUE}) the mass tolerance window is set to \code{target mz
       +/- (target mz * tolerance)} and \code{target mz +/- tolerance} otherwise.
