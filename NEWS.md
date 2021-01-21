@@ -3,6 +3,7 @@
 ## Changes in 2.17.5
 
 - Import quantify generic from ProtGenerics.
+- Fix defaults in `calculateFragments` man page (see issue [#537](https://github.com/lgatto/MSnbase/issues/537)).
 
 ## Changes in 2.17.4
 
@@ -514,7 +515,7 @@
 
 ## Changes in version 2.3.3
 - Rewrite `getColsFromPattern` and `getRowsFromPattern` and add unit tests
-		<2017-05-11 Thu>.
+        <2017-05-11 Thu>.
 - Add `.filterNA` and rewrite `filterNA` for `matrix` and `MSnSet`
   <2017-05-11 Thu>.
 - Convert main MSnbase-demo vignette to Rmd/html <2017-05-27 Sat>
@@ -776,7 +777,7 @@
  - More MzTab and Spectrum1 unit testing <2016-05-08 Sun>
  - Speed up readMSData (PR [#86](https://github.com/lgatto/MSnbase/issues/86) by jotsetung) <2016-05-12 Thu>
  - Replace example file URL to use github instead of googlecode
-		<2016-05-12 Thu>
+        <2016-05-12 Thu>
 
 ## Changes in version 1.21.3
 
@@ -901,7 +902,7 @@
 
  - new sampleNames<- for pSet and MSnExp objects <2015-12-15 Tue>
  - Fix bug preventing to write MS1 to mgf (fixes issue [#73](https://github.com/lgatto/MSnbase/issues/73) reported by
-		meowcat) <2015-12-18 Fri>
+        meowcat) <2015-12-18 Fri>
 
 ## Changes in version 1.19.6
 
@@ -1070,7 +1071,7 @@
 
 ## Changes in version 1.15.14
   - new msnset data, used in various examples instead of quantifying
-		the itraqdata experiment over and over again [2015-04-01 Wed]
+        the itraqdata experiment over and over again [2015-04-01 Wed]
 
 ## Changes in version 1.15.13
  - improve nbavg imputation description and add example [2015-03-22 Sun]
