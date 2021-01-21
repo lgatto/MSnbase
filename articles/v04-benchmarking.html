@@ -133,14 +133,14 @@
                                 mode <span class="op">=</span> <span class="st">"inMemory"</span>,
                                 centroided <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   4.955   0.109   5.059</code></pre>
+##   4.859   0.147   5.001</code></pre>
 <p>Next, we use the <code>readMSData</code> function to generate an on-disk representation of the same data by setting <code>mode = "onDisk"</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">ondisk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readMSData.html">readMSData</a></span><span class="op">(</span><span class="va">f</span>, msLevel <span class="op">=</span> <span class="fl">2</span>,
                                   mode <span class="op">=</span> <span class="st">"onDisk"</span>,
                                   centroided <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   1.347   0.044   1.385</code></pre>
+##   1.341   0.037   1.373</code></pre>
 <p>Creating the on-disk experiment is considerable faster and scales to much bigger, multi-file data, both in terms of object creation time, but also in terms of object size (see next section). We must of course make sure that these two datasets are equivalent:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">inmem</span>, <span class="va">ondisk</span><span class="op">)</span></code></pre></div>
@@ -185,10 +185,10 @@ Plotting in-memory and on-disk spectra
 <span class="va">mb</span></code></pre></div>
 <pre><code>## Unit: microseconds
 ##             expr      min       lq      mean    median       uq      max neval
-##   spectra(inmem)     95.9    108.2    262.50    295.35    349.3    383.3    10
-##     inmem[[200]]     23.9     27.3     52.34     53.40     77.0     87.2    10
-##  spectra(ondisk) 400631.5 411800.8 447107.42 421388.95 427087.9 710403.1    10
-##    ondisk[[200]] 198272.4 200746.8 203539.56 203471.00 205200.5 213328.0    10</code></pre>
+##   spectra(inmem)     95.1    169.7    253.74    317.10    335.2    336.0    10
+##     inmem[[200]]     26.1     29.1     56.50     61.75     74.8     98.8    10
+##  spectra(ondisk) 412053.7 413052.0 413808.95 414043.25 414322.0 416313.2    10
+##    ondisk[[200]] 200768.9 200946.7 230741.49 201356.05 201777.5 495305.4    10</code></pre>
 <p>While it takes order or magnitudes more time to access the data on-the-fly rather than a pre-generated spectrum, accessing all spectra is only marginally slower than accessing all spectra, as most of the time is spent preparing the file for access, which is done only once.</p>
 <p>On-disk access performance will depend on the read throughput of the disk. A comparison of the data import of the above file from an internal solid state drive and from an USB3 connected hard disk showed only small differences for the <code>onDisk</code> mode (1.07 <em>vs</em> 1.36 seconds), while no difference were observed for accessing individual or all spectra. Thus, for this particular setup, performance was about the same for SSD and HDD. This might however not apply to setting in which data import is performed in parallel from multiple files.</p>
 <p>Data access does not prohibit interactive usage, such as plotting, for example, as it is about 1/2 seconds, which is an operation that is relatively rare, compared to subsetting and filtering, which are faster for on-disk data:</p>
@@ -196,11 +196,11 @@ Plotting in-memory and on-disk spectra
 <code class="sourceCode R"><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="../reference/pSet-class.html">length</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">)</span>, <span class="fl">100</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.105   0.000   0.105</code></pre>
+##   0.103   0.000   0.103</code></pre>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">ondisk</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.012   0.000   0.013</code></pre>
+##   0.012   0.000   0.012</code></pre>
 <p>Operations on the spectra data, such as peak picking, smoothing, cleaning, … are cleverly cached and only applied when the data is accessed, to minimise file access overhead. Finally, specific operations such as for example quantitation (see next section) are optimised for speed.</p>
 </div>
 <div id="ms2-quantitation" class="section level2">
@@ -211,12 +211,12 @@ Plotting in-memory and on-disk spectra
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">eim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, reporters <span class="op">=</span> <span class="va">TMT6</span>,
                             method <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   3.503   0.026   3.528</code></pre>
+##   3.293   0.024   3.318</code></pre>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="va">eod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">ondisk</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, reporters <span class="op">=</span> <span class="va">TMT6</span>,
                             method <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.318   0.016   0.333</code></pre>
+##   0.304   0.016   0.318</code></pre>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">eim</span>, <span class="va">eod</span>, check.attributes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
