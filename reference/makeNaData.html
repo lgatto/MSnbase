@@ -217,7 +217,7 @@ of the missing values, as illustrated in the example.</p>
 #&gt; Loaded on Thu Jul 16 22:53:08 2015. 
 #&gt; Normalised to sum of intensities. 
 #&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#&gt; Set 150 values to NA Sat Jan 16 19:13:43 2021 
+#&gt; Set 150 values to NA Thu Jan 21 14:01:39 2021 
 #&gt;  MSnbase version: 1.17.12 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>dunkleyNA</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] 150</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>dunkleyNA</span><span class='op'>)</span><span class='op'>$</span><span class='va'>nNA</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
@@ -234,7 +234,7 @@ of the missing values, as illustrated in the example.</p>
 <span class='va'>dunkleyNA</span> <span class='op'>&lt;-</span> <span class='fu'>makeNaData</span><span class='op'>(</span><span class='va'>dunkley2006</span>, nNA <span class='op'>=</span> <span class='fl'>150</span>, exclude <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
 <span class='fu'><a href='pSet-class.html'>processingData</a></span><span class='op'>(</span><span class='va'>dunkleyNA</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Set 150 values to NA Sat Jan 16 19:13:43 2021
+#&gt; Set 150 values to NA Thu Jan 21 14:01:39 2021
 #&gt;   (excluding 10 features) 
 #&gt;  MSnbase version: 1.17.12 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>dunkleyNA</span><span class='op'>)</span><span class='op'>$</span><span class='va'>nNA</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>]</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
@@ -253,9 +253,9 @@ of the missing values, as illustrated in the example.</p>
 #&gt; Loaded on Thu Jul 16 22:53:08 2015. 
 #&gt; Normalised to sum of intensities. 
 #&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#&gt; Subset [689,16][100,5] Sat Jan 16 19:13:44 2021 
+#&gt; Subset [689,16][100,5] Thu Jan 21 14:01:39 2021 
 #&gt; Set (1,2,3,4,5) NAs in (10,10,10,10,10) rows,
-#&gt;   respectively Sat Jan 16 19:13:44 2021 
+#&gt;   respectively Thu Jan 21 14:01:39 2021 
 #&gt;  MSnbase version: 1.17.12 </div><div class='input'><span class='op'>(</span><span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>$</span><span class='va'>nNA</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt;  0  1  2  3  4  5 
@@ -272,9 +272,9 @@ of the missing values, as illustrated in the example.</p>
 #&gt; Loaded on Thu Jul 16 22:53:08 2015. 
 #&gt; Normalised to sum of intensities. 
 #&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#&gt; Subset [689,16][100,10] Sat Jan 16 19:13:44 2021 
+#&gt; Subset [689,16][100,10] Thu Jan 21 14:01:39 2021 
 #&gt; Set (3,8,1,4) NAs in (5,12,11,8) rows,
-#&gt;   respectively Sat Jan 16 19:13:44 2021 
+#&gt;   respectively Thu Jan 21 14:01:39 2021 
 #&gt;  MSnbase version: 1.17.12 </div><div class='input'><span class='op'>(</span><span class='va'>res2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>x2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>nNA</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt;  0  1  3  4  8 
@@ -291,9 +291,9 @@ of the missing values, as illustrated in the example.</p>
 #&gt; Loaded on Thu Jul 16 22:53:08 2015. 
 #&gt; Normalised to sum of intensities. 
 #&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#&gt; Subset [689,16][100,10] Sat Jan 16 19:13:44 2021 
+#&gt; Subset [689,16][100,10] Thu Jan 21 14:01:39 2021 
 #&gt; Set (3,8,1,3) NAs in (5,12,11,8) rows,
-#&gt;   respectively Sat Jan 16 19:13:44 2021 
+#&gt;   respectively Thu Jan 21 14:01:39 2021 
 #&gt;  MSnbase version: 1.17.12 </div><div class='input'><span class='op'>(</span><span class='va'>res3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>x3</span><span class='op'>)</span><span class='op'>$</span><span class='va'>nNA</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; 
 #&gt;  0  1  3  8 
