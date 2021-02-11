@@ -435,42 +435,6 @@ setClass("OnDiskMSnExp",
              }
          })
 
-############################################################
-## Simple class defining a "processing" step, consisting of a
-## function name (@FUN) and optional arguments (@ARG)
-setClass("ProcessingStep",
-         representation=representation(
-             FUN="character",
-             ARGS="list"
-         ),
-         contains="Versioned",
-         prototype=prototype(
-             new("Versioned",
-                 versions=c(ProcessingStep="0.0.1")),
-             ARGS=list(),
-             FUN=character()
-         ),
-         validity=function(object){
-             msg <- validMsg(NULL, NULL)
-             ## Check if function/method exists?
-             if(length(object@FUN) > 0){
-                 Res <- try(get(object@FUN), silent=TRUE)
-                 if(is(Res, "try-error")){
-                     msg <- validMsg(msg,
-                                     paste0("Function '", object@FUN, "' not found!"))
-                 }else{
-                     if(!is(Res, "function"))
-                         msg <- validMsg(msg,
-                                         paste0("'", object@FUN, "' is not a function!"))
-                 }
-             }
-             if(is.null(msg)){
-                 return(TRUE)
-             }else{
-                 return(msg)
-             }
-         })
-
 setClass("Chromatogram",
          slots = c(
              rtime = "numeric",

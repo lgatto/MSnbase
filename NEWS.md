@@ -2,7 +2,7 @@
 
 ## Changes in 2.17.6
 
-- Nothing yet.
+- Import ProcessingStep from ProtGenerics.
 
 ## Changes in 2.17.5
 
