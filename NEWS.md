@@ -1,5 +1,9 @@
 # MSnbase 2.17
 
+## Changes in 2.17.8
+
+- Nothing yet
+
 ## Changes in 2.17.7
 
 - Bump to force propagation on Bioc
