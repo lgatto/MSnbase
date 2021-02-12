@@ -217,6 +217,11 @@ jobs:
           cd preprocessCore
           R CMD INSTALL --configure-args="--disable-threading"  .
 
+      - name: Install latest ProtGenerics from github (remove one 1.23.7 in on Bioc)
+        run: |
+          BiocManager::install("lgatto/ProtGenerics")
+        shell: Rscript {0}
+
       - name: Session info
         run: |
           options(width = 100)
@@ -288,4 +293,3 @@ jobs:
         with:
           name: ${{ runner.os }}-biocdocker-biocbranch-${{ needs.define-docker-info.outputs.biocversion }}-r-${{ steps.findrversion.outputs.rversion }}-bioc-${{ steps.findrversion.outputs.biocversionnum }}-results
           path: check
-
