@@ -1,5 +1,9 @@
 # MSnbase 2.17
 
+## Changes in 2.17.6
+
+- Nothing yet.
+
 ## Changes in 2.17.5
 
 - Import quantify generic from ProtGenerics.
