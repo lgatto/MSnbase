@@ -71,7 +71,7 @@ Depends:
     Biobase (>= 2.15.2),
     mzR (>= 2.19.6),
     S4Vectors,
-    ProtGenerics (>= 1.23.6)
+    ProtGenerics (>= 1.23.7)
 Imports:
     MsCoreUtils,
     BiocParallel,
@@ -184,7 +184,6 @@ Collate:
     'methods-MSnSetList.R'
     'methods-MSpectra.R'
     'methods-OnDiskMSnExp.R'
-    'methods-ProcessingStep.R'
     'methods-ReporterIons.R'
     'methods-Spectrum.R'
     'methods-Spectrum1.R'

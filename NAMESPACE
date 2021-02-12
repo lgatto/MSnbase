@@ -5,6 +5,7 @@ importFrom(Rcpp, sourceCpp)
 import(grid)
 import(BiocGenerics)
 import(ProtGenerics)
+importClassesFrom(ProtGenerics, ProcessingStep)
 import(BiocParallel)
 import(Biobase)
 import(mzR)
@@ -137,7 +138,6 @@ export(MSnSet,
        makePEP,
        makePRT,
        ## OnDiskMSnExp
-       ProcessingStep,
        validateOnDiskMSnExp,
        ##options
        MSnbaseOptions,
@@ -146,8 +146,6 @@ export(MSnSet,
        setMSnbaseParallelThresh,
        isMSnbaseFastLoad,
        setMSnbaseFastLoad,
-       ## ProcessingStep
-       executeProcessingStep,
        aggregationFun,
        Chromatogram,
        MChromatograms,
@@ -182,7 +180,6 @@ exportClasses(pSet,
               MSmap,
               MzTab,
               OnDiskMSnExp,
-              ProcessingStep,
               Chromatogram,
               MChromatograms,
               MSpectra
