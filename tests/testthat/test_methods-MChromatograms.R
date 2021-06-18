@@ -609,3 +609,76 @@ test_that("filterIntensity,MChromatograms works", {
     expect_true(all(intensity(res[2, 2]) >=
                     max(intensity(chrs[2, 2]), na.rm = TRUE) * 0.5))
 })
+
+test_that(".compare_chromatograms works", {
+    set.seed(123)
+    chr1 <- Chromatogram(rtime = 1:10 + rnorm(n = 10, sd = 0.3),
+                         intensity = c(5, 29, 50, NA, 100, 12, 3, 4, 1, 3))
+    chr2 <- Chromatogram(rtime = 1:10 + rnorm(n = 10, sd = 0.3),
+                         intensity = c(80, 50, 20, 10, 9, 4, 3, 4, 1, 3))
+    chr3 <- Chromatogram(rtime = 3:9 + rnorm(7, sd = 0.3),
+                         intensity = c(53, 80, 130, 15, 5, 3, 2))
+    res <- .compare_chromatograms(list(chr1), list(chr2, chr3))
+    expect_equal(ncol(res), 2)
+    expect_equal(nrow(res), 1)
+    expect_true(res[1, 1] < 0.5)
+    expect_true(res[1, 2] > 0.9)
+    res2 <- .compare_chromatograms(list(chr1), list(chr2, chr3),
+                                   ALIGNFUNARGS = list(tolerance = 0))
+    expect_true(all(is.na(res2)))
+
+    expect_equal(res, .compare_chromatograms(list(chr1), list(chr2, chr3),
+                                               full = FALSE))
+
+    res <- .compare_chromatograms(list(chr1, chr2, chr3),
+                                    list(chr1, chr2, chr3))
+    expect_equal(res[1, 2], correlate(chr1, chr2))
+    expect_equal(res[1, 3], correlate(chr1, chr3))
+    expect_equal(res[2, 1], correlate(chr2, chr1))
+    expect_equal(res[2, 3], correlate(chr2, chr3))
+    expect_equal(res[3, 1], correlate(chr3, chr1))
+
+    res <- .compare_chromatograms(list(chr1, chr2, chr3),
+                                    list(chr1, chr2, chr3),
+                                    full = FALSE)
+    expect_equal(res[1, 2], correlate(chr1, chr2))
+    expect_equal(res[1, 3], correlate(chr1, chr3))
+    expect_equal(res[2, 1], NA_real_)
+    expect_equal(res[2, 3], correlate(chr2, chr3))
+    expect_equal(res[3, 1], NA_real_)
+
+    res <- .compare_chromatograms(list(chr1, chr2, chr3),
+                                    list(chr1, chr2),
+                                    full = FALSE)
+
+    chrs <- MChromatograms(list(chr1, chr2, chr3, chr1), ncol = 2)
+    expect_error(.compare_chromatograms(chrs, list(chr1, chr2)),
+                 "single column")
+    expect_error(.compare_chromatograms(list(chr1, chr2), chrs),
+                 "single column")
+})
+
+test_that("compareSpectra,MChromatograms works", {
+    set.seed(123)
+    chr1 <- Chromatogram(rtime = 1:10 + rnorm(n = 10, sd = 0.3),
+                         intensity = c(5, 29, 50, NA, 100, 12, 3, 4, 1, 3))
+    chr2 <- Chromatogram(rtime = 1:10 + rnorm(n = 10, sd = 0.3),
+                         intensity = c(80, 50, 20, 10, 9, 4, 3, 4, 1, 3))
+    chr3 <- Chromatogram(rtime = 3:9 + rnorm(7, sd = 0.3),
+                         intensity = c(53, 80, 130, 15, 5, 3, 2))
+    chrs <- MChromatograms(list(chr1, chr2, chr3))
+
+    res <- compareSpectra(chrs)
+    expect_true(nrow(res) == 3)
+    expect_true(ncol(res) == 3)
+    expect_true(res[1, 3] > 0.9)
+    expect_true(res[1, 2] < 0.5)
+
+    res_2 <- compareSpectra(chrs, chrs)
+    expect_equal(res_2, res)
+
+    res <- correlate(chrs, full = FALSE)
+    expect_true(is.na(res[2, 1]))
+    expect_true(is.na(res[3, 1]))
+
+})

@@ -227,6 +227,11 @@
 #'   intensities (`all = FALSE`; default). See [clean()] documentation for more
 #'   details and examples.
 #'
+#' - `compareChromatograms`: calculates pairwise similarity score between
+#'   chromatograms in `x` and `y`. If `y` is missing, a pairwise comparison
+#'   is performed between all chromatograms in `x`. See documentation on
+#'   `compareChromatograms` in the [Chromatogram()] help page for details.
+#'
 #' - `normalize`, `normalise`: *normalises* the intensities of a chromatogram by
 #'   dividing them either by the maximum intensity (`method = "max"`) or total
 #'   intensity (`method = "sum"`) of the chromatogram.
@@ -635,3 +640,53 @@ setMethod("alignRt", signature = c(x = "MChromatograms", y = "Chromatogram"),
 #' @rdname MChromatograms-class
 setMethod("c", "MChromatograms",
           function(x, ...) .bind_rows_chromatograms(x, ...))
+
+#' @rdname MChromatograms-class
+setMethod("compareChromatograms",
+          signature = c(x = "MChromatograms", y = "missing"),
+          function(x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = list(),
+                   FUN = cor, FUNARGS = list(use = "pairwise.complete.obs")) {
+              .compare_chromatograms(
+                  x, x, ALIGNFUN = alignRt, ALIGNFUNARGS = ALIGNFUNARGS,
+                  FUN = cor, FUNARGS = FUNARGS, full = full)
+          })
+
+#' @rdname MChromatograms-class
+setMethod("compareChromatograms",
+          signature = c(x = "MChromatograms", y = "MChromatograms"),
+          function(x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = list(),
+                   FUN = cor, FUNARGS = list(use = "pairwise.complete.obs")) {
+              .compare_chromatograms(
+                  x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = ALIGNFUNARGS,
+                  FUN = cor, FUNARGS = FUNARGS, full = full)
+          })
+
+.compare_chromatograms <- function(x, y, full = TRUE, ALIGNFUN = alignRt,
+                                   ALIGNFUNARGS = list(), FUN = cor,
+                                   FUNARGS = list(
+                                       use = "pairwise.complete.obs")) {
+    if (inherits(x, "MChromatograms")) {
+        if (ncol(x) > 1)
+            stop("Currently only single column MChromatograms are supported.")
+        x <- unlist(x)
+    }
+    if (inherits(y, "MChromatograms")) {
+        if (ncol(y) > 1)
+            stop("Currently only single column MChromatograms are supported.")
+        y <- unlist(y)
+    }
+    nx <- length(x)
+    ny <- length(y)
+
+    m <- matrix(NA_real_, nrow = nx, ncol = ny)
+    for (i in seq_len(nx)) {
+        for (j in seq_len(ny)) {
+            if (!full && i > j)
+                next
+            m[i, j] <- compareChromatograms(x[[i]], y[[j]], ALIGNFUN = ALIGNFUN,
+                                            ALIGNFUNARGS = ALIGNFUNARGS,
+                                            FUN = FUN, FUNARGS = FUNARGS)
+        }
+    }
+    m
+}
