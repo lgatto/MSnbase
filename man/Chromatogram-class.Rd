@@ -5,6 +5,7 @@
 \alias{Chromatogram}
 \alias{aggregationFun}
 \alias{Chromatogram-class}
+\alias{compareChromatograms}
 \alias{show,Chromatogram-method}
 \alias{rtime,Chromatogram-method}
 \alias{intensity,Chromatogram-method}
@@ -406,7 +407,7 @@ legend("topright", col = c("black", "blue", "#00ff0080","#ff000080"),lty = 1,
 
 ## Compare Chromatograms. Align chromatograms with `alignRt` and
 ## method `"approx"`
-compareChromatograms(chr2, chr1, ALIGNARGS = list(method = "approx"))
+compareChromatograms(chr2, chr1, ALIGNFUNARGS = list(method = "approx"))
 
 ## Data filtering
 

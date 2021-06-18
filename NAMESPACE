@@ -24,7 +24,7 @@ importFrom(XML, xmlInternalTreeParse, getDefaultNamespace, xpathApply,
 importFrom(graphics, abline, axis, grid, legend, lines, points, text,
            barplot, layout, par, matplot, mtext)
 importFrom(stats, ave, median, medpolish, quantile, reorder, setNames,
-           weighted.mean, dist, model.matrix, .lm.fit, approx)
+           weighted.mean, dist, model.matrix, .lm.fit, approx, cor)
 importFrom(utils, combn, head, ls.str, object.size,
            packageDescription, packageVersion, read.csv, read.delim,
            read.table, select.list, setTxtProgressBar, tail,

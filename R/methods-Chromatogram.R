@@ -1,5 +1,7 @@
 #' @title Representation of chromatographic MS data
 #'
+#' @aliases compareChromatograms
+#'
 #' @name Chromatogram-class
 #'
 #' @description The `Chromatogram` class is designed to store
@@ -326,7 +328,7 @@
 #'
 #' ## Compare Chromatograms. Align chromatograms with `alignRt` and
 #' ## method `"approx"`
-#' compareChromatograms(chr2, chr1, ALIGNARGS = list(method = "approx"))
+#' compareChromatograms(chr2, chr1, ALIGNFUNARGS = list(method = "approx"))
 #'
 #' ## Data filtering
 #'
