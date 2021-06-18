@@ -327,7 +327,8 @@ exportMethods(updateObject,
               "filterIsolationWindow",
 	      "alignRt",
 	      "filterIntensity",
-	      c
+	      c,
+	      compareChromatograms
               )
 
 ## methods NOT exported

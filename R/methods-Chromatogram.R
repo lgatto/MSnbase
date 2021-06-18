@@ -22,6 +22,11 @@
 #'     a `@precursorMz = c(273, 273)` and a
 #'     `@productMz = c(153, 153)`.
 #'
+#' @param ALIGNFUN for `compareChromatograms`: function to align chromatogram
+#'     `x` against chromatogram `y`. Defaults to `alignRt`.
+#'
+#' @param ALIGNFUNARGS `list` of parameters to be passed to `ALIGNFUN`.
+#'
 #' @param aggregationFun for `Chromatogram`: `character` string specifying
 #'     the function that was used to aggregate intensity values for the same
 #'     retention time across the mz range. Supported are `"sum"` (total ion
@@ -52,6 +57,13 @@
 #'
 #' @param fun for `bin`: function to be used to aggregate the intensity
 #'     values falling within each bin. Defaults to `fun = max`.
+#'
+#' @param FUN for `compareChromatograms`: function to calculate a similarity
+#'     score on the intensity values of the compared and aligned chromatograms.
+#'     Defaults to `FUN = cor`.
+#'
+#' @param FUNARGS for `compareChromatograms`: `list` with additional parameters
+#'     for `FUN`. Defaults to `FUNARGS = list(use = "pairwise.complete.obs")`.
 #'
 #' @param intensity for `Chromatogram`: `numeric` with the intensity values
 #'     (length has to be equal to the length of `rtime`). For `filterIntensity`:
@@ -207,6 +219,16 @@
 #'   define the binning, `fun` the function which should be used to aggregate
 #'   the intensities within a bin.
 #'
+#' - `compareChromatograms`: calculates a similarity score between 2
+#'   chromatograms after aligning them. Parameter `ALIGNFUN` allows to define
+#'   a function that can be used to align `x` against `y` (defaults to
+#'   `ALIGNFUN = alignRt`). Subsequently, the similarity is calculated on the
+#'   aligned intensities with the function provided with parameter `FUN` which
+#'   defaults to `cor` (hence by default the Pearson correlation is calculated
+#'   between the aligned intensities of the two compared chromatograms).
+#'   Additional parameters can be passed to the `ALIGNFUN` and `FUN` with the
+#'   parameter `ALIGNFUNARGS` and `FUNARGS`, respectively.
+#'
 #' - `clean`: removes 0-intensity data points (and `NA` values). See [clean()]
 #'   for details.
 #'
@@ -301,6 +323,10 @@
 #' legend("topright", col = c("black", "blue", "#00ff0080","#ff000080"),lty = 1,
 #'     legend = c("chr1", "chr2", "chr2 matchRtime", "chr2 approx"))
 #'
+#'
+#' ## Compare Chromatograms. Align chromatograms with `alignRt` and
+#' ## method `"approx"`
+#' compareChromatograms(chr2, chr1, ALIGNARGS = list(method = "approx"))
 #'
 #' ## Data filtering
 #'
@@ -470,4 +496,14 @@ setMethod("filterIntensity", "Chromatogram", function(object,
 setMethod("alignRt", signature = c(x = "Chromatogram", y = "Chromatogram"),
           function(x, y, method = c("closest", "approx"), ...) {
               .align_chromatogram(x = x, y = y, method = method, ...)
+          })
+
+#' @rdname Chromatogram-class
+setMethod("compareChromatograms",
+          signature = c(x = "Chromatogram", y = "Chromatogram"),
+          function(x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = list(),
+                   FUN = cor, FUNARGS = list(use = "pairwise.complete.obs")) {
+              if(length(x) != length(y) || !all(rtime(x) == rtime(y)))
+                  x <- do.call(ALIGNFUN, c(list(x, y), ALIGNFUNARGS))
+              do.call(FUN, c(list(x@intensity, y@intensity), FUNARGS))
           })

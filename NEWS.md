@@ -1,3 +1,10 @@
+# MSnbase 2.19
+
+## Changes in 2.19.1
+
+- Add `compareChromatograms` method.
+
+
 # MSnbase 2.17
 
 ## Changes in 2.17.8
