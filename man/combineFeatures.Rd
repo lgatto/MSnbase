@@ -198,7 +198,7 @@ data(msnset) ## reset data
 msnset <- log(msnset, 2) ## log2 transform
 
 ## Feature X46, in the ENO protein has one missig value
-which(is.na(msnset), arr.ind = dim(msnset))
+which(is.na(msnset), arr.ind = TRUE)
 exprs(msnset["X46", ])
 ## Only the missing value in X46 and iTRAQ4.116 will be ignored
 res <- combineFeatures(msnset,
