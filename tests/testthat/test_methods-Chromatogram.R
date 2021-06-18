@@ -241,7 +241,7 @@ test_that("compareChromatograms,Chromatogram,Chromatogram works", {
                                 ALIGNFUNARGS = list(tolerance = 0))
     expect_true(is.na(res))
     res <- compareChromatograms(chr1, chr1_2,
-                                ALIGNFUNARGS = list(tolerance = 0.1)))
+                                ALIGNFUNARGS = list(tolerance = 0.1))
     expect_equal(res, 1)
 
     chr1_2@intensity[1] <- NA
@@ -251,7 +251,8 @@ test_that("compareChromatograms,Chromatogram,Chromatogram works", {
     expect_true(is.na(res))
 
     res_1 <- compareChromatograms(chr1, chr2)
-    res_2 <- compareChromatograms(chr1, chr2, FUNARGS = list(method = "kendall"))
+    res_2 <- compareChromatograms(chr1, chr2,
+                                  FUNARGS = list(method = "kendall"))
     expect_true(res_1 != res_2)
     res_2 <- compareChromatograms(chr2, chr1)
     expect_equal(res_1, res_2)
