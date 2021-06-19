@@ -72,6 +72,10 @@
 #'   `AnnotatedDataFrame` with additional information for each row of
 #'   chromatograms.
 #'
+#' @param full `logical(1)` for `compareChromatograms` whether the full pairwise
+#'     comparison matrix should be calculated (`full = TRUE`, the default) or
+#'     only the upper triangle (`full = FALSE`).
+#'
 #' @param fun for `bin`: function to be used to aggregate the intensity
 #'     values falling within each bin.
 #'
@@ -645,7 +649,8 @@ setMethod("c", "MChromatograms",
 setMethod("compareChromatograms",
           signature = c(x = "MChromatograms", y = "missing"),
           function(x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = list(),
-                   FUN = cor, FUNARGS = list(use = "pairwise.complete.obs")) {
+                   FUN = cor, FUNARGS = list(use = "pairwise.complete.obs"),
+                   full = TRUE) {
               .compare_chromatograms(
                   x, x, ALIGNFUN = alignRt, ALIGNFUNARGS = ALIGNFUNARGS,
                   FUN = cor, FUNARGS = FUNARGS, full = full)
@@ -655,7 +660,8 @@ setMethod("compareChromatograms",
 setMethod("compareChromatograms",
           signature = c(x = "MChromatograms", y = "MChromatograms"),
           function(x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = list(),
-                   FUN = cor, FUNARGS = list(use = "pairwise.complete.obs")) {
+                   FUN = cor, FUNARGS = list(use = "pairwise.complete.obs"),
+                   full = TRUE) {
               .compare_chromatograms(
                   x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = ALIGNFUNARGS,
                   FUN = cor, FUNARGS = FUNARGS, full = full)
