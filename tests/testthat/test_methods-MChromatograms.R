@@ -632,19 +632,19 @@ test_that(".compare_chromatograms works", {
 
     res <- .compare_chromatograms(list(chr1, chr2, chr3),
                                     list(chr1, chr2, chr3))
-    expect_equal(res[1, 2], correlate(chr1, chr2))
-    expect_equal(res[1, 3], correlate(chr1, chr3))
-    expect_equal(res[2, 1], correlate(chr2, chr1))
-    expect_equal(res[2, 3], correlate(chr2, chr3))
-    expect_equal(res[3, 1], correlate(chr3, chr1))
+    expect_equal(res[1, 2], compareChromatograms(chr1, chr2))
+    expect_equal(res[1, 3], compareChromatograms(chr1, chr3))
+    expect_equal(res[2, 1], compareChromatograms(chr2, chr1))
+    expect_equal(res[2, 3], compareChromatograms(chr2, chr3))
+    expect_equal(res[3, 1], compareChromatograms(chr3, chr1))
 
     res <- .compare_chromatograms(list(chr1, chr2, chr3),
                                     list(chr1, chr2, chr3),
                                     full = FALSE)
-    expect_equal(res[1, 2], correlate(chr1, chr2))
-    expect_equal(res[1, 3], correlate(chr1, chr3))
+    expect_equal(res[1, 2], compareChromatograms(chr1, chr2))
+    expect_equal(res[1, 3], compareChromatograms(chr1, chr3))
     expect_equal(res[2, 1], NA_real_)
-    expect_equal(res[2, 3], correlate(chr2, chr3))
+    expect_equal(res[2, 3], compareChromatograms(chr2, chr3))
     expect_equal(res[3, 1], NA_real_)
 
     res <- .compare_chromatograms(list(chr1, chr2, chr3),
@@ -658,7 +658,7 @@ test_that(".compare_chromatograms works", {
                  "single column")
 })
 
-test_that("compareSpectra,MChromatograms works", {
+test_that("compareChromatograms,MChromatograms works", {
     set.seed(123)
     chr1 <- Chromatogram(rtime = 1:10 + rnorm(n = 10, sd = 0.3),
                          intensity = c(5, 29, 50, NA, 100, 12, 3, 4, 1, 3))
@@ -668,16 +668,16 @@ test_that("compareSpectra,MChromatograms works", {
                          intensity = c(53, 80, 130, 15, 5, 3, 2))
     chrs <- MChromatograms(list(chr1, chr2, chr3))
 
-    res <- compareSpectra(chrs)
+    res <- compareChromatograms(chrs)
     expect_true(nrow(res) == 3)
     expect_true(ncol(res) == 3)
     expect_true(res[1, 3] > 0.9)
     expect_true(res[1, 2] < 0.5)
 
-    res_2 <- compareSpectra(chrs, chrs)
+    res_2 <- compareChromatograms(chrs, chrs)
     expect_equal(res_2, res)
 
-    res <- correlate(chrs, full = FALSE)
+    res <- compareChromatograms(chrs, full = FALSE)
     expect_true(is.na(res[2, 1]))
     expect_true(is.na(res[3, 1]))
 
