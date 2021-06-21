@@ -129,6 +129,7 @@
 #'
 #' @param ... for `MChromatograms`: additional parameters to be passed to the
 #'     `matrix` constructor, such as `nrow`, `ncol` and `byrow`.
+#'     For `compareChromatograms`: ignored.
 #'
 #' @inheritParams Chromatogram-class
 #'
@@ -650,7 +651,7 @@ setMethod("compareChromatograms",
           signature = c(x = "MChromatograms", y = "missing"),
           function(x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = list(),
                    FUN = cor, FUNARGS = list(use = "pairwise.complete.obs"),
-                   full = TRUE) {
+                   full = TRUE, ...) {
               .compare_chromatograms(
                   x, x, ALIGNFUN = alignRt, ALIGNFUNARGS = ALIGNFUNARGS,
                   FUN = cor, FUNARGS = FUNARGS, full = full)
@@ -661,7 +662,7 @@ setMethod("compareChromatograms",
           signature = c(x = "MChromatograms", y = "MChromatograms"),
           function(x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = list(),
                    FUN = cor, FUNARGS = list(use = "pairwise.complete.obs"),
-                   full = TRUE) {
+                   full = TRUE, ...) {
               .compare_chromatograms(
                   x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = ALIGNFUNARGS,
                   FUN = cor, FUNARGS = FUNARGS, full = full)

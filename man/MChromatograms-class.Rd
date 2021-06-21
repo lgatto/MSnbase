@@ -120,7 +120,8 @@ MChromatograms(data, phenoData, featureData, ...)
   ALIGNFUNARGS = list(),
   FUN = cor,
   FUNARGS = list(use = "pairwise.complete.obs"),
-  full = TRUE
+  full = TRUE,
+  ...
 )
 
 \S4method{compareChromatograms}{MChromatograms,MChromatograms}(
@@ -130,7 +131,8 @@ MChromatograms(data, phenoData, featureData, ...)
   ALIGNFUNARGS = list(),
   FUN = cor,
   FUNARGS = list(use = "pairwise.complete.obs"),
-  full = TRUE
+  full = TRUE,
+  ...
 )
 }
 \arguments{
@@ -145,7 +147,8 @@ samples.}
 chromatograms.}
 
 \item{...}{for \code{MChromatograms}: additional parameters to be passed to the
-\code{matrix} constructor, such as \code{nrow}, \code{ncol} and \code{byrow}.}
+\code{matrix} constructor, such as \code{nrow}, \code{ncol} and \code{byrow}.
+For \code{compareChromatograms}: ignored.}
 
 \item{object}{a \code{MChromatograms} object.}
 

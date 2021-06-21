@@ -124,6 +124,7 @@
 #' @param ... for `plot`: additional arguments to be passed to the
 #'     base `plot` function. For `filterIntensity`: additional parameters passed
 #'     along to the function provided with `intensity`.
+#'     For `compareChromatograms`: ignored
 #'
 #'
 #' @section Object creation:
@@ -504,7 +505,8 @@ setMethod("alignRt", signature = c(x = "Chromatogram", y = "Chromatogram"),
 setMethod("compareChromatograms",
           signature = c(x = "Chromatogram", y = "Chromatogram"),
           function(x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = list(),
-                   FUN = cor, FUNARGS = list(use = "pairwise.complete.obs")) {
+                   FUN = cor, FUNARGS = list(use = "pairwise.complete.obs"),
+                   ...) {
               if(length(x) != length(y) || !all(rtime(x) == rtime(y)))
                   x <- do.call(ALIGNFUN, c(list(x, y), ALIGNFUNARGS))
               do.call(FUN, c(list(x@intensity, y@intensity), FUNARGS))

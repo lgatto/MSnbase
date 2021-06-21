@@ -97,7 +97,8 @@ aggregationFun(object)
   ALIGNFUN = alignRt,
   ALIGNFUNARGS = list(),
   FUN = cor,
-  FUNARGS = list(use = "pairwise.complete.obs")
+  FUNARGS = list(use = "pairwise.complete.obs"),
+  ...
 )
 }
 \arguments{
@@ -169,7 +170,8 @@ will be used as plot title.}
 
 \item{...}{for \code{plot}: additional arguments to be passed to the
 base \code{plot} function. For \code{filterIntensity}: additional parameters passed
-along to the function provided with \code{intensity}.}
+along to the function provided with \code{intensity}.
+For \code{compareChromatograms}: ignored}
 
 \item{binSize}{for \code{bin}: \code{numeric(1)} with the size of the bins
 (in seconds). Defaults to \code{binSize = 0.5}.}
