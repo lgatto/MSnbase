@@ -120,7 +120,6 @@ MChromatograms(data, phenoData, featureData, ...)
   ALIGNFUNARGS = list(),
   FUN = cor,
   FUNARGS = list(use = "pairwise.complete.obs"),
-  full = TRUE,
   ...
 )
 
@@ -131,7 +130,6 @@ MChromatograms(data, phenoData, featureData, ...)
   ALIGNFUNARGS = list(),
   FUN = cor,
   FUNARGS = list(use = "pairwise.complete.obs"),
-  full = TRUE,
   ...
 )
 }
@@ -233,10 +231,6 @@ Defaults to \code{FUN = cor}.}
 
 \item{FUNARGS}{for \code{compareChromatograms}: \code{list} with additional parameters
 for \code{FUN}. Defaults to \code{FUNARGS = list(use = "pairwise.complete.obs")}.}
-
-\item{full}{\code{logical(1)} for \code{compareChromatograms} whether the full pairwise
-comparison matrix should be calculated (\code{full = TRUE}, the default) or
-only the upper triangle (\code{full = FALSE}).}
 }
 \value{
 For \code{[}: the subset of the \code{MChromatograms} object. If a

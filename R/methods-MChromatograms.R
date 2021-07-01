@@ -72,10 +72,6 @@
 #'   `AnnotatedDataFrame` with additional information for each row of
 #'   chromatograms.
 #'
-#' @param full `logical(1)` for `compareChromatograms` whether the full pairwise
-#'     comparison matrix should be calculated (`full = TRUE`, the default) or
-#'     only the upper triangle (`full = FALSE`).
-#'
 #' @param fun for `bin`: function to be used to aggregate the intensity
 #'     values falling within each bin.
 #'
@@ -651,10 +647,10 @@ setMethod("compareChromatograms",
           signature = c(x = "MChromatograms", y = "missing"),
           function(x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = list(),
                    FUN = cor, FUNARGS = list(use = "pairwise.complete.obs"),
-                   full = TRUE, ...) {
+                   ...) {
               .compare_chromatograms(
                   x, x, ALIGNFUN = alignRt, ALIGNFUNARGS = ALIGNFUNARGS,
-                  FUN = cor, FUNARGS = FUNARGS, full = full)
+                  FUN = cor, FUNARGS = FUNARGS)
           })
 
 #' @rdname MChromatograms-class
@@ -662,13 +658,13 @@ setMethod("compareChromatograms",
           signature = c(x = "MChromatograms", y = "MChromatograms"),
           function(x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = list(),
                    FUN = cor, FUNARGS = list(use = "pairwise.complete.obs"),
-                   full = TRUE, ...) {
+                   ...) {
               .compare_chromatograms(
                   x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = ALIGNFUNARGS,
-                  FUN = cor, FUNARGS = FUNARGS, full = full)
+                  FUN = cor, FUNARGS = FUNARGS)
           })
 
-.compare_chromatograms <- function(x, y, full = TRUE, ALIGNFUN = alignRt,
+.compare_chromatograms <- function(x, y, ALIGNFUN = alignRt,
                                    ALIGNFUNARGS = list(), FUN = cor,
                                    FUNARGS = list(
                                        use = "pairwise.complete.obs")) {
@@ -688,12 +684,13 @@ setMethod("compareChromatograms",
     m <- matrix(NA_real_, nrow = nx, ncol = ny)
     for (i in seq_len(nx)) {
         for (j in seq_len(ny)) {
-            if (!full && i > j)
+            if (i > j)
                 next
             m[i, j] <- compareChromatograms(x[[i]], y[[j]], ALIGNFUN = ALIGNFUN,
                                             ALIGNFUNARGS = ALIGNFUNARGS,
                                             FUN = FUN, FUNARGS = FUNARGS)
         }
     }
+    m[lower.tri(m)] <- m[upper.tri(m)]
     m
 }
