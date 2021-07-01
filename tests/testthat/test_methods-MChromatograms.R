@@ -627,8 +627,7 @@ test_that(".compare_chromatograms works", {
                                    ALIGNFUNARGS = list(tolerance = 0))
     expect_true(all(is.na(res2)))
 
-    expect_equal(res, .compare_chromatograms(list(chr1), list(chr2, chr3),
-                                               full = FALSE))
+    expect_equal(res, .compare_chromatograms(list(chr1), list(chr2, chr3)))
 
     res <- .compare_chromatograms(list(chr1, chr2, chr3),
                                     list(chr1, chr2, chr3))
@@ -639,17 +638,15 @@ test_that(".compare_chromatograms works", {
     expect_equal(res[3, 1], compareChromatograms(chr3, chr1))
 
     res <- .compare_chromatograms(list(chr1, chr2, chr3),
-                                    list(chr1, chr2, chr3),
-                                    full = FALSE)
+                                    list(chr1, chr2, chr3))
     expect_equal(res[1, 2], compareChromatograms(chr1, chr2))
     expect_equal(res[1, 3], compareChromatograms(chr1, chr3))
-    expect_equal(res[2, 1], NA_real_)
+    expect_equal(res[2, 1], res[1, 2])
     expect_equal(res[2, 3], compareChromatograms(chr2, chr3))
-    expect_equal(res[3, 1], NA_real_)
+    expect_equal(res[3, 1], res[1, 3])
 
     res <- .compare_chromatograms(list(chr1, chr2, chr3),
-                                    list(chr1, chr2),
-                                    full = FALSE)
+                                    list(chr1, chr2))
 
     chrs <- MChromatograms(list(chr1, chr2, chr3, chr1), ncol = 2)
     expect_error(.compare_chromatograms(chrs, list(chr1, chr2)),
@@ -676,9 +673,4 @@ test_that("compareChromatograms,MChromatograms works", {
 
     res_2 <- compareChromatograms(chrs, chrs)
     expect_equal(res_2, res)
-
-    res <- compareChromatograms(chrs, full = FALSE)
-    expect_true(is.na(res[2, 1]))
-    expect_true(is.na(res[3, 1]))
-
 })
