@@ -507,7 +507,7 @@ setMethod("compareChromatograms",
           function(x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = list(),
                    FUN = cor, FUNARGS = list(use = "pairwise.complete.obs"),
                    ...) {
-              if(length(x) != length(y) || !all(rtime(x) == rtime(y)))
+              if (length(x) != length(y) || !all(rtime(x) == rtime(y)))
                   x <- do.call(ALIGNFUN, c(list(x, y), ALIGNFUNARGS))
               do.call(FUN, c(list(x@intensity, y@intensity), FUNARGS))
           })
