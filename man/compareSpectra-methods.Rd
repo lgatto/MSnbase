@@ -22,7 +22,7 @@
   the spectra need to be binned. The \code{binSize} argument (in Dalton)
   controls the binning precision. Please see \code{\link{bin}} for
   details.
-  
+
   Instead of these three predefined functions for \code{fun} a
   user-defined comparison function can be supplied. This function takes
   two \code{\linkS4class{Spectrum}} objects as the first two arguments
@@ -32,20 +32,20 @@
 
 \section{Methods}{
   \describe{
-    
-    \item{\code{signature(object1 = "MSnExp", object2 = "missing", fun =
+
+    \item{\code{signature(x = "MSnExp", y = "missing", fun =
 	"character", \dots)}}{Compares all spectra in an \code{MSnExp}
       object. The \code{\dots} arguments are passed to the internal
       functions. Returns a \code{matrix} of dimension
-      \code{length(object1)} by \code{length(object1)}. }
+      \code{length(x)} by \code{length(x)}. }
 
 
-    \item{\code{signature(object1 = "Spectrum", object2 = "Spectrum", fun =
+    \item{\code{signature(x = "Spectrum", y = "Spectrum", fun =
 	"character", \dots)}}{ Compares two \code{Spectrum} objects. See the
       above explanation for \code{fun} and \code{\dots}. Returns a single
       \code{numeric} value. }
-    
-  } 
+
+  }
 }
 
 \author{

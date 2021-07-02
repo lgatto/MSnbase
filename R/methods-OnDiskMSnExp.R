@@ -719,37 +719,37 @@ setMethod("normalize", "OnDiskMSnExp",
 ## 2) add the mz range as a parameter to the processing queue.
 ## This is pretty slow, but should be robust. Eventually C-level
 ## binning might be faster.
-setMethod("bin", "OnDiskMSnExp", function(object, binSize = 1L, msLevel.) {
+setMethod("bin", "OnDiskMSnExp", function(x, binSize = 1L, msLevel.) {
     if (missing(msLevel.)) {
-        msLevel. <- base::sort(unique(msLevel(object)))
+        msLevel. <- base::sort(unique(msLevel(x)))
     } else {
         if (!is.numeric(msLevel.))
             stop("'msLevel' must be numeric!")
     }
     ## Check if we have these MS levels
-    if (!any(unique(msLevel(object)) %in% msLevel.)) {
+    if (!any(unique(msLevel(x)) %in% msLevel.)) {
         warning("No spectra of the specified MS level present.")
-        return(object)
+        return(x)
     }
     ## Get the M/Z range; note: calling spectrapply and returning just
     ## the M/Z range per spectrum is about twice as fast than getting
     ## all M/Z values and calculating the range on that (i.e.
     ## range(mz(object)))
-    mzr <- range(unlist(spectrapply(filterMsLevel(object, msLevel. = msLevel.),
+    mzr <- range(unlist(spectrapply(filterMsLevel(x, msLevel. = msLevel.),
                                     FUN = function(z) {
                                         return(range(mz(z), na.rm = TRUE))
                                     }, BPPARAM = bpparam())))
     breaks <- seq(floor(mzr[1]), ceiling(mzr[2]), by = binSize)
     ## Now add the processing step
     ps <- ProcessingStep("bin", list(breaks = breaks, msLevel. = msLevel.))
-    object@spectraProcessingQueue <- c(object@spectraProcessingQueue,
-                                       list(ps))
+    x@spectraProcessingQueue <- c(x@spectraProcessingQueue,
+                                  list(ps))
     ## And add the processing info.
-    object@processingData@processing <- c(object@processingData@processing,
-                                          paste0("Spectra of MS level(s) ",
-                                                 paste0(msLevel., sep = ", "),
-                                                 " binned: ", date()))
-    return(object)
+    x@processingData@processing <- c(x@processingData@processing,
+                                     paste0("Spectra of MS level(s) ",
+                                            paste0(msLevel., sep = ", "),
+                                            " binned: ", date()))
+    x
 })
 
 ############################################################
@@ -811,19 +811,19 @@ setMethod("pickPeaks", "OnDiskMSnExp",
 ############################################################
 ## compareSpectra
 setMethod("compareSpectra", c("OnDiskMSnExp", "missing"),
-          function(object1, fun = c("common", "cor", "dotproduct"), ...) {
+          function(x, fun = c("common", "cor", "dotproduct"), ...) {
               fun <- match.arg(fun)
               ## res <- suppressMessages(compare_MSnExp(object1, fun, ...))
               ## return(res)
               ## Alternatively, we could get all of the spectra and doing
               ## the comparisons on the list; this might however turn out to
               ## be quite memory demanding...
-              sps <- spectra(object1)
-              nm <- featureNames(object1)
-              cb <- combn(nm, 2, function(x) {
-                  compare_Spectra(sps[[x[1]]], sps[[x[2]]], fun = fun, ...)
+              sps <- spectra(x)
+              nm <- featureNames(x)
+              cb <- combn(nm, 2, function(z) {
+                  compare_Spectra(sps[[z[1]]], sps[[z[2]]], fun = fun, ...)
               })
-              m <- matrix(NA, length(object1), length(object1),
+              m <- matrix(NA, length(x), length(x),
                           dimnames = list(nm, nm))
               ## fill lower triangle of the matrix
               m[lower.tri(m)] <- cb

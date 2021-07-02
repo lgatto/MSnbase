@@ -1,6 +1,4 @@
-setGeneric("bin", function(object, ...) standardGeneric("bin"))
 setGeneric("clean", function(object, ...) standardGeneric("clean"))
-setGeneric("compareSpectra", function(object1, object2, ...) standardGeneric("compareSpectra"))
 setGeneric("estimateNoise", function(object, ...) standardGeneric("estimateNoise"))
 setGeneric("pickPeaks", function(object, ...) standardGeneric("pickPeaks"))
 

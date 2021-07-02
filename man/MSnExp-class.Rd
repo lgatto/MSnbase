@@ -173,8 +173,8 @@
     \item{clean}{\code{signature(object = "MSnExp")}: Removes unused 0
       intensity data points. See \code{\link{clean}} documentation
       for more details and examples. }
-    \item{compareSpectra}{\code{signature(object1 = "Spectrum",
-        object2 = "missing")}: Compares spectra.  See
+    \item{compareSpectra}{\code{signature(x = "Spectrum",
+        y = "missing")}: Compares spectra.  See
       \code{\link{compareSpectra}} documentation for more details and
       examples. }
     \item{extractPrecSpectra}{\code{signature(object = "MSnExp", prec =
@@ -296,16 +296,16 @@
     field in the mzML file that contains some information about the
     run/spectrum, e.g.: \code{controllerType=0 controllerNumber=1
     scan=5281 file=2}.
-   
+
     \code{acquisitionNum} is a more a less sanitize spectrum id
     generated from the \code{spectrumId} field by \code{mzR} (see
     https://github.com/sneumann/mzR/blob/master/src/pwiz/data/msdata/MSData.cpp#L552-L580).
-   
+
     \code{scanIndex} is the \code{mzR} generated sequence number of the
     spectrum in the raw file (which doesn't have to be the same as the
     \code{acquisitionNum}).
 
-    See also this issue: https://github.com/lgatto/MSnbase/issues/525.    
+    See also this issue: https://github.com/lgatto/MSnbase/issues/525.
 
   }
 

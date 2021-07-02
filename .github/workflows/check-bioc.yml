@@ -201,6 +201,7 @@ jobs:
           message(paste('****', Sys.time(), 'pass number 2 at installing dependencies: any remaining dependencies ****'))
           deps <- remotes::dev_package_deps(dependencies = TRUE, repos = BiocManager::repositories())
           BiocManager::install(deps$package[deps$diff != 0])
+          BiocManager::install("Spectra")
 
           ## For running the checks
           message(paste('****', Sys.time(), 'installing rcmdcheck ****'))

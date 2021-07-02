@@ -216,12 +216,12 @@ setMethod("normalize", "Spectrum2",
 normalise <- normalize
 
 setMethod("bin", "Spectrum",
-          function(object, binSize = 1L,
-                   breaks = seq(floor(min(mz(object))),
-                                ceiling(max(mz(object))),
+          function(x, binSize = 1L,
+                   breaks = seq(floor(min(mz(x))),
+                                ceiling(max(mz(x))),
                                 by = binSize),
                    msLevel.) {
-              bin_Spectrum(object, binSize = binSize, breaks = breaks,
+              bin_Spectrum(x, binSize = binSize, breaks = breaks,
                            msLevel. = msLevel.)
           })
 
@@ -231,9 +231,9 @@ setMethod("calculateFragments", c("character", "Spectrum2"),
           })
 
 setMethod("compareSpectra", c("Spectrum", "Spectrum"),
-          function(object1, object2, fun=c("common", "cor", "dotproduct"),
+          function(x, y, fun=c("common", "cor", "dotproduct"),
                    ...) {
-              compare_Spectra(object1, object2, fun = fun, ...)
+              compare_Spectra(x, y, fun = fun, ...)
           })
 
 setMethod("estimateNoise", "Spectrum",

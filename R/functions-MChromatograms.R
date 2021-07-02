@@ -164,19 +164,19 @@ MChromatograms <- function(data, phenoData, featureData, ...) {
 #' @author Johannes Rainer
 #'
 #' @noRd
-.bin_MChromatograms <- function(object, binSize = 0.5, breaks = numeric(),
+.bin_MChromatograms <- function(x, binSize = 0.5, breaks = numeric(),
                                fun = max) {
-    for (i in seq_len(nrow(object))) {
+    for (i in seq_len(nrow(x))) {
         if (!length(breaks)) {
-            rt_rng <- range(lapply(object[i, ], function(z) range(rtime(z))))
+            rt_rng <- range(lapply(x[i, ], function(z) range(rtime(z))))
             brks <- .fix_breaks(seq(floor(rt_rng[1]), ceiling(rt_rng[2]),
                                     by = binSize), rt_rng)
         } else brks <- breaks
-        object[i, ] <- lapply(object[i, ], .bin_Chromatogram, binSize = binSize,
+        x[i, ] <- lapply(x[i, ], .bin_Chromatogram, binSize = binSize,
                               breaks = brks, fun = fun)
     }
-    if (validObject(object))
-        object
+    if (validObject(x))
+        x
 }
 
 .bind_rows_chromatograms <- function(...) {
