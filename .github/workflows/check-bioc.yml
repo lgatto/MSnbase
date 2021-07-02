@@ -201,6 +201,7 @@ jobs:
           message(paste('****', Sys.time(), 'pass number 2 at installing dependencies: any remaining dependencies ****'))
           deps <- remotes::dev_package_deps(dependencies = TRUE, repos = BiocManager::repositories())
           BiocManager::install(deps$package[deps$diff != 0])
+          BiocManager::install("Spectra")
 
           ## For running the checks
           message(paste('****', Sys.time(), 'installing rcmdcheck ****'))
@@ -216,6 +217,11 @@ jobs:
           git clone https://github.com/bmbolstad/preprocessCore.git
           cd preprocessCore
           R CMD INSTALL --configure-args="--disable-threading"  .
+
+      - name: Install latest ProtGenerics from github (remove one 1.23.7 in on Bioc)
+        run: |
+          BiocManager::install("lgatto/ProtGenerics")
+        shell: Rscript {0}
 
       - name: Session info
         run: |
@@ -288,4 +294,3 @@ jobs:
         with:
           name: ${{ runner.os }}-biocdocker-biocbranch-${{ needs.define-docker-info.outputs.biocversion }}-r-${{ steps.findrversion.outputs.rversion }}-bioc-${{ steps.findrversion.outputs.biocversionnum }}-results
           path: check
-

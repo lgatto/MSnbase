@@ -113,17 +113,17 @@ aggregationFun <- function(object) {
 #' @author Johannes Rainer
 #'
 #' @noRd
-.bin_Chromatogram <- function(object, binSize = 0.5,
-                              breaks = seq(floor(min(rtime(object))),
-                                           ceiling(max(rtime(object))),
+.bin_Chromatogram <- function(x, binSize = 0.5,
+                              breaks = seq(floor(min(rtime(x))),
+                                           ceiling(max(rtime(x))),
                                            by = binSize),
                               fun = max) {
-    bins <- .bin_values(object@intensity, object@rtime, binSize = binSize,
+    bins <- .bin_values(x@intensity, x@rtime, binSize = binSize,
                         breaks = breaks, fun = fun)
-    object@intensity <- bins$x
-    object@rtime <- bins$mids
-    if (validObject(object))
-        object
+    x@intensity <- bins$x
+    x@rtime <- bins$mids
+    if (validObject(x))
+        x
 }
 
 .normalize_chromatogram <- function(x, method = "max") {

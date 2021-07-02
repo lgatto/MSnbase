@@ -222,3 +222,38 @@ test_that("alignRt,Chromatogram,MChromatograms works", {
     expect_equal(rtime(res), rtime(chr1))
     expect_true(all(is.na(intensity(res))))
 })
+
+test_that("compareChromatograms,Chromatogram,Chromatogram works", {
+    chr1 <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                         intensity = c(3, 5, 14, 30, 24, 6, 2, 1, 1, 0))
+    chr2 <- Chromatogram(rtime = c(2.5, 3.42, 4.5, 5.43, 6.5),
+                         intensity = c(5, 12, 15, 11, 5))
+    chr3 <- Chromatogram(rtime = c(2.3, 3.2, 4.3, 5.2),
+                         intensity = c(8, 9, 19, 8))
+    chr4 <- Chromatogram(rtime = c(7, 8, 9, 10),
+                         intensity = c(3, 5, 7, 8))
+
+    expect_equal(compareChromatograms(chr1, chr1), 1)
+    chr1_2 <- chr1
+    chr1_2@rtime <- chr1_2@rtime + 0.1
+
+    res <- compareChromatograms(chr1, chr1_2,
+                                ALIGNFUNARGS = list(tolerance = 0))
+    expect_true(is.na(res))
+    res <- compareChromatograms(chr1, chr1_2,
+                                ALIGNFUNARGS = list(tolerance = 0.1))
+    expect_equal(res, 1)
+
+    chr1_2@intensity[1] <- NA
+    res <- compareChromatograms(chr1, chr1_2)
+    expect_equal(res, 1)
+    res <- compareChromatograms(chr1, chr1_2, FUNARGS = list())
+    expect_true(is.na(res))
+
+    res_1 <- compareChromatograms(chr1, chr2)
+    res_2 <- compareChromatograms(chr1, chr2,
+                                  FUNARGS = list(method = "kendall"))
+    expect_true(res_1 != res_2)
+    res_2 <- compareChromatograms(chr2, chr1)
+    expect_equal(res_1, res_2)
+})

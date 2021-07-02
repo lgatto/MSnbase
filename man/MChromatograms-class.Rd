@@ -36,6 +36,8 @@
 \alias{filterIntensity,MChromatograms-method}
 \alias{alignRt,MChromatograms,Chromatogram-method}
 \alias{c,MChromatograms-method}
+\alias{compareChromatograms,MChromatograms,missing-method}
+\alias{compareChromatograms,MChromatograms,MChromatograms-method}
 \title{Container for multiple Chromatogram objects}
 \usage{
 MChromatograms(data, phenoData, featureData, ...)
@@ -99,7 +101,7 @@ MChromatograms(data, phenoData, featureData, ...)
 
 \S4method{polarity}{MChromatograms}(object)
 
-\S4method{bin}{MChromatograms}(object, binSize = 0.5, breaks = numeric(), fun = max)
+\S4method{bin}{MChromatograms}(x, binSize = 0.5, breaks = numeric(), fun = max)
 
 \S4method{clean}{MChromatograms}(object, all = FALSE, na.rm = FALSE)
 
@@ -110,6 +112,26 @@ MChromatograms(data, phenoData, featureData, ...)
 \S4method{alignRt}{MChromatograms,Chromatogram}(x, y, method = c("closest", "approx"), ...)
 
 \S4method{c}{MChromatograms}(x, ...)
+
+\S4method{compareChromatograms}{MChromatograms,missing}(
+  x,
+  y,
+  ALIGNFUN = alignRt,
+  ALIGNFUNARGS = list(),
+  FUN = cor,
+  FUNARGS = list(use = "pairwise.complete.obs"),
+  ...
+)
+
+\S4method{compareChromatograms}{MChromatograms,MChromatograms}(
+  x,
+  y,
+  ALIGNFUN = alignRt,
+  ALIGNFUNARGS = list(),
+  FUN = cor,
+  FUNARGS = list(use = "pairwise.complete.obs"),
+  ...
+)
 }
 \arguments{
 \item{data}{for \code{MChromatograms}: a \code{list} of \code{\link[=Chromatogram]{Chromatogram()}} objects.}
@@ -123,7 +145,8 @@ samples.}
 chromatograms.}
 
 \item{...}{for \code{MChromatograms}: additional parameters to be passed to the
-\code{matrix} constructor, such as \code{nrow}, \code{ncol} and \code{byrow}.}
+\code{matrix} constructor, such as \code{nrow}, \code{ncol} and \code{byrow}.
+For \code{compareChromatograms}: ignored.}
 
 \item{object}{a \code{MChromatograms} object.}
 
@@ -196,6 +219,18 @@ filter intensities. See description for details.}
 
 \item{y}{for \code{alignRt}: a \code{\link[=Chromatogram]{Chromatogram()}} object against which \code{x} should be
 aligned against.}
+
+\item{ALIGNFUN}{for \code{compareChromatograms}: function to align chromatogram
+\code{x} against chromatogram \code{y}. Defaults to \code{alignRt}.}
+
+\item{ALIGNFUNARGS}{\code{list} of parameters to be passed to \code{ALIGNFUN}.}
+
+\item{FUN}{for \code{compareChromatograms}: function to calculate a similarity
+score on the intensity values of the compared and aligned chromatograms.
+Defaults to \code{FUN = cor}.}
+
+\item{FUNARGS}{for \code{compareChromatograms}: \code{list} with additional parameters
+for \code{FUN}. Defaults to \code{FUNARGS = list(use = "pairwise.complete.obs")}.}
 }
 \value{
 For \code{[}: the subset of the \code{MChromatograms} object. If a
@@ -311,6 +346,10 @@ objects of one row are binned into the same bins. The function returns a
 (with \code{all = TRUE}) or all except those adjacent to non-zero
 intensities (\code{all = FALSE}; default). See \code{\link[=clean]{clean()}} documentation for more
 details and examples.
+\item \code{compareChromatograms}: calculates pairwise similarity score between
+chromatograms in \code{x} and \code{y}. If \code{y} is missing, a pairwise comparison
+is performed between all chromatograms in \code{x}. See documentation on
+\code{compareChromatograms} in the \code{\link[=Chromatogram]{Chromatogram()}} help page for details.
 \item \code{normalize}, \code{normalise}: \emph{normalises} the intensities of a chromatogram by
 dividing them either by the maximum intensity (\code{method = "max"}) or total
 intensity (\code{method = "sum"}) of the chromatogram.

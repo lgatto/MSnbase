@@ -5,6 +5,7 @@
 \alias{Chromatogram}
 \alias{aggregationFun}
 \alias{Chromatogram-class}
+\alias{compareChromatograms}
 \alias{show,Chromatogram-method}
 \alias{rtime,Chromatogram-method}
 \alias{intensity,Chromatogram-method}
@@ -23,6 +24,7 @@
 \alias{normalize,Chromatogram-method}
 \alias{filterIntensity,Chromatogram-method}
 \alias{alignRt,Chromatogram,Chromatogram-method}
+\alias{compareChromatograms,Chromatogram,Chromatogram-method}
 \title{Representation of chromatographic MS data}
 \usage{
 Chromatogram(
@@ -77,9 +79,9 @@ aggregationFun(object)
 \S4method{productMz}{Chromatogram}(object)
 
 \S4method{bin}{Chromatogram}(
-  object,
+  x,
   binSize = 0.5,
-  breaks = seq(floor(min(rtime(object))), ceiling(max(rtime(object))), by = binSize),
+  breaks = seq(floor(min(rtime(x))), ceiling(max(rtime(x))), by = binSize),
   fun = max
 )
 
@@ -88,6 +90,16 @@ aggregationFun(object)
 \S4method{filterIntensity}{Chromatogram}(object, intensity = 0, ...)
 
 \S4method{alignRt}{Chromatogram,Chromatogram}(x, y, method = c("closest", "approx"), ...)
+
+\S4method{compareChromatograms}{Chromatogram,Chromatogram}(
+  x,
+  y,
+  ALIGNFUN = alignRt,
+  ALIGNFUNARGS = list(),
+  FUN = cor,
+  FUNARGS = list(use = "pairwise.complete.obs"),
+  ...
+)
 }
 \arguments{
 \item{rtime}{for \code{Chromatogram}: \code{numeric} with the retention times (length
@@ -158,7 +170,8 @@ will be used as plot title.}
 
 \item{...}{for \code{plot}: additional arguments to be passed to the
 base \code{plot} function. For \code{filterIntensity}: additional parameters passed
-along to the function provided with \code{intensity}.}
+along to the function provided with \code{intensity}.
+For \code{compareChromatograms}: ignored}
 
 \item{binSize}{for \code{bin}: \code{numeric(1)} with the size of the bins
 (in seconds). Defaults to \code{binSize = 0.5}.}
@@ -178,6 +191,18 @@ Defaults to \code{method = "closest"}.}
 
 \item{y}{for \code{alignRt}: \code{Chromatogram} against which \code{x} should be aligned
 against.}
+
+\item{ALIGNFUN}{for \code{compareChromatograms}: function to align chromatogram
+\code{x} against chromatogram \code{y}. Defaults to \code{alignRt}.}
+
+\item{ALIGNFUNARGS}{\code{list} of parameters to be passed to \code{ALIGNFUN}.}
+
+\item{FUN}{for \code{compareChromatograms}: function to calculate a similarity
+score on the intensity values of the compared and aligned chromatograms.
+Defaults to \code{FUN = cor}.}
+
+\item{FUNARGS}{for \code{compareChromatograms}: \code{list} with additional parameters
+for \code{FUN}. Defaults to \code{FUNARGS = list(use = "pairwise.complete.obs")}.}
 }
 \description{
 The \code{Chromatogram} class is designed to store
@@ -289,6 +314,15 @@ the retention time representing the mid-point of the bins and the
 intensity the binned signal. Parameters \code{binSize} and \code{breaks} allow to
 define the binning, \code{fun} the function which should be used to aggregate
 the intensities within a bin.
+\item \code{compareChromatograms}: calculates a similarity score between 2
+chromatograms after aligning them. Parameter \code{ALIGNFUN} allows to define
+a function that can be used to align \code{x} against \code{y} (defaults to
+\code{ALIGNFUN = alignRt}). Subsequently, the similarity is calculated on the
+aligned intensities with the function provided with parameter \code{FUN} which
+defaults to \code{cor} (hence by default the Pearson correlation is calculated
+between the aligned intensities of the two compared chromatograms).
+Additional parameters can be passed to the \code{ALIGNFUN} and \code{FUN} with the
+parameter \code{ALIGNFUNARGS} and \code{FUNARGS}, respectively.
 \item \code{clean}: removes 0-intensity data points (and \code{NA} values). See \code{\link[=clean]{clean()}}
 for details.
 \item \code{normalize}, \code{normalise}: \emph{normalises} the intensities of a chromatogram by
@@ -372,6 +406,10 @@ points(rtime(res), intensity(res), col = "#ff000080", type = "l")
 legend("topright", col = c("black", "blue", "#00ff0080","#ff000080"),lty = 1,
     legend = c("chr1", "chr2", "chr2 matchRtime", "chr2 approx"))
 
+
+## Compare Chromatograms. Align chromatograms with `alignRt` and
+## method `"approx"`
+compareChromatograms(chr2, chr1, ALIGNFUNARGS = list(method = "approx"))
 
 ## Data filtering
 
