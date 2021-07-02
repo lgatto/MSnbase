@@ -101,7 +101,7 @@ MChromatograms(data, phenoData, featureData, ...)
 
 \S4method{polarity}{MChromatograms}(object)
 
-\S4method{bin}{MChromatograms}(object, binSize = 0.5, breaks = numeric(), fun = max)
+\S4method{bin}{MChromatograms}(x, binSize = 0.5, breaks = numeric(), fun = max)
 
 \S4method{clean}{MChromatograms}(object, all = FALSE, na.rm = FALSE)
 

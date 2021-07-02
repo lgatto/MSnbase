@@ -222,13 +222,13 @@ setMethod("normalize", "MSnExp",
 normalise <- normalize
 
 setMethod("bin", "MSnExp",
-          function(object, binSize = 1, verbose = isMSnbaseVerbose()) {
-              bin_MSnExp(object, binSize = binSize, verbose = verbose)
+          function(x, binSize = 1, verbose = isMSnbaseVerbose()) {
+              bin_MSnExp(x, binSize = binSize, verbose = verbose)
           })
 
 setMethod("compareSpectra", c("MSnExp", "missing"),
-          function(object1, fun = c("common", "cor", "dotproduct"), ...) {
-              compare_MSnExp(object1, fun = match.arg(fun), ...)
+          function(x, fun = c("common", "cor", "dotproduct"), ...) {
+              compare_MSnExp(x, fun = match.arg(fun), ...)
           })
 
 setMethod("pickPeaks", "MSnExp",

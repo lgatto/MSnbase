@@ -71,7 +71,7 @@ Depends:
     Biobase (>= 2.15.2),
     mzR (>= 2.19.6),
     S4Vectors,
-    ProtGenerics (>= 1.23.7)
+    ProtGenerics (>= 1.25.1)
 Imports:
     MsCoreUtils,
     BiocParallel,

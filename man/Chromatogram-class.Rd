@@ -79,9 +79,9 @@ aggregationFun(object)
 \S4method{productMz}{Chromatogram}(object)
 
 \S4method{bin}{Chromatogram}(
-  object,
+  x,
   binSize = 0.5,
-  breaks = seq(floor(min(rtime(object))), ceiling(max(rtime(object))), by = binSize),
+  breaks = seq(floor(min(rtime(x))), ceiling(max(rtime(x))), by = binSize),
   fun = max
 )
 

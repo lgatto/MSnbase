@@ -104,7 +104,7 @@
       ('FALSE'). Default is \code{NA}. }
     \item{\code{smoothed}:}{Object of class \code{"logical"}
       indicating if instance is smoothed ('TRUE') of unsmoothed
-      ('FALSE'). Default is \code{NA}. }    
+      ('FALSE'). Default is \code{NA}. }
     \item{\code{fromFile}:}{Object of class \code{"integer"} referencing
       the file the spectrum originates. The file names are stored in the
       \code{processingData} slot of the \code{"\linkS4class{MSnExp}"} or
@@ -125,7 +125,7 @@
       of the spectrum as an integer. }
     \item{\code{scanIndex(object)}}{ Returns the scan index of the
       spectrum as an integer. }
-    
+
     \item{\code{centroided(object)}}{ Indicates whether spectrum is
       centroided (\code{TRUE}), in profile mode (\code{FALSE}), or
       unkown (\code{NA}). }
@@ -142,15 +142,15 @@
       details. It should however be safe to use is at the experiment
       level, assuming that all MS level have the same mode. See
       \code{class?MSnExp} for an example. }
-    
-    
+
+
     \item{\code{smoothed(object)}}{ Indicates whether spectrum is
       smoothed (\code{TRUE}) or not (\code{FALSE}). }
-    
+
     \item{\code{centroided(object) <- value}}{ Sets the \code{centroided}
       status of the spectrum object. }
     \item{\code{smoothed(object) <- value}}{ Sets the \code{smoothed}
-      status of the spectrum object. }    
+      status of the spectrum object. }
     \item{\code{fromFile(object)}}{ Returns the index of the raw data
       file from which the current instances originates as an
       integer. }
@@ -167,20 +167,20 @@
       spectrum as an integer. Additional arguments are currently
       ignored. }
     \item{\code{ionCount(object)}}{ Returns the total ion count for the
-      spectrum as a numeric. }    
+      spectrum as a numeric. }
     \item{\code{tic(object, ...)}}{ Returns the total ion current for
       the spectrum as a numeric. Additional arguments are currently
       ignored. This is the total ion current as originally reported in
       the raw data file. To get the current total ion count, use
-      \code{ionCount}. }    
+      \code{ionCount}. }
     %% -------------------------------------------------- %%
     \item{bin}{\code{signature(object = "Spectrum")}: Bins Spectrum.
       See \code{\link{bin}} documentation for more details and examples. }
     \item{clean}{\code{signature(object = "Spectrum")}: Removes unused 0
       intensity data points. See \code{\link{clean}} documentation
       for more details and examples. }
-    \item{compareSpectra}{\code{signature(object1 = "Spectrum",
-      object2 = "Spectrum")}: Compares spectra.  See
+    \item{compareSpectra}{\code{signature(x = "Spectrum",
+      y = "Spectrum")}: Compares spectra.  See
       \code{\link{compareSpectra}} documentation for more details and
       examples. }
     \item{estimateNoise}{\code{signature(object = "Spectrum")}: Estimates the
