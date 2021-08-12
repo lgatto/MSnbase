@@ -2,7 +2,7 @@
 
 ## Changes in 2.19.2
 
-- Nothing yet.
+- Nothing yet. 
 
 ## Changes in 2.19.1
 
