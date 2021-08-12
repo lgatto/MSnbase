@@ -65,9 +65,15 @@ OnDiskMSnExp object." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -81,7 +87,7 @@ OnDiskMSnExp object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -154,7 +160,7 @@ time dimension.</p>
 <code>OnDiskMSnExp</code> object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>combineSpectraMovingWindow</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>combineSpectraMovingWindow</span><span class='op'>(</span>
   <span class='va'>x</span>,
   halfWindowSize <span class='op'>=</span> <span class='fl'>1L</span>,
   intensityFun <span class='op'>=</span> <span class='fu'>base</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>,
@@ -163,7 +169,7 @@ time dimension.</p>
   weighted <span class='op'>=</span> <span class='cn'>FALSE</span>,
   ppm <span class='op'>=</span> <span class='fl'>0</span>,
   BPPARAM <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/BiocParallel/man/register.html'>bpparam</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,18 +180,18 @@ time dimension.</p>
     </tr>
     <tr>
       <th>halfWindowSize</th>
-      <td><p><code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code> with the half window size for the moving
+      <td><p><code>integer(1)</code> with the half window size for the moving
 window.</p></td>
     </tr>
     <tr>
       <th>intensityFun</th>
       <td><p><code>function</code> to aggregate the intensity values per m/z
 group. Should be a function or the name of a function. The function is
-expected to return a <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>.</p></td>
+expected to return a <code>numeric(1)</code>.</p></td>
     </tr>
     <tr>
       <th>mzd</th>
-      <td><p><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code> defining the maximal m/z difference below which
+      <td><p><code>numeric(1)</code> defining the maximal m/z difference below which
 mass peaks are considered to represent the same ion/mass peak.
 Intensity values for such grouped mass peaks are aggregated. If not
 specified this value is estimated from the distribution of differences
@@ -193,9 +199,9 @@ of m/z values from the provided spectra (see details).</p></td>
     </tr>
     <tr>
       <th>timeDomain</th>
-      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether definition of the m/z values to be
+      <td><p><code>logical(1)</code> whether definition of the m/z values to be
 combined into one m/z is performed on m/z values
-(<code>timeDomain = FALSE</code>) or on <code><a href='https://rdrr.io/r/base/MathFun.html'>sqrt(mz)</a></code> (<code>timeDomain = TRUE</code>).
+(<code>timeDomain = FALSE</code>) or on <code>sqrt(mz)</code> (<code>timeDomain = TRUE</code>).
 Profile data from TOF MS instruments should be aggregated based
 on the time domain (see details). Note that a pre-defined <code>mzd</code> should
 also be estimated on the square root of m/z values if
@@ -203,13 +209,13 @@ also be estimated on the square root of m/z values if
     </tr>
     <tr>
       <th>weighted</th>
-      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether m/z values per m/z group should be
+      <td><p><code>logical(1)</code> whether m/z values per m/z group should be
 aggregated with an intensity-weighted mean. The default is to report
 the mean m/z.</p></td>
     </tr>
     <tr>
       <th>ppm</th>
-      <td><p><code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code> to define an m/z relative deviation. Note that if
+      <td><p><code>numeric(1)</code> to define an m/z relative deviation. Note that if
 only <code>ppm</code> should be considered but not <code>mzd</code>, <code>mzd</code> should be set to
 <code>0</code> (i.e. <code>mzd = 0</code>). This parameter is directly passed to
 <code><a href='meanMzInts.html'>meanMzInts()</a></code>.</p></td>
@@ -246,7 +252,7 @@ m/z values are later derived based on the relationship <code>t = k * sqrt(m/z)</
 Differences between individual m/z values will thus be dependent on the
 actual m/z value causing both the difference between m/z values and their
 scattering being different in the lower and upper m/z range. Determining
-m/z values to be combined on the <code><a href='https://rdrr.io/r/base/MathFun.html'>sqrt(mz)</a></code> reduces this dependency. For
+m/z values to be combined on the <code>sqrt(mz)</code> reduces this dependency. For
 non-QTOF MS data <code>timeDomain = FALSE</code> might be used instead.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
@@ -254,7 +260,7 @@ non-QTOF MS data <code>timeDomain = FALSE</code> might be used instead.</p>
 and thus the memory requirements of this function are high, possibly
 preventing its usage on large experimental data. In these cases it is
 suggested to perform the combination on a per-file basis and save the
-results using the <code><a href='writeMSData,MSnExp,character-method.html'>writeMSData()</a></code> function afterwards.</p>
+results using the <code><a href='writeMSData.html'>writeMSData()</a></code> function afterwards.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='meanMzInts.html'>meanMzInts()</a></code> for the function combining spectra provided in
@@ -266,55 +272,60 @@ consecutive spectra.</p></div>
     <p>Johannes Rainer, Sigurdur Smarason</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://lgatto.github.io/MSnbase'>MSnbase</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>msdata</span><span class='op'>)</span>
-
-<span class='co'>## Read a profile-mode LC-MS data file.</span>
-<span class='va'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"sciex"</span>, package <span class='op'>=</span> <span class='st'>"msdata"</span><span class='op'>)</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
-<span class='va'>od</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>fl</span>, mode <span class='op'>=</span> <span class='st'>"onDisk"</span><span class='op'>)</span>
-
-<span class='co'>## Subset the object to the retention time range that includes the signal</span>
-<span class='co'>## for proline. This is done for performance reasons.</span>
-<span class='va'>rtr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>165</span>, <span class='fl'>175</span><span class='op'>)</span>
-<span class='va'>od</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterRt</a></span><span class='op'>(</span><span class='va'>od</span>, <span class='va'>rtr</span><span class='op'>)</span>
-
-<span class='co'>## Combine signal from neighboring spectra.</span>
-<span class='va'>od_comb</span> <span class='op'>&lt;-</span> <span class='fu'>combineSpectraMovingWindow</span><span class='op'>(</span><span class='va'>od</span><span class='op'>)</span>
-
-<span class='co'>## The combined spectra have the same number of spectra, same number of</span>
-<span class='co'>## mass peaks per spectra, but the signal is larger in the combined object.</span>
-<span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>od</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 36</div><div class='input'><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>od_comb</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 36</div><div class='input'>
-<span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span><span class='op'>(</span><span class='va'>od</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; F1.S592 F1.S593 F1.S594 F1.S595 F1.S596 F1.S597 F1.S598 F1.S599 F1.S600 F1.S601 
-#&gt;     681     745     763     848     713     963    1126    1016     756     796 
-#&gt; F1.S602 F1.S603 F1.S604 F1.S605 F1.S606 F1.S607 F1.S608 F1.S609 F1.S610 F1.S611 
-#&gt;     861     830     710     815     739     693     659     734    1054    1246 
-#&gt; F1.S612 F1.S613 F1.S614 F1.S615 F1.S616 F1.S617 F1.S618 F1.S619 F1.S620 F1.S621 
-#&gt;    1509    1590    1943    2130    2166    2923    2816    2123    1744    1704 
-#&gt; F1.S622 F1.S623 F1.S624 F1.S625 F1.S626 F1.S627 
-#&gt;    2073    2015    1910    1859    1853    1762 </div><div class='input'><span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span><span class='op'>(</span><span class='va'>od_comb</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; F1.S592 F1.S593 F1.S594 F1.S595 F1.S596 F1.S597 F1.S598 F1.S599 F1.S600 F1.S601 
-#&gt;     681     745     763     848     713     963    1126    1016     756     796 
-#&gt; F1.S602 F1.S603 F1.S604 F1.S605 F1.S606 F1.S607 F1.S608 F1.S609 F1.S610 F1.S611 
-#&gt;     861     830     710     815     739     693     659     734    1054    1246 
-#&gt; F1.S612 F1.S613 F1.S614 F1.S615 F1.S616 F1.S617 F1.S618 F1.S619 F1.S620 F1.S621 
-#&gt;    1509    1590    1943    2130    2166    2923    2816    2123    1744    1704 
-#&gt; F1.S622 F1.S623 F1.S624 F1.S625 F1.S626 F1.S627 
-#&gt;    2073    2015    1910    1859    1853    1762 </div><div class='input'>
-<span class='co'>## Comparing the chromatographic signal for proline (m/z ~ 116.0706)</span>
-<span class='co'>## before and after spectra data combination.</span>
-<span class='va'>mzr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>116.065</span>, <span class='fl'>116.075</span><span class='op'>)</span>
-<span class='va'>chr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='chromatogram,MSnExp-method.html'>chromatogram</a></span><span class='op'>(</span><span class='va'>od</span>, rt <span class='op'>=</span> <span class='va'>rtr</span>, mz <span class='op'>=</span> <span class='va'>mzr</span><span class='op'>)</span>
-<span class='va'>chr_comb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='chromatogram,MSnExp-method.html'>chromatogram</a></span><span class='op'>(</span><span class='va'>od_comb</span>, rt <span class='op'>=</span> <span class='va'>rtr</span>, mz <span class='op'>=</span> <span class='va'>mzr</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>chr_comb</span><span class='op'>)</span>
-</div><div class='img'><img src='combineSpectraMovingWindow-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Chromatographic data is "smoother" after combining.</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://lgatto.github.io/MSnbase'>MSnbase</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>msdata</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Read a profile-mode LC-MS data file.</span></span>
+<span class='r-in'><span class='va'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"sciex"</span>, package <span class='op'>=</span> <span class='st'>"msdata"</span><span class='op'>)</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span></span>
+<span class='r-in'><span class='va'>od</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>fl</span>, mode <span class='op'>=</span> <span class='st'>"onDisk"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Subset the object to the retention time range that includes the signal</span></span>
+<span class='r-in'><span class='co'>## for proline. This is done for performance reasons.</span></span>
+<span class='r-in'><span class='va'>rtr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='fl'>165</span>, <span class='fl'>175</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>od</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterRt</a></span><span class='op'>(</span><span class='va'>od</span>, <span class='va'>rtr</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Combine signal from neighboring spectra.</span></span>
+<span class='r-in'><span class='va'>od_comb</span> <span class='op'>&lt;-</span> <span class='fu'>combineSpectraMovingWindow</span><span class='op'>(</span><span class='va'>od</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## The combined spectra have the same number of spectra, same number of</span></span>
+<span class='r-in'><span class='co'>## mass peaks per spectra, but the signal is larger in the combined object.</span></span>
+<span class='r-in'><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>od</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 36</span>
+<span class='r-in'><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>od_comb</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 36</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span><span class='op'>(</span><span class='va'>od</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S592 F1.S593 F1.S594 F1.S595 F1.S596 F1.S597 F1.S598 F1.S599 F1.S600 F1.S601 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     681     745     763     848     713     963    1126    1016     756     796 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S602 F1.S603 F1.S604 F1.S605 F1.S606 F1.S607 F1.S608 F1.S609 F1.S610 F1.S611 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     861     830     710     815     739     693     659     734    1054    1246 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S612 F1.S613 F1.S614 F1.S615 F1.S616 F1.S617 F1.S618 F1.S619 F1.S620 F1.S621 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1509    1590    1943    2130    2166    2923    2816    2123    1744    1704 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S622 F1.S623 F1.S624 F1.S625 F1.S626 F1.S627 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    2073    2015    1910    1859    1853    1762 </span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span><span class='op'>(</span><span class='va'>od_comb</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S592 F1.S593 F1.S594 F1.S595 F1.S596 F1.S597 F1.S598 F1.S599 F1.S600 F1.S601 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     681     745     763     848     713     963    1126    1016     756     796 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S602 F1.S603 F1.S604 F1.S605 F1.S606 F1.S607 F1.S608 F1.S609 F1.S610 F1.S611 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     861     830     710     815     739     693     659     734    1054    1246 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S612 F1.S613 F1.S614 F1.S615 F1.S616 F1.S617 F1.S618 F1.S619 F1.S620 F1.S621 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1509    1590    1943    2130    2166    2923    2816    2123    1744    1704 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S622 F1.S623 F1.S624 F1.S625 F1.S626 F1.S627 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    2073    2015    1910    1859    1853    1762 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Comparing the chromatographic signal for proline (m/z ~ 116.0706)</span></span>
+<span class='r-in'><span class='co'>## before and after spectra data combination.</span></span>
+<span class='r-in'><span class='va'>mzr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='fl'>116.065</span>, <span class='fl'>116.075</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>chr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='chromatogram-MSnExp-method.html'>chromatogram</a></span><span class='op'>(</span><span class='va'>od</span>, rt <span class='op'>=</span> <span class='va'>rtr</span>, mz <span class='op'>=</span> <span class='va'>mzr</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>chr_comb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='chromatogram-MSnExp-method.html'>chromatogram</a></span><span class='op'>(</span><span class='va'>od_comb</span>, rt <span class='op'>=</span> <span class='va'>rtr</span>, mz <span class='op'>=</span> <span class='va'>mzr</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>chr_comb</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='combineSpectraMovingWindow-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='co'>## Chromatographic data is "smoother" after combining.</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -326,11 +337,11 @@ consecutive spectra.</p></div>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -338,6 +349,8 @@ consecutive spectra.</p></div>
 
   
 
+
+  
 
   </body>
 </html>

@@ -63,9 +63,15 @@ In version 1.19.12, the polarity slot has been added to this
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -79,7 +85,7 @@ In version 1.19.12, the polarity slot has been added to this
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -182,7 +188,7 @@ In version 1.19.12, the polarity slot has been added to this
       ('FALSE'). Default is <code>NA</code>.</p></dd>
     <dt><code>smoothed</code>:</dt><dd><p>Object of class <code>"logical"</code>
       indicating if instance is smoothed ('TRUE') of unsmoothed
-      ('FALSE'). Default is <code>NA</code>.</p></dd>    
+      ('FALSE'). Default is <code>NA</code>.</p></dd>
     <dt><code>fromFile</code>:</dt><dd><p>Object of class <code>"integer"</code> referencing
       the file the spectrum originates. The file names are stored in the
       <code>processingData</code> slot of the <code>"<a href='MSnExp-class.html'>MSnExp</a>"</code> or
@@ -196,7 +202,7 @@ In version 1.19.12, the polarity slot has been added to this
 
     <h2 class="hasAnchor" id="extends"><a class="anchor" href="#extends"></a>Extends</h2>
 
-    <p>Class <code>"Versioned"</code>, directly.</p>
+    <p>Class <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.Versioned.html'>Versioned</a>"</code>, directly.</p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     <p></p><dl>
@@ -204,7 +210,7 @@ In version 1.19.12, the polarity slot has been added to this
       of the spectrum as an integer.</p></dd>
     <dt><code>scanIndex(object)</code></dt><dd><p>Returns the scan index of the
       spectrum as an integer.</p></dd>
-    
+
     <dt><code>centroided(object)</code></dt><dd><p>Indicates whether spectrum is
       centroided (<code>TRUE</code>), in profile mode (<code>FALSE</code>), or
       unkown (<code>NA</code>).</p></dd>
@@ -221,15 +227,15 @@ In version 1.19.12, the polarity slot has been added to this
       details. It should however be safe to use is at the experiment
       level, assuming that all MS level have the same mode. See
       <code><a href='MSnExp-class.html'>class?MSnExp</a></code> for an example.</p></dd>
-    
-    
+
+
     <dt><code>smoothed(object)</code></dt><dd><p>Indicates whether spectrum is
       smoothed (<code>TRUE</code>) or not (<code>FALSE</code>).</p></dd>
-    
+
     <dt><code>centroided(object) &lt;- value</code></dt><dd><p>Sets the <code>centroided</code>
       status of the spectrum object.</p></dd>
     <dt><code>smoothed(object) &lt;- value</code></dt><dd><p>Sets the <code>smoothed</code>
-      status of the spectrum object.</p></dd>    
+      status of the spectrum object.</p></dd>
     <dt><code>fromFile(object)</code></dt><dd><p>Returns the index of the raw data
       file from which the current instances originates as an
       integer.</p></dd>
@@ -246,36 +252,36 @@ In version 1.19.12, the polarity slot has been added to this
       spectrum as an integer. Additional arguments are currently
       ignored.</p></dd>
     <dt><code>ionCount(object)</code></dt><dd><p>Returns the total ion count for the
-      spectrum as a numeric.</p></dd>    
+      spectrum as a numeric.</p></dd>
     <dt><code>tic(object, ...)</code></dt><dd><p>Returns the total ion current for
       the spectrum as a numeric. Additional arguments are currently
       ignored. This is the total ion current as originally reported in
       the raw data file. To get the current total ion count, use
-      <code>ionCount</code>.</p></dd>    
+      <code>ionCount</code>.</p></dd>
     %% -------------------------------------------------- %%
     <dt>bin</dt><dd><p><code>signature(object = "Spectrum")</code>: Bins Spectrum.
       See <code><a href='bin-methods.html'>bin</a></code> documentation for more details and examples.</p></dd>
     <dt>clean</dt><dd><p><code>signature(object = "Spectrum")</code>: Removes unused 0
       intensity data points. See <code><a href='clean-methods.html'>clean</a></code> documentation
       for more details and examples.</p></dd>
-    <dt>compareSpectra</dt><dd><p><code>signature(object1 = "Spectrum",
-      object2 = "Spectrum")</code>: Compares spectra.  See
+    <dt>compareSpectra</dt><dd><p><code>signature(x = "Spectrum",
+      y = "Spectrum")</code>: Compares spectra.  See
       <code><a href='compareSpectra-methods.html'>compareSpectra</a></code> documentation for more details and
       examples.</p></dd>
     <dt>estimateNoise</dt><dd><p><code>signature(object = "Spectrum")</code>: Estimates the
       noise in a profile spectrum.
-      See <code><a href='estimateNoise-methods.html'>estimateNoise</a></code> documentation for more
+      See <code><a href='estimateNoise-method.html'>estimateNoise</a></code> documentation for more
       details and examples.</p></dd>
     <dt>pickPeaks</dt><dd><p><code>signature(object = "Spectrum")</code>: Performs the peak
       picking to generate a centroided spectrum.
-      See <code><a href='pickPeaks-methods.html'>pickPeaks</a></code> documentation for more
+      See <code><a href='pickPeaks-method.html'>pickPeaks</a></code> documentation for more
       details and examples.</p></dd>
     <dt>plot</dt><dd><p><code>signature(x = "Spectrum", y = "missing")</code>: Plots
       intensity against mz.
       See <code><a href='plot-methods.html'>plot.Spectrum</a></code> documentation for more details.</p></dd>
     <dt>plot</dt><dd><p><code>signature(x = "Spectrum", y = "Spectrum")</code>: Plots
       two spectra above/below each other.
-      See <code><a href='plot.Spectrum.Spectrum-methods.html'>plot.Spectrum.Spectrum</a></code> documentation for more
+      See <code><a href='plotSpectrumSpectrum-methods.html'>plot.Spectrum.Spectrum</a></code> documentation for more
       details.</p></dd>
     <dt>plot</dt><dd><p><code>signature(x = "Spectrum", y = "character")</code>: Plots
       an MS2 level spectrum and its highlight the fragmention peaks.
@@ -327,11 +333,11 @@ In version 1.19.12, the polarity slot has been added to this
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -339,6 +345,8 @@ In version 1.19.12, the polarity slot has been added to this
 
   
 
+
+  
 
   </body>
 </html>

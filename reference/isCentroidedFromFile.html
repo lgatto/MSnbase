@@ -61,9 +61,15 @@ returned." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -77,7 +83,7 @@ returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -146,7 +152,7 @@ the object <code>x</code> stems from any other type of file, <code>NA</code>s ar
 returned.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>isCentroidedFromFile</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>isCentroidedFromFile</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,21 +171,22 @@ returned.</p>
     <p>This function is much faster than <code><a href='Spectrum-class.html'>isCentroided()</a></code>, which
 estimates mode from the data, but is limited to data stemming from
 mzML files which are still available in their original location
-(and accessed with <code><a href='pSet-class.html'>fileNames(x)</a></code>).</p>
+(and accessed with <code>fileNames(x)</code>).</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"msdata"</span><span class='op'>)</span>
-<span class='va'>f</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>proteomics</a></span><span class='op'>(</span>full.names <span class='op'>=</span> <span class='cn'>TRUE</span>,
-                pattern <span class='op'>=</span> <span class='st'>"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"</span><span class='op'>)</span>
-<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>f</span>, mode <span class='op'>=</span> <span class='st'>"onDisk"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'>isCentroidedFromFile</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        
-#&gt;           1   2
-#&gt;   FALSE  58   0
-#&gt;   TRUE    0 451</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'>"msdata"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>f</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>proteomics</a></span><span class='op'>(</span>full.names <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span class='r-in'>                pattern <span class='op'>=</span> <span class='st'>"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>f</span>, mode <span class='op'>=</span> <span class='st'>"onDisk"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/table.html'>table</a></span><span class='op'>(</span><span class='fu'>isCentroidedFromFile</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           1   2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   FALSE  58   0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   TRUE    0 451</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -191,11 +198,11 @@ mzML files which are still available in their original location
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -203,6 +210,8 @@ mzML files which are still available in their original location
 
   
 
+
+  
 
   </body>
 </html>

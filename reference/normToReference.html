@@ -59,9 +59,15 @@ intensity values to a reference run/sample for each protein." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -75,7 +81,7 @@ intensity values to a reference run/sample for each protein." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -142,29 +148,29 @@ intensity values to a reference run/sample for each protein." />
 intensity values to a reference run/sample for each protein.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>normToReference</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>normToReference</span><span class='op'>(</span>
   <span class='va'>x</span>,
   <span class='va'>group</span>,
   reference <span class='op'>=</span> <span class='fu'>.referenceFractionValues</span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>x</span>, group <span class='op'>=</span> <span class='va'>group</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p><code>matrix</code>, <code><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></code> matrix of an
+      <td><p><code>matrix</code>, <code><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></code> matrix of an
 <a href='MSnSet-class.html'>MSnSet</a> object.</p></td>
     </tr>
     <tr>
       <th>group</th>
       <td><p><code>double</code> or <code>factor</code>, grouping variable,
-i.e. protein accession; has to be of length equal <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(x)</a></code>.</p></td>
+i.e. protein accession; has to be of length equal <code>nrow(x)</code>.</p></td>
     </tr>
     <tr>
       <th>reference</th>
       <td><p><code>double</code>, vector of reference values, has to be of the
-same length as <code>group</code> and <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(x)</a></code>.</p></td>
+same length as <code>group</code> and <code>nrow(x)</code>.</p></td>
     </tr>
     </table>
 
@@ -208,57 +214,61 @@ quantification for plant Golgi protein localization and abundance. Plant Physiol
     <p>Sebastian Gibb <a href='mailto:mail@sebastiangibb.de'>mail@sebastiangibb.de</a>, Pavel Shliaha</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://lgatto.github.io/MSnbase'>"MSnbase"</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>
-
-<span class='co'># choose the reference run automatically</span>
-<span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span><span class='op'>(</span><span class='va'>msnset</span>, groupBy<span class='op'>=</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>$</span><span class='va'>ProteinAccession</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
-#&gt; <span class='message'>the combineFeatures manual page for details on the effects of missing</span>
-#&gt; <span class='message'>values on data aggregation.</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
-#&gt; assayData: 40 features, 4 samples 
-#&gt;   element names: exprs 
-#&gt; protocolData: none
-#&gt; phenoData
-#&gt;   sampleNames: iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt;   varLabels: mz reporters
-#&gt;   varMetadata: labelDescription
-#&gt; featureData
-#&gt;   featureNames: BSA ECA0172 ... ENO (40 total)
-#&gt;   fvarLabels: spectrum ProteinAccession ... CV.iTRAQ4.117 (19 total)
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'
-#&gt; Annotation:  
-#&gt; - - - Processing information - - -
-#&gt; Data loaded: Wed May 11 18:54:39 2011 
-#&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt; Combined 55 features into 40 using mean: Fri Feb 12 11:25:28 2021 
-#&gt;  MSnbase version: 2.17.8 </div><div class='input'>
-<span class='co'># use a user-given reference</span>
-<span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span><span class='op'>(</span><span class='va'>msnset</span>, groupBy<span class='op'>=</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>$</span><span class='va'>ProteinAccession</span>,
- reference<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>55</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
-#&gt; <span class='message'>the combineFeatures manual page for details on the effects of missing</span>
-#&gt; <span class='message'>values on data aggregation.</span></div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
-#&gt; assayData: 40 features, 4 samples 
-#&gt;   element names: exprs 
-#&gt; protocolData: none
-#&gt; phenoData
-#&gt;   sampleNames: iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt;   varLabels: mz reporters
-#&gt;   varMetadata: labelDescription
-#&gt; featureData
-#&gt;   featureNames: BSA ECA0172 ... ENO (40 total)
-#&gt;   fvarLabels: spectrum ProteinAccession ... CV.iTRAQ4.117 (19 total)
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'
-#&gt; Annotation:  
-#&gt; - - - Processing information - - -
-#&gt; Data loaded: Wed May 11 18:54:39 2011 
-#&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt; Combined 55 features into 40 using mean: Fri Feb 12 11:25:28 2021 
-#&gt;  MSnbase version: 2.17.8 </div><div class='input'>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://lgatto.github.io/MSnbase'>"MSnbase"</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># choose the reference run automatically</span></span>
+<span class='r-in'><span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span><span class='op'>(</span><span class='va'>msnset</span>, groupBy<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>$</span><span class='va'>ProteinAccession</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Your data contains missing values. Please read the relevant section in</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> the combineFeatures manual page for details on the effects of missing</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> values on data aggregation.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MSnSet (storageMode: lockedEnvironment)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> assayData: 40 features, 4 samples </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   element names: exprs </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> protocolData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phenoData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   sampleNames: iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varLabels: mz reporters</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> featureData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   featureNames: BSA ECA0172 ... ENO (40 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarLabels: spectrum ProteinAccession ... CV.iTRAQ4.117 (19 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> experimentData: use 'experimentData(object)'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Annotation:  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Processing information - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Data loaded: Wed May 11 18:54:39 2011 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Combined 55 features into 40 using mean: Thu Aug 12 07:02:16 2021 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSnbase version: 2.19.2 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># use a user-given reference</span></span>
+<span class='r-in'><span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span><span class='op'>(</span><span class='va'>msnset</span>, groupBy<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>$</span><span class='va'>ProteinAccession</span>,</span>
+<span class='r-in'> reference<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>rep</a></span><span class='op'>(</span><span class='fl'>2</span>, <span class='fl'>55</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Your data contains missing values. Please read the relevant section in</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> the combineFeatures manual page for details on the effects of missing</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> values on data aggregation.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MSnSet (storageMode: lockedEnvironment)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> assayData: 40 features, 4 samples </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   element names: exprs </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> protocolData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phenoData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   sampleNames: iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varLabels: mz reporters</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> featureData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   featureNames: BSA ECA0172 ... ENO (40 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarLabels: spectrum ProteinAccession ... CV.iTRAQ4.117 (19 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> experimentData: use 'experimentData(object)'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Annotation:  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Processing information - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Data loaded: Wed May 11 18:54:39 2011 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Combined 55 features into 40 using mean: Thu Aug 12 07:02:16 2021 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSnbase version: 2.19.2 </span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -270,11 +280,11 @@ quantification for plant Golgi protein localization and abundance. Plant Physiol
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -282,6 +292,8 @@ quantification for plant Golgi protein localization and abundance. Plant Physiol
 
   
 
+
+  
 
   </body>
 </html>

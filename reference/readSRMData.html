@@ -59,9 +59,15 @@ returns the results as a MChromatograms() object." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -75,7 +81,7 @@ returns the results as a MChromatograms() object." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -139,10 +145,10 @@ returns the results as a MChromatograms() object." />
 
     <div class="ref-description">
     <p>The <code>readSRMData</code> function reads MRM/SRM data from provided <em>mzML</em> files and
-returns the results as a <code><a href='MChromatograms.html'>MChromatograms()</a></code> object.</p>
+returns the results as a <code><a href='MChromatograms-class.html'>MChromatograms()</a></code> object.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>readSRMData</span><span class='op'>(</span><span class='va'>files</span>, pdata <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>readSRMData</span><span class='op'>(</span><span class='va'>files</span>, pdata <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,13 +166,13 @@ descriptions.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code><a href='MChromatograms.html'>MChromatograms()</a></code> object. See details above for more information.</p>
+    <p>A <code><a href='MChromatograms-class.html'>MChromatograms()</a></code> object. See details above for more information.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><code>readSRMData</code> supports reading chromatogram entries from <em>mzML</em> files. If
 multiple files are provided the same precursor and product m/z for SRM/MRM
 chromatograms are expected across files. The number of columns of the
-resulting <code><a href='MChromatograms.html'>MChromatograms()</a></code> object corresponds to the number of files. Each
+resulting <code><a href='MChromatograms-class.html'>MChromatograms()</a></code> object corresponds to the number of files. Each
 row in the <code>MChromatograms</code> object is supposed to contain chromatograms
 with same polarity, precursor and product m/z. If chromatograms with
 redundant polarity, precursor and product m/z values and precursor collision
@@ -183,7 +189,7 @@ object depends on the total list of unique precursor and product m/z
 isolation windows (and precursor collision energies) found across all input
 files. In cases in which not each file has chromatgraphic data for the same
 polarity, precursor m/z, product m/z and collision energy,
-an empty <code><a href='Chromatogram.html'>Chromatogram()</a></code> object is reported for the specific precursor
+an empty <code><a href='Chromatogram-class.html'>Chromatogram()</a></code> object is reported for the specific precursor
 and product m/z combination of the respective file (and a warning is
 thrown).</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
@@ -191,318 +197,324 @@ thrown).</p>
     <p>Johannes Rainer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'>## Read an example MRM/SRM data</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>msdata</span><span class='op'>)</span>
-<span class='va'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>proteomics</a></span><span class='op'>(</span>full.names <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"MRM"</span><span class='op'>)</span>
-
-<span class='co'>## Read the data</span>
-<span class='va'>mrm</span> <span class='op'>&lt;-</span> <span class='fu'>readSRMData</span><span class='op'>(</span><span class='va'>fl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: file MRM-standmix-5.mzML.gz contains multiple chromatograms with identical polarity, precursor and product m/z values</span></div><div class='input'>
-<span class='co'>## The data is represented as a MChromatograms object, each column</span>
-<span class='co'>## containing the data from one input file</span>
-<span class='va'>mrm</span>
-</div><div class='output co'>#&gt; MChromatograms with 137 rows and 1 column
-#&gt;                     1
-#&gt;        &lt;Chromatogram&gt;
-#&gt; [1,]      length: 523
-#&gt; [2,]      length: 523
-#&gt; ...              ... 
-#&gt; [136,]    length: 962
-#&gt; [137,]    length: 962
-#&gt; phenoData with 1 variables
-#&gt; featureData with 10 variables</div><div class='input'>
-<span class='co'>## Access the polarity for each chromatogram (row)</span>
-<span class='fu'><a href='Spectrum-class.html'>polarity</a></span><span class='op'>(</span><span class='va'>mrm</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-#&gt;  [38] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-#&gt;  [75] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-#&gt; [112] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</div><div class='input'>
-<span class='co'>## Access the precursor m/z. The result is returned as a matrix with</span>
-<span class='co'>## columns representing the minimum and maximum m/z (will be identical in</span>
-<span class='co'>## most cases).</span>
-<span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span><span class='op'>(</span><span class='va'>mrm</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        mzmin mzmax
-#&gt;   [1,] 115.0 115.0
-#&gt;   [2,] 115.0 115.0
-#&gt;   [3,] 117.0 117.0
-#&gt;   [4,] 117.0 117.0
-#&gt;   [5,] 133.0 133.0
-#&gt;   [6,] 133.0 133.0
-#&gt;   [7,] 134.0 134.0
-#&gt;   [8,] 134.0 134.0
-#&gt;   [9,] 135.0 135.0
-#&gt;  [10,] 135.0 135.0
-#&gt;  [11,] 138.9 138.9
-#&gt;  [12,] 138.9 138.9
-#&gt;  [13,] 145.0 145.0
-#&gt;  [14,] 145.0 145.0
-#&gt;  [15,] 145.1 145.1
-#&gt;  [16,] 145.1 145.1
-#&gt;  [17,] 146.0 146.0
-#&gt;  [18,] 146.0 146.0
-#&gt;  [19,] 148.0 148.0
-#&gt;  [20,] 148.0 148.0
-#&gt;  [21,] 151.0 151.0
-#&gt;  [22,] 151.0 151.0
-#&gt;  [23,] 160.1 160.1
-#&gt;  [24,] 160.1 160.1
-#&gt;  [25,] 166.9 166.9
-#&gt;  [26,] 166.9 166.9
-#&gt;  [27,] 167.0 167.0
-#&gt;  [28,] 167.0 167.0
-#&gt;  [29,] 167.0 167.0
-#&gt;  [30,] 168.9 168.9
-#&gt;  [31,] 168.9 168.9
-#&gt;  [32,] 168.9 168.9
-#&gt;  [33,] 173.1 173.1
-#&gt;  [34,] 173.1 173.1
-#&gt;  [35,] 180.1 180.1
-#&gt;  [36,] 180.1 180.1
-#&gt;  [37,] 180.1 180.1
-#&gt;  [38,] 184.9 184.9
-#&gt;  [39,] 184.9 184.9
-#&gt;  [40,] 184.9 184.9
-#&gt;  [41,] 188.1 188.1
-#&gt;  [42,] 188.1 188.1
-#&gt;  [43,] 191.0 191.0
-#&gt;  [44,] 191.0 191.0
-#&gt;  [45,] 191.0 191.0
-#&gt;  [46,] 199.9 199.9
-#&gt;  [47,] 199.9 199.9
-#&gt;  [48,] 199.9 199.9
-#&gt;  [49,] 201.0 201.0
-#&gt;  [50,] 203.1 203.1
-#&gt;  [51,] 203.1 203.1
-#&gt;  [52,] 229.0 229.0
-#&gt;  [53,] 229.0 229.0
-#&gt;  [54,] 229.0 229.0
-#&gt;  [55,] 242.1 242.1
-#&gt;  [56,] 242.1 242.1
-#&gt;  [57,] 243.1 243.1
-#&gt;  [58,] 243.1 243.1
-#&gt;  [59,] 259.0 259.0
-#&gt;  [60,] 259.0 259.0
-#&gt;  [61,] 266.1 266.1
-#&gt;  [62,] 266.1 266.1
-#&gt;  [63,] 267.1 267.1
-#&gt;  [64,] 267.1 267.1
-#&gt;  [65,] 275.1 275.1
-#&gt;  [66,] 275.1 275.1
-#&gt;  [67,] 275.1 275.1
-#&gt;  [68,] 282.1 282.1
-#&gt;  [69,] 282.1 282.1
-#&gt;  [70,] 322.0 322.0
-#&gt;  [71,] 322.0 322.0
-#&gt;  [72,] 323.0 323.0
-#&gt;  [73,] 323.0 323.0
-#&gt;  [74,] 323.0 323.0
-#&gt;  [75,] 338.9 338.9
-#&gt;  [76,] 338.9 338.9
-#&gt;  [77,] 338.9 338.9
-#&gt;  [78,] 346.1 346.1
-#&gt;  [79,] 346.1 346.1
-#&gt;  [80,] 346.1 346.1
-#&gt;  [81,] 347.0 347.0
-#&gt;  [82,] 347.0 347.0
-#&gt;  [83,] 347.0 347.0
-#&gt;  [84,] 362.1 362.1
-#&gt;  [85,] 362.1 362.1
-#&gt;  [86,] 362.1 362.1
-#&gt;  [87,] 388.9 388.9
-#&gt;  [88,] 388.9 388.9
-#&gt;  [89,] 388.9 388.9
-#&gt;  [90,] 402.0 402.0
-#&gt;  [91,] 402.0 402.0
-#&gt;  [92,] 402.0 402.0
-#&gt;  [93,] 402.9 402.9
-#&gt;  [94,] 402.9 402.9
-#&gt;  [95,] 402.9 402.9
-#&gt;  [96,] 426.0 426.0
-#&gt;  [97,] 426.0 426.0
-#&gt;  [98,] 426.0 426.0
-#&gt;  [99,] 442.0 442.0
-#&gt; [100,] 442.0 442.0
-#&gt; [101,] 442.0 442.0
-#&gt; [102,] 481.9 481.9
-#&gt; [103,] 481.9 481.9
-#&gt; [104,] 481.9 481.9
-#&gt; [105,] 482.9 482.9
-#&gt; [106,] 482.9 482.9
-#&gt; [107,] 482.9 482.9
-#&gt; [108,] 505.9 505.9
-#&gt; [109,] 505.9 505.9
-#&gt; [110,] 505.9 505.9
-#&gt; [111,] 521.9 521.9
-#&gt; [112,] 521.9 521.9
-#&gt; [113,] 521.9 521.9
-#&gt; [114,] 565.1 565.1
-#&gt; [115,] 565.1 565.1
-#&gt; [116,] 565.1 565.1
-#&gt; [117,] 604.1 604.1
-#&gt; [118,] 604.1 604.1
-#&gt; [119,] 604.1 604.1
-#&gt; [120,] 606.1 606.1
-#&gt; [121,] 606.1 606.1
-#&gt; [122,] 606.1 606.1
-#&gt; [123,] 611.1 611.1
-#&gt; [124,] 611.1 611.1
-#&gt; [125,] 611.1 611.1
-#&gt; [126,] 662.1 662.1
-#&gt; [127,] 662.1 662.1
-#&gt; [128,] 662.1 662.1
-#&gt; [129,] 664.1 664.1
-#&gt; [130,] 664.1 664.1
-#&gt; [131,] 664.1 664.1
-#&gt; [132,] 742.1 742.1
-#&gt; [133,] 742.1 742.1
-#&gt; [134,] 808.1 808.1
-#&gt; [135,] 808.1 808.1
-#&gt; [136,]  89.0  89.0
-#&gt; [137,]  89.0  89.0</div><div class='input'>
-<span class='co'>## Access the product m/z.</span>
-<span class='fu'>productMz</span><span class='op'>(</span><span class='va'>mrm</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;          mzmin   mzmax
-#&gt;   [1,]  26.996  26.996
-#&gt;   [2,]  70.996  70.996
-#&gt;   [3,]  72.996  72.996
-#&gt;   [4,]  98.996  98.996
-#&gt;   [5,] 114.996 114.996
-#&gt;   [6,]  70.996  70.996
-#&gt;   [7,] 106.996 106.996
-#&gt;   [8,]  91.996  91.996
-#&gt;   [9,]  64.996  64.996
-#&gt;  [10,]  91.996  91.996
-#&gt;  [11,]  79.896  79.896
-#&gt;  [12,]  94.896  94.896
-#&gt;  [13,] 100.996 100.996
-#&gt;  [14,]  56.996  56.996
-#&gt;  [15,] 108.996 108.996
-#&gt;  [16,] 127.096 127.096
-#&gt;  [17,] 102.096 102.096
-#&gt;  [18,] 127.996 127.996
-#&gt;  [19,]  31.996  31.996
-#&gt;  [20,]  46.996  46.996
-#&gt;  [21,] 107.996 107.996
-#&gt;  [22,]  41.896  41.896
-#&gt;  [23,] 116.096 116.096
-#&gt;  [24,] 142.096 142.096
-#&gt;  [25,]  62.896  62.896
-#&gt;  [26,]  78.896  78.896
-#&gt;  [27,] 123.996 123.996
-#&gt;  [28,]  41.896  41.896
-#&gt;  [29,]  95.996  95.996
-#&gt;  [30,] 150.896 150.896
-#&gt;  [31,]  78.896  78.896
-#&gt;  [32,]  96.896  96.896
-#&gt;  [33,] 131.096 131.096
-#&gt;  [34,] 156.096 156.096
-#&gt;  [35,] 119.096 119.096
-#&gt;  [36,] 162.996 162.996
-#&gt;  [37,] 162.996 162.996
-#&gt;  [38,] 167.096 167.096
-#&gt;  [39,]  78.896  78.896
-#&gt;  [40,]  96.896  96.896
-#&gt;  [41,] 102.096 102.096
-#&gt;  [42,] 127.996 127.996
-#&gt;  [43,] 110.996 110.996
-#&gt;  [44,] 172.996 172.996
-#&gt;  [45,]  86.996  86.996
-#&gt;  [46,] 135.996 135.996
-#&gt;  [47,]  73.996  73.996
-#&gt;  [48,]  80.896  80.896
-#&gt;  [49,]  88.996  88.996
-#&gt;  [50,] 116.096 116.096
-#&gt;  [51,] 142.096 142.096
-#&gt;  [52,] 138.896 138.896
-#&gt;  [53,]  78.896  78.896
-#&gt;  [54,]  96.896  96.896
-#&gt;  [55,] 108.996 108.996
-#&gt;  [56,]  41.996  41.996
-#&gt;  [57,] 109.996 109.996
-#&gt;  [58,] 199.996 199.996
-#&gt;  [59,] 138.896 138.896
-#&gt;  [60,]  78.896  78.896
-#&gt;  [61,] 106.996 106.996
-#&gt;  [62,] 134.096 134.096
-#&gt;  [63,] 107.996 107.996
-#&gt;  [64,] 134.996 134.996
-#&gt;  [65,] 145.096 145.096
-#&gt;  [66,] 196.096 196.096
-#&gt;  [67,] 257.096 257.096
-#&gt;  [68,] 132.996 132.996
-#&gt;  [69,] 149.996 149.996
-#&gt;  [70,]  78.896  78.896
-#&gt;  [71,]  96.896  96.896
-#&gt;  [72,] 110.996 110.996
-#&gt;  [73,]  78.896  78.896
-#&gt;  [74,]  96.896  96.896
-#&gt;  [75,] 240.996 240.996
-#&gt;  [76,]  78.896  78.896
-#&gt;  [77,]  96.896  96.896
-#&gt;  [78,] 134.096 134.096
-#&gt;  [79,]  78.896  78.896
-#&gt;  [80,]  96.896  96.896
-#&gt;  [81,] 134.996 134.996
-#&gt;  [82,]  78.896  78.896
-#&gt;  [83,]  96.896  96.896
-#&gt;  [84,] 132.996 132.996
-#&gt;  [85,] 210.996 210.996
-#&gt;  [86,]  78.896  78.896
-#&gt;  [87,] 176.896 176.896
-#&gt;  [88,] 290.896 290.896
-#&gt;  [89,]  78.896  78.896
-#&gt;  [90,] 158.896 158.896
-#&gt;  [91,] 383.996 383.996
-#&gt;  [92,]  78.896  78.896
-#&gt;  [93,] 110.996 110.996
-#&gt;  [94,] 158.896 158.896
-#&gt;  [95,]  78.896  78.896
-#&gt;  [96,] 134.096 134.096
-#&gt;  [97,] 158.896 158.896
-#&gt;  [98,]  78.896  78.896
-#&gt;  [99,] 149.996 149.996
-#&gt; [100,] 158.896 158.896
-#&gt; [101,]  78.896  78.896
-#&gt; [102,] 158.896 158.896
-#&gt; [103,] 383.996 383.996
-#&gt; [104,]  78.896  78.896
-#&gt; [105,] 158.896 158.896
-#&gt; [106,] 384.096 384.096
-#&gt; [107,]  78.896  78.896
-#&gt; [108,] 158.896 158.896
-#&gt; [109,] 407.996 407.996
-#&gt; [110,]  78.896  78.896
-#&gt; [111,] 158.896 158.896
-#&gt; [112,] 423.996 423.996
-#&gt; [113,]  78.896  78.896
-#&gt; [114,] 158.896 158.896
-#&gt; [115,] 322.996 322.996
-#&gt; [116,]  78.896  78.896
-#&gt; [117,] 158.896 158.896
-#&gt; [118,] 423.996 423.996
-#&gt; [119,]  78.896  78.896
-#&gt; [120,] 158.896 158.896
-#&gt; [121,] 272.896 272.896
-#&gt; [122,]  78.896  78.896
-#&gt; [123,] 142.996 142.996
-#&gt; [124,] 272.096 272.096
-#&gt; [125,] 306.096 306.096
-#&gt; [126,] 158.896 158.896
-#&gt; [127,] 540.096 540.096
-#&gt; [128,]  78.896  78.896
-#&gt; [129,] 396.996 396.996
-#&gt; [130,] 407.996 407.996
-#&gt; [131,]  78.896  78.896
-#&gt; [132,] 407.996 407.996
-#&gt; [133,] 619.996 619.996
-#&gt; [134,] 407.996 407.996
-#&gt; [135,]  78.896  78.896
-#&gt; [136,]  40.996  40.996
-#&gt; [137,]  42.996  42.996</div><div class='input'>
-<span class='co'>## Plot one chromatogram</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>mrm</span><span class='op'>[</span><span class='fl'>1</span>, <span class='op'>]</span><span class='op'>)</span>
-</div><div class='img'><img src='readSRMData-1.png' alt='' width='700' height='433' /></div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='co'>## Read an example MRM/SRM data</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>msdata</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>fl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>proteomics</a></span><span class='op'>(</span>full.names <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"MRM"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Read the data</span></span>
+<span class='r-in'><span class='va'>mrm</span> <span class='op'>&lt;-</span> <span class='fu'>readSRMData</span><span class='op'>(</span><span class='va'>fl</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>file MRM-standmix-5.mzML.gz contains multiple chromatograms with identical polarity, precursor and product m/z values</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## The data is represented as a MChromatograms object, each column</span></span>
+<span class='r-in'><span class='co'>## containing the data from one input file</span></span>
+<span class='r-in'><span class='va'>mrm</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MChromatograms with 137 rows and 1 column</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                     1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        &lt;Chromatogram&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,]      length: 523</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,]      length: 523</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ...              ... </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [136,]    length: 962</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [137,]    length: 962</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phenoData with 1 variables</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> featureData with 10 variables</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Access the polarity for each chromatogram (row)</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>polarity</a></span><span class='op'>(</span><span class='va'>mrm</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [38] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [75] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [112] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Access the precursor m/z. The result is returned as a matrix with</span></span>
+<span class='r-in'><span class='co'>## columns representing the minimum and maximum m/z (will be identical in</span></span>
+<span class='r-in'><span class='co'>## most cases).</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span><span class='op'>(</span><span class='va'>mrm</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        mzmin mzmax</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1,] 115.0 115.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [2,] 115.0 115.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [3,] 117.0 117.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4,] 117.0 117.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [5,] 133.0 133.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [6,] 133.0 133.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [7,] 134.0 134.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [8,] 134.0 134.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [9,] 135.0 135.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [10,] 135.0 135.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [11,] 138.9 138.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [12,] 138.9 138.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [13,] 145.0 145.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [14,] 145.0 145.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [15,] 145.1 145.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [16,] 145.1 145.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [17,] 146.0 146.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [18,] 146.0 146.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19,] 148.0 148.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [20,] 148.0 148.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [21,] 151.0 151.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [22,] 151.0 151.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [23,] 160.1 160.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [24,] 160.1 160.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [25,] 166.9 166.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [26,] 166.9 166.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [27,] 167.0 167.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [28,] 167.0 167.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [29,] 167.0 167.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [30,] 168.9 168.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [31,] 168.9 168.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [32,] 168.9 168.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [33,] 173.1 173.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [34,] 173.1 173.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [35,] 180.1 180.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [36,] 180.1 180.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37,] 180.1 180.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [38,] 184.9 184.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [39,] 184.9 184.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [40,] 184.9 184.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [41,] 188.1 188.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [42,] 188.1 188.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [43,] 191.0 191.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [44,] 191.0 191.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [45,] 191.0 191.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [46,] 199.9 199.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [47,] 199.9 199.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [48,] 199.9 199.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [49,] 201.0 201.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [50,] 203.1 203.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [51,] 203.1 203.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [52,] 229.0 229.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [53,] 229.0 229.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [54,] 229.0 229.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55,] 242.1 242.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [56,] 242.1 242.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [57,] 243.1 243.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [58,] 243.1 243.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [59,] 259.0 259.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [60,] 259.0 259.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [61,] 266.1 266.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [62,] 266.1 266.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [63,] 267.1 267.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [64,] 267.1 267.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [65,] 275.1 275.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [66,] 275.1 275.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [67,] 275.1 275.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [68,] 282.1 282.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [69,] 282.1 282.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [70,] 322.0 322.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [71,] 322.0 322.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [72,] 323.0 323.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73,] 323.0 323.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [74,] 323.0 323.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [75,] 338.9 338.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [76,] 338.9 338.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [77,] 338.9 338.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [78,] 346.1 346.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [79,] 346.1 346.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [80,] 346.1 346.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [81,] 347.0 347.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [82,] 347.0 347.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [83,] 347.0 347.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [84,] 362.1 362.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [85,] 362.1 362.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [86,] 362.1 362.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [87,] 388.9 388.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [88,] 388.9 388.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [89,] 388.9 388.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [90,] 402.0 402.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91,] 402.0 402.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [92,] 402.0 402.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [93,] 402.9 402.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [94,] 402.9 402.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [95,] 402.9 402.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [96,] 426.0 426.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [97,] 426.0 426.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [98,] 426.0 426.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [99,] 442.0 442.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [100,] 442.0 442.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [101,] 442.0 442.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [102,] 481.9 481.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [103,] 481.9 481.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [104,] 481.9 481.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [105,] 482.9 482.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [106,] 482.9 482.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [107,] 482.9 482.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [108,] 505.9 505.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [109,] 505.9 505.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [110,] 505.9 505.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [111,] 521.9 521.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [112,] 521.9 521.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [113,] 521.9 521.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [114,] 565.1 565.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [115,] 565.1 565.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [116,] 565.1 565.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [117,] 604.1 604.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [118,] 604.1 604.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [119,] 604.1 604.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [120,] 606.1 606.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [121,] 606.1 606.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [122,] 606.1 606.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [123,] 611.1 611.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [124,] 611.1 611.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [125,] 611.1 611.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [126,] 662.1 662.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [127,] 662.1 662.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [128,] 662.1 662.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [129,] 664.1 664.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [130,] 664.1 664.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [131,] 664.1 664.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [132,] 742.1 742.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [133,] 742.1 742.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [134,] 808.1 808.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [135,] 808.1 808.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [136,]  89.0  89.0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [137,]  89.0  89.0</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Access the product m/z.</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html'>productMz</a></span><span class='op'>(</span><span class='va'>mrm</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          mzmin   mzmax</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1,]  26.996  26.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [2,]  70.996  70.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [3,]  72.996  72.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4,]  98.996  98.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [5,] 114.996 114.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [6,]  70.996  70.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [7,] 106.996 106.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [8,]  91.996  91.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [9,]  64.996  64.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [10,]  91.996  91.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [11,]  79.896  79.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [12,]  94.896  94.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [13,] 100.996 100.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [14,]  56.996  56.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [15,] 108.996 108.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [16,] 127.096 127.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [17,] 102.096 102.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [18,] 127.996 127.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19,]  31.996  31.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [20,]  46.996  46.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [21,] 107.996 107.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [22,]  41.896  41.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [23,] 116.096 116.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [24,] 142.096 142.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [25,]  62.896  62.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [26,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [27,] 123.996 123.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [28,]  41.896  41.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [29,]  95.996  95.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [30,] 150.896 150.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [31,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [32,]  96.896  96.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [33,] 131.096 131.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [34,] 156.096 156.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [35,] 119.096 119.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [36,] 162.996 162.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37,] 162.996 162.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [38,] 167.096 167.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [39,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [40,]  96.896  96.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [41,] 102.096 102.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [42,] 127.996 127.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [43,] 110.996 110.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [44,] 172.996 172.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [45,]  86.996  86.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [46,] 135.996 135.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [47,]  73.996  73.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [48,]  80.896  80.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [49,]  88.996  88.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [50,] 116.096 116.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [51,] 142.096 142.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [52,] 138.896 138.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [53,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [54,]  96.896  96.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55,] 108.996 108.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [56,]  41.996  41.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [57,] 109.996 109.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [58,] 199.996 199.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [59,] 138.896 138.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [60,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [61,] 106.996 106.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [62,] 134.096 134.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [63,] 107.996 107.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [64,] 134.996 134.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [65,] 145.096 145.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [66,] 196.096 196.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [67,] 257.096 257.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [68,] 132.996 132.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [69,] 149.996 149.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [70,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [71,]  96.896  96.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [72,] 110.996 110.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [74,]  96.896  96.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [75,] 240.996 240.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [76,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [77,]  96.896  96.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [78,] 134.096 134.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [79,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [80,]  96.896  96.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [81,] 134.996 134.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [82,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [83,]  96.896  96.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [84,] 132.996 132.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [85,] 210.996 210.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [86,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [87,] 176.896 176.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [88,] 290.896 290.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [89,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [90,] 158.896 158.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91,] 383.996 383.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [92,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [93,] 110.996 110.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [94,] 158.896 158.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [95,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [96,] 134.096 134.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [97,] 158.896 158.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [98,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [99,] 149.996 149.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [100,] 158.896 158.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [101,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [102,] 158.896 158.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [103,] 383.996 383.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [104,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [105,] 158.896 158.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [106,] 384.096 384.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [107,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [108,] 158.896 158.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [109,] 407.996 407.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [110,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [111,] 158.896 158.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [112,] 423.996 423.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [113,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [114,] 158.896 158.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [115,] 322.996 322.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [116,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [117,] 158.896 158.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [118,] 423.996 423.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [119,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [120,] 158.896 158.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [121,] 272.896 272.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [122,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [123,] 142.996 142.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [124,] 272.096 272.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [125,] 306.096 306.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [126,] 158.896 158.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [127,] 540.096 540.096</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [128,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [129,] 396.996 396.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [130,] 407.996 407.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [131,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [132,] 407.996 407.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [133,] 619.996 619.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [134,] 407.996 407.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [135,]  78.896  78.896</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [136,]  40.996  40.996</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [137,]  42.996  42.996</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Plot one chromatogram</span></span>
+<span class='r-in'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>mrm</span><span class='op'>[</span><span class='fl'>1</span>, <span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='readSRMData-1.png' alt='' width='700' height='433' /></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -514,11 +526,11 @@ thrown).</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -526,6 +538,8 @@ thrown).</p>
 
   
 
+
+  
 
   </body>
 </html>

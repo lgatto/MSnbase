@@ -65,9 +65,15 @@ The Features of Interest infrastructure allows to define a set
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -81,7 +87,7 @@ The Features of Interest infrastructure allows to define a set
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -296,100 +302,116 @@ The Features of Interest infrastructure allows to define a set
     <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt;</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tan2009r1</span><span class='op'>)</span>
-
-<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'>FeaturesOfInterest</span><span class='op'>(</span>description <span class='op'>=</span> <span class='st'>"A traceable test set of features of interest"</span>,
-                        fnames <span class='op'>=</span> <span class='fu'>featureNames</span><span class='op'>(</span><span class='va'>tan2009r1</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>]</span>,
-                        object <span class='op'>=</span> <span class='va'>tan2009r1</span><span class='op'>)</span>
-<span class='va'>x</span>
-</div><div class='output co'>#&gt; Traceable object of class "FeaturesOfInterest"
-#&gt;  Created on Fri Feb 12 11:24:01 2021 
-#&gt;  Description:
-#&gt;   A traceable test set of features of interest
-#&gt;  10 features of interest:
-#&gt;    P20353, P53501  ...  Q9VCK0, Q9VIU7</div><div class='input'>
-<span class='fu'>description</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "A traceable test set of features of interest"</div><div class='input'><span class='fu'>foi</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "P20353" "P53501" "Q7KU78" "P04412" "Q7KJ73" "Q7JZN0" "Q7KLV9" "Q9VM65"
-#&gt;  [9] "Q9VCK0" "Q9VIU7"</div><div class='input'>
-<span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'>FeaturesOfInterest</span><span class='op'>(</span>description <span class='op'>=</span> <span class='st'>"Non-traceable features of interest"</span>,
-                        fnames <span class='op'>=</span> <span class='fu'>featureNames</span><span class='op'>(</span><span class='va'>tan2009r1</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>111</span><span class='op'>:</span><span class='fl'>113</span><span class='op'>]</span><span class='op'>)</span>
-<span class='va'>y</span>
-</div><div class='output co'>#&gt; Object of class "FeaturesOfInterest"
-#&gt;  Created on Fri Feb 12 11:24:01 2021 
-#&gt;  Description:
-#&gt;   Non-traceable features of interest
-#&gt;  3 features of interest:
-#&gt;    Q9VT75, Q9VNA3, A8JNJ6</div><div class='input'>
-<span class='co'>## an illegal FeaturesOfInterest</span>
-<span class='kw'><a href='https://rdrr.io/r/base/try.html'>try</a></span><span class='op'>(</span><span class='fu'>FeaturesOfInterest</span><span class='op'>(</span>description <span class='op'>=</span> <span class='st'>"Won't work"</span>,
-                       fnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"Z"</span>, <span class='fu'>featureNames</span><span class='op'>(</span><span class='va'>tan2009r1</span><span class='op'>)</span><span class='op'>)</span>,
-                       object <span class='op'>=</span> <span class='va'>tan2009r1</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Error in FeaturesOfInterest(description = "Won't work", fnames = c("A",  : 
-#&gt;   2 feature(s) of interest absent from your object's feature names:
-#&gt;    A, Z.</div><div class='input'>
-
-<span class='fu'>FeaturesOfInterest</span><span class='op'>(</span>description <span class='op'>=</span> <span class='st'>"This work, but not traceable"</span>,
-                       fnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"Z"</span>, <span class='fu'>featureNames</span><span class='op'>(</span><span class='va'>tan2009r1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Object of class "FeaturesOfInterest"
-#&gt;  Created on Fri Feb 12 11:24:01 2021 
-#&gt;  Description:
-#&gt;   This work, but not traceable
-#&gt;  890 features of interest:
-#&gt;    A, Z  ...  Q8SZM1, P07909</div><div class='input'>
-
-
-<span class='va'>xx</span> <span class='op'>&lt;-</span> <span class='fu'>FoICollection</span><span class='op'>(</span><span class='op'>)</span>
-<span class='va'>xx</span>
-</div><div class='output co'>#&gt; A collection of 0 features of interest.</div><div class='input'>
-<span class='va'>xx</span> <span class='op'>&lt;-</span> <span class='fu'>addFeaturesOfInterest</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>xx</span><span class='op'>)</span>
-<span class='va'>xx</span> <span class='op'>&lt;-</span> <span class='fu'>addFeaturesOfInterest</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>xx</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>xx</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>LETTERS</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span>
-<span class='va'>xx</span>
-</div><div class='output co'>#&gt; A collection of 2 features of interest.</div><div class='input'>
-<span class='co'>## Sub-setting</span>
-<span class='va'>xx</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; A collection of 1 features of interest.</div><div class='input'><span class='va'>xx</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; Traceable object of class "FeaturesOfInterest"
-#&gt;  Created on Fri Feb 12 11:24:01 2021 
-#&gt;  Description:
-#&gt;   A traceable test set of features of interest
-#&gt;  10 features of interest:
-#&gt;    P20353, P53501  ...  Q9VCK0, Q9VIU7</div><div class='input'><span class='va'>xx</span><span class='op'>[[</span><span class='st'>"A"</span><span class='op'>]</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; Traceable object of class "FeaturesOfInterest"
-#&gt;  Created on Fri Feb 12 11:24:01 2021 
-#&gt;  Description:
-#&gt;   A traceable test set of features of interest
-#&gt;  10 features of interest:
-#&gt;    P20353, P53501  ...  Q9VCK0, Q9VIU7</div><div class='input'>
-<span class='fu'>description</span><span class='op'>(</span><span class='va'>xx</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                                              A 
-#&gt; "A traceable test set of features of interest" 
-#&gt;                                              B 
-#&gt;           "Non-traceable features of interest" </div><div class='input'><span class='fu'>foi</span><span class='op'>(</span><span class='va'>xx</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $A
-#&gt; Traceable object of class "FeaturesOfInterest"
-#&gt;  Created on Fri Feb 12 11:24:01 2021 
-#&gt;  Description:
-#&gt;   A traceable test set of features of interest
-#&gt;  10 features of interest:
-#&gt;    P20353, P53501  ...  Q9VCK0, Q9VIU7
-#&gt; 
-#&gt; $B
-#&gt; Object of class "FeaturesOfInterest"
-#&gt;  Created on Fri Feb 12 11:24:01 2021 
-#&gt;  Description:
-#&gt;   Non-traceable features of interest
-#&gt;  3 features of interest:
-#&gt;    Q9VT75, Q9VNA3, A8JNJ6
-#&gt; </div><div class='input'>
-<span class='fu'>fnamesIn</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>tan2009r1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>fnamesIn</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>tan2009r1</span>, count <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 10</div><div class='input'>
-<span class='fu'>rmFeaturesOfInterest</span><span class='op'>(</span><span class='va'>xx</span>, <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; A collection of 1 features of interest.</div><div class='input'>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tan2009r1</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'>FeaturesOfInterest</span><span class='op'>(</span>description <span class='op'>=</span> <span class='st'>"A traceable test set of features of interest"</span>,</span>
+<span class='r-in'>                        fnames <span class='op'>=</span> <span class='fu'>featureNames</span><span class='op'>(</span><span class='va'>tan2009r1</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>]</span>,</span>
+<span class='r-in'>                        object <span class='op'>=</span> <span class='va'>tan2009r1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Traceable object of class "FeaturesOfInterest"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Created on Thu Aug 12 07:00:44 2021 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Description:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   A traceable test set of features of interest</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  10 features of interest:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    P20353, P53501  ...  Q9VCK0, Q9VIU7</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>description</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "A traceable test set of features of interest"</span>
+<span class='r-in'><span class='fu'>foi</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "P20353" "P53501" "Q7KU78" "P04412" "Q7KJ73" "Q7JZN0" "Q7KLV9" "Q9VM65"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "Q9VCK0" "Q9VIU7"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>y</span> <span class='op'>&lt;-</span> <span class='fu'>FeaturesOfInterest</span><span class='op'>(</span>description <span class='op'>=</span> <span class='st'>"Non-traceable features of interest"</span>,</span>
+<span class='r-in'>                        fnames <span class='op'>=</span> <span class='fu'>featureNames</span><span class='op'>(</span><span class='va'>tan2009r1</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>111</span><span class='op'>:</span><span class='fl'>113</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>y</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "FeaturesOfInterest"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Created on Thu Aug 12 07:00:44 2021 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Description:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Non-traceable features of interest</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3 features of interest:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Q9VT75, Q9VNA3, A8JNJ6</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## an illegal FeaturesOfInterest</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/try.html'>try</a></span><span class='op'>(</span><span class='fu'>FeaturesOfInterest</span><span class='op'>(</span>description <span class='op'>=</span> <span class='st'>"Won't work"</span>,</span>
+<span class='r-in'>                       fnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"Z"</span>, <span class='fu'>featureNames</span><span class='op'>(</span><span class='va'>tan2009r1</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span class='r-in'>                       object <span class='op'>=</span> <span class='va'>tan2009r1</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Error in FeaturesOfInterest(description = "Won't work", fnames = c("A",  : </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   2 feature(s) of interest absent from your object's feature names:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    A, Z.</span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>FeaturesOfInterest</span><span class='op'>(</span>description <span class='op'>=</span> <span class='st'>"This work, but not traceable"</span>,</span>
+<span class='r-in'>                       fnames <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"Z"</span>, <span class='fu'>featureNames</span><span class='op'>(</span><span class='va'>tan2009r1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "FeaturesOfInterest"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Created on Thu Aug 12 07:00:44 2021 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Description:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   This work, but not traceable</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  890 features of interest:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    A, Z  ...  Q8SZM1, P07909</span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>xx</span> <span class='op'>&lt;-</span> <span class='fu'>FoICollection</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>xx</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A collection of 0 features of interest.</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>xx</span> <span class='op'>&lt;-</span> <span class='fu'>addFeaturesOfInterest</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>xx</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>xx</span> <span class='op'>&lt;-</span> <span class='fu'>addFeaturesOfInterest</span><span class='op'>(</span><span class='va'>y</span>, <span class='va'>xx</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>xx</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>LETTERS</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span></span>
+<span class='r-in'><span class='va'>xx</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A collection of 2 features of interest.</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Sub-setting</span></span>
+<span class='r-in'><span class='va'>xx</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A collection of 1 features of interest.</span>
+<span class='r-in'><span class='va'>xx</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Traceable object of class "FeaturesOfInterest"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Created on Thu Aug 12 07:00:44 2021 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Description:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   A traceable test set of features of interest</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  10 features of interest:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    P20353, P53501  ...  Q9VCK0, Q9VIU7</span>
+<span class='r-in'><span class='va'>xx</span><span class='op'>[[</span><span class='st'>"A"</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Traceable object of class "FeaturesOfInterest"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Created on Thu Aug 12 07:00:44 2021 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Description:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   A traceable test set of features of interest</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  10 features of interest:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    P20353, P53501  ...  Q9VCK0, Q9VIU7</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>description</span><span class='op'>(</span><span class='va'>xx</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                              A </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> "A traceable test set of features of interest" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                              B </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           "Non-traceable features of interest" </span>
+<span class='r-in'><span class='fu'>foi</span><span class='op'>(</span><span class='va'>xx</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $A</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Traceable object of class "FeaturesOfInterest"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Created on Thu Aug 12 07:00:44 2021 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Description:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   A traceable test set of features of interest</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  10 features of interest:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    P20353, P53501  ...  Q9VCK0, Q9VIU7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $B</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "FeaturesOfInterest"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Created on Thu Aug 12 07:00:44 2021 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Description:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Non-traceable features of interest</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3 features of interest:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Q9VT75, Q9VNA3, A8JNJ6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>fnamesIn</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>tan2009r1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
+<span class='r-in'><span class='fu'>fnamesIn</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>tan2009r1</span>, count <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 10</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>rmFeaturesOfInterest</span><span class='op'>(</span><span class='va'>xx</span>, <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A collection of 1 features of interest.</span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -401,11 +423,11 @@ The Features of Interest infrastructure allows to define a set
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -413,6 +435,8 @@ The Features of Interest infrastructure allows to define a set
 
   
 
+
+  
 
   </body>
 </html>

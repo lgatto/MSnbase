@@ -66,9 +66,15 @@ These methods add identification data to a raw MS experiment (an
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -82,7 +88,7 @@ These methods add identification data to a raw MS experiment (an
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -172,7 +178,7 @@ These methods add identification data to a raw MS experiment (an
   are kept.</p>
 <p>If after filtering, more then one PSM per spectrum are still present,
   these are combined (reduced, see
-  <code><a href='reduce,data.frame-method.html'>reduce,data.frame-method</a></code>) into a single row and
+  <code><a href='reduce-data.frame-method.html'>reduce,data.frame-method</a></code>) into a single row and
   separated by a semi-colon. This has as side-effect that feature
   variables that are being reduced are converted to characters. See the
   <code>reduce</code> manual page for examples.</p>
@@ -317,76 +323,78 @@ These methods add identification data to a raw MS experiment (an
 <p><code><a href='filterIdentificationDataFrame.html'>filterIdentificationDataFrame</a></code> for the function that
   filters identification data, <code><a href='readMzIdData.html'>readMzIdData</a></code> to read the
   identification data as a unfiltered <code>data.frame</code> and
-  <code><a href='reduce,data.frame-method.html'>reduce,data.frame-method</a></code> to reduce it to a
+  <code><a href='reduce-data.frame-method.html'>reduce,data.frame-method</a></code> to reduce it to a
   <code>data.frame</code> that contains only unique PSMs per row.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## find path to a mzXML file</span>
-<span class='va'>quantFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"MSnbase"</span>, dir <span class='op'>=</span> <span class='st'>"extdata"</span><span class='op'>)</span>,
-                 full.name <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"mzXML$"</span><span class='op'>)</span>
-<span class='co'>## find path to a mzIdentML file</span>
-<span class='va'>identFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"MSnbase"</span>, dir <span class='op'>=</span> <span class='st'>"extdata"</span><span class='op'>)</span>,
-                 full.name <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"dummyiTRAQ.mzid"</span><span class='op'>)</span>
-
-<span class='co'>## create basic MSnExp</span>
-<span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>quantFile</span><span class='op'>)</span>
-
-<span class='co'>## add identification information</span>
-<span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'>addIdentificationData</span><span class='op'>(</span><span class='va'>msexp</span>, <span class='va'>identFile</span><span class='op'>)</span>
-
-<span class='co'>## access featureData</span>
-<span class='fu'>fData</span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       spectrum acquisition.number          sequence chargeState rank
-#&gt; F1.S1        1                  1 VESITARHGEVLQLRPK           3    1
-#&gt; F1.S2        2                  2     IDGQWVTHQWLKK           3    1
-#&gt; F1.S3        3                  3              &lt;NA&gt;          NA   NA
-#&gt; F1.S4        4                  4              &lt;NA&gt;          NA   NA
-#&gt; F1.S5        5                  5           LVILLFR           2    1
-#&gt;       passThreshold experimentalMassToCharge calculatedMassToCharge peptideRef
-#&gt; F1.S1          TRUE                 645.3741               645.0375       Pep2
-#&gt; F1.S2          TRUE                 546.9586               546.9633       Pep1
-#&gt; F1.S3            NA                       NA                     NA       &lt;NA&gt;
-#&gt; F1.S4            NA                       NA                     NA       &lt;NA&gt;
-#&gt; F1.S5          TRUE                 437.8040               437.2997       Pep4
-#&gt;       modNum isDecoy post  pre start end DatabaseAccess DBseqLength DatabaseSeq
-#&gt; F1.S1      0   FALSE    A    R   170 186        ECA0984         231            
-#&gt; F1.S2      0   FALSE    A    K    50  62        ECA1028         275            
-#&gt; F1.S3     NA      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;
-#&gt; F1.S4     NA      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;
-#&gt; F1.S5      0   FALSE    L    K    22  28        ECA0510         166            
-#&gt;                                                              DatabaseDescription
-#&gt; F1.S1                                        ECA0984 DNA mismatch repair protein
-#&gt; F1.S2 ECA1028 2,3,4,5-tetrahydropyridine-2,6-dicarboxylate N-succinyltransferase
-#&gt; F1.S3                                                                       &lt;NA&gt;
-#&gt; F1.S4                                                                       &lt;NA&gt;
-#&gt; F1.S5           ECA0510 putative capsular polysacharide biosynthesis transferase
-#&gt;       scan.number.s.          idFile MS.GF.RawScore MS.GF.DeNovoScore
-#&gt; F1.S1              1 dummyiTRAQ.mzid            -39                77
-#&gt; F1.S2              2 dummyiTRAQ.mzid            -30                39
-#&gt; F1.S3             NA            &lt;NA&gt;             NA                NA
-#&gt; F1.S4             NA            &lt;NA&gt;             NA                NA
-#&gt; F1.S5              5 dummyiTRAQ.mzid            -42                 5
-#&gt;       MS.GF.SpecEValue MS.GF.EValue modPeptideRef modName modMass modLocation
-#&gt; F1.S1     5.527468e-05     79.36958          &lt;NA&gt;    &lt;NA&gt;      NA          NA
-#&gt; F1.S2     9.399048e-06     13.46615          &lt;NA&gt;    &lt;NA&gt;      NA          NA
-#&gt; F1.S3               NA           NA          &lt;NA&gt;    &lt;NA&gt;      NA          NA
-#&gt; F1.S4               NA           NA          &lt;NA&gt;    &lt;NA&gt;      NA          NA
-#&gt; F1.S5     2.577830e-04    366.38422          &lt;NA&gt;    &lt;NA&gt;      NA          NA
-#&gt;       subOriginalResidue subReplacementResidue subLocation nprot npep.prot
-#&gt; F1.S1               &lt;NA&gt;                  &lt;NA&gt;          NA     1         1
-#&gt; F1.S2               &lt;NA&gt;                  &lt;NA&gt;          NA     1         1
-#&gt; F1.S3               &lt;NA&gt;                  &lt;NA&gt;          NA    NA        NA
-#&gt; F1.S4               &lt;NA&gt;                  &lt;NA&gt;          NA    NA        NA
-#&gt; F1.S5               &lt;NA&gt;                  &lt;NA&gt;          NA     1         1
-#&gt;       npsm.prot npsm.pep
-#&gt; F1.S1         1        1
-#&gt; F1.S2         1        1
-#&gt; F1.S3        NA       NA
-#&gt; F1.S4        NA       NA
-#&gt; F1.S5         1        1</div><div class='input'>
-<span class='fu'><a href='MSnSet-class.html'>idSummary</a></span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       spectrumFile          idFile coverage
-#&gt; 1 dummyiTRAQ.mzXML dummyiTRAQ.mzid      0.6</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'>## find path to a mzXML file</span></span>
+<span class='r-in'><span class='va'>quantFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"MSnbase"</span>, dir <span class='op'>=</span> <span class='st'>"extdata"</span><span class='op'>)</span>,</span>
+<span class='r-in'>                 full.name <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"mzXML$"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'>## find path to a mzIdentML file</span></span>
+<span class='r-in'><span class='va'>identFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"MSnbase"</span>, dir <span class='op'>=</span> <span class='st'>"extdata"</span><span class='op'>)</span>,</span>
+<span class='r-in'>                 full.name <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"dummyiTRAQ.mzid"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## create basic MSnExp</span></span>
+<span class='r-in'><span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>quantFile</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## add identification information</span></span>
+<span class='r-in'><span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'>addIdentificationData</span><span class='op'>(</span><span class='va'>msexp</span>, <span class='va'>identFile</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## access featureData</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       spectrum acquisition.number          sequence chargeState rank</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S1        1                  1 VESITARHGEVLQLRPK           3    1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S2        2                  2     IDGQWVTHQWLKK           3    1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S3        3                  3              &lt;NA&gt;          NA   NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S4        4                  4              &lt;NA&gt;          NA   NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S5        5                  5           LVILLFR           2    1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       passThreshold experimentalMassToCharge calculatedMassToCharge peptideRef</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S1          TRUE                 645.3741               645.0375       Pep2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S2          TRUE                 546.9586               546.9633       Pep1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S3            NA                       NA                     NA       &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S4            NA                       NA                     NA       &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S5          TRUE                 437.8040               437.2997       Pep4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       modNum isDecoy post  pre start end DatabaseAccess DBseqLength DatabaseSeq</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S1      0   FALSE    A    R   170 186        ECA0984         231            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S2      0   FALSE    A    K    50  62        ECA1028         275            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S3     NA      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S4     NA      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S5      0   FALSE    L    K    22  28        ECA0510         166            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                              DatabaseDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S1                                        ECA0984 DNA mismatch repair protein</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S2 ECA1028 2,3,4,5-tetrahydropyridine-2,6-dicarboxylate N-succinyltransferase</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S3                                                                       &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S4                                                                       &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S5           ECA0510 putative capsular polysacharide biosynthesis transferase</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       scan.number.s.          idFile MS.GF.RawScore MS.GF.DeNovoScore</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S1              1 dummyiTRAQ.mzid            -39                77</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S2              2 dummyiTRAQ.mzid            -30                39</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S3             NA            &lt;NA&gt;             NA                NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S4             NA            &lt;NA&gt;             NA                NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S5              5 dummyiTRAQ.mzid            -42                 5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       MS.GF.SpecEValue MS.GF.EValue modPeptideRef modName modMass modLocation</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S1     5.527468e-05     79.36958          &lt;NA&gt;    &lt;NA&gt;      NA          NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S2     9.399048e-06     13.46615          &lt;NA&gt;    &lt;NA&gt;      NA          NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S3               NA           NA          &lt;NA&gt;    &lt;NA&gt;      NA          NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S4               NA           NA          &lt;NA&gt;    &lt;NA&gt;      NA          NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S5     2.577830e-04    366.38422          &lt;NA&gt;    &lt;NA&gt;      NA          NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       subOriginalResidue subReplacementResidue subLocation nprot npep.prot</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S1               &lt;NA&gt;                  &lt;NA&gt;          NA     1         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S2               &lt;NA&gt;                  &lt;NA&gt;          NA     1         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S3               &lt;NA&gt;                  &lt;NA&gt;          NA    NA        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S4               &lt;NA&gt;                  &lt;NA&gt;          NA    NA        NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S5               &lt;NA&gt;                  &lt;NA&gt;          NA     1         1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       npsm.prot npsm.pep</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S1         1        1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S2         1        1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S3        NA       NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S4        NA       NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S5         1        1</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='MSnSet-class.html'>idSummary</a></span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       spectrumFile          idFile coverage</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 dummyiTRAQ.mzXML dummyiTRAQ.mzid      0.6</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -398,11 +406,11 @@ These methods add identification data to a raw MS experiment (an
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -410,6 +418,8 @@ These methods add identification data to a raw MS experiment (an
 
   
 
+
+  
 
   </body>
 </html>

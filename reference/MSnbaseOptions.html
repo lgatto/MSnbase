@@ -71,9 +71,15 @@ on macOS systems) should set this option to FALSE.
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -87,7 +93,7 @@ on macOS systems) should set this option to FALSE.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -158,7 +164,7 @@ is used if the <code>verbose</code> argument in individual functions is
 not set.</p></li>
 <li><p><code>PARALLEL_THRESH</code>: defines the minimum number of spectra per file
 necessary before using parallel processing.</p></li>
-<li><p><code>fastLoad</code>: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>. If <code>TRUE</code> performs faster data loading for all
+<li><p><code>fastLoad</code>: <code>logical(1)</code>. If <code>TRUE</code> performs faster data loading for all
 methods of <a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a> that load data from the original files (such as
 <code><a href='pSet-class.html'>spectrapply()</a></code>). Users experiencing data I/O errors (observed mostly
 on macOS systems) should set this option to <code>FALSE</code>.</p></li>
@@ -166,7 +172,7 @@ on macOS systems) should set this option to <code>FALSE</code>.</p></li>
 
     </div>
 
-    <pre class="usage"><span class='fu'>MSnbaseOptions</span><span class='op'>(</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>MSnbaseOptions</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='fu'>isMSnbaseVerbose</span><span class='op'>(</span><span class='op'>)</span>
 
@@ -176,7 +182,7 @@ on macOS systems) should set this option to <code>FALSE</code>.</p></li>
 
 <span class='fu'>setMSnbaseFastLoad</span><span class='op'>(</span>opt <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='fu'>isMSnbaseFastLoad</span><span class='op'>(</span><span class='op'>)</span></pre>
+<span class='fu'>isMSnbaseFastLoad</span><span class='op'>(</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -210,11 +216,11 @@ of the option.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -222,6 +228,8 @@ of the option.</p>
 
   
 
+
+  
 
   </body>
 </html>

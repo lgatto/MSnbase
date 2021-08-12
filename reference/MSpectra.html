@@ -68,9 +68,15 @@ the capitalized column names used as field names (see examples below)." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -84,7 +90,7 @@ the capitalized column names used as field names (see examples below)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -160,7 +166,7 @@ metadata columns present in <code>mcols</code> are exported as additional fields
 the capitalized column names used as field names (see examples below).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>MSpectra</span><span class='op'>(</span><span class='va'>...</span>, elementMetadata <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>MSpectra</span><span class='op'>(</span><span class='va'>...</span>, elementMetadata <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='co'># S4 method for MSpectra</span>
 <span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>object</span><span class='op'>)</span>
@@ -235,7 +241,7 @@ the capitalized column names used as field names (see examples below).</p>
 <span class='fu'><a href='trimMz-methods.html'>filterMz</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>mz</span>, <span class='va'>msLevel.</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for MSpectra</span>
-<span class='fu'><a href='pickPeaks-methods.html'>pickPeaks</a></span><span class='op'>(</span>
+<span class='fu'><a href='pickPeaks-method.html'>pickPeaks</a></span><span class='op'>(</span>
   <span class='va'>object</span>,
   halfWindowSize <span class='op'>=</span> <span class='fl'>3L</span>,
   method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"MAD"</span>, <span class='st'>"SuperSmoother"</span><span class='op'>)</span>,
@@ -254,7 +260,7 @@ the capitalized column names used as field names (see examples below).</p>
 <span class='op'>)</span>
 
 <span class='co'># S4 method for MSpectra</span>
-<span class='fu'><a href='MSnExp-class.html'>filterMsLevel</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>msLevel.</span><span class='op'>)</span></pre>
+<span class='fu'><a href='MSnExp-class.html'>filterMsLevel</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>msLevel.</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -283,17 +289,17 @@ one spectrum.</p></td>
     </tr>
     <tr>
       <th>con</th>
-      <td><p>For <code>writeMgfData</code>: <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> defining the file name of
+      <td><p>For <code>writeMgfData</code>: <code>character(1)</code> defining the file name of
 the MGF file.</p></td>
     </tr>
     <tr>
       <th>COM</th>
-      <td><p>For <code>writeMgfData</code>: optional <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> providing a comment
+      <td><p>For <code>writeMgfData</code>: optional <code>character(1)</code> providing a comment
 to be added to the file.</p></td>
     </tr>
     <tr>
       <th>TITLE</th>
-      <td><p>For <code>writeMgfData</code>: optional <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> defining the title
+      <td><p>For <code>writeMgfData</code>: optional <code>character(1)</code> defining the title
 for the MGF file.</p></td>
     </tr>
     <tr>
@@ -310,31 +316,31 @@ For <code>filterMsLevels</code>: MS level(s) to which the <code>MSpectra</code> 
     </tr>
     <tr>
       <th>t</th>
-      <td><p>For <code>removePeaks</code>: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code> specifying the threshold below
+      <td><p>For <code>removePeaks</code>: <code>numeric(1)</code> specifying the threshold below
 which intensities are set to 0.</p></td>
     </tr>
     <tr>
       <th>mz</th>
-      <td><p>For <code>filterMz</code>: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code> defining the lower and upper m/z
+      <td><p>For <code>filterMz</code>: <code>numeric(2)</code> defining the lower and upper m/z
 for the filter. See <code><a href='trimMz-methods.html'>filterMz()</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>halfWindowSize</th>
-      <td><p>For <code>pickPeaks</code> and <code>smooth</code>: see <code><a href='pickPeaks-methods.html'>pickPeaks()</a></code>
+      <td><p>For <code>pickPeaks</code> and <code>smooth</code>: see <code><a href='pickPeaks-method.html'>pickPeaks()</a></code>
 and <code><a href='smooth-methods.html'>smooth()</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>For <code>pickPeaks</code> and <code>smooth</code>: see <code><a href='pickPeaks-methods.html'>pickPeaks()</a></code> and <code><a href='smooth-methods.html'>smooth()</a></code>
+      <td><p>For <code>pickPeaks</code> and <code>smooth</code>: see <code><a href='pickPeaks-method.html'>pickPeaks()</a></code> and <code><a href='smooth-methods.html'>smooth()</a></code>
 for details.</p></td>
     </tr>
     <tr>
       <th>SNR</th>
-      <td><p>For <code>pickPeaks</code>: see <code><a href='pickPeaks-methods.html'>pickPeaks()</a></code> for details.</p></td>
+      <td><p>For <code>pickPeaks</code>: see <code><a href='pickPeaks-method.html'>pickPeaks()</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>refineMz</th>
-      <td><p>For <code>pickPeaks</code>: see <code><a href='pickPeaks-methods.html'>pickPeaks()</a></code> for details.</p></td>
+      <td><p>For <code>pickPeaks</code>: see <code><a href='pickPeaks-method.html'>pickPeaks()</a></code> for details.</p></td>
     </tr>
     </table>
 
@@ -399,7 +405,7 @@ centroided from the actual peak data.</p></li>
 <ul>
 <li><p><code>clean</code> <em>cleans</em> each spectrum. See <code><a href='clean-methods.html'>clean()</a></code> for more details.</p></li>
 <li><p><code>pickPeaks</code> performs peak picking to generate centroided spectra. See
-<code><a href='pickPeaks-methods.html'>pickPeaks()</a></code> for more details.</p></li>
+<code><a href='pickPeaks-method.html'>pickPeaks()</a></code> for more details.</p></li>
 <li><p><code>removePeaks</code> removes peaks lower than a threshold <code>t</code>. See
 <code><a href='removePeaks-methods.html'>removePeaks()</a></code> for more details.</p></li>
 <li><p><code>smooth</code> <em>smooths</em> spectra. See <code><a href='smooth-methods.html'>smooth()</a></code> for more details.</p></li>
@@ -410,7 +416,7 @@ centroided from the actual peak data.</p></li>
     
 
 <ul>
-<li><p><code><a href='https://rdrr.io/r/base/Extract.html'>[</a></code> can be used to subset the <code>MSpectra</code> object.</p></li>
+<li><p><code>[</code> can be used to subset the <code>MSpectra</code> object.</p></li>
 <li><p><code>filterMsLevel</code> filters <code>MSpectra</code> to retain only spectra from certain MS
 level(s).</p></li>
 <li><p><code>filterMz</code> filters the spectra by the specified <code>mz</code> range. See
@@ -422,193 +428,222 @@ level(s).</p></li>
     <p>Johannes Rainer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'>## Create from Spectrum objects</span>
-<span class='va'>sp1</span> <span class='op'>&lt;-</span> <span class='fu'>new</span><span class='op'>(</span><span class='st'>"Spectrum1"</span>, mz <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>4</span><span class='op'>)</span>, intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>sp2</span> <span class='op'>&lt;-</span> <span class='fu'>new</span><span class='op'>(</span><span class='st'>"Spectrum2"</span>, mz <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span><span class='op'>)</span>, intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>5</span><span class='op'>)</span>,
-    precursorMz <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-
-<span class='va'>spl</span> <span class='op'>&lt;-</span> <span class='fu'>MSpectra</span><span class='op'>(</span><span class='va'>sp1</span>, <span class='va'>sp2</span><span class='op'>)</span>
-<span class='va'>spl</span>
-</div><div class='output co'>#&gt; MSpectra with 2 spectra and 0 metadata column(s):
-#&gt;       msLevel     rtime peaksCount
-#&gt;     &lt;integer&gt; &lt;numeric&gt;  &lt;integer&gt;
-#&gt;   1         1        NA          3
-#&gt;   2         2        NA          4</div><div class='input'><span class='va'>spl</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; Object of class "Spectrum1"
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 3 
-#&gt;  Polarity:  </div><div class='input'>
-<span class='co'>## Add also metadata columns</span>
-<span class='fu'>mcols</span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span><span class='op'>$</span><span class='va'>id</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span><span class='op'>)</span>
-<span class='fu'>mcols</span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; DataFrame with 2 rows and 1 column
-#&gt;            id
-#&gt;   &lt;character&gt;
-#&gt; 1           a
-#&gt; 2           b</div><div class='input'>
-<span class='co'>## Create a MSpectra with metadata</span>
-<span class='va'>spl</span> <span class='op'>&lt;-</span> <span class='fu'>MSpectra</span><span class='op'>(</span><span class='va'>sp1</span>, <span class='va'>sp2</span>, elementMetadata <span class='op'>=</span> <span class='fu'>DataFrame</span><span class='op'>(</span>id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'>mcols</span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; DataFrame with 2 rows and 1 column
-#&gt;            id
-#&gt;   &lt;character&gt;
-#&gt; 1           a
-#&gt; 2           b</div><div class='input'><span class='fu'>mcols</span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span><span class='op'>$</span><span class='va'>id</span>
-</div><div class='output co'>#&gt; [1] "a" "b"</div><div class='input'>
-<span class='co'>## Extract the mz values for the individual spectra</span>
-<span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $`1`
-#&gt; [1] 1 2 4
-#&gt; 
-#&gt; $`2`
-#&gt; [1] 1 2 3 4
-#&gt; </div><div class='input'>
-<span class='co'>## Extract the intensity values for the individual spectra</span>
-<span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $`1`
-#&gt; [1] 4 5 2
-#&gt; 
-#&gt; $`2`
-#&gt; [1] 5 3 2 5
-#&gt; </div><div class='input'>
-<span class='co'>## Extract the retention time values for the individual spectra</span>
-<span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1  2 
-#&gt; NA NA </div><div class='input'>
-<span class='co'>## Extract the precursor m/z of each spectrum.</span>
-<span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1  2 
-#&gt; NA  2 </div><div class='input'>
-<span class='co'>## Extract the precursor charge of each spectrum.</span>
-<span class='fu'><a href='Spectrum2-class.html'>precursorCharge</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1  2 
-#&gt; NA NA </div><div class='input'>
-<span class='co'>## Extract the precursor scan number for each spectrum.</span>
-<span class='fu'><a href='Spectrum2-class.html'>precScanNum</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1  2 
-#&gt; NA NA </div><div class='input'>
-<span class='co'>## Extract the precursor intensity of each spectrum.</span>
-<span class='fu'><a href='Spectrum2-class.html'>precursorIntensity</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1  2 
-#&gt; NA NA </div><div class='input'>
-<span class='co'>## Extract the acquisition number of each spectrum.</span>
-<span class='fu'><a href='Spectrum-class.html'>acquisitionNum</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1  2 
-#&gt; NA NA </div><div class='input'>
-<span class='co'>## Extract the scan index of each spectrum.</span>
-<span class='fu'><a href='Spectrum-class.html'>scanIndex</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1  2 
-#&gt; NA NA </div><div class='input'>
-<span class='co'>## Get the number of peaks per spectrum.</span>
-<span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 1 2 
-#&gt; 3 4 </div><div class='input'>
-<span class='co'>## Get the MS level of each spectrum.</span>
-<span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 1 2 
-#&gt; 1 2 </div><div class='input'>
-<span class='co'>## Get the total ion current for each spectrum.</span>
-<span class='fu'><a href='Spectrum-class.html'>tic</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1  2 
-#&gt; 11 15 </div><div class='input'>
-<span class='co'>## Get the total ion current for each spectrum.</span>
-<span class='fu'><a href='Spectrum-class.html'>ionCount</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1  2 
-#&gt; 11 15 </div><div class='input'>
-<span class='co'>## Extract the collision energy for each spectrum.</span>
-<span class='fu'><a href='Spectrum2-class.html'>collisionEnergy</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1  2 
-#&gt; NA NA </div><div class='input'>
-<span class='co'>## Extract the file index for each spectrum.</span>
-<span class='fu'><a href='Spectrum-class.html'>fromFile</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1  2 
-#&gt; NA NA </div><div class='input'>
-<span class='co'>## Get the polarity for each spectrum.</span>
-<span class='fu'><a href='Spectrum-class.html'>polarity</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1  2 
-#&gt; NA NA </div><div class='input'>
-<span class='co'>## Whether spectra are smoothed (i.e. processed with the `smooth`</span>
-<span class='co'>## function).</span>
-<span class='fu'><a href='Spectrum-class.html'>smoothed</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1  2 
-#&gt; NA NA </div><div class='input'>
-<span class='co'>## Are spectra empty (i.e. contain no peak data)?</span>
-<span class='fu'>isEmpty</span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;     1     2 
-#&gt; FALSE FALSE </div><div class='input'>
-<span class='co'>## Do the spectra contain centroided data?</span>
-<span class='fu'><a href='Spectrum-class.html'>centroided</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1  2 
-#&gt; NA NA </div><div class='input'>
-<span class='co'>## Do the spectra contain centroided data? Whether spectra are centroided</span>
-<span class='co'>## is estimated from the peak data.</span>
-<span class='fu'><a href='Spectrum-class.html'>isCentroided</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  1  2 
-#&gt; NA NA </div><div class='input'>
-<span class='co'>## Export the spectrum list to a MGF file. Values in metadata columns are</span>
-<span class='co'>## exported as additional field for each spectrum.</span>
-<span class='va'>tmpf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'><a href='writeMgfData-methods.html'>writeMgfData</a></span><span class='op'>(</span><span class='va'>spl</span>, <span class='va'>tmpf</span><span class='op'>)</span>
-
-<span class='co'>## Evaluate the written output. The ID of each spectrum (defined in the</span>
-<span class='co'>## "id" metadata column) is exported as field "ID".</span>
-<span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>tmpf</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Fri Feb 12 11:24:18 2021"   
-#&gt;  [2] "BEGIN IONS"                                                      
-#&gt;  [3] "SCANS=NA"                                                        
-#&gt;  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     
-#&gt;  [5] "RTINSECONDS="                                                    
-#&gt;  [6] "ID=a"                                                            
-#&gt;  [7] "1 4"                                                             
-#&gt;  [8] "2 5"                                                             
-#&gt;  [9] "4 2"                                                             
-#&gt; [10] "END IONS"                                                        
-#&gt; [11] ""                                                                
-#&gt; [12] "BEGIN IONS"                                                      
-#&gt; [13] "SCANS="                                                          
-#&gt; [14] "TITLE=msLevel 2; retentionTime ; scanNum ; precMz 2; precCharge "
-#&gt; [15] "RTINSECONDS="                                                    
-#&gt; [16] "PEPMASS=2"                                                       
-#&gt; [17] "ID=b"                                                            
-#&gt; [18] "1 5"                                                             
-#&gt; [19] "2 3"                                                             
-#&gt; [20] "3 2"                                                             
-#&gt; [21] "4 5"                                                             
-#&gt; [22] "END IONS"                                                        </div><div class='input'>
-<span class='co'>## Set mcols to NULL to avoid export of additional data fields.</span>
-<span class='fu'>mcols</span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='va'>tmpf</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
-<span class='fu'><a href='writeMgfData-methods.html'>writeMgfData</a></span><span class='op'>(</span><span class='va'>spl</span>, <span class='va'>tmpf</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>tmpf</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "COM=Experimentexported by MSnbase on Fri Feb 12 11:24:18 2021"   
-#&gt;  [2] "BEGIN IONS"                                                      
-#&gt;  [3] "SCANS=NA"                                                        
-#&gt;  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     
-#&gt;  [5] "RTINSECONDS="                                                    
-#&gt;  [6] "1 4"                                                             
-#&gt;  [7] "2 5"                                                             
-#&gt;  [8] "4 2"                                                             
-#&gt;  [9] "END IONS"                                                        
-#&gt; [10] ""                                                                
-#&gt; [11] "BEGIN IONS"                                                      
-#&gt; [12] "SCANS="                                                          
-#&gt; [13] "TITLE=msLevel 2; retentionTime ; scanNum ; precMz 2; precCharge "
-#&gt; [14] "RTINSECONDS="                                                    
-#&gt; [15] "PEPMASS=2"                                                       
-#&gt; [16] "1 5"                                                             
-#&gt; [17] "2 3"                                                             
-#&gt; [18] "3 2"                                                             
-#&gt; [19] "4 5"                                                             
-#&gt; [20] "END IONS"                                                        </div><div class='input'>
-<span class='co'>## Filter the object by MS level</span>
-<span class='fu'><a href='MSnExp-class.html'>filterMsLevel</a></span><span class='op'>(</span><span class='va'>spl</span>, msLevel. <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; MSpectra with 1 spectra and 0 metadata column(s):
-#&gt;       msLevel     rtime peaksCount
-#&gt;     &lt;integer&gt; &lt;numeric&gt;  &lt;integer&gt;
-#&gt;   1         1        NA          3</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='co'>## Create from Spectrum objects</span></span>
+<span class='r-in'><span class='va'>sp1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/methods/new.html'>new</a></span><span class='op'>(</span><span class='st'>"Spectrum1"</span>, mz <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>4</span><span class='op'>)</span>, intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>sp2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/methods/new.html'>new</a></span><span class='op'>(</span><span class='st'>"Spectrum2"</span>, mz <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span><span class='op'>)</span>, intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>5</span><span class='op'>)</span>,</span>
+<span class='r-in'>    precursorMz <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>spl</span> <span class='op'>&lt;-</span> <span class='fu'>MSpectra</span><span class='op'>(</span><span class='va'>sp1</span>, <span class='va'>sp2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>spl</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MSpectra with 2 spectra and 0 metadata column(s):</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       msLevel     rtime peaksCount</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;integer&gt; &lt;numeric&gt;  &lt;integer&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   1         1        NA          3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   2         2        NA          4</span>
+<span class='r-in'><span class='va'>spl</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 3 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity:  </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Add also metadata columns</span></span>
+<span class='r-in'><span class='fu'>mcols</span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span><span class='op'>$</span><span class='va'>id</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>mcols</span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> DataFrame with 2 rows and 1 column</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            id</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   &lt;character&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1           a</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2           b</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Create a MSpectra with metadata</span></span>
+<span class='r-in'><span class='va'>spl</span> <span class='op'>&lt;-</span> <span class='fu'>MSpectra</span><span class='op'>(</span><span class='va'>sp1</span>, <span class='va'>sp2</span>, elementMetadata <span class='op'>=</span> <span class='fu'>DataFrame</span><span class='op'>(</span>id <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"a"</span>, <span class='st'>"b"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>mcols</span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> DataFrame with 2 rows and 1 column</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            id</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   &lt;character&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1           a</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2           b</span>
+<span class='r-in'><span class='fu'>mcols</span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span><span class='op'>$</span><span class='va'>id</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "a" "b"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract the mz values for the individual spectra</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`1`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1 2 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`2`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1 2 3 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract the intensity values for the individual spectra</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`1`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 4 5 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $`2`</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 5 3 2 5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract the retention time values for the individual spectra</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NA NA </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract the precursor m/z of each spectrum.</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NA  2 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract the precursor charge of each spectrum.</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum2-class.html'>precursorCharge</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NA NA </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract the precursor scan number for each spectrum.</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum2-class.html'>precScanNum</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NA NA </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract the precursor intensity of each spectrum.</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum2-class.html'>precursorIntensity</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NA NA </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract the acquisition number of each spectrum.</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>acquisitionNum</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NA NA </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract the scan index of each spectrum.</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>scanIndex</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NA NA </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Get the number of peaks per spectrum.</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>peaksCount</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3 4 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Get the MS level of each spectrum.</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 2 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Get the total ion current for each spectrum.</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>tic</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11 15 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Get the total ion current for each spectrum.</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>ionCount</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11 15 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract the collision energy for each spectrum.</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum2-class.html'>collisionEnergy</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NA NA </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract the file index for each spectrum.</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>fromFile</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NA NA </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Get the polarity for each spectrum.</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>polarity</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NA NA </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Whether spectra are smoothed (i.e. processed with the `smooth`</span></span>
+<span class='r-in'><span class='co'>## function).</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>smoothed</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NA NA </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Are spectra empty (i.e. contain no peak data)?</span></span>
+<span class='r-in'><span class='fu'>isEmpty</span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     1     2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> FALSE FALSE </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Do the spectra contain centroided data?</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>centroided</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NA NA </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Do the spectra contain centroided data? Whether spectra are centroided</span></span>
+<span class='r-in'><span class='co'>## is estimated from the peak data.</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>isCentroided</a></span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NA NA </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Export the spectrum list to a MGF file. Values in metadata columns are</span></span>
+<span class='r-in'><span class='co'>## exported as additional field for each spectrum.</span></span>
+<span class='r-in'><span class='va'>tmpf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='writeMgfData-methods.html'>writeMgfData</a></span><span class='op'>(</span><span class='va'>spl</span>, <span class='va'>tmpf</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Evaluate the written output. The ID of each spectrum (defined in the</span></span>
+<span class='r-in'><span class='co'>## "id" metadata column) is exported as field "ID".</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>tmpf</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "COM=Experimentexported by MSnbase on Thu Aug 12 07:01:01 2021"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2] "BEGIN IONS"                                                      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3] "SCANS=NA"                                                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "RTINSECONDS="                                                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] "ID=a"                                                            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "1 4"                                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] "2 5"                                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "4 2"                                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10] "END IONS"                                                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] ""                                                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [12] "BEGIN IONS"                                                      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "SCANS="                                                          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [14] "TITLE=msLevel 2; retentionTime ; scanNum ; precMz 2; precCharge "</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "RTINSECONDS="                                                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [16] "PEPMASS=2"                                                       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "ID=b"                                                            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [18] "1 5"                                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "2 3"                                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [20] "3 2"                                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [21] "4 5"                                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [22] "END IONS"                                                        </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Set mcols to NULL to avoid export of additional data fields.</span></span>
+<span class='r-in'><span class='fu'>mcols</span><span class='op'>(</span><span class='va'>spl</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='va'>tmpf</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='writeMgfData-methods.html'>writeMgfData</a></span><span class='op'>(</span><span class='va'>spl</span>, <span class='va'>tmpf</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/readLines.html'>readLines</a></span><span class='op'>(</span><span class='va'>tmpf</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "COM=Experimentexported by MSnbase on Thu Aug 12 07:01:01 2021"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2] "BEGIN IONS"                                                      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3] "SCANS=NA"                                                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "RTINSECONDS="                                                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] "1 4"                                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "2 5"                                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8] "4 2"                                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "END IONS"                                                        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10] ""                                                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] "BEGIN IONS"                                                      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [12] "SCANS="                                                          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "TITLE=msLevel 2; retentionTime ; scanNum ; precMz 2; precCharge "</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [14] "RTINSECONDS="                                                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "PEPMASS=2"                                                       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [16] "1 5"                                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "2 3"                                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [18] "3 2"                                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "4 5"                                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [20] "END IONS"                                                        </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Filter the object by MS level</span></span>
+<span class='r-in'><span class='fu'><a href='MSnExp-class.html'>filterMsLevel</a></span><span class='op'>(</span><span class='va'>spl</span>, msLevel. <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MSpectra with 1 spectra and 0 metadata column(s):</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       msLevel     rtime peaksCount</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     &lt;integer&gt; &lt;numeric&gt;  &lt;integer&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   1         1        NA          3</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -620,11 +655,11 @@ level(s).</p></li>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -632,6 +667,8 @@ level(s).</p></li>
 
   
 
+
+  
 
   </body>
 </html>

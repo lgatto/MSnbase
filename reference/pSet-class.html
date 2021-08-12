@@ -64,9 +64,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -80,7 +86,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -146,7 +152,7 @@
     <div class="ref-description">
     <p>Container for high-throughput mass-spectrometry assays and
   experimental metadata. This class is based on Biobase's
-  <code>"eSet"</code> virtual class, with the notable exception
+  <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code> virtual class, with the notable exception
   that 'assayData' slot is an environment contain objects of class
   <code>"<a href='Spectrum-class.html'>Spectrum</a>"</code>.</p>
     </div>
@@ -164,37 +170,37 @@
       containing the MS spectra (see <code>"<a href='Spectrum1-class.html'>Spectrum1</a>"</code>
       and <code>"<a href='Spectrum2-class.html'>Spectrum2</a>"</code>).</p></dd>
     <dt><code>phenoData</code>:</dt><dd><p>Object of class
-      <code>"AnnotatedDataFrame"</code> containing
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.AnnotatedDataFrame.html'>AnnotatedDataFrame</a>"</code> containing
       experimenter-supplied variables describing sample (i.e the
       individual tags for an labelled MS experiment)
-      See <code>phenoData</code> for more details.</p></dd>
+      See <code><a href='https://rdrr.io/pkg/Biobase/man/phenoData.html'>phenoData</a></code> for more details.</p></dd>
     <dt><code>featureData</code>:</dt><dd><p>Object of class
-      <code>"AnnotatedDataFrame"</code> containing variables
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.AnnotatedDataFrame.html'>AnnotatedDataFrame</a>"</code> containing variables
       describing features (spectra in our case), e.g. identificaiton data,
       peptide sequence, identification score,... (inherited from
-      <code>"eSet"</code>). See <code>featureData</code> for
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code>). See <code><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>featureData</a></code> for
       more details.</p></dd>
     <dt><code>experimentData</code>:</dt><dd><p>Object of class
       <code>"<a href='MIAPE-class.html'>MIAPE</a>"</code>, containing details of experimental
-      methods. See <code>experimentData</code> for more details.</p></dd>
+      methods. See <code><a href='https://rdrr.io/pkg/Biobase/man/abstract.html'>experimentData</a></code> for more details.</p></dd>
     <dt><code>protocolData</code>:</dt><dd><p>Object of class
-      <code>"AnnotatedDataFrame"</code> containing
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.AnnotatedDataFrame.html'>AnnotatedDataFrame</a>"</code> containing
       equipment-generated variables (inherited from
-      <code>"eSet"</code>). See <code>protocolData</code> for
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code>). See <code><a href='https://rdrr.io/pkg/Biobase/man/protocolData.html'>protocolData</a></code> for
       more details.</p></dd>
     <dt><code>processingData</code>:</dt><dd><p>Object of class
       <code>"<a href='MSnProcess-class.html'>MSnProcess</a>"</code> that records all processing.</p></dd>
     <dt><code>.cache</code>:</dt><dd><p>Object of class <code>environment</code> used to
       cache data. Under development.</p></dd>
     <dt><code>.__classVersion__</code>:</dt><dd><p>Object of class
-      <code>"Versions"</code> describing the versions of the class.</p></dd>
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.Versions.html'>Versions</a>"</code> describing the versions of the class.</p></dd>
   
 </dl>
 
     <h2 class="hasAnchor" id="extends"><a class="anchor" href="#extends"></a>Extends</h2>
 
-    <p>Class <code>"VersionedBiobase"</code>, directly.
-  Class <code>"Versioned"</code>, by class "VersionedBiobase", distance 2.</p>
+    <p>Class <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.VersionedBiobase.html'>VersionedBiobase</a>"</code>, directly.
+  Class <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.Versioned.html'>Versioned</a>"</code>, by class "VersionedBiobase", distance 2.</p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     <p>Methods defined in derived classes may override the methods described
@@ -340,7 +346,7 @@
   <code>"<a href='MIAPE-class.html'>MIAPE</a>"</code> for details.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>The <code>"eSet"</code> class, on which <code>pSet</code> is based.</p>
+    <p>The <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code> class, on which <code>pSet</code> is based.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt;</p>
@@ -350,25 +356,26 @@
   <code>pSet</code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>showClass</span><span class='op'>(</span><span class='st'>"pSet"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Virtual Class "pSet" [package "MSnbase"]
-#&gt; 
-#&gt; Slots:
-#&gt;                                                                
-#&gt; Name:           assayData          phenoData        featureData
-#&gt; Class:        environment AnnotatedDataFrame AnnotatedDataFrame
-#&gt;                                                                
-#&gt; Name:      experimentData       protocolData     processingData
-#&gt; Class:              MIAxE AnnotatedDataFrame         MSnProcess
-#&gt;                                             
-#&gt; Name:              .cache  .__classVersion__
-#&gt; Class:        environment           Versions
-#&gt; 
-#&gt; Extends: "Versioned"
-#&gt; 
-#&gt; Known Subclasses: 
-#&gt; Class "MSnExp", directly
-#&gt; Class "OnDiskMSnExp", by class "MSnExp", distance 2, with explicit coerce</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/methods/RClassUtils.html'>showClass</a></span><span class='op'>(</span><span class='st'>"pSet"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Virtual Class "pSet" [package "MSnbase"]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Slots:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Name:           assayData          phenoData        featureData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Class:        environment AnnotatedDataFrame AnnotatedDataFrame</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Name:      experimentData       protocolData     processingData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Class:              MIAxE AnnotatedDataFrame         MSnProcess</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Name:              .cache  .__classVersion__</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Class:        environment           Versions</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Extends: "Versioned"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Known Subclasses: </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Class "MSnExp", directly</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Class "OnDiskMSnExp", by class "MSnExp", distance 2, with explicit coerce</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -380,11 +387,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -392,6 +399,8 @@
 
   
 
+
+  
 
   </body>
 </html>

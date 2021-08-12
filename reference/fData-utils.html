@@ -63,9 +63,15 @@ variables are removed." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -79,7 +85,7 @@ variables are removed." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -150,9 +156,9 @@ expanded into single feature columns. The original feature
 variables are removed.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>expandFeatureVars</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>fcol</span>, <span class='va'>prefix</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>expandFeatureVars</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>fcol</span>, <span class='va'>prefix</span><span class='op'>)</span>
 
-<span class='fu'>mergeFeatureVars</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>fcol</span>, <span class='va'>fcol2</span><span class='op'>)</span></pre>
+<span class='fu'>mergeFeatureVars</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>fcol</span>, <span class='va'>fcol2</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,13 +174,13 @@ variables are removed.</p>
     </tr>
     <tr>
       <th>prefix</th>
-      <td><p>A <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> to use as prefix to the new feature
+      <td><p>A <code>character(1)</code> to use as prefix to the new feature
 variables. If missing (default), then <code>fcol</code> is used
 instead. If <code>NULL</code>, then no prefix is used.</p></td>
     </tr>
     <tr>
       <th>fcol2</th>
-      <td><p>A <code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> defining the name of the new feature
+      <td><p>A <code>character(1)</code> defining the name of the new feature
 variable.</p></td>
     </tr>
     </table>
@@ -187,90 +193,97 @@ variable.</p></td>
     <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>hyperLOPIT2015</span><span class='op'>)</span>
-<span class='fu'>fvarLabels</span><span class='op'>(</span><span class='va'>hyperLOPIT2015</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "entry.name"                "protein.description"      
-#&gt;  [3] "peptides.rep1"             "peptides.rep2"            
-#&gt;  [5] "psms.rep1"                 "psms.rep2"                
-#&gt;  [7] "phenodisco.input"          "phenodisco.output"        
-#&gt;  [9] "curated.phenodisco.output" "markers"                  
-#&gt; [11] "svm.classification"        "svm.score"                
-#&gt; [13] "svm.top.quartile"          "final.assignment"         
-#&gt; [15] "first.evidence"            "curated.organelles"       
-#&gt; [17] "cytoskeletal.components"   "trafficking.proteins"     
-#&gt; [19] "protein.complexes"         "signalling.cascades"      
-#&gt; [21] "oct4.interactome"          "nanog.interactome"        
-#&gt; [23] "sox2.interactome"          "cell.surface.proteins"    
-#&gt; [25] "markers2015"               "TAGM"                     </div><div class='input'><span class='co'>## Let's merge all svm prediction feature variables</span>
-<span class='op'>(</span><span class='va'>k</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grep</a></span><span class='op'>(</span><span class='st'>"^svm"</span>, <span class='fu'>fvarLabels</span><span class='op'>(</span><span class='va'>hyperLOPIT2015</span><span class='op'>)</span>, value <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "svm.classification" "svm.score"          "svm.top.quartile"  </div><div class='input'><span class='va'>hl</span> <span class='op'>&lt;-</span> <span class='fu'>mergeFeatureVars</span><span class='op'>(</span><span class='va'>hyperLOPIT2015</span>, fcol <span class='op'>=</span> <span class='va'>k</span>, fcol2 <span class='op'>=</span> <span class='st'>"SVM"</span><span class='op'>)</span>
-<span class='fu'>fvarLabels</span><span class='op'>(</span><span class='va'>hl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "entry.name"                "protein.description"      
-#&gt;  [3] "peptides.rep1"             "peptides.rep2"            
-#&gt;  [5] "psms.rep1"                 "psms.rep2"                
-#&gt;  [7] "phenodisco.input"          "phenodisco.output"        
-#&gt;  [9] "curated.phenodisco.output" "markers"                  
-#&gt; [11] "final.assignment"          "first.evidence"           
-#&gt; [13] "curated.organelles"        "cytoskeletal.components"  
-#&gt; [15] "trafficking.proteins"      "protein.complexes"        
-#&gt; [17] "signalling.cascades"       "oct4.interactome"         
-#&gt; [19] "nanog.interactome"         "sox2.interactome"         
-#&gt; [21] "cell.surface.proteins"     "markers2015"              
-#&gt; [23] "TAGM"                      "SVM"                      </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>hl</span><span class='op'>)</span><span class='op'>$</span><span class='va'>SVM</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                             svm.classification svm.score   svm.top.quartile
-#&gt; Q9JHU4                              Peroxisome     0.303            unknown
-#&gt; Q9QXS1-3                          60S Ribosome     0.223            unknown
-#&gt; Q9ERU9                     Nucleus - Chromatin     0.737            unknown
-#&gt; P26039                      Actin cytoskeleton     1.000 Actin cytoskeleton
-#&gt; Q8BTM8   Endoplasmic reticulum/Golgi apparatus     0.218            unknown
-#&gt; A2ARV4                                Lysosome     0.681            unknown</div><div class='input'>
-<span class='co'>## Let's expand the new SVM into individual columns</span>
-<span class='va'>hl2</span> <span class='op'>&lt;-</span> <span class='fu'>expandFeatureVars</span><span class='op'>(</span><span class='va'>hl</span>, <span class='st'>"SVM"</span><span class='op'>)</span>
-<span class='fu'>fvarLabels</span><span class='op'>(</span><span class='va'>hl2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "entry.name"                "protein.description"      
-#&gt;  [3] "peptides.rep1"             "peptides.rep2"            
-#&gt;  [5] "psms.rep1"                 "psms.rep2"                
-#&gt;  [7] "phenodisco.input"          "phenodisco.output"        
-#&gt;  [9] "curated.phenodisco.output" "markers"                  
-#&gt; [11] "final.assignment"          "first.evidence"           
-#&gt; [13] "curated.organelles"        "cytoskeletal.components"  
-#&gt; [15] "trafficking.proteins"      "protein.complexes"        
-#&gt; [17] "signalling.cascades"       "oct4.interactome"         
-#&gt; [19] "nanog.interactome"         "sox2.interactome"         
-#&gt; [21] "cell.surface.proteins"     "markers2015"              
-#&gt; [23] "TAGM"                      "SVM.svm.classification"   
-#&gt; [25] "SVM.svm.score"             "SVM.svm.top.quartile"     </div><div class='input'><span class='co'>## We can set the prefix manually</span>
-<span class='va'>hl2</span> <span class='op'>&lt;-</span> <span class='fu'>expandFeatureVars</span><span class='op'>(</span><span class='va'>hl</span>, <span class='st'>"SVM"</span>, prefix <span class='op'>=</span> <span class='st'>"Expanded"</span><span class='op'>)</span>
-<span class='fu'>fvarLabels</span><span class='op'>(</span><span class='va'>hl2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "entry.name"                  "protein.description"        
-#&gt;  [3] "peptides.rep1"               "peptides.rep2"              
-#&gt;  [5] "psms.rep1"                   "psms.rep2"                  
-#&gt;  [7] "phenodisco.input"            "phenodisco.output"          
-#&gt;  [9] "curated.phenodisco.output"   "markers"                    
-#&gt; [11] "final.assignment"            "first.evidence"             
-#&gt; [13] "curated.organelles"          "cytoskeletal.components"    
-#&gt; [15] "trafficking.proteins"        "protein.complexes"          
-#&gt; [17] "signalling.cascades"         "oct4.interactome"           
-#&gt; [19] "nanog.interactome"           "sox2.interactome"           
-#&gt; [21] "cell.surface.proteins"       "markers2015"                
-#&gt; [23] "TAGM"                        "Expanded.svm.classification"
-#&gt; [25] "Expanded.svm.score"          "Expanded.svm.top.quartile"  </div><div class='input'><span class='co'>## If we don't want any prefix</span>
-<span class='va'>hl2</span> <span class='op'>&lt;-</span> <span class='fu'>expandFeatureVars</span><span class='op'>(</span><span class='va'>hl</span>, <span class='st'>"SVM"</span>, prefix <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-<span class='fu'>fvarLabels</span><span class='op'>(</span><span class='va'>hl2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "entry.name"                "protein.description"      
-#&gt;  [3] "peptides.rep1"             "peptides.rep2"            
-#&gt;  [5] "psms.rep1"                 "psms.rep2"                
-#&gt;  [7] "phenodisco.input"          "phenodisco.output"        
-#&gt;  [9] "curated.phenodisco.output" "markers"                  
-#&gt; [11] "final.assignment"          "first.evidence"           
-#&gt; [13] "curated.organelles"        "cytoskeletal.components"  
-#&gt; [15] "trafficking.proteins"      "protein.complexes"        
-#&gt; [17] "signalling.cascades"       "oct4.interactome"         
-#&gt; [19] "nanog.interactome"         "sox2.interactome"         
-#&gt; [21] "cell.surface.proteins"     "markers2015"              
-#&gt; [23] "TAGM"                      "svm.classification"       
-#&gt; [25] "svm.score"                 "svm.top.quartile"         </div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>hyperLOPIT2015</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fvarLabels</a></span><span class='op'>(</span><span class='va'>hyperLOPIT2015</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "entry.name"                "protein.description"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3] "peptides.rep1"             "peptides.rep2"            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "psms.rep1"                 "psms.rep2"                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "phenodisco.input"          "phenodisco.output"        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "curated.phenodisco.output" "markers"                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] "svm.classification"        "svm.score"                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "svm.top.quartile"          "final.assignment"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "first.evidence"            "curated.organelles"       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "cytoskeletal.components"   "trafficking.proteins"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "protein.complexes"         "signalling.cascades"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [21] "oct4.interactome"          "nanog.interactome"        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [23] "sox2.interactome"          "cell.surface.proteins"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "markers2015"               "TAGM"                     </span>
+<span class='r-in'><span class='co'>## Let's merge all svm prediction feature variables</span></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>k</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/grep.html'>grep</a></span><span class='op'>(</span><span class='st'>"^svm"</span>, <span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fvarLabels</a></span><span class='op'>(</span><span class='va'>hyperLOPIT2015</span><span class='op'>)</span>, value <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "svm.classification" "svm.score"          "svm.top.quartile"  </span>
+<span class='r-in'><span class='va'>hl</span> <span class='op'>&lt;-</span> <span class='fu'>mergeFeatureVars</span><span class='op'>(</span><span class='va'>hyperLOPIT2015</span>, fcol <span class='op'>=</span> <span class='va'>k</span>, fcol2 <span class='op'>=</span> <span class='st'>"SVM"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fvarLabels</a></span><span class='op'>(</span><span class='va'>hl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "entry.name"                "protein.description"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3] "peptides.rep1"             "peptides.rep2"            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "psms.rep1"                 "psms.rep2"                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "phenodisco.input"          "phenodisco.output"        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "curated.phenodisco.output" "markers"                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] "final.assignment"          "first.evidence"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "curated.organelles"        "cytoskeletal.components"  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "trafficking.proteins"      "protein.complexes"        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "signalling.cascades"       "oct4.interactome"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "nanog.interactome"         "sox2.interactome"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [21] "cell.surface.proteins"     "markers2015"              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [23] "TAGM"                      "SVM"                      </span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>hl</span><span class='op'>)</span><span class='op'>$</span><span class='va'>SVM</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                             svm.classification svm.score   svm.top.quartile</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q9JHU4                              Peroxisome     0.303            unknown</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q9QXS1-3                          60S Ribosome     0.223            unknown</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q9ERU9                     Nucleus - Chromatin     0.737            unknown</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P26039                      Actin cytoskeleton     1.000 Actin cytoskeleton</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q8BTM8   Endoplasmic reticulum/Golgi apparatus     0.218            unknown</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A2ARV4                                Lysosome     0.681            unknown</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Let's expand the new SVM into individual columns</span></span>
+<span class='r-in'><span class='va'>hl2</span> <span class='op'>&lt;-</span> <span class='fu'>expandFeatureVars</span><span class='op'>(</span><span class='va'>hl</span>, <span class='st'>"SVM"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fvarLabels</a></span><span class='op'>(</span><span class='va'>hl2</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "entry.name"                "protein.description"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3] "peptides.rep1"             "peptides.rep2"            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "psms.rep1"                 "psms.rep2"                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "phenodisco.input"          "phenodisco.output"        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "curated.phenodisco.output" "markers"                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] "final.assignment"          "first.evidence"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "curated.organelles"        "cytoskeletal.components"  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "trafficking.proteins"      "protein.complexes"        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "signalling.cascades"       "oct4.interactome"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "nanog.interactome"         "sox2.interactome"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [21] "cell.surface.proteins"     "markers2015"              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [23] "TAGM"                      "SVM.svm.classification"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "SVM.svm.score"             "SVM.svm.top.quartile"     </span>
+<span class='r-in'><span class='co'>## We can set the prefix manually</span></span>
+<span class='r-in'><span class='va'>hl2</span> <span class='op'>&lt;-</span> <span class='fu'>expandFeatureVars</span><span class='op'>(</span><span class='va'>hl</span>, <span class='st'>"SVM"</span>, prefix <span class='op'>=</span> <span class='st'>"Expanded"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fvarLabels</a></span><span class='op'>(</span><span class='va'>hl2</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "entry.name"                  "protein.description"        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3] "peptides.rep1"               "peptides.rep2"              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "psms.rep1"                   "psms.rep2"                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "phenodisco.input"            "phenodisco.output"          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "curated.phenodisco.output"   "markers"                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] "final.assignment"            "first.evidence"             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "curated.organelles"          "cytoskeletal.components"    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "trafficking.proteins"        "protein.complexes"          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "signalling.cascades"         "oct4.interactome"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "nanog.interactome"           "sox2.interactome"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [21] "cell.surface.proteins"       "markers2015"                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [23] "TAGM"                        "Expanded.svm.classification"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "Expanded.svm.score"          "Expanded.svm.top.quartile"  </span>
+<span class='r-in'><span class='co'>## If we don't want any prefix</span></span>
+<span class='r-in'><span class='va'>hl2</span> <span class='op'>&lt;-</span> <span class='fu'>expandFeatureVars</span><span class='op'>(</span><span class='va'>hl</span>, <span class='st'>"SVM"</span>, prefix <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fvarLabels</a></span><span class='op'>(</span><span class='va'>hl2</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "entry.name"                "protein.description"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3] "peptides.rep1"             "peptides.rep2"            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "psms.rep1"                 "psms.rep2"                </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "phenodisco.input"          "phenodisco.output"        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "curated.phenodisco.output" "markers"                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] "final.assignment"          "first.evidence"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "curated.organelles"        "cytoskeletal.components"  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "trafficking.proteins"      "protein.complexes"        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "signalling.cascades"       "oct4.interactome"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "nanog.interactome"         "sox2.interactome"         </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [21] "cell.surface.proteins"     "markers2015"              </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [23] "TAGM"                      "svm.classification"       </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "svm.score"                 "svm.top.quartile"         </span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -282,11 +295,11 @@ variable.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -294,6 +307,8 @@ variable.</p></td>
 
   
 
+
+  
 
   </body>
 </html>

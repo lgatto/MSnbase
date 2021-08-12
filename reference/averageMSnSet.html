@@ -60,9 +60,15 @@ MSnSet." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -76,7 +82,7 @@ MSnSet." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -144,7 +150,7 @@ replicated experiments, the function returns an average
 <code>MSnSet</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>averageMSnSet</span><span class='op'>(</span><span class='va'>x</span>, avg <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, disp <span class='op'>=</span> <span class='va'>npcv</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>averageMSnSet</span><span class='op'>(</span><span class='va'>x</span>, avg <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>x</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>, disp <span class='op'>=</span> <span class='va'>npcv</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -204,60 +210,75 @@ future.</p>
     <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span><span class='op'>)</span>
-<span class='co'>## 3 replicates from Tan et al. 2009</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tan2009r1</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tan2009r2</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tan2009r3</span><span class='op'>)</span>
-<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnSetList-class.html'>MSnSetList</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>tan2009r1</span>, <span class='va'>tan2009r2</span>, <span class='va'>tan2009r3</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>avg</span> <span class='op'>&lt;-</span> <span class='fu'>averageMSnSet</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-<span class='fu'><a href='pSet-class.html'>dim</a></span><span class='op'>(</span><span class='va'>avg</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1311    4</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>avg</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;             X114      X115      X116      X117
-#&gt; P20353 0.3605000 0.3035000 0.2095000 0.1265000
-#&gt; P53501 0.4299090 0.1779700 0.2068280 0.1852625
-#&gt; Q7KU78 0.1704443 0.1234443 0.1772223 0.5290000
-#&gt; P04412 0.2567500 0.2210000 0.3015000 0.2205000
-#&gt; Q7KJ73 0.2160000 0.1830000 0.3420000 0.2590000
-#&gt; Q7JZN0 0.0965000 0.2509443 0.4771667 0.1750557</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>avg</span><span class='op'>)</span><span class='op'>$</span><span class='va'>nNA</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        X114 X115 X116 X117
-#&gt; P20353    1    1    1    1
-#&gt; P53501    1    1    1    1
-#&gt; Q7KU78    0    0    0    0
-#&gt; P04412    1    1    1    1
-#&gt; Q7KJ73    2    2    2    2
-#&gt; Q7JZN0    0    0    0    0</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>avg</span><span class='op'>)</span><span class='op'>$</span><span class='va'>disp</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;               X114      X115        X116       X117
-#&gt; P20353 0.076083495 0.1099127 0.109691169 0.14650198
-#&gt; P53501 0.034172542 0.2640556 0.005139653 0.17104568
-#&gt; Q7KU78 0.023198743 0.4483795 0.027883087 0.04764499
-#&gt; P04412 0.053414021 0.2146751 0.090972139 0.27903810
-#&gt; Q7KJ73 0.000000000 0.0000000 0.000000000 0.00000000
-#&gt; Q7JZN0 0.007681865 0.1959534 0.097873350 0.06210542</div><div class='input'><span class='co'>## using the standard deviation as measure of dispersion</span>
-<span class='va'>avg2</span> <span class='op'>&lt;-</span><span class='fu'>averageMSnSet</span><span class='op'>(</span><span class='va'>x</span>, disp <span class='op'>=</span> <span class='va'>sd</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>avg2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>disp</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;              X114       X115       X116       X117
-#&gt; P20353         NA         NA         NA         NA
-#&gt; P53501         NA         NA         NA         NA
-#&gt; Q7KU78 0.03158988 0.04750696 0.01033500 0.04667976
-#&gt; P04412         NA         NA         NA         NA
-#&gt; Q7KJ73         NA         NA         NA         NA
-#&gt; Q7JZN0 0.02121910 0.04160155 0.08447534 0.04988318</div><div class='input'><span class='co'>## keep only complete observations, i.e proteins </span>
-<span class='co'>## that had 0 missing values for all samples</span>
-<span class='va'>sel</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>avg</span><span class='op'>)</span><span class='op'>$</span><span class='va'>nNA</span>, <span class='fl'>1</span> , <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='va'>x</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>avg</span> <span class='op'>&lt;-</span> <span class='va'>avg</span><span class='op'>[</span><span class='va'>sel</span>, <span class='op'>]</span>
-<span class='va'>disp</span> <span class='op'>&lt;-</span> <span class='fu'>rowMax</span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>avg</span><span class='op'>)</span><span class='op'>$</span><span class='va'>disp</span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lgatto/pRoloc'>"pRoloc"</a></span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading required package: MLInterfaces</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: annotate</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: AnnotationDbi</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: XML</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘annotate’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:mzR’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    nChrom</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: cluster</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: BiocParallel</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>This is pRoloc version 1.31.0 </span>
-#&gt; <span class='message'>  Visit https://lgatto.github.io/pRoloc/ to get started.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/pRoloc/man/getStockcol.html'>setStockcol</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/pRoloc/man/getStockcol.html'>getStockcol</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"AA"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/pRoloc/man/plot2D.html'>plot2D</a></span><span class='op'>(</span><span class='va'>avg</span>, cex <span class='op'>=</span> <span class='fl'>7.7</span> <span class='op'>*</span> <span class='va'>disp</span><span class='op'>)</span>
-</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/title.html'>title</a></span><span class='op'>(</span>main <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"Dispersion: non-parametric CV"</span>,
-                   <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span><span class='op'>(</span><span class='va'>disp</span><span class='op'>)</span>, <span class='fl'>3</span><span class='op'>)</span>, collapse <span class='op'>=</span> <span class='st'>" - "</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='averageMSnSet-1.png' alt='' width='700' height='433' /></div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'>## 3 replicates from Tan et al. 2009</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tan2009r1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tan2009r2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tan2009r3</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnSetList-class.html'>MSnSetList</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>tan2009r1</span>, <span class='va'>tan2009r2</span>, <span class='va'>tan2009r3</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>avg</span> <span class='op'>&lt;-</span> <span class='fu'>averageMSnSet</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='pSet-class.html'>dim</a></span><span class='op'>(</span><span class='va'>avg</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1311    4</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='va'>avg</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             X114      X115      X116      X117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P20353 0.3605000 0.3035000 0.2095000 0.1265000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P53501 0.4299090 0.1779700 0.2068280 0.1852625</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q7KU78 0.1704443 0.1234443 0.1772223 0.5290000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P04412 0.2567500 0.2210000 0.3015000 0.2205000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q7KJ73 0.2160000 0.1830000 0.3420000 0.2590000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q7JZN0 0.0965000 0.2509443 0.4771667 0.1750557</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>avg</span><span class='op'>)</span><span class='op'>$</span><span class='va'>nNA</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        X114 X115 X116 X117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P20353    1    1    1    1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P53501    1    1    1    1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q7KU78    0    0    0    0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P04412    1    1    1    1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q7KJ73    2    2    2    2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q7JZN0    0    0    0    0</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>avg</span><span class='op'>)</span><span class='op'>$</span><span class='va'>disp</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               X114      X115        X116       X117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P20353 0.076083495 0.1099127 0.109691169 0.14650198</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P53501 0.034172542 0.2640556 0.005139653 0.17104568</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q7KU78 0.023198743 0.4483795 0.027883087 0.04764499</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P04412 0.053414021 0.2146751 0.090972139 0.27903810</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q7KJ73 0.000000000 0.0000000 0.000000000 0.00000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q7JZN0 0.007681865 0.1959534 0.097873350 0.06210542</span>
+<span class='r-in'><span class='co'>## using the standard deviation as measure of dispersion</span></span>
+<span class='r-in'><span class='va'>avg2</span> <span class='op'>&lt;-</span><span class='fu'>averageMSnSet</span><span class='op'>(</span><span class='va'>x</span>, disp <span class='op'>=</span> <span class='va'>sd</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>avg2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>disp</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>              X114       X115       X116       X117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P20353         NA         NA         NA         NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P53501         NA         NA         NA         NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q7KU78 0.03158988 0.04750696 0.01033500 0.04667976</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P04412         NA         NA         NA         NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q7KJ73         NA         NA         NA         NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Q7JZN0 0.02121910 0.04160155 0.08447534 0.04988318</span>
+<span class='r-in'><span class='co'>## keep only complete observations, i.e proteins </span></span>
+<span class='r-in'><span class='co'>## that had 0 missing values for all samples</span></span>
+<span class='r-in'><span class='va'>sel</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>avg</span><span class='op'>)</span><span class='op'>$</span><span class='va'>nNA</span>, <span class='fl'>1</span> , <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span><span class='op'>(</span><span class='va'>x</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>avg</span> <span class='op'>&lt;-</span> <span class='va'>avg</span><span class='op'>[</span><span class='va'>sel</span>, <span class='op'>]</span></span>
+<span class='r-in'><span class='va'>disp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/rowQ.html'>rowMax</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>avg</span><span class='op'>)</span><span class='op'>$</span><span class='va'>disp</span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lgatto/pRoloc'>"pRoloc"</a></span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: MLInterfaces</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: annotate</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: AnnotationDbi</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: XML</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Attaching package: ‘annotate’</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The following object is masked from ‘package:mzR’:</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     nChrom</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: cluster</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: BiocParallel</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> This is pRoloc version 1.33.0 </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>   Visit https://lgatto.github.io/pRoloc/ to get started.</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/pRoloc/man/getStockcol.html'>setStockcol</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/pRoloc/man/getStockcol.html'>getStockcol</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"AA"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/pRoloc/man/plot2D.html'>plot2D</a></span><span class='op'>(</span><span class='va'>avg</span>, cex <span class='op'>=</span> <span class='fl'>7.7</span> <span class='op'>*</span> <span class='va'>disp</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/title.html'>title</a></span><span class='op'>(</span>main <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>"Dispersion: non-parametric CV"</span>,</span>
+<span class='r-in'>                   <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/GenomicRanges/man/inter-range-methods.html'>range</a></span><span class='op'>(</span><span class='va'>disp</span><span class='op'>)</span>, <span class='fl'>3</span><span class='op'>)</span>, collapse <span class='op'>=</span> <span class='st'>" - "</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='averageMSnSet-1.png' alt='' width='700' height='433' /></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -269,11 +290,11 @@ future.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -281,6 +302,8 @@ future.</p>
 
   
 
+
+  
 
   </body>
 </html>

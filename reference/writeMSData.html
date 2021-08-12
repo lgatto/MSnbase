@@ -60,9 +60,15 @@ either mzML or mzXML format." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -76,7 +82,7 @@ either mzML or mzXML format." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -144,16 +150,16 @@ the content of a <a href='MSnExp-class.html'>MSnExp</a> or <a href='OnDiskMSnExp
 either <em>mzML</em> or <em>mzXML</em> format.</p>
     </div>
 
-    <pre class="usage"><span class='co'># S4 method for MSnExp,character</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='co'># S4 method for MSnExp,character</span>
 <span class='fu'>writeMSData</span><span class='op'>(</span>
   <span class='va'>object</span>,
   <span class='va'>file</span>,
-  outformat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"mzml"</span>, <span class='st'>"mzxml"</span><span class='op'>)</span>,
+  outformat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='st'>"mzml"</span>, <span class='st'>"mzxml"</span><span class='op'>)</span>,
   merge <span class='op'>=</span> <span class='cn'>FALSE</span>,
   verbose <span class='op'>=</span> <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span><span class='op'>(</span><span class='op'>)</span>,
   copy <span class='op'>=</span> <span class='cn'>FALSE</span>,
   software_processing <span class='op'>=</span> <span class='cn'>NULL</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -169,22 +175,22 @@ number of samples/files of <code>x</code>.</p></td>
     </tr>
     <tr>
       <th>outformat</th>
-      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> defining the format of the output files.
+      <td><p><code>character(1)</code> defining the format of the output files.
 Default output format is <code>"mzml"</code>.</p></td>
     </tr>
     <tr>
       <th>merge</th>
-      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether the data should be saved into a single
+      <td><p><code>logical(1)</code> whether the data should be saved into a single
 <em>mzML</em> file. Default is <code>merge = FALSE</code>, i.e. each sample is saved to
 a separate file. <strong>Note</strong>: <code>merge = TRUE</code> is not yet implemented.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> if progress messages should be displayed.</p></td>
+      <td><p><code>logical(1)</code> if progress messages should be displayed.</p></td>
     </tr>
     <tr>
       <th>copy</th>
-      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> if metadata (data processings, original file names
+      <td><p><code>logical(1)</code> if metadata (data processings, original file names
 etc) should be copied from the original files. See details for more
 information.</p></td>
     </tr>
@@ -238,11 +244,11 @@ are valid and can be opened with other software than <code>mzR</code>/<code>MSnb
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -250,6 +256,8 @@ are valid and can be opened with other software than <code>mzR</code>/<code>MSnb
 
   
 
+
+  
 
   </body>
 </html>

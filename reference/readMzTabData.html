@@ -61,9 +61,15 @@ the MSnSet's experimentData()@other$mzTab slot." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -77,7 +83,7 @@ the MSnSet's experimentData()@other$mzTab slot." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -146,12 +152,12 @@ the MSnSet's experimentData()@other$mzTab slot." />
 the <code>MSnSet</code>'s <code>experimentData()@other$mzTab</code> slot.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>readMzTabData</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>readMzTabData</span><span class='op'>(</span>
   <span class='va'>file</span>,
-  what <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"PRT"</span>, <span class='st'>"PEP"</span>, <span class='st'>"PSM"</span><span class='op'>)</span>,
-  version <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1.0"</span>, <span class='st'>"0.9"</span><span class='op'>)</span>,
+  what <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='st'>"PRT"</span>, <span class='st'>"PEP"</span>, <span class='st'>"PSM"</span><span class='op'>)</span>,
+  version <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='st'>"1.0"</span>, <span class='st'>"0.9"</span><span class='op'>)</span>,
   verbose <span class='op'>=</span> <span class='fu'><a href='MSnbaseOptions.html'>isMSnbaseVerbose</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,150 +199,155 @@ details about the inners of <code>readMzTabData</code>.</p></div>
     <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>testfile</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"</span>
-
-<span class='va'>prot</span> <span class='op'>&lt;-</span> <span class='fu'>readMzTabData</span><span class='op'>(</span><span class='va'>testfile</span>, <span class='st'>"PRT"</span><span class='op'>)</span>
-
-<span class='va'>prot</span>
-</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
-#&gt; assayData: 1249 features, 4 samples 
-#&gt;   element names: exprs 
-#&gt; protocolData: none
-#&gt; phenoData: none
-#&gt; featureData
-#&gt;   featureNames: X223462890 X19855078 ... X26329627 (1249 total)
-#&gt;   fvarLabels: accession description ... protein_coverage (15 total)
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'
-#&gt;   pubMedIds: pubmed:21398567 
-#&gt; Annotation:  
-#&gt; - - - Processing information - - -
-#&gt;  MSnbase version: 2.17.8 </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>prot</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;            accession
-#&gt; X223462890 223462890
-#&gt; X19855078   19855078
-#&gt; X21450277   21450277
-#&gt; X6978545     6978545
-#&gt; X51315739   51315739
-#&gt; X117938332 117938332
-#&gt;                                                                                                                                                                                                           description
-#&gt; X223462890                                                                                                                                                                               Spna2 protein [Mus musculus]
-#&gt; X19855078  RecName: Full=Sodium/potassium-transporting ATPase subunit alpha-3; Short=Na(+)/K(+) ATPase alpha-3 subunit; AltName: Full=Na(+)/K(+) ATPase alpha(III) subunit; AltName: Full=Sodium pump subunit alpha-3
-#&gt; X21450277                                                                                                                               sodium/potassium-transporting ATPase subunit alpha-1 precursor [Mus musculus]
-#&gt; X6978545                                                                                                                           sodium/potassium-transporting ATPase subunit alpha-2 precursor [Rattus norvegicus]
-#&gt; X51315739                                                                                                                                                                               RecName: Full=Protein bassoon
-#&gt; X117938332                                                                                                                                                      spectrin beta chain, brain 1 isoform 1 [Mus musculus]
-#&gt;            taxid              species       database database_version
-#&gt; X223462890 10090 Mus musculus (Mouse) NCBInr_2010_10  nr_101020.fasta
-#&gt; X19855078  10090 Mus musculus (Mouse) NCBInr_2010_10  nr_101020.fasta
-#&gt; X21450277  10090 Mus musculus (Mouse) NCBInr_2010_10  nr_101020.fasta
-#&gt; X6978545   10090 Mus musculus (Mouse) NCBInr_2010_10  nr_101020.fasta
-#&gt; X51315739  10090 Mus musculus (Mouse) NCBInr_2010_10  nr_101020.fasta
-#&gt; X117938332 10090 Mus musculus (Mouse) NCBInr_2010_10  nr_101020.fasta
-#&gt;                         search_engine best_search_engine_score[1]
-#&gt; X223462890 [MS, MS:1001207, Mascot, ]                     6539.67
-#&gt; X19855078  [MS, MS:1001207, Mascot, ]                     6331.91
-#&gt; X21450277  [MS, MS:1001207, Mascot, ]                     4577.11
-#&gt; X6978545   [MS, MS:1001207, Mascot, ]                     4342.81
-#&gt; X51315739  [MS, MS:1001207, Mascot, ]                     4177.55
-#&gt; X117938332 [MS, MS:1001207, Mascot, ]                     4001.66
-#&gt;            search_engine_score[1]_ms_run[1] num_psms_ms_run[1]
-#&gt; X223462890                          6539.67                157
-#&gt; X19855078                           6331.91                144
-#&gt; X21450277                           4577.11                112
-#&gt; X6978545                            4342.81                108
-#&gt; X51315739                           4177.55                100
-#&gt; X117938332                          4001.66                109
-#&gt;            num_peptides_distinct_ms_run[1] num_peptides_unique_ms_run[1]
-#&gt; X223462890                              92                            NA
-#&gt; X19855078                               49                            NA
-#&gt; X21450277                               39                            NA
-#&gt; X6978545                                42                            NA
-#&gt; X51315739                               59                            NA
-#&gt; X117938332                              72                            NA
-#&gt;            ambiguity_members
-#&gt; X223462890                NA
-#&gt; X19855078                 NA
-#&gt; X21450277                 NA
-#&gt; X6978545                  NA
-#&gt; X51315739                 NA
-#&gt; X117938332                NA
-#&gt;                                                                                 modifications
-#&gt; X223462890                                                                               &lt;NA&gt;
-#&gt; X19855078  32-MOD:00425,525-MOD:00425,606-MOD:00425,725-MOD:00425,739-MOD:00425,940-MOD:00425
-#&gt; X21450277                              42-MOD:00425,616-MOD:00425,749-MOD:00425,950-MOD:00425
-#&gt; X6978545                               40-MOD:00425,613-MOD:00425,746-MOD:00425,947-MOD:00425
-#&gt; X51315739                                                                                &lt;NA&gt;
-#&gt; X117938332                                                                               &lt;NA&gt;
-#&gt;            protein_coverage
-#&gt; X223462890                0
-#&gt; X19855078                 0
-#&gt; X21450277                 0
-#&gt; X6978545                  0
-#&gt; X51315739                 0
-#&gt; X117938332                0</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>prot</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;            protein_abundance_assay[1] protein_abundance_assay[2]
-#&gt; X223462890                          1                      0.853
-#&gt; X19855078                          NA                         NA
-#&gt; X21450277                           1                      0.776
-#&gt; X6978545                            1                      0.784
-#&gt; X51315739                          NA                         NA
-#&gt; X117938332                          1                      0.865
-#&gt;            protein_abundance_assay[3] protein_abundance_assay[4]
-#&gt; X223462890                      0.864                      0.791
-#&gt; X19855078                          NA                         NA
-#&gt; X21450277                       0.819                      0.687
-#&gt; X6978545                        0.848                      0.693
-#&gt; X51315739                          NA                         NA
-#&gt; X117938332                      0.861                      0.795</div><div class='input'>
-<span class='va'>psms</span> <span class='op'>&lt;-</span> <span class='fu'>readMzTabData</span><span class='op'>(</span><span class='va'>testfile</span>, <span class='st'>"PSM"</span><span class='op'>)</span>
-
-<span class='va'>psms</span>
-</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
-#&gt; assayData: 8761 features, 0 samples 
-#&gt;   element names: exprs 
-#&gt; protocolData: none
-#&gt; phenoData: none
-#&gt; featureData
-#&gt;   featureNames: X1661 X2280 ... X20346 (8761 total)
-#&gt;   fvarLabels: sequence PSM_ID ... end (18 total)
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'
-#&gt;   pubMedIds: pubmed:21398567 
-#&gt; Annotation:  
-#&gt; - - - Processing information - - -
-#&gt;  MSnbase version: 2.17.8 </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>psms</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       sequence PSM_ID accession unique       database database_version
-#&gt; X1661   QQVLDR   1661 223462890     NA NCBInr_2010_10  nr_101020.fasta
-#&gt; X2280   LVQYLR   2280 223462890     NA NCBInr_2010_10  nr_101020.fasta
-#&gt; X2281   LVQYLR   2281 223462890     NA NCBInr_2010_10  nr_101020.fasta
-#&gt; X2537   LQQLFR   2537 223462890     NA NCBInr_2010_10  nr_101020.fasta
-#&gt; X2809 EAGSVSLR   2809 223462890     NA NCBInr_2010_10  nr_101020.fasta
-#&gt; X5465 LSILSEER   5465 223462890     NA NCBInr_2010_10  nr_101020.fasta
-#&gt;                    search_engine search_engine_score[1] modifications
-#&gt; X1661 [MS, MS:1001207, Mascot, ]                  37.76   0-MOD:01499
-#&gt; X2280 [MS, MS:1001207, Mascot, ]                  44.64   0-MOD:01499
-#&gt; X2281 [MS, MS:1001207, Mascot, ]                  44.76   0-MOD:01499
-#&gt; X2537 [MS, MS:1001207, Mascot, ]                  45.41   0-MOD:01499
-#&gt; X2809 [MS, MS:1001207, Mascot, ]                  55.05   0-MOD:01499
-#&gt; X5465 [MS, MS:1001207, Mascot, ]                  39.82   0-MOD:01499
-#&gt;       retention_time charge exp_mass_to_charge calc_mass_to_charge
-#&gt; X1661             NA      1           902.4821            902.5181
-#&gt; X2280             NA      1           935.5775            935.5800
-#&gt; X2281             NA      1           935.5833            935.5800
-#&gt; X2537             NA      1           948.5956            948.5753
-#&gt; X2809             NA      1           962.5098            962.5393
-#&gt; X5465             NA      1          1090.6232           1090.6230
-#&gt;                   spectra_ref pre post start  end
-#&gt; X1661 ms_run[1]:spectrum=1661   R    Y    20   25
-#&gt; X2280 ms_run[1]:spectrum=2280   K    E   151  156
-#&gt; X2281 ms_run[1]:spectrum=2281   K    E   151  156
-#&gt; X2537 ms_run[1]:spectrum=2537   R    D   786  791
-#&gt; X2809 ms_run[1]:spectrum=2809   K    M  1058 1065
-#&gt; X5465 ms_run[1]:spectrum=5465   K    T   442  449</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>testfile</span> <span class='op'>&lt;-</span> <span class='st'>"https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>prot</span> <span class='op'>&lt;-</span> <span class='fu'>readMzTabData</span><span class='op'>(</span><span class='va'>testfile</span>, <span class='st'>"PRT"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>prot</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MSnSet (storageMode: lockedEnvironment)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> assayData: 1249 features, 4 samples </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   element names: exprs </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> protocolData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phenoData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> featureData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   featureNames: X223462890 X19855078 ... X26329627 (1249 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarLabels: accession description ... protein_coverage (15 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> experimentData: use 'experimentData(object)'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   pubMedIds: pubmed:21398567 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Annotation:  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Processing information - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSnbase version: 2.19.2 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>prot</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            accession</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X223462890 223462890</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X19855078   19855078</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X21450277   21450277</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X6978545     6978545</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X51315739   51315739</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X117938332 117938332</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                                                                                                                                                           description</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X223462890                                                                                                                                                                               Spna2 protein [Mus musculus]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X19855078  RecName: Full=Sodium/potassium-transporting ATPase subunit alpha-3; Short=Na(+)/K(+) ATPase alpha-3 subunit; AltName: Full=Na(+)/K(+) ATPase alpha(III) subunit; AltName: Full=Sodium pump subunit alpha-3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X21450277                                                                                                                               sodium/potassium-transporting ATPase subunit alpha-1 precursor [Mus musculus]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X6978545                                                                                                                           sodium/potassium-transporting ATPase subunit alpha-2 precursor [Rattus norvegicus]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X51315739                                                                                                                                                                               RecName: Full=Protein bassoon</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X117938332                                                                                                                                                      spectrin beta chain, brain 1 isoform 1 [Mus musculus]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            taxid              species       database database_version</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X223462890 10090 Mus musculus (Mouse) NCBInr_2010_10  nr_101020.fasta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X19855078  10090 Mus musculus (Mouse) NCBInr_2010_10  nr_101020.fasta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X21450277  10090 Mus musculus (Mouse) NCBInr_2010_10  nr_101020.fasta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X6978545   10090 Mus musculus (Mouse) NCBInr_2010_10  nr_101020.fasta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X51315739  10090 Mus musculus (Mouse) NCBInr_2010_10  nr_101020.fasta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X117938332 10090 Mus musculus (Mouse) NCBInr_2010_10  nr_101020.fasta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                         search_engine best_search_engine_score[1]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X223462890 [MS, MS:1001207, Mascot, ]                     6539.67</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X19855078  [MS, MS:1001207, Mascot, ]                     6331.91</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X21450277  [MS, MS:1001207, Mascot, ]                     4577.11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X6978545   [MS, MS:1001207, Mascot, ]                     4342.81</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X51315739  [MS, MS:1001207, Mascot, ]                     4177.55</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X117938332 [MS, MS:1001207, Mascot, ]                     4001.66</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            search_engine_score[1]_ms_run[1] num_psms_ms_run[1]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X223462890                          6539.67                157</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X19855078                           6331.91                144</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X21450277                           4577.11                112</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X6978545                            4342.81                108</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X51315739                           4177.55                100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X117938332                          4001.66                109</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            num_peptides_distinct_ms_run[1] num_peptides_unique_ms_run[1]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X223462890                              92                            NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X19855078                               49                            NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X21450277                               39                            NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X6978545                                42                            NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X51315739                               59                            NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X117938332                              72                            NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            ambiguity_members</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X223462890                NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X19855078                 NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X21450277                 NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X6978545                  NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X51315739                 NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X117938332                NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                                                                 modifications</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X223462890                                                                               &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X19855078  32-MOD:00425,525-MOD:00425,606-MOD:00425,725-MOD:00425,739-MOD:00425,940-MOD:00425</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X21450277                              42-MOD:00425,616-MOD:00425,749-MOD:00425,950-MOD:00425</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X6978545                               40-MOD:00425,613-MOD:00425,746-MOD:00425,947-MOD:00425</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X51315739                                                                                &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X117938332                                                                               &lt;NA&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            protein_coverage</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X223462890                0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X19855078                 0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X21450277                 0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X6978545                  0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X51315739                 0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X117938332                0</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='va'>prot</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            protein_abundance_assay[1] protein_abundance_assay[2]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X223462890                          1                      0.853</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X19855078                          NA                         NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X21450277                           1                      0.776</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X6978545                            1                      0.784</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X51315739                          NA                         NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X117938332                          1                      0.865</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            protein_abundance_assay[3] protein_abundance_assay[4]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X223462890                      0.864                      0.791</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X19855078                          NA                         NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X21450277                       0.819                      0.687</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X6978545                        0.848                      0.693</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X51315739                          NA                         NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X117938332                      0.861                      0.795</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>psms</span> <span class='op'>&lt;-</span> <span class='fu'>readMzTabData</span><span class='op'>(</span><span class='va'>testfile</span>, <span class='st'>"PSM"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>psms</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MSnSet (storageMode: lockedEnvironment)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> assayData: 8761 features, 0 samples </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   element names: exprs </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> protocolData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phenoData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> featureData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   featureNames: X1661 X2280 ... X20346 (8761 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarLabels: sequence PSM_ID ... end (18 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> experimentData: use 'experimentData(object)'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   pubMedIds: pubmed:21398567 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Annotation:  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Processing information - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSnbase version: 2.19.2 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>psms</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       sequence PSM_ID accession unique       database database_version</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X1661   QQVLDR   1661 223462890     NA NCBInr_2010_10  nr_101020.fasta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2280   LVQYLR   2280 223462890     NA NCBInr_2010_10  nr_101020.fasta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2281   LVQYLR   2281 223462890     NA NCBInr_2010_10  nr_101020.fasta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2537   LQQLFR   2537 223462890     NA NCBInr_2010_10  nr_101020.fasta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2809 EAGSVSLR   2809 223462890     NA NCBInr_2010_10  nr_101020.fasta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X5465 LSILSEER   5465 223462890     NA NCBInr_2010_10  nr_101020.fasta</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                    search_engine search_engine_score[1] modifications</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X1661 [MS, MS:1001207, Mascot, ]                  37.76   0-MOD:01499</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2280 [MS, MS:1001207, Mascot, ]                  44.64   0-MOD:01499</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2281 [MS, MS:1001207, Mascot, ]                  44.76   0-MOD:01499</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2537 [MS, MS:1001207, Mascot, ]                  45.41   0-MOD:01499</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2809 [MS, MS:1001207, Mascot, ]                  55.05   0-MOD:01499</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X5465 [MS, MS:1001207, Mascot, ]                  39.82   0-MOD:01499</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       retention_time charge exp_mass_to_charge calc_mass_to_charge</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X1661             NA      1           902.4821            902.5181</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2280             NA      1           935.5775            935.5800</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2281             NA      1           935.5833            935.5800</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2537             NA      1           948.5956            948.5753</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2809             NA      1           962.5098            962.5393</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X5465             NA      1          1090.6232           1090.6230</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   spectra_ref pre post start  end</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X1661 ms_run[1]:spectrum=1661   R    Y    20   25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2280 ms_run[1]:spectrum=2280   K    E   151  156</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2281 ms_run[1]:spectrum=2281   K    E   151  156</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2537 ms_run[1]:spectrum=2537   R    D   786  791</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2809 ms_run[1]:spectrum=2809   K    M  1058 1065</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X5465 ms_run[1]:spectrum=5465   K    T   442  449</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -348,11 +359,11 @@ details about the inners of <code>readMzTabData</code>.</p></div>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -360,6 +371,8 @@ details about the inners of <code>readMzTabData</code>.</p></div>
 
   
 
+
+  
 
   </body>
 </html>

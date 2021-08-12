@@ -82,9 +82,15 @@ The msnset2 object is another example iTRAQ4 data that is used
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -98,7 +104,7 @@ The msnset2 object is another example iTRAQ4 data that is used
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -188,75 +194,78 @@ The msnset2 object is another example iTRAQ4 data that is used
   tags</em>. J. Proteome Res., 10, 2758-2766.</p>
     </div>
 
-    <pre class="usage"><span class='va'>itraqdata</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='va'>itraqdata</span></code></pre></div>
 
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>itraqdata</span><span class='op'>)</span>
-<span class='va'>itraqdata</span>
-</div><div class='output co'>#&gt; MSn experiment data ("MSnExp")
-#&gt; Object size in memory: 1.9 Mb
-#&gt; - - - Spectra data - - -
-#&gt;  MS level(s): 2 
-#&gt;  Number of spectra: 55 
-#&gt;  MSn retention times: 19:09 - 50:18 minutes
-#&gt; - - - Processing information - - -
-#&gt; Data loaded: Wed May 11 18:54:39 2011 
-#&gt; Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#&gt;  MSnbase version: 1.1.22 
-#&gt; - - - Meta data  - - -
-#&gt; phenoData
-#&gt;   rowNames: 1
-#&gt;   varLabels: sampleNames sampleNumbers
-#&gt;   varMetadata: labelDescription
-#&gt; Loaded from:
-#&gt;   dummyiTRAQ.mzXML 
-#&gt; protocolData: none
-#&gt; featureData
-#&gt;   featureNames: X1 X10 ... X9 (55 total)
-#&gt;   fvarLabels: spectrum ProteinAccession ProteinDescription
-#&gt;     PeptideSequence
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'</div><div class='input'>
-<span class='co'>## created by</span>
-<span class='co'>## msnset &lt;- quantify(itraqdata, method = "trap", reporters = iTRAQ4)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>
-<span class='va'>msnset</span>
-</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
-#&gt; assayData: 55 features, 4 samples 
-#&gt;   element names: exprs 
-#&gt; protocolData: none
-#&gt; phenoData
-#&gt;   sampleNames: iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt;   varLabels: mz reporters
-#&gt;   varMetadata: labelDescription
-#&gt; featureData
-#&gt;   featureNames: X1 X10 ... X9 (55 total)
-#&gt;   fvarLabels: spectrum ProteinAccession ... collision.energy (15 total)
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'
-#&gt; Annotation: No annotation 
-#&gt; - - - Processing information - - -
-#&gt; Data loaded: Wed May 11 18:54:39 2011 
-#&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt;  MSnbase version: 1.1.22 </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span>
-<span class='va'>msnset2</span>
-</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
-#&gt; assayData: 614 features, 4 samples 
-#&gt;   element names: exprs 
-#&gt; protocolData: none
-#&gt; phenoData: none
-#&gt; featureData
-#&gt;   featureNames: 11695 11696 ... 390 (614 total)
-#&gt;   fvarLabels: accession sequence ... rudist.org (9 total)
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'
-#&gt; Annotation:  
-#&gt; - - - Processing information - - -
-#&gt; Subset [13758,4][614,4] Mon Jun 15 21:03:40 2015 
-#&gt;  MSnbase version: 1.14.1 </div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>itraqdata</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>itraqdata</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MSn experiment data ("MSnExp")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object size in memory: 1.9 Mb</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Spectra data - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MS level(s): 2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Number of spectra: 55 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn retention times: 19:09 - 50:18 minutes</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Processing information - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Data loaded: Wed May 11 18:54:39 2011 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSnbase version: 1.1.22 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Meta data  - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phenoData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   rowNames: 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varLabels: sampleNames sampleNumbers</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Loaded from:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   dummyiTRAQ.mzXML </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> protocolData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> featureData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   featureNames: X1 X10 ... X9 (55 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarLabels: spectrum ProteinAccession ProteinDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     PeptideSequence</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> experimentData: use 'experimentData(object)'</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## created by</span></span>
+<span class='r-in'><span class='co'>## msnset &lt;- quantify(itraqdata, method = "trap", reporters = iTRAQ4)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>msnset</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MSnSet (storageMode: lockedEnvironment)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> assayData: 55 features, 4 samples </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   element names: exprs </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> protocolData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phenoData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   sampleNames: iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varLabels: mz reporters</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> featureData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   featureNames: X1 X10 ... X9 (55 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarLabels: spectrum ProteinAccession ... collision.energy (15 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> experimentData: use 'experimentData(object)'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Annotation: No annotation </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Processing information - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Data loaded: Wed May 11 18:54:39 2011 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSnbase version: 1.1.22 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>msnset2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MSnSet (storageMode: lockedEnvironment)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> assayData: 614 features, 4 samples </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   element names: exprs </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> protocolData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phenoData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> featureData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   featureNames: 11695 11696 ... 390 (614 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarLabels: accession sequence ... rudist.org (9 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> experimentData: use 'experimentData(object)'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Annotation:  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Processing information - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Subset [13758,4][614,4] Mon Jun 15 21:03:40 2015 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSnbase version: 1.14.1 </span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -268,11 +277,11 @@ The msnset2 object is another example iTRAQ4 data that is used
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -280,6 +289,8 @@ The msnset2 object is another example iTRAQ4 data that is used
 
   
 
+
+  
 
   </body>
 </html>

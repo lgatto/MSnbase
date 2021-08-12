@@ -61,9 +61,15 @@ SideChainMass, pK1, pK2 and pI." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -77,7 +83,7 @@ SideChainMass, pK1, pK2 and pI." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -146,7 +152,7 @@ SideChainMass, pK1, pK2 and pI." />
 <code>SideChainMass</code>, <code>pK1</code>, <code>pK2</code> and <code>pI</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get.amino.acids</span><span class='op'>(</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get.amino.acids</span><span class='op'>(</span><span class='op'>)</span></code></pre></div>
 
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -157,51 +163,52 @@ SideChainMass, pK1, pK2 and pI." />
     <p>Laurent Gatto</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>get.amino.acids</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;     AA ResidueMass Abbrev3 ImmoniumIonMass                Name Hydrophobicity
-#&gt; 1  peg    44.00000    &lt;NA&gt;              NA Polyethylene glycol             NA
-#&gt; 2    A    71.03711     Ala        44.05003             Alanine           0.62
-#&gt; 3    R   156.10111     Arg       129.11400            Arginine          -2.53
-#&gt; 4    N   114.04293     Asn        87.05584          Asparagine          -0.78
-#&gt; 5    D   115.02694     Asp        88.03986       Aspartic acid          -0.90
-#&gt; 6    C   103.00919     Cys        76.02210            Cysteine           0.29
-#&gt; 7    E   129.04259     Glu       102.05550       Glutamic acid          -0.74
-#&gt; 8    Q   128.05858     Gln       101.07150           Glutamine          -0.85
-#&gt; 9    G    57.02146     Gly        30.03438             Glycine           0.48
-#&gt; 10   H   137.05891     His       110.07180           Histidine          -0.40
-#&gt; 11   I   113.08406     Ile        86.09698          Isoleucine           1.38
-#&gt; 12   L   113.08406     Leu        86.09698             Leucine           1.06
-#&gt; 13   K   128.09496     Lys       101.10790              Lysine          -1.50
-#&gt; 14   M   131.04049     Met       104.05340          Methionine           0.64
-#&gt; 15   F   147.06841     Phe       120.08130       Phenylalanine           1.19
-#&gt; 16   P    97.05276     Pro        70.06568             Proline           0.12
-#&gt; 17   S    87.03203     Ser        60.04494              Serine          -0.18
-#&gt; 18   T   101.04768     Thr        74.06059           Threonine          -0.05
-#&gt; 19   W   186.07931     Trp       159.09220          Tryptophan           0.81
-#&gt; 20   Y   163.06333     Tyr       136.07620            Tyrosine           0.26
-#&gt; 21   V    99.06841     Val        72.08133              Valine           1.08
-#&gt;    Hydrophilicity SideChainMass  pK1   pK2    pI
-#&gt; 1              NA            NA   NA    NA    NA
-#&gt; 2            -0.5            15 2.35  9.87  6.11
-#&gt; 3             3.0           101 2.18  9.09 10.76
-#&gt; 4             0.2            58 2.18  9.09 10.76
-#&gt; 5             3.0            59 1.88  9.60  2.98
-#&gt; 6            -1.0            47 1.71 10.78  5.02
-#&gt; 7             3.0            73 2.19  9.67  3.08
-#&gt; 8             0.2            72 2.17  9.13  5.65
-#&gt; 9             0.0             1 2.34  9.60  6.06
-#&gt; 10           -0.5            82 1.78  8.97  7.64
-#&gt; 11           -1.8            57 2.32  9.76  6.04
-#&gt; 12           -1.8            57 2.36  9.60  6.04
-#&gt; 13            3.0            73 2.20  8.90  9.47
-#&gt; 14           -1.3            75 2.28  9.21  5.74
-#&gt; 15           -2.5            91 2.58  9.24  5.91
-#&gt; 16            0.0            42 1.99 10.60  6.30
-#&gt; 17            0.3            31 2.21  9.15  5.68
-#&gt; 18           -0.4            45 2.15  9.12  5.60
-#&gt; 19           -3.4           130 2.38  9.39  5.88
-#&gt; 20           -2.3           107 2.20  9.11  5.63
-#&gt; 21           -1.5            43 2.29  9.74  6.02</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>get.amino.acids</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     AA ResidueMass Abbrev3 ImmoniumIonMass                Name Hydrophobicity</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1  peg    44.00000    &lt;NA&gt;              NA Polyethylene glycol             NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    A    71.03711     Ala        44.05003             Alanine           0.62</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3    R   156.10111     Arg       129.11400            Arginine          -2.53</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4    N   114.04293     Asn        87.05584          Asparagine          -0.78</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    D   115.02694     Asp        88.03986       Aspartic acid          -0.90</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6    C   103.00919     Cys        76.02210            Cysteine           0.29</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7    E   129.04259     Glu       102.05550       Glutamic acid          -0.74</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8    Q   128.05858     Gln       101.07150           Glutamine          -0.85</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9    G    57.02146     Gly        30.03438             Glycine           0.48</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10   H   137.05891     His       110.07180           Histidine          -0.40</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11   I   113.08406     Ile        86.09698          Isoleucine           1.38</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12   L   113.08406     Leu        86.09698             Leucine           1.06</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13   K   128.09496     Lys       101.10790              Lysine          -1.50</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14   M   131.04049     Met       104.05340          Methionine           0.64</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15   F   147.06841     Phe       120.08130       Phenylalanine           1.19</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16   P    97.05276     Pro        70.06568             Proline           0.12</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17   S    87.03203     Ser        60.04494              Serine          -0.18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18   T   101.04768     Thr        74.06059           Threonine          -0.05</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 19   W   186.07931     Trp       159.09220          Tryptophan           0.81</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20   Y   163.06333     Tyr       136.07620            Tyrosine           0.26</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 21   V    99.06841     Val        72.08133              Valine           1.08</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Hydrophilicity SideChainMass  pK1   pK2    pI</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1              NA            NA   NA    NA    NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2            -0.5            15 2.35  9.87  6.11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3             3.0           101 2.18  9.09 10.76</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4             0.2            58 2.18  9.09 10.76</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5             3.0            59 1.88  9.60  2.98</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6            -1.0            47 1.71 10.78  5.02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7             3.0            73 2.19  9.67  3.08</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8             0.2            72 2.17  9.13  5.65</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9             0.0             1 2.34  9.60  6.06</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10           -0.5            82 1.78  8.97  7.64</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11           -1.8            57 2.32  9.76  6.04</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12           -1.8            57 2.36  9.60  6.04</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13            3.0            73 2.20  8.90  9.47</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14           -1.3            75 2.28  9.21  5.74</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15           -2.5            91 2.58  9.24  5.91</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16            0.0            42 1.99 10.60  6.30</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17            0.3            31 2.21  9.15  5.68</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18           -0.4            45 2.15  9.12  5.60</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 19           -3.4           130 2.38  9.39  5.88</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20           -2.3           107 2.20  9.11  5.63</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 21           -1.5            43 2.29  9.74  6.02</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -213,11 +220,11 @@ SideChainMass, pK1, pK2 and pI." />
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -225,6 +232,8 @@ SideChainMass, pK1, pK2 and pI." />
 
   
 
+
+  
 
   </body>
 </html>

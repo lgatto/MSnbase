@@ -86,9 +86,15 @@ Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -102,7 +108,7 @@ Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -190,8 +196,8 @@ Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
   column and header row) and the corresponding correction matrix is
   calculated. Examples of such <code>csv</code> files are available in the
   package's <code>extdata</code> directory. Use
-  <code><a href='https://rdrr.io/r/base/list.files.html'>dir(system.file("extdata", package = "MSnbase"), pattern =
-    "PurityCorrection", full.names = TRUE)</a></code> to locate them.
+  <code>dir(system.file("extdata", package = "MSnbase"), pattern =
+    "PurityCorrection", full.names = TRUE)</code> to locate them.
   If <code>edit = TRUE</code>, the the matrix can be edited before
   it is returned.</p>
     </div>
@@ -323,60 +329,65 @@ Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## quantifying full experiment</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>
-<span class='va'>impurities</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.929</span>,<span class='fl'>0.059</span>,<span class='fl'>0.002</span>,<span class='fl'>0.000</span>,
-           <span class='fl'>0.020</span>,<span class='fl'>0.923</span>,<span class='fl'>0.056</span>,<span class='fl'>0.001</span>,
-           <span class='fl'>0.000</span>,<span class='fl'>0.030</span>,<span class='fl'>0.924</span>,<span class='fl'>0.045</span>,
-           <span class='fl'>0.000</span>,<span class='fl'>0.001</span>,<span class='fl'>0.040</span>,<span class='fl'>0.923</span><span class='op'>)</span>,
-         nrow<span class='op'>=</span><span class='fl'>4</span>, byrow <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='co'>## or, using makeImpuritiesMatrix()</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='va'>impurities</span> <span class='op'>&lt;-</span> <span class='fu'>makeImpuritiesMatrix</span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span>
-<span class='va'>msnset.crct</span> <span class='op'>&lt;-</span> <span class='fu'>purityCorrect</span><span class='op'>(</span><span class='va'>msnset</span>, <span class='va'>impurities</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt; X1   1347.6158  2247.3097  3927.6931  7661.1463
-#&gt; X10   739.9861   799.3501   712.5983   940.6793
-#&gt; X11 27638.3582 33394.0252 32104.2879 26628.7278
-#&gt; X12 31892.8928 33634.6980 37674.7272 37227.7119
-#&gt; X13 26143.7542 29677.4781 29089.0593 27902.5608
-#&gt; X14  6448.0829  6234.1957  6902.8903  6437.2303</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset.crct</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt; X1   1402.9442  2214.0346  3762.2549  8114.4429
-#&gt; X10   779.4666   793.0792   678.8083   985.2003
-#&gt; X11 29034.3781 33271.0470 31484.7131 27279.1383
-#&gt; X12 33618.9092 33046.3075 37031.6133 38492.1376
-#&gt; X13 27508.0038 29440.9296 28390.4561 28814.2463
-#&gt; X14  6809.7600  6090.7894  6799.5030  6636.1450</div><div class='input'><span class='fu'><a href='pSet-class.html'>processingData</a></span><span class='op'>(</span><span class='va'>msnset.crct</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Data loaded: Wed May 11 18:54:39 2011 
-#&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt; Purity corrected: Fri Feb 12 11:25:40 2021 
-#&gt;  MSnbase version: 1.1.22 </div><div class='input'>
-<span class='co'>## default impurity matrix for iTRAQ 8-plex</span>
-<span class='fu'>makeImpuritiesMatrix</span><span class='op'>(</span><span class='fl'>8</span>, edit <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                  113   114   115   116   117   118   119   121
-#&gt; % reporter 113 0.944 0.030 0.001 0.000 0.000 0.000 0.000 0.000
-#&gt; % reporter 114 0.010 0.929 0.059 0.002 0.000 0.000 0.000 0.000
-#&gt; % reporter 115 0.000 0.020 0.923 0.056 0.001 0.000 0.000 0.000
-#&gt; % reporter 116 0.000 0.000 0.030 0.924 0.045 0.001 0.000 0.000
-#&gt; % reporter 117 0.000 0.000 0.001 0.040 0.923 0.035 0.001 0.000
-#&gt; % reporter 118 0.000 0.000 0.000 0.001 0.020 0.948 0.030 0.001
-#&gt; % reporter 119 0.000 0.000 0.000 0.000 0.001 0.020 0.938 0.040
-#&gt; % reporter 121 0.000 0.000 0.000 0.000 0.000 0.001 0.020 0.948</div><div class='input'>
-<span class='co'>## default impurity matrix for TMT 10-plex</span>
-<span class='fu'>makeImpuritiesMatrix</span><span class='op'>(</span><span class='fl'>10</span>, edit <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;                   126  127N  127C  128N  128C  129N  129C  130N  130C   131
-#&gt; % reporter 126  0.950 0.000 0.050 0.000 0.000 0.000 0.000 0.000 0.000 0.000
-#&gt; % reporter 127N 0.000 0.940 0.000 0.058 0.000 0.000 0.000 0.000 0.000 0.000
-#&gt; % reporter 127C 0.003 0.000 0.949 0.000 0.048 0.000 0.000 0.000 0.000 0.000
-#&gt; % reporter 128N 0.000 0.004 0.000 0.955 0.000 0.041 0.000 0.000 0.000 0.000
-#&gt; % reporter 128C 0.000 0.000 0.006 0.000 0.964 0.000 0.030 0.000 0.000 0.000
-#&gt; % reporter 129N 0.000 0.000 0.000 0.008 0.000 0.957 0.000 0.035 0.000 0.000
-#&gt; % reporter 129C 0.000 0.000 0.000 0.000 0.014 0.000 0.962 0.000 0.024 0.000
-#&gt; % reporter 130N 0.000 0.000 0.000 0.001 0.000 0.015 0.000 0.928 0.000 0.024
-#&gt; % reporter 130C 0.000 0.000 0.000 0.000 0.000 0.000 0.017 0.000 0.965 0.000
-#&gt; % reporter 131  0.000 0.000 0.000 0.000 0.000 0.002 0.000 0.020 0.000 0.956</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'>## quantifying full experiment</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>impurities</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='fl'>0.929</span>,<span class='fl'>0.059</span>,<span class='fl'>0.002</span>,<span class='fl'>0.000</span>,</span>
+<span class='r-in'>           <span class='fl'>0.020</span>,<span class='fl'>0.923</span>,<span class='fl'>0.056</span>,<span class='fl'>0.001</span>,</span>
+<span class='r-in'>           <span class='fl'>0.000</span>,<span class='fl'>0.030</span>,<span class='fl'>0.924</span>,<span class='fl'>0.045</span>,</span>
+<span class='r-in'>           <span class='fl'>0.000</span>,<span class='fl'>0.001</span>,<span class='fl'>0.040</span>,<span class='fl'>0.923</span><span class='op'>)</span>,</span>
+<span class='r-in'>         nrow<span class='op'>=</span><span class='fl'>4</span>, byrow <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'>## or, using makeImpuritiesMatrix()</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='va'>impurities</span> <span class='op'>&lt;-</span> <span class='fu'>makeImpuritiesMatrix</span><span class='op'>(</span><span class='fl'>4</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>msnset.crct</span> <span class='op'>&lt;-</span> <span class='fu'>purityCorrect</span><span class='op'>(</span><span class='va'>msnset</span>, <span class='va'>impurities</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X1   1347.6158  2247.3097  3927.6931  7661.1463</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X10   739.9861   799.3501   712.5983   940.6793</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X11 27638.3582 33394.0252 32104.2879 26628.7278</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X12 31892.8928 33634.6980 37674.7272 37227.7119</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X13 26143.7542 29677.4781 29089.0593 27902.5608</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X14  6448.0829  6234.1957  6902.8903  6437.2303</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset.crct</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X1   1402.9442  2214.0346  3762.2549  8114.4429</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X10   779.4666   793.0792   678.8083   985.2003</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X11 29034.3781 33271.0470 31484.7131 27279.1383</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X12 33618.9092 33046.3075 37031.6133 38492.1376</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X13 27508.0038 29440.9296 28390.4561 28814.2463</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X14  6809.7600  6090.7894  6799.5030  6636.1450</span>
+<span class='r-in'><span class='fu'><a href='pSet-class.html'>processingData</a></span><span class='op'>(</span><span class='va'>msnset.crct</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Processing information - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Data loaded: Wed May 11 18:54:39 2011 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Purity corrected: Thu Aug 12 07:02:28 2021 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSnbase version: 1.1.22 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## default impurity matrix for iTRAQ 8-plex</span></span>
+<span class='r-in'><span class='fu'>makeImpuritiesMatrix</span><span class='op'>(</span><span class='fl'>8</span>, edit <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                  113   114   115   116   117   118   119   121</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 113 0.944 0.030 0.001 0.000 0.000 0.000 0.000 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 114 0.010 0.929 0.059 0.002 0.000 0.000 0.000 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 115 0.000 0.020 0.923 0.056 0.001 0.000 0.000 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 116 0.000 0.000 0.030 0.924 0.045 0.001 0.000 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 117 0.000 0.000 0.001 0.040 0.923 0.035 0.001 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 118 0.000 0.000 0.000 0.001 0.020 0.948 0.030 0.001</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 119 0.000 0.000 0.000 0.000 0.001 0.020 0.938 0.040</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 121 0.000 0.000 0.000 0.000 0.000 0.001 0.020 0.948</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## default impurity matrix for TMT 10-plex</span></span>
+<span class='r-in'><span class='fu'>makeImpuritiesMatrix</span><span class='op'>(</span><span class='fl'>10</span>, edit <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                   126  127N  127C  128N  128C  129N  129C  130N  130C   131</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 126  0.950 0.000 0.050 0.000 0.000 0.000 0.000 0.000 0.000 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 127N 0.000 0.940 0.000 0.058 0.000 0.000 0.000 0.000 0.000 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 127C 0.003 0.000 0.949 0.000 0.048 0.000 0.000 0.000 0.000 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 128N 0.000 0.004 0.000 0.955 0.000 0.041 0.000 0.000 0.000 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 128C 0.000 0.000 0.006 0.000 0.964 0.000 0.030 0.000 0.000 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 129N 0.000 0.000 0.000 0.008 0.000 0.957 0.000 0.035 0.000 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 129C 0.000 0.000 0.000 0.000 0.014 0.000 0.962 0.000 0.024 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 130N 0.000 0.000 0.000 0.001 0.000 0.015 0.000 0.928 0.000 0.024</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 130C 0.000 0.000 0.000 0.000 0.000 0.000 0.017 0.000 0.965 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> % reporter 131  0.000 0.000 0.000 0.000 0.000 0.002 0.000 0.020 0.000 0.956</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -388,11 +399,11 @@ Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -400,6 +411,8 @@ Function makeImpuritiesMatrix(x, filename, edit = TRUE) helps
 
   
 
+
+  
 
   </body>
 </html>

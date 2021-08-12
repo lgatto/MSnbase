@@ -59,9 +59,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -75,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -158,7 +164,7 @@
     <em>Combining MSnSet instances</em> in the <em>MSnbase-demo</em>
     section). In such cases, the different experimental (phenotypical)
     conditions are recorded as an
-    <code>AnnotatedDataFrame</code> in the <code>phenoData</code>
+    <code><a href='https://rdrr.io/pkg/Biobase/man/class.AnnotatedDataFrame.html'>AnnotatedDataFrame</a></code> in the <code>phenoData</code>
     slots.</p>
 <p>Quantitative data for features that were missing in an assay are
     generally encode as missing with <code>NA</code> values. Alternatively,
@@ -187,7 +193,7 @@
       <code>x</code>, an optional logging <code>list</code>, and an optional feature
       metadata <code>data.frame</code>.</p></dd>
 
-    <dt><code><a href='https://rdrr.io/r/base/split.html'>split(x, f)</a></code></dt><dd><p>An <code>MSnSetList</code> can be created from
+    <dt><code>split(x, f)</code></dt><dd><p>An <code>MSnSetList</code> can be created from
       an <code><a href='MSnSet-class.html'>MSnSet</a></code> instance. <code>x</code> is a single
       <code>MSnSet</code> and <code>f</code> is a <code>factor</code> or a
       <code>character</code> of length 1. In the latter case, <code>f</code> will be
@@ -197,16 +203,16 @@
       <code>x</code> along the features/rows (<code>f</code> was a feature variable
       name) or samples/columns (<code>f</code> was a phenotypic variable
       name).  If <code>f</code> is passed as a factor, its length will be
-      matched to <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(x)</a></code> or <code><a href='https://rdrr.io/r/base/nrow.html'>ncol(x)</a></code> (in that order) to
+      matched to <code>nrow(x)</code> or <code>ncol(x)</code> (in that order) to
       determine if <code>x</code> will be split along the features (rows) or
       sample (columns). Hence, the length of <code>f</code> must match exactly
       to either dimension.</p></dd>
 
-    <dt><code><a href='https://rdrr.io/r/base/split.html'>unsplit(value, f)</a></code></dt><dd><p>The <code>unsplit</code> method reverses
+    <dt><code>unsplit(value, f)</code></dt><dd><p>The <code>unsplit</code> method reverses
       the effect of splitting the <code>value</code> <code>MSnSet</code> along the
       groups <code>f</code>.</p></dd>
 
-    <dt><code><a href='as.html'>as(x, "MSnSetList")</a></code></dt><dd><p>Where <code>x</code> is an instance of
+    <dt><code>as(x, "MSnSetList")</code></dt><dd><p>Where <code>x</code> is an instance of
       class <a href='MzTab-class.html'>MzTab</a>. See the class documentation for
       details.</p></dd>
     
@@ -251,13 +257,13 @@
     <dt><code>show</code></dt><dd><p>Display the object by printing a short
       summary.</p></dd>
 
-    <dt><code><a href='https://rdrr.io/r/base/lapply.html'>lapply(x, FUN, ...)</a></code></dt><dd><p>Apply function <code>FUN</code> to each
+    <dt><code>lapply(x, FUN, ...)</code></dt><dd><p>Apply function <code>FUN</code> to each
       element of the input <code>x</code>. If the application of <code>FUN</code>
       returns and <code>MSnSet</code>, then the return value is an
       <code>MSnSetList</code>, otherwise a <code>list</code></p></dd>.
 
-    <dt><code><a href='https://rdrr.io/r/base/lapply.html'>sapply(x, FUN, ..., simplify = TRUE, USE.NAMES =
-	TRUE)</a></code></dt><dd><p>A <code>lapply</code> wrapper that simplifies the ouptut to a
+    <dt><code>sapply(x, FUN, ..., simplify = TRUE, USE.NAMES =
+	TRUE)</code></dt><dd><p>A <code>lapply</code> wrapper that simplifies the ouptut to a
 	vector, matric or array is possible. See <code><a href='https://rdrr.io/r/base/lapply.html'>?base::sapply</a></code>
 	for details.</p></dd>.
     
@@ -279,144 +285,161 @@
     <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt;</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tan2009r1</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tan2009r2</span><span class='op'>)</span>
-
-<span class='co'>## The MSnSetList class</span>
-<span class='co'>##  for an unnamed list, names are set to indices</span>
-<span class='va'>msnl</span> <span class='op'>&lt;-</span> <span class='fu'>MSnSetList</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>tan2009r1</span>, <span class='va'>tan2009r2</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "1" "2"</div><div class='input'><span class='co'>##  a named example</span>
-<span class='va'>msnl</span> <span class='op'>&lt;-</span> <span class='fu'>MSnSetList</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>A <span class='op'>=</span> <span class='va'>tan2009r1</span>, B <span class='op'>=</span> <span class='va'>tan2009r2</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "A" "B"</div><div class='input'><span class='fu'>msnsets</span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $A
-#&gt; MSnSet (storageMode: lockedEnvironment)
-#&gt; assayData: 888 features, 4 samples 
-#&gt;   element names: exprs 
-#&gt; protocolData: none
-#&gt; phenoData
-#&gt;   sampleNames: X114 X115 X116 X117
-#&gt;   varLabels: Fractions
-#&gt;   varMetadata: labelDescription
-#&gt; featureData
-#&gt;   featureNames: P20353 P53501 ... P07909 (888 total)
-#&gt;   fvarLabels: FBgn Protein.ID ... markers.tl (16 total)
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'
-#&gt;   pubMedIds: 19317464 
-#&gt; Annotation:  
-#&gt; - - - Processing information - - -
-#&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:44 2015 
-#&gt;  MSnbase version: 1.17.12 
-#&gt; 
-#&gt; $B
-#&gt; MSnSet (storageMode: lockedEnvironment)
-#&gt; assayData: 871 features, 4 samples 
-#&gt;   element names: exprs 
-#&gt; protocolData: none
-#&gt; phenoData
-#&gt;   sampleNames: X114 X115 X116 X117
-#&gt;   varLabels: Fractions
-#&gt;   varMetadata: labelDescription
-#&gt; featureData
-#&gt;   featureNames: P20432 P20353 ... Q9VIW3 (871 total)
-#&gt;   fvarLabels: FBgn Protein.ID ... markers (13 total)
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'
-#&gt;   pubMedIds: 19317464 
-#&gt; Annotation:  
-#&gt; - - - Processing information - - -
-#&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:44 2015 
-#&gt;  MSnbase version: 1.17.12 
-#&gt; </div><div class='input'><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 2</div><div class='input'><span class='fu'>objlog</span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $call
-#&gt; MSnSetList(x = list(A = tan2009r1, B = tan2009r2))
-#&gt; </div><div class='input'><span class='va'>msnl</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='co'>## an MSnSet</span>
-</div><div class='output co'>#&gt; MSnSet (storageMode: lockedEnvironment)
-#&gt; assayData: 888 features, 4 samples 
-#&gt;   element names: exprs 
-#&gt; protocolData: none
-#&gt; phenoData
-#&gt;   sampleNames: X114 X115 X116 X117
-#&gt;   varLabels: Fractions
-#&gt;   varMetadata: labelDescription
-#&gt; featureData
-#&gt;   featureNames: P20353 P53501 ... P07909 (888 total)
-#&gt;   fvarLabels: FBgn Protein.ID ... markers.tl (16 total)
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'
-#&gt;   pubMedIds: 19317464 
-#&gt; Annotation:  
-#&gt; - - - Processing information - - -
-#&gt; Added markers from  'mrk' marker vector. Thu Jul 16 22:53:44 2015 
-#&gt;  MSnbase version: 1.17.12 </div><div class='input'><span class='va'>msnl</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>   <span class='co'>## an MSnSetList of length 1</span>
-</div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 1 objects.</div><div class='input'>
-<span class='co'>## Iterating over the elements</span>
-<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>msnl</span>, <span class='va'>dim</span><span class='op'>)</span> <span class='co'>## a list</span>
-</div><div class='output co'>#&gt; $A
-#&gt; [1] 888   4
-#&gt; 
-#&gt; $B
-#&gt; [1] 871   4
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>msnl</span>, <span class='va'>normalise</span>, method <span class='op'>=</span> <span class='st'>"quantiles"</span><span class='op'>)</span> <span class='co'>## an MSnSetList</span>
-</div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 2 objects.</div><div class='input'>
-<span class='fu'>fData</span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; DataFrame with 2 rows and 0 columns</div><div class='input'><span class='fu'>fData</span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span><span class='op'>$</span><span class='va'>X</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>msnl</span>, <span class='va'>nrow</span><span class='op'>)</span>
-<span class='fu'>fData</span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; DataFrame with 2 rows and 1 column
-#&gt;           X
-#&gt;   &lt;integer&gt;
-#&gt; A       888
-#&gt; B       871</div><div class='input'>
-<span class='co'>## Splitting and unsplitting</span>
-<span class='co'>##  splitting along the columns/samples</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>pData</span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        membrane.prep fraction replicate
-#&gt; M1F1A              1        1         A
-#&gt; M1F4A              1        4         A
-#&gt; M1F7A              1        7         A
-#&gt; M1F11A             1       11         A
-#&gt; M1F2B              1        2         B
-#&gt; M1F5B              1        5         B</div><div class='input'><span class='op'>(</span><span class='va'>splt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, <span class='st'>"replicate"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 2 objects.</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>splt</span>, <span class='va'>dim</span><span class='op'>)</span> <span class='co'>## the number of rows and columns of the split elements</span>
-</div><div class='output co'>#&gt; $A
-#&gt; [1] 689   8
-#&gt; 
-#&gt; $B
-#&gt; [1] 689   8
-#&gt; </div><div class='input'><span class='va'>unsplt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>unsplit</a></span><span class='op'>(</span><span class='va'>splt</span>, <span class='va'>dunkley2006</span><span class='op'>$</span><span class='va'>replicate</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='compareMSnSets.html'>compareMSnSets</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, <span class='va'>unsplt</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'>##  splitting along the rows/features</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;           assigned  evidence method   new pd.2013 pd.markers markers.orig
-#&gt; AT1G09210       ER predicted  PLSDA known      ER   ER lumen           ER
-#&gt; AT1G21750       ER predicted  PLSDA known      ER   ER lumen           ER
-#&gt; AT1G51760       ER   unknown  PLSDA   new      ER   ER lumen      unknown
-#&gt; AT1G56340       ER predicted  PLSDA known      ER   ER lumen           ER
-#&gt; AT2G32920       ER predicted  PLSDA known      ER   ER lumen           ER
-#&gt; AT2G47470       ER predicted  PLSDA known      ER   ER lumen           ER
-#&gt;            markers
-#&gt; AT1G09210 ER lumen
-#&gt; AT1G21750 ER lumen
-#&gt; AT1G51760 ER lumen
-#&gt; AT1G56340 ER lumen
-#&gt; AT2G32920 ER lumen
-#&gt; AT2G47470 ER lumen</div><div class='input'><span class='op'>(</span><span class='va'>splt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, <span class='st'>"markers"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Instance of class 'MSnSetList' containig 10 objects.</div><div class='input'><span class='va'>unsplt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>unsplit</a></span><span class='op'>(</span><span class='va'>splt</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span><span class='op'>$</span><span class='va'>markers</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>simplify2array</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>splt</span>, <span class='va'>dim</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;      ER lumen ER membrane Golgi Mitochondrion Plastid PM Ribosome TGN unknown
-#&gt; [1,]       14          45    28            55      20 46       19  13     428
-#&gt; [2,]       16          16    16            16      16 16       16  16      16
-#&gt;      vacuole
-#&gt; [1,]      21
-#&gt; [2,]      16</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='compareMSnSets.html'>compareMSnSets</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, <span class='va'>unsplt</span><span class='op'>)</span><span class='op'>)</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tan2009r1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>tan2009r2</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## The MSnSetList class</span></span>
+<span class='r-in'><span class='co'>##  for an unnamed list, names are set to indices</span></span>
+<span class='r-in'><span class='va'>msnl</span> <span class='op'>&lt;-</span> <span class='fu'>MSnSetList</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>tan2009r1</span>, <span class='va'>tan2009r2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "1" "2"</span>
+<span class='r-in'><span class='co'>##  a named example</span></span>
+<span class='r-in'><span class='va'>msnl</span> <span class='op'>&lt;-</span> <span class='fu'>MSnSetList</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>A <span class='op'>=</span> <span class='va'>tan2009r1</span>, B <span class='op'>=</span> <span class='va'>tan2009r2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "A" "B"</span>
+<span class='r-in'><span class='fu'>msnsets</span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $A</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MSnSet (storageMode: lockedEnvironment)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> assayData: 888 features, 4 samples </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   element names: exprs </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> protocolData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phenoData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   sampleNames: X114 X115 X116 X117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varLabels: Fractions</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> featureData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   featureNames: P20353 P53501 ... P07909 (888 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarLabels: FBgn Protein.ID ... markers.tl (16 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> experimentData: use 'experimentData(object)'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   pubMedIds: 19317464 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Annotation:  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Processing information - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Added markers from  'mrk' marker vector. Thu Jul 16 22:53:44 2015 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSnbase version: 1.17.12 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $B</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MSnSet (storageMode: lockedEnvironment)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> assayData: 871 features, 4 samples </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   element names: exprs </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> protocolData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phenoData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   sampleNames: X114 X115 X116 X117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varLabels: Fractions</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> featureData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   featureNames: P20432 P20353 ... Q9VIW3 (871 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarLabels: FBgn Protein.ID ... markers (13 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> experimentData: use 'experimentData(object)'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   pubMedIds: 19317464 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Annotation:  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Processing information - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Added markers from  'mrk' marker vector. Thu Jul 16 22:53:44 2015 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSnbase version: 1.17.12 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 2</span>
+<span class='r-in'><span class='fu'>objlog</span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $call</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MSnSetList(x = list(A = tan2009r1, B = tan2009r2))</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='va'>msnl</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='co'>## an MSnSet</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MSnSet (storageMode: lockedEnvironment)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> assayData: 888 features, 4 samples </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   element names: exprs </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> protocolData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phenoData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   sampleNames: X114 X115 X116 X117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varLabels: Fractions</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> featureData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   featureNames: P20353 P53501 ... P07909 (888 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarLabels: FBgn Protein.ID ... markers.tl (16 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> experimentData: use 'experimentData(object)'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   pubMedIds: 19317464 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Annotation:  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Processing information - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Added markers from  'mrk' marker vector. Thu Jul 16 22:53:44 2015 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSnbase version: 1.17.12 </span>
+<span class='r-in'><span class='va'>msnl</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>   <span class='co'>## an MSnSetList of length 1</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Instance of class 'MSnSetList' containig 1 objects.</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Iterating over the elements</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>msnl</span>, <span class='va'>dim</span><span class='op'>)</span> <span class='co'>## a list</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $A</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 888   4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $B</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 871   4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>msnl</span>, <span class='va'>normalise</span>, method <span class='op'>=</span> <span class='st'>"quantiles"</span><span class='op'>)</span> <span class='co'>## an MSnSetList</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Instance of class 'MSnSetList' containig 2 objects.</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> DataFrame with 2 rows and 0 columns</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span><span class='op'>$</span><span class='va'>X</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>msnl</span>, <span class='va'>nrow</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>msnl</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> DataFrame with 2 rows and 1 column</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           X</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   &lt;integer&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A       888</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> B       871</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Splitting and unsplitting</span></span>
+<span class='r-in'><span class='co'>##  splitting along the columns/samples</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/phenoData.html'>pData</a></span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        membrane.prep fraction replicate</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> M1F1A              1        1         A</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> M1F4A              1        4         A</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> M1F7A              1        7         A</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> M1F11A             1       11         A</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> M1F2B              1        2         B</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> M1F5B              1        5         B</span>
+<span class='r-in'><span class='op'>(</span><span class='va'>splt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, <span class='st'>"replicate"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Instance of class 'MSnSetList' containig 2 objects.</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>splt</span>, <span class='va'>dim</span><span class='op'>)</span> <span class='co'>## the number of rows and columns of the split elements</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $A</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 689   8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $B</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 689   8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='va'>unsplt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>unsplit</a></span><span class='op'>(</span><span class='va'>splt</span>, <span class='va'>dunkley2006</span><span class='op'>$</span><span class='va'>replicate</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='compareMSnSets.html'>compareMSnSets</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, <span class='va'>unsplt</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>##  splitting along the rows/features</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           assigned  evidence method   new pd.2013 pd.markers markers.orig</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AT1G09210       ER predicted  PLSDA known      ER   ER lumen           ER</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AT1G21750       ER predicted  PLSDA known      ER   ER lumen           ER</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AT1G51760       ER   unknown  PLSDA   new      ER   ER lumen      unknown</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AT1G56340       ER predicted  PLSDA known      ER   ER lumen           ER</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AT2G32920       ER predicted  PLSDA known      ER   ER lumen           ER</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AT2G47470       ER predicted  PLSDA known      ER   ER lumen           ER</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            markers</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AT1G09210 ER lumen</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AT1G21750 ER lumen</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AT1G51760 ER lumen</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AT1G56340 ER lumen</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AT2G32920 ER lumen</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> AT2G47470 ER lumen</span>
+<span class='r-in'><span class='op'>(</span><span class='va'>splt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, <span class='st'>"markers"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Instance of class 'MSnSetList' containig 10 objects.</span>
+<span class='r-in'><span class='va'>unsplt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/split.html'>unsplit</a></span><span class='op'>(</span><span class='va'>splt</span>, <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span><span class='op'>$</span><span class='va'>markers</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>simplify2array</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>splt</span>, <span class='va'>dim</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      ER lumen ER membrane Golgi Mitochondrion PM Plastid Ribosome TGN unknown</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,]       14          45    28            55 46      20       19  13     428</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,]       16          16    16            16 16      16       16  16      16</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      vacuole</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,]      21</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,]      16</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/stopifnot.html'>stopifnot</a></span><span class='op'>(</span><span class='fu'><a href='compareMSnSets.html'>compareMSnSets</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, <span class='va'>unsplt</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -428,11 +451,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -440,6 +463,8 @@
 
   
 
+
+  
 
   </body>
 </html>

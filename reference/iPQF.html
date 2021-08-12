@@ -68,9 +68,15 @@ general overview of feature aggregation and examples." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -84,7 +90,7 @@ general overview of feature aggregation and examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -159,14 +165,14 @@ See also <code><a href='combineFeatures.html'>combineFeatures</a></code> for a m
 general overview of feature aggregation and examples.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>iPQF</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>iPQF</span><span class='op'>(</span>
   <span class='va'>object</span>,
   <span class='va'>groupBy</span>,
   low.support.filter <span class='op'>=</span> <span class='cn'>FALSE</span>,
   ratio.calc <span class='op'>=</span> <span class='st'>"sum"</span>,
   method.combine <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  feature.weight <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>7</span>, <span class='fl'>6</span>, <span class='fl'>4</span>, <span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span>
-<span class='op'>)</span></pre>
+  feature.weight <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='fl'>7</span>, <span class='fl'>6</span>, <span class='fl'>4</span>, <span class='fl'>3</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -225,28 +231,31 @@ Apr 1;32(7):1040-7. doi:10.1093/bioinformatics/btv675. Epub
     <p>Martina Fischer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       X114.ions  X115.ions  X116.ions X117.ions
-#&gt; 11695 7.0384398  7.6349574  7.2886949 6.7348692
-#&gt; 11696 9.4098886 10.1034528 10.0697640 9.4273709
-#&gt; 11697 4.5859834  4.6926775  4.5016924 4.2924254
-#&gt; 11698 3.7262916  3.8913142  3.7928041 3.3721019
-#&gt; 11699 1.2229379  1.4005805  1.3940034 1.2957861
-#&gt; 11700 0.8303542  0.7397313  0.7686411 0.7402981</div><div class='input'><span class='va'>prot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span><span class='op'>(</span><span class='va'>msnset2</span>,
-                        groupBy <span class='op'>=</span> <span class='fu'>fData</span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>accession</span>,
-                        method <span class='op'>=</span> <span class='st'>"iPQF"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The following 1 proteins are only supported by 1 or 2 peptide spectra,</span>
-#&gt; <span class='message'>hence, protein quantification is not reliable and can only be calculated</span>
-#&gt; <span class='message'>by the 'mean' in these cases, corresponding protein accessions are:</span>
-#&gt; <span class='message'>  O95678</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>prot</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        X114.ions X115.ions X116.ions X117.ions
-#&gt; O95678 0.2404726 0.2682764 0.2584247 0.2328263
-#&gt; P01766 0.2610278 0.2467206 0.2544715 0.2377801
-#&gt; P01776 0.2678859 0.2591250 0.2423396 0.2306495
-#&gt; P02749 0.2640340 0.2523566 0.2510357 0.2325736
-#&gt; P02763 0.2503318 0.2524583 0.2501628 0.2470472
-#&gt; P07225 0.2533961 0.2506013 0.2504353 0.2455673</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       X114.ions  X115.ions  X116.ions X117.ions</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11695 7.0384398  7.6349574  7.2886949 6.7348692</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11696 9.4098886 10.1034528 10.0697640 9.4273709</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11697 4.5859834  4.6926775  4.5016924 4.2924254</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11698 3.7262916  3.8913142  3.7928041 3.3721019</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11699 1.2229379  1.4005805  1.3940034 1.2957861</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11700 0.8303542  0.7397313  0.7686411 0.7402981</span>
+<span class='r-in'><span class='va'>prot</span> <span class='op'>&lt;-</span> <span class='fu'><a href='combineFeatures.html'>combineFeatures</a></span><span class='op'>(</span><span class='va'>msnset2</span>,</span>
+<span class='r-in'>                        groupBy <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>accession</span>,</span>
+<span class='r-in'>                        method <span class='op'>=</span> <span class='st'>"iPQF"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The following 1 proteins are only supported by 1 or 2 peptide spectra,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> hence, protein quantification is not reliable and can only be calculated</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> by the 'mean' in these cases, corresponding protein accessions are:</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>   O95678</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='va'>prot</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        X114.ions X115.ions X116.ions X117.ions</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> O95678 0.2404726 0.2682764 0.2584247 0.2328263</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P01766 0.2610278 0.2467206 0.2544715 0.2377801</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P01776 0.2678859 0.2591250 0.2423396 0.2306495</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P02749 0.2640340 0.2523566 0.2510357 0.2325736</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P02763 0.2503318 0.2524583 0.2501628 0.2470472</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P07225 0.2533961 0.2506013 0.2504353 0.2455673</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -258,11 +267,11 @@ Apr 1;32(7):1040-7. doi:10.1093/bioinformatics/btv675. Epub
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -270,6 +279,8 @@ Apr 1;32(7):1040-7. doi:10.1093/bioinformatics/btv675. Epub
 
   
 
+
+  
 
   </body>
 </html>

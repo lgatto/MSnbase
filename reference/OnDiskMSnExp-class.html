@@ -64,9 +64,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -80,7 +86,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -190,36 +196,36 @@
       is however empty, as no spectrum data is stored.
       Slot is inherited from <code>"<a href='pSet-class.html'>pSet</a>"</code>.</p></dd>
     <dt><code>phenoData</code>:</dt><dd><p>Object of class
-      <code>"AnnotatedDataFrame"</code> containing
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.AnnotatedDataFrame.html'>AnnotatedDataFrame</a>"</code> containing
       experimenter-supplied variables describing sample (i.e the
       individual tags for an labelled MS experiment)
-      See <code>phenoData</code> for more details.
+      See <code><a href='https://rdrr.io/pkg/Biobase/man/phenoData.html'>phenoData</a></code> for more details.
       Slot is inherited from <code>"<a href='pSet-class.html'>pSet</a>"</code>.</p></dd>
     <dt><code>featureData</code>:</dt><dd><p>Object of class
-      <code>"AnnotatedDataFrame"</code> containing variables
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.AnnotatedDataFrame.html'>AnnotatedDataFrame</a>"</code> containing variables
       describing features (spectra in our case). See
-      <code>featureData</code> for more details.
+      <code><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>featureData</a></code> for more details.
       Slot is inherited from <code>"<a href='pSet-class.html'>pSet</a>"</code>.</p></dd>
     <dt><code>experimentData</code>:</dt><dd><p>Object of class
       <code>"<a href='MIAPE-class.html'>MIAPE</a>"</code>, containing details of experimental
-      methods. See <code>experimentData</code> for more details.
+      methods. See <code><a href='https://rdrr.io/pkg/Biobase/man/abstract.html'>experimentData</a></code> for more details.
       Slot is inherited from <code>"<a href='pSet-class.html'>pSet</a>"</code>.</p></dd>
     <dt><code>protocolData</code>:</dt><dd><p>Object of class
-      <code>"AnnotatedDataFrame"</code> containing
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.AnnotatedDataFrame.html'>AnnotatedDataFrame</a>"</code> containing
       equipment-generated variables (inherited from
-      <code>"eSet"</code>). See <code>protocolData</code> for
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code>). See <code><a href='https://rdrr.io/pkg/Biobase/man/protocolData.html'>protocolData</a></code> for
       more details.
       Slot is inherited from <code>"<a href='pSet-class.html'>pSet</a>"</code>.</p></dd>
     <dt><code>processingData</code>:</dt><dd><p>Object of class
       <code>"<a href='MSnProcess-class.html'>MSnProcess</a>"</code> that records all processing.
       Slot is inherited from <code>"<a href='pSet-class.html'>pSet</a>"</code>.</p></dd>
     <dt><code>.__classVersion__</code>:</dt><dd><p>Object of class
-      <code>"Versions"</code> describing the versions of R,
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.Versions.html'>Versions</a>"</code> describing the versions of R,
       the Biobase package, <code>"<a href='pSet-class.html'>pSet</a>"</code> and
       <code>MSnExp</code> of the current instance.
       Slot is inherited from <code>"<a href='pSet-class.html'>pSet</a>"</code>.
       Intended for developer use and debugging (inherited from
-      <code>"eSet"</code>).</p></dd>
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code>).</p></dd>
   
 </dl>
 
@@ -227,8 +233,8 @@
 
     <p>Class <code>"<a href='MSnExp-class.html'>MSnExp</a>"</code>, directly.
 Class <code>"<a href='pSet-class.html'>pSet</a>"</code>, by class "MSnExp", distance 3.
-Class <code>"VersionedBiobase"</code>, by class "pSet", distance 4.
-Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
+Class <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.VersionedBiobase.html'>VersionedBiobase</a>"</code>, by class "pSet", distance 4.
+Class <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.Versioned.html'>Versioned</a>"</code>, by class "pSet", distance 5.</p>
     <h2 class="hasAnchor" id="getter-setter-methods"><a class="anchor" href="#getter-setter-methods"></a>Getter/setter methods</h2>
 
     <p>(in alphabetical order)
@@ -250,7 +256,7 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       relevant information will be extracted from the corresponding raw
       data file.      The method returns a <code>Spectrum1</code> object.</p></dd>
 
-    <dt>acquisitionNum</dt><dd><p><code><a href='Spectrum-class.html'>acquisitionNum(signature(object="OnDiskMSnExp"))</a></code>: get the
+    <dt>acquisitionNum</dt><dd><p><code>acquisitionNum(signature(object="OnDiskMSnExp"))</code>: get the
       acquisition number of each spectrum in each individual file. The
       relevant information is extracted from the object's
       <code>featureData</code> slot.      Returns a numeric vector with names corresponding to the spectrum
@@ -271,8 +277,8 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       value being a logical vector of length equal to the number of
       spectra in the experiment.</p></dd>
 
-    <dt><code><a href='Spectrum-class.html'>isCentroided(object, k = 0.025, qtl = 0.9, verbose =
-      TRUE)</a></code></dt><dd><p>A heuristic assessing if the spectra in the <code>object</code>
+    <dt><code>isCentroided(object, k = 0.025, qtl = 0.9, verbose =
+      TRUE)</code></dt><dd><p>A heuristic assessing if the spectra in the <code>object</code>
       are in profile or centroided mode. The function takes the
       <code>qtl</code>th quantile top peaks, then calculates the difference
       between adjacent M/Z value and returns <code>TRUE</code> if the first
@@ -288,13 +294,13 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       rather than results for individual spectra.      See also <code><a href='isCentroidedFromFile.html'>isCentroidedFromFile</a></code> that accessed the mode
       directly from the raw data file.</p></dd>
 
-    <dt>fromFile</dt><dd><p><code><a href='Spectrum-class.html'>fromFile(signature(object = "OnDiskMSnExp"))</a></code>: get the
-      index of the file (in <code><a href='pSet-class.html'>fileNames(object)</a></code>) from which the
+    <dt>fromFile</dt><dd><p><code>fromFile(signature(object = "OnDiskMSnExp"))</code>: get the
+      index of the file (in <code>fileNames(object)</code>) from which the
       spectra were read. The relevant information is extracted from the
       object's <code>featureData</code> slot.      Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
 
-    <dt>intensity</dt><dd><p><code><a href='Spectrum-class.html'>intensity(signature(object="OnDiskMSnExp"))</a></code>:
+    <dt>intensity</dt><dd><p><code>intensity(signature(object="OnDiskMSnExp"))</code>:
       return the intensities from each spectrum in the data
       set. Intensities are first read from the raw files followed by an
       optional processing (depending on the processing steps defined in
@@ -306,8 +312,8 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       original file).      The method returns a <code>list</code> of numeric intensity values. Each
       list element represents the intensities from one spectrum.</p></dd>
 
-    <dt>ionCount</dt><dd><p><code><a href='Spectrum-class.html'>ionCount(signature(object="OnDiskMSnExp",
-	BPPARAM=bpparam()))</a></code>:
+    <dt>ionCount</dt><dd><p><code>ionCount(signature(object="OnDiskMSnExp",
+	BPPARAM=bpparam()))</code>:
       extract the ion count (i.e. sum of intensity values) for each
       spectrum in the data set. The relevant data has to be extracted
       from the raw files (with eventually applying processing steps).
@@ -317,25 +323,25 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       original file).      Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
 
-    <dt>isolationWindowLowerMz</dt><dd><p><code><a href='pSet-class.html'>isolationWindowLowerMz(object = "OnDiskMSnExp")</a></code>: return the
+    <dt>isolationWindowLowerMz</dt><dd><p><code>isolationWindowLowerMz(object = "OnDiskMSnExp")</code>: return the
       lower m/z boundary for the isolation window.      Returns a numeric vector of length equal to the number of spectra
       with the lower m/z value of the isolation window or <code>NA</code> if
       not specified in the original file.</p></dd>
 
-    <dt>isolationWindowUpperMz</dt><dd><p><code><a href='pSet-class.html'>isolationWindowUpperMz(object = "OnDiskMSnExp")</a></code>: return the
+    <dt>isolationWindowUpperMz</dt><dd><p><code>isolationWindowUpperMz(object = "OnDiskMSnExp")</code>: return the
       upper m/z boundary for the isolation window.      Returns a numeric vector of length equal to the number of spectra
       with the upper m/z value of the isolation window or <code>NA</code> if
       not specified in the original file.</p></dd>
 
-    <dt>length</dt><dd><p><code><a href='pSet-class.html'>length(signature(object="OnDiskMSnExp"))</a></code>:
+    <dt>length</dt><dd><p><code>length(signature(object="OnDiskMSnExp"))</code>:
       Returns the number of spectra of the current experiment.</p></dd>
 
-    <dt>msLevel</dt><dd><p><code><a href='Spectrum-class.html'>msLevel(signature(object = "OnDiskMSnExp"))</a></code>: extract the
+    <dt>msLevel</dt><dd><p><code>msLevel(signature(object = "OnDiskMSnExp"))</code>: extract the
       MS level from the spectra. The relevant information is extracted
       from the object's <code>featureData</code> slot.      Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
 
-    <dt>mz</dt><dd><p><code><a href='Spectrum-class.html'>mz(signature(object="OnDiskMSnExp"))</a></code>:
+    <dt>mz</dt><dd><p><code>mz(signature(object="OnDiskMSnExp"))</code>:
       return the M/Z values from each spectrum in the data
       set. M/Z values are first read from the raw files followed by an
       optional processing (depending on the processing steps defined in
@@ -347,8 +353,8 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       original file).      The method returns a <code>list</code> of numeric M/Z values. Each
       list element represents the values from one spectrum.</p></dd>
 
-    <dt>peaksCount</dt><dd><p><code><a href='Spectrum-class.html'>peaksCount(signature(object="OnDiskMSnExp",
-	scans="numeric"), BPPARAM=bpparam())</a></code>:
+    <dt>peaksCount</dt><dd><p><code>peaksCount(signature(object="OnDiskMSnExp",
+	scans="numeric"), BPPARAM=bpparam())</code>:
       extrac the peaks count from each spectrum in the object. Depending
       on the eventually present <code>ProcessingStep</code> objects in the
       <code>spectraProcessingQueue</code> raw data will be loaded to calculate
@@ -361,24 +367,24 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       original file).      Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
 
-    <dt>polarity</dt><dd><p><code><a href='Spectrum-class.html'>polarity(signature(object="OnDiskMSnExp"))</a></code>:
+    <dt>polarity</dt><dd><p><code>polarity(signature(object="OnDiskMSnExp"))</code>:
       returns a numeric vector with the polarity of the individual
       spectra in the data set. The relevant information is extracted
       from the <code>featureData</code>.</p></dd>
 
-    <dt>rtime</dt><dd><p><code><a href='Spectrum-class.html'>rtime(signature(object="OnDiskMSnExp"))</a></code>:
+    <dt>rtime</dt><dd><p><code>rtime(signature(object="OnDiskMSnExp"))</code>:
       extrac the retention time of the individual spectra in the data
       set (from the <code>featureData</code>).      Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
 
-    <dt>scanIndex</dt><dd><p><code><a href='Spectrum-class.html'>scanIndex(signature(object="OnDiskMSnExp"))</a></code>:
+    <dt>scanIndex</dt><dd><p><code>scanIndex(signature(object="OnDiskMSnExp"))</code>:
       get the spectra scan indices within the respective file. The
       relevant information is extracted from the object's <code>featureData</code> slot.
       Returns a numeric vector of indices with names corresponding to the
       spectrum names.</p></dd>
 
-    <dt>smoothed,smoothed&lt;-</dt><dd><p><code><a href='Spectrum-class.html'>smoothed(signature(object="OnDiskMSnExp", msLevel. =
-      "numeric"))</a></code>: whether individual spectra are smoothed or
+    <dt>smoothed,smoothed&lt;-</dt><dd><p><code>smoothed(signature(object="OnDiskMSnExp", msLevel. =
+      "numeric"))</code>: whether individual spectra are smoothed or
       unsmoothed. The relevant information is extracted from the
       object's <code>featureData</code> slot. Returns a logical vector with
       names corresponding to the spectrum names.  Use
@@ -386,7 +392,7 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       value being a logical vector of length equal to the number of
       spectra in the experiment.</p></dd>
 
-    <dt>spectra</dt><dd><p><code><a href='pSet-class.html'>spectra(signature(object="OnDiskMSnExp"), BPPARAM=bpparam())</a></code>:
+    <dt>spectra</dt><dd><p><code>spectra(signature(object="OnDiskMSnExp"), BPPARAM=bpparam())</code>:
       extract spectrum data from the individual files. This causes the
       spectrum data to be read from the original raw files. After that
       all processing steps defined in the <code>spectraProcessingQueue</code>
@@ -399,8 +405,8 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       extraction.      Returns a <code>list</code> of <code><a href='Spectrum1-class.html'>Spectrum1</a></code> objects
       with names corresponding to the spectrum names.</p></dd>
 
-    <dt>tic</dt><dd><p><code><a href='Spectrum-class.html'>tic(signature(object="OnDiskMSnExp"), initial = TRUE,
-      BPPARAM = bpparam())</a></code>:
+    <dt>tic</dt><dd><p><code>tic(signature(object="OnDiskMSnExp"), initial = TRUE,
+      BPPARAM = bpparam())</code>:
       get the total ion current (TIC) of each spectrum in the data
       set. If <code>initial = TRUE</code>, the information is extracted from
       the object's <code>featureData</code> and represents the tic provided in
@@ -423,12 +429,12 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       more details.      <code>BPPARAM</code> parameter: see <code>spectra</code> method above.      Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
 
-    <dt>featureNames</dt><dd><p><code><a href='Spectrum-class.html'>tic(signature(object="OnDiskMSnExp"))</a></code>: return a
-      <code>character</code> of length <code><a href='pSet-class.html'>length(object)</a></code> containing the
+    <dt>featureNames</dt><dd><p><code>tic(signature(object="OnDiskMSnExp"))</code>: return a
+      <code>character</code> of length <code>length(object)</code> containing the
       feature names. A replacement method is also available.</p></dd>
 
-    <dt>spectrapply</dt><dd><p><code><a href='pSet-class.html'>spectrapply(signature(object = "OnDiskMSnExp"), FUN = NULL,
-	BPPARAM = bpparam(), ...)</a></code>: applies the function <code>FUN</code> to each
+    <dt>spectrapply</dt><dd><p><code>spectrapply(signature(object = "OnDiskMSnExp"), FUN = NULL,
+	BPPARAM = bpparam(), ...)</code>: applies the function <code>FUN</code> to each
       spectrum passing additional parameters in <code>...</code> to that
       function and return its results. For <code>FUN = NULL</code> it returns
       the list of spectra (same as a call to <code>spectra</code>). Parameter
@@ -447,7 +453,7 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
   but only on-demand, e.g. when intensity or M/Z values are loaded.</p>
 <p></p><dl>
 
-    <dt>clean</dt><dd><p><code><a href='clean-methods.html'>clean(signature(object="OnDiskMSnExp"), all=TRUE, verbose=TRUE)</a></code>:
+    <dt>clean</dt><dd><p><code>clean(signature(object="OnDiskMSnExp"), all=TRUE, verbose=TRUE)</code>:
       add an <em>clean</em> processing step to the lazy processing queue
       of the <code>OnDiskMSnExp</code> object. The <code>clean</code> command will
       only be executed when spectra information (including M/Z and
@@ -456,18 +462,18 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       <code>verbose=TRUE</code>.      The method returns an <code>OnDiskMSnExp</code> object.      For more details see documentation of the <code><a href='clean-methods.html'>clean</a></code>
       method.</p></dd>
 
-    <dt>normalize</dt><dd><p><code><a href='normalise-methods.html'>normalize(signature(object="OnDiskMSnExp"), method=c("max",
-	"sum"), ...)</a></code>:
+    <dt>normalize</dt><dd><p><code>normalize(signature(object="OnDiskMSnExp"), method=c("max",
+	"sum"), ...)</code>:
       add a <code>normalize</code> processing step to the lazy processing
       queue of the returned <code>OnDiskMSnExp</code> object.      The method returns an <code>OnDiskMSnExp</code> object.      For more details see documentation of the
     <code><a href='normalise-methods.html'>normalize</a></code> method.</p></dd>
 
-    <dt>removePeaks</dt><dd><p><code><a href='removePeaks-methods.html'>removePeaks(signature(object="OnDiskMSnExp"), t="min", verbose=TRUE)</a></code>:
+    <dt>removePeaks</dt><dd><p><code>removePeaks(signature(object="OnDiskMSnExp"), t="min", verbose=TRUE)</code>:
       add a <code>removePeaks</code> processing step to the lazy processing
       queue of the returned <code>OnDiskMSnExp</code> object.      The method returns an <code>OnDiskMSnExp</code> object.      For more details see documentation of the <code><a href='removePeaks-methods.html'>removePeaks</a></code>
       method.</p></dd>
 
-    <dt>trimMz</dt><dd><p><code><a href='trimMz-methods.html'>trimMz(signature(object="OnDiskMSnExp", mzlim="numeric"),...)</a></code>:
+    <dt>trimMz</dt><dd><p><code>trimMz(signature(object="OnDiskMSnExp", mzlim="numeric"),...)</code>:
       add a <code>trimMz</code> processing step to the lazy processing queue
       of the returned <code>OnDiskMSnExp</code> object.      The method returns an <code>OnDiskMSnExp</code> object.      For more details see documentation of the <code><a href='trimMz-methods.html'>trimMz</a></code>
       method.</p></dd>
@@ -485,7 +491,7 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
       method reads also all spectra from the original files, applies
       eventual processing steps and evaluates their validity.</p></dd>
 
-    <dt><code><a href='as.html'>as(from, "MSnExp")</a></code></dt><dd><p>Converts the <code>OnDiskMSnExp</code>
+    <dt><code>as(from, "MSnExp")</code></dt><dd><p>Converts the <code>OnDiskMSnExp</code>
       object <code>from</code>, to an in-memory <code>MSnExp</code>. Also available
       as an S3 method <code>as.MSnExp()</code>.</p></dd>
 
@@ -502,609 +508,637 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
   <code><a href='readMSData.html'>readMSData</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Get some example mzML files</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>msdata</span><span class='op'>)</span>
-<span class='va'>mzfiles</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"microtofq/MM14.mzML"</span>, package<span class='op'>=</span><span class='st'>"msdata"</span><span class='op'>)</span>,
-       <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"microtofq/MM8.mzML"</span>, package<span class='op'>=</span><span class='st'>"msdata"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='co'>## Read the data as an OnDiskMSnExp</span>
-<span class='va'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>mzfiles</span>, msLevel<span class='op'>=</span><span class='fl'>1</span>, centroided <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'>## Get the length of data, i.e. the total number of spectra.</span>
-<span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 310</div><div class='input'>
-<span class='co'>## Get the MS level</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt;       1       1       1       1       1       1 </div><div class='input'>
-<span class='co'>## Get the featureData, use fData to return as a data.frame</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;         spectrum
-#&gt; F1.S001        1
-#&gt; F1.S002        2
-#&gt; F1.S003        3
-#&gt; F1.S004        4
-#&gt; F1.S005        5
-#&gt; F1.S006        6</div><div class='input'>
-<span class='co'>## Get to know from which file the spectra are</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>fromFile</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt;       1       1       1       1       1       1 </div><div class='input'>
-<span class='co'>## And the file names:</span>
-<span class='fu'><a href='pSet-class.html'>fileNames</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "/usr/local/lib/R/host-site-library/msdata/microtofq/MM14.mzML"
-#&gt; [2] "/usr/local/lib/R/host-site-library/msdata/microtofq/MM8.mzML" </div><div class='input'>
-<span class='co'>## Scan index and acquisitionNum</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>scanIndex</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt;       1       2       3       4       5       6 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>acquisitionNum</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt;       1       2       3       4       5       6 </div><div class='input'>
-<span class='co'>## Extract the spectra; the data is retrieved from the raw files.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='pSet-class.html'>spectra</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $F1.S001
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:30 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1378 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S002
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:31 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1356 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S003
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:31 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1404 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S004
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:31 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1496 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S005
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:32 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1525 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S006
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:32 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1498 
-#&gt;  Polarity: 1 
-#&gt; </div><div class='input'>
-<span class='co'>## Extracting individual spectra or a subset is much faster.</span>
-<span class='fu'><a href='pSet-class.html'>spectra</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>50</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $F1.S001
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:30 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1378 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S002
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:31 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1356 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S003
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:31 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1404 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S004
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:31 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1496 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S005
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:32 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1525 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S006
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:32 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1498 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S007
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:32 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1484 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S008
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:33 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1532 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S009
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:33 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1532 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S010
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:33 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1513 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S011
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:34 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1563 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S012
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:34 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1522 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S013
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:34 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1571 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S014
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:35 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1553 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S015
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:35 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1606 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S016
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:35 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1583 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S017
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:36 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1567 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S018
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:36 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1662 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S019
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:36 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1628 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S020
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:37 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1604 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S021
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:37 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1647 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S022
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:37 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1594 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S023
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:38 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1643 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S024
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:38 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1673 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S025
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:38 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1695 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S026
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:39 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1595 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S027
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:39 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1592 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S028
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:39 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1614 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S029
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:40 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1558 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S030
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:40 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1539 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S031
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:40 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1532 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S032
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:41 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1546 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S033
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:41 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1506 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S034
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:41 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1428 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S035
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:42 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1448 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S036
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:42 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1431 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S037
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:42 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1393 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S038
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:43 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1409 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S039
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:43 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1410 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S040
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:43 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1342 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S041
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:44 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1366 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S042
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:44 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1351 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S043
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:44 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1367 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S044
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:45 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1342 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S045
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:45 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1365 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S046
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:45 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1379 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S047
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:46 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1325 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S048
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:46 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1349 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S049
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:46 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1383 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S050
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:47 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 1342 
-#&gt;  Polarity: 1 
-#&gt; </div><div class='input'>
-<span class='co'>## Alternatively, we could also subset the whole object by spectra and/or samples:</span>
-<span class='va'>subs</span> <span class='op'>&lt;-</span> <span class='va'>odmse</span><span class='op'>[</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span> <span class='op'>&gt;=</span> <span class='fl'>2</span> <span class='op'>&amp;</span> <span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span> <span class='op'>&lt;=</span> <span class='fl'>20</span>, <span class='op'>]</span>
-<span class='fu'><a href='pSet-class.html'>fileNames</a></span><span class='op'>(</span><span class='va'>subs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "/usr/local/lib/R/host-site-library/msdata/microtofq/MM8.mzML"</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>subs</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   F2.S006   F2.S007   F2.S008   F2.S009   F2.S010   F2.S011   F2.S012   F2.S013 
-#&gt;  2.169000  2.506002  2.842998  3.178998  3.516000  3.852000  4.188000  4.525002 
-#&gt;   F2.S014   F2.S015   F2.S016   F2.S017   F2.S018   F2.S019   F2.S020   F2.S021 
-#&gt;  4.861002  5.197998  5.533998  5.871000  6.207000  6.544020  6.880020  7.216980 
-#&gt;   F2.S022   F2.S023   F2.S024   F2.S025   F2.S026   F2.S027   F2.S028   F2.S029 
-#&gt;  7.554000  7.891020  8.227020  8.563980  8.899980  9.237000  9.573000  9.910020 
-#&gt;   F2.S030   F2.S031   F2.S032   F2.S033   F2.S034   F2.S035   F2.S036   F2.S037 
-#&gt; 10.246020 10.582020 10.918980 11.254980 11.592000 11.928000 12.265020 12.601020 
-#&gt;   F2.S038   F2.S039   F2.S040   F2.S041   F2.S042   F2.S043   F2.S044   F2.S045 
-#&gt; 12.937020 13.273980 13.609980 13.947000 14.283000 14.620020 14.956020 15.292020 
-#&gt;   F2.S046   F2.S047   F2.S048   F2.S049   F2.S050   F2.S051   F2.S052   F2.S053 
-#&gt; 15.628980 15.964980 16.302000 16.638000 16.975020 17.311020 17.649000 17.986020 
-#&gt;   F2.S054   F2.S055   F2.S056   F2.S057   F2.S058 
-#&gt; 18.322980 18.660000 18.996000 19.333020 19.669020 </div><div class='input'>
-<span class='co'>## Extract intensities and M/Z values per spectrum; the methods return a list,</span>
-<span class='co'>## each element representing the values for one spectrum.</span>
-<span class='va'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
-<span class='va'>mzs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
-
-<span class='co'>## Return a data.frame with mz and intensity pairs for each spectrum from the</span>
-<span class='co'>## object</span>
-<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pSet-class.html'>spectrapply</a></span><span class='op'>(</span><span class='va'>odmse</span>, FUN <span class='op'>=</span> <span class='va'>as</span>, Class <span class='op'>=</span> <span class='st'>"data.frame"</span><span class='op'>)</span>
-
-<span class='co'>## Calling removePeaks, i.e. setting intensity values below a certain threshold to 0.</span>
-<span class='co'>## Unlike the name suggests, this is not actually removing peaks. Such peaks with a 0</span>
-<span class='co'>## intensity are then removed by the "clean" step.</span>
-<span class='co'>## Also, the manipulations are not applied directly, but put into the "lazy"</span>
-<span class='co'>## processing queue.</span>
-<span class='va'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='removePeaks-methods.html'>removePeaks</a></span><span class='op'>(</span><span class='va'>odmse</span>, t<span class='op'>=</span><span class='fl'>10000</span><span class='op'>)</span>
-<span class='va'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='clean-methods.html'>clean</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
-
-<span class='co'>## The processing steps are only applied when actual raw data is extracted.</span>
-<span class='fu'><a href='pSet-class.html'>spectra</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $F1.S001
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:30 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 0 
-#&gt;  Polarity: 1 
-#&gt; 
-#&gt; $F1.S002
-#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 4:31 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 0 
-#&gt;  Polarity: 1 
-#&gt; </div><div class='input'>
-<span class='co'>## Get the polarity of the spectra.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>polarity</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt;       1       1       1       1       1       1 </div><div class='input'>
-<span class='co'>## Get the retention time of all spectra</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt; 270.334 270.671 271.007 271.343 271.680 272.016 </div><div class='input'>
-<span class='co'>## Get the intensities after removePeaks and clean</span>
-<span class='va'>intsAfter</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt;    1378    1356    1404    1496    1525    1498 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span><span class='op'>(</span><span class='va'>intsAfter</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt;       0       0       0       3       6       9 </div><div class='input'>
-<span class='co'>## The same for the M/Z values</span>
-<span class='va'>mzsAfter</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span><span class='op'>(</span><span class='va'>mzs</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt;    1378    1356    1404    1496    1525    1498 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span><span class='op'>(</span><span class='va'>mzsAfter</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt;       0       0       0       3       6       9 </div><div class='input'>
-
-<span class='co'>## Centroided or profile mode</span>
-<span class='va'>f</span> <span class='op'>&lt;-</span> <span class='fu'>msdata</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>proteomics</a></span><span class='op'>(</span>full.names <span class='op'>=</span> <span class='cn'>TRUE</span>,
-      pattern <span class='op'>=</span> <span class='st'>"MS3TMT11.mzML"</span><span class='op'>)</span>
-<span class='va'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>f</span>, mode <span class='op'>=</span> <span class='st'>"onDisk"</span><span class='op'>)</span>
-<span class='fu'>validObject</span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='va'>odmse</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; Object of class "Spectrum1"
-#&gt;  Retention time: 45:27 
-#&gt;  MSn level: 1 
-#&gt;  Total ion count: 10768 
-#&gt;  Polarity: 1 </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='isCentroidedFromFile.html'>isCentroidedFromFile</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        
-#&gt;           1   2   3
-#&gt;   FALSE  30   0   0
-#&gt;   TRUE    0 482 482</div><div class='input'>
-<span class='co'>## centroided status could be set manually</span>
-<span class='fu'><a href='Spectrum-class.html'>centroided</a></span><span class='op'>(</span><span class='va'>odmse</span>, msLevel <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
-<span class='fu'><a href='Spectrum-class.html'>centroided</a></span><span class='op'>(</span><span class='va'>odmse</span>, msLevel <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span>
-<span class='fu'><a href='Spectrum-class.html'>centroided</a></span><span class='op'>(</span><span class='va'>odmse</span>, msLevel <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span>
-
-<span class='co'>## or when reading the data</span>
-<span class='va'>odmse2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>f</span>, centroided <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>FALSE</span>, <span class='cn'>TRUE</span>, <span class='cn'>TRUE</span><span class='op'>)</span>,
-         mode <span class='op'>=</span> <span class='st'>"onDisk"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>centroided</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        
-#&gt;           1   2   3
-#&gt;   FALSE  30   0   0
-#&gt;   TRUE    0 482 482</div><div class='input'>
-<span class='co'>## Filtering precursor scans</span>
-
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>acquisitionNum</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt;   21945   21946   21947   21948   21949   21950 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#&gt;       1       2       2       3       2       2 </div><div class='input'>
-<span class='co'>## Extract all spectra stemming from the first MS1 spectrum</span>
-<span class='op'>(</span><span class='va'>from1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterPrecursorScan</a></span><span class='op'>(</span><span class='va'>odmse</span>, <span class='fl'>21945</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; MSn experiment data ("OnDiskMSnExp")
-#&gt; Object size in memory: 0.05 Mb
-#&gt; - - - Spectra data - - -
-#&gt;  MS level(s): 1 2 3 
-#&gt;  Number of spectra: 35 
-#&gt;  MSn retention times: 45:27 - 45:30 minutes
-#&gt; - - - Processing information - - -
-#&gt; Data loaded [Fri Feb 12 11:24:29 2021] 
-#&gt; Filter: select parent/children scans for 21945 [Fri Feb 12 11:24:30 2021] 
-#&gt;  MSnbase version: 2.17.8 
-#&gt; - - - Meta data  - - -
-#&gt; phenoData
-#&gt;   rowNames: MS3TMT11.mzML
-#&gt;   varLabels: sampleNames
-#&gt;   varMetadata: labelDescription
-#&gt; Loaded from:
-#&gt;   MS3TMT11.mzML 
-#&gt; protocolData: none
-#&gt; featureData
-#&gt;   featureNames: F1.S001 F1.S002 ... F1.S035 (35 total)
-#&gt;   fvarLabels: fileIdx spIdx ... spectrum (35 total)
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>from1</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt;  1  2  3 
-#&gt;  1 17 17 </div><div class='input'>
-
-<span class='co'>## Extract the second sepctrum's parent (MS1) and children (MS3)</span>
-<span class='co'>## spectra</span>
-<span class='op'>(</span><span class='va'>from2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterPrecursorScan</a></span><span class='op'>(</span><span class='va'>odmse</span>, <span class='fl'>21946</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; MSn experiment data ("OnDiskMSnExp")
-#&gt; Object size in memory: 0.03 Mb
-#&gt; - - - Spectra data - - -
-#&gt;  MS level(s): 1 2 3 
-#&gt;  Number of spectra: 3 
-#&gt;  MSn retention times: 45:27 - 45:27 minutes
-#&gt; - - - Processing information - - -
-#&gt; Data loaded [Fri Feb 12 11:24:29 2021] 
-#&gt; Filter: select parent/children scans for 21946 [Fri Feb 12 11:24:30 2021] 
-#&gt;  MSnbase version: 2.17.8 
-#&gt; - - - Meta data  - - -
-#&gt; phenoData
-#&gt;   rowNames: MS3TMT11.mzML
-#&gt;   varLabels: sampleNames
-#&gt;   varMetadata: labelDescription
-#&gt; Loaded from:
-#&gt;   MS3TMT11.mzML 
-#&gt; protocolData: none
-#&gt; featureData
-#&gt;   featureNames: F1.S001 F1.S002 F1.S004
-#&gt;   fvarLabels: fileIdx spIdx ... spectrum (35 total)
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>from2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; 1 2 3 
-#&gt; 1 1 1 </div><div class='input'>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'>## Get some example mzML files</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>msdata</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>mzfiles</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"microtofq/MM14.mzML"</span>, package<span class='op'>=</span><span class='st'>"msdata"</span><span class='op'>)</span>,</span>
+<span class='r-in'>       <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"microtofq/MM8.mzML"</span>, package<span class='op'>=</span><span class='st'>"msdata"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'>## Read the data as an OnDiskMSnExp</span></span>
+<span class='r-in'><span class='va'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>mzfiles</span>, msLevel<span class='op'>=</span><span class='fl'>1</span>, centroided <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Get the length of data, i.e. the total number of spectra.</span></span>
+<span class='r-in'><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 310</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Get the MS level</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       1       1       1       1       1       1 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Get the featureData, use fData to return as a data.frame</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         spectrum</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S001        1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S002        2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S003        3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S004        4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S005        5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S006        6</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Get to know from which file the spectra are</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>fromFile</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       1       1       1       1       1       1 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## And the file names:</span></span>
+<span class='r-in'><span class='fu'><a href='pSet-class.html'>fileNames</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/usr/local/lib/R/host-site-library/msdata/microtofq/MM14.mzML"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2] "/usr/local/lib/R/host-site-library/msdata/microtofq/MM8.mzML" </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Scan index and acquisitionNum</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>scanIndex</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       1       2       3       4       5       6 </span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>acquisitionNum</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       1       2       3       4       5       6 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract the spectra; the data is retrieved from the raw files.</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='pSet-class.html'>spectra</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S001</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:30 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1378 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S002</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:31 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1356 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S003</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:31 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1404 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S004</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:31 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1496 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S005</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:32 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1525 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S006</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:32 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1498 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extracting individual spectra or a subset is much faster.</span></span>
+<span class='r-in'><span class='fu'><a href='pSet-class.html'>spectra</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>50</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S001</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:30 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1378 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S002</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:31 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1356 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S003</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:31 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1404 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S004</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:31 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1496 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S005</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:32 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1525 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S006</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:32 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1498 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S007</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:32 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1484 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S008</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:33 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1532 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S009</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:33 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1532 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S010</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:33 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1513 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S011</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:34 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1563 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S012</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:34 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1522 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S013</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:34 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1571 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S014</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:35 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1553 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S015</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:35 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1606 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S016</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:35 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1583 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S017</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:36 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1567 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S018</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:36 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1662 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S019</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:36 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1628 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S020</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:37 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1604 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S021</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:37 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1647 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S022</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:37 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1594 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S023</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:38 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1643 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S024</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:38 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1673 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S025</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:38 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1695 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S026</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:39 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1595 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S027</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:39 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1592 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S028</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:39 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1614 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S029</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:40 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1558 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S030</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:40 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1539 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S031</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:40 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1532 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S032</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:41 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1546 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S033</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:41 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1506 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S034</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:41 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1428 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S035</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:42 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1448 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S036</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:42 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1431 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S037</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:42 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1393 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S038</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:43 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1409 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S039</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:43 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1410 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S040</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:43 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1342 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S041</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:44 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1366 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S042</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:44 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1351 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S043</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:44 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1367 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S044</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:45 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1342 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S045</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:45 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1365 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S046</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:45 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1379 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S047</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:46 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1325 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S048</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:46 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1349 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S049</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:46 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1383 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S050</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:47 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 1342 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Alternatively, we could also subset the whole object by spectra and/or samples:</span></span>
+<span class='r-in'><span class='va'>subs</span> <span class='op'>&lt;-</span> <span class='va'>odmse</span><span class='op'>[</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span> <span class='op'>&gt;=</span> <span class='fl'>2</span> <span class='op'>&amp;</span> <span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span> <span class='op'>&lt;=</span> <span class='fl'>20</span>, <span class='op'>]</span></span>
+<span class='r-in'><span class='fu'><a href='pSet-class.html'>fileNames</a></span><span class='op'>(</span><span class='va'>subs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/usr/local/lib/R/host-site-library/msdata/microtofq/MM8.mzML"</span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>subs</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   F2.S006   F2.S007   F2.S008   F2.S009   F2.S010   F2.S011   F2.S012   F2.S013 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  2.169000  2.506002  2.842998  3.178998  3.516000  3.852000  4.188000  4.525002 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   F2.S014   F2.S015   F2.S016   F2.S017   F2.S018   F2.S019   F2.S020   F2.S021 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  4.861002  5.197998  5.533998  5.871000  6.207000  6.544020  6.880020  7.216980 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   F2.S022   F2.S023   F2.S024   F2.S025   F2.S026   F2.S027   F2.S028   F2.S029 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  7.554000  7.891020  8.227020  8.563980  8.899980  9.237000  9.573000  9.910020 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   F2.S030   F2.S031   F2.S032   F2.S033   F2.S034   F2.S035   F2.S036   F2.S037 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10.246020 10.582020 10.918980 11.254980 11.592000 11.928000 12.265020 12.601020 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   F2.S038   F2.S039   F2.S040   F2.S041   F2.S042   F2.S043   F2.S044   F2.S045 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12.937020 13.273980 13.609980 13.947000 14.283000 14.620020 14.956020 15.292020 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   F2.S046   F2.S047   F2.S048   F2.S049   F2.S050   F2.S051   F2.S052   F2.S053 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15.628980 15.964980 16.302000 16.638000 16.975020 17.311020 17.649000 17.986020 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   F2.S054   F2.S055   F2.S056   F2.S057   F2.S058 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18.322980 18.660000 18.996000 19.333020 19.669020 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract intensities and M/Z values per spectrum; the methods return a list,</span></span>
+<span class='r-in'><span class='co'>## each element representing the values for one spectrum.</span></span>
+<span class='r-in'><span class='va'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>mzs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Return a data.frame with mz and intensity pairs for each spectrum from the</span></span>
+<span class='r-in'><span class='co'>## object</span></span>
+<span class='r-in'><span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pSet-class.html'>spectrapply</a></span><span class='op'>(</span><span class='va'>odmse</span>, FUN <span class='op'>=</span> <span class='va'>as</span>, Class <span class='op'>=</span> <span class='st'>"data.frame"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Calling removePeaks, i.e. setting intensity values below a certain threshold to 0.</span></span>
+<span class='r-in'><span class='co'>## Unlike the name suggests, this is not actually removing peaks. Such peaks with a 0</span></span>
+<span class='r-in'><span class='co'>## intensity are then removed by the "clean" step.</span></span>
+<span class='r-in'><span class='co'>## Also, the manipulations are not applied directly, but put into the "lazy"</span></span>
+<span class='r-in'><span class='co'>## processing queue.</span></span>
+<span class='r-in'><span class='va'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='removePeaks-methods.html'>removePeaks</a></span><span class='op'>(</span><span class='va'>odmse</span>, t<span class='op'>=</span><span class='fl'>10000</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='clean-methods.html'>clean</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## The processing steps are only applied when actual raw data is extracted.</span></span>
+<span class='r-in'><span class='fu'><a href='pSet-class.html'>spectra</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S001</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:30 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 0 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $F1.S002</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 4:31 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 0 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Get the polarity of the spectra.</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>polarity</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       1       1       1       1       1       1 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Get the retention time of all spectra</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 270.334 270.671 271.007 271.343 271.680 272.016 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Get the intensities after removePeaks and clean</span></span>
+<span class='r-in'><span class='va'>intsAfter</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1378    1356    1404    1496    1525    1498 </span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span><span class='op'>(</span><span class='va'>intsAfter</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       0       0       0       3       6       9 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## The same for the M/Z values</span></span>
+<span class='r-in'><span class='va'>mzsAfter</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span><span class='op'>(</span><span class='va'>mzs</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1378    1356    1404    1496    1525    1498 </span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lengths.html'>lengths</a></span><span class='op'>(</span><span class='va'>mzsAfter</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       0       0       0       3       6       9 </span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Centroided or profile mode</span></span>
+<span class='r-in'><span class='va'>f</span> <span class='op'>&lt;-</span> <span class='fu'>msdata</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/msdata/man/proteomics.html'>proteomics</a></span><span class='op'>(</span>full.names <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span class='r-in'>      pattern <span class='op'>=</span> <span class='st'>"MS3TMT11.mzML"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>odmse</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>f</span>, mode <span class='op'>=</span> <span class='st'>"onDisk"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/methods/validObject.html'>validObject</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] TRUE</span>
+<span class='r-in'><span class='va'>odmse</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class "Spectrum1"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Retention time: 45:27 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn level: 1 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Total ion count: 10768 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Polarity: 1 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='isCentroidedFromFile.html'>isCentroidedFromFile</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           1   2   3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   FALSE  30   0   0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   TRUE    0 482 482</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## centroided status could be set manually</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>centroided</a></span><span class='op'>(</span><span class='va'>odmse</span>, msLevel <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>centroided</a></span><span class='op'>(</span><span class='va'>odmse</span>, msLevel <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>centroided</a></span><span class='op'>(</span><span class='va'>odmse</span>, msLevel <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## or when reading the data</span></span>
+<span class='r-in'><span class='va'>odmse2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>f</span>, centroided <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>FALSE</span>, <span class='cn'>TRUE</span>, <span class='cn'>TRUE</span><span class='op'>)</span>,</span>
+<span class='r-in'>         mode <span class='op'>=</span> <span class='st'>"onDisk"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>centroided</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           1   2   3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   FALSE  30   0   0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   TRUE    0 482 482</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Filtering precursor scans</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>acquisitionNum</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   21945   21946   21947   21948   21949   21950 </span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>odmse</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       1       2       2       3       2       2 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract all spectra stemming from the first MS1 spectrum</span></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>from1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterPrecursorScan</a></span><span class='op'>(</span><span class='va'>odmse</span>, <span class='fl'>21945</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MSn experiment data ("OnDiskMSnExp")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object size in memory: 0.05 Mb</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Spectra data - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MS level(s): 1 2 3 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Number of spectra: 35 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn retention times: 45:27 - 45:30 minutes</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Processing information - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Data loaded [Thu Aug 12 07:01:13 2021] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Filter: select parent/children scans for 21945 [Thu Aug 12 07:01:14 2021] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSnbase version: 2.19.2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Meta data  - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phenoData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   rowNames: MS3TMT11.mzML</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varLabels: sampleNames</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Loaded from:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   MS3TMT11.mzML </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> protocolData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> featureData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   featureNames: F1.S001 F1.S002 ... F1.S035 (35 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarLabels: fileIdx spIdx ... spectrum (35 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> experimentData: use 'experimentData(object)'</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>from1</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1  2  3 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1 17 17 </span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract the second sepctrum's parent (MS1) and children (MS3)</span></span>
+<span class='r-in'><span class='co'>## spectra</span></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>from2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterPrecursorScan</a></span><span class='op'>(</span><span class='va'>odmse</span>, <span class='fl'>21946</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MSn experiment data ("OnDiskMSnExp")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object size in memory: 0.03 Mb</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Spectra data - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MS level(s): 1 2 3 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  Number of spectra: 3 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSn retention times: 45:27 - 45:27 minutes</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Processing information - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Data loaded [Thu Aug 12 07:01:13 2021] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Filter: select parent/children scans for 21946 [Thu Aug 12 07:01:14 2021] </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSnbase version: 2.19.2 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Meta data  - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phenoData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   rowNames: MS3TMT11.mzML</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varLabels: sampleNames</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Loaded from:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   MS3TMT11.mzML </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> protocolData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> featureData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   featureNames: F1.S001 F1.S002 F1.S004</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarLabels: fileIdx spIdx ... spectrum (35 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> experimentData: use 'experimentData(object)'</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>msLevel</a></span><span class='op'>(</span><span class='va'>from2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 2 3 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 1 1 </span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -1116,11 +1150,11 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -1128,6 +1162,8 @@ Class <code>"Versioned"</code>, by class "pSet", distance 5.</p>
 
   
 
+
+  
 
   </body>
 </html>

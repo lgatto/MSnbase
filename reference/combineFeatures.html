@@ -69,9 +69,15 @@ If NA values are present, a message will be shown. Details on how
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -85,7 +91,7 @@ If NA values are present, a message will be shown. Details on how
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -175,7 +181,7 @@ If NA values are present, a message will be shown. Details on how
       <th>groupBy</th>
       <td><p>A <code>factor</code>, <code>character</code>, <code>numeric</code> or a
     <code>list</code> of the above defining how to summerise the features. The
-    list must be of length <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(object)</a></code>. Each element of the list
+    list must be of length <code>nrow(object)</code>. Each element of the list
     is a vector describing the feature mapping. If the list can be
     named, its names must match <code>fetureNames(object)</code>. See
     <code>redundancy.handler</code> for details about the latter.</p></td>
@@ -302,118 +308,137 @@ If NA values are present, a message will be shown. Details on how
 <p><code><a href='normToReference.html'>NTR</a></code> for normalisation to reference summarisation.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>
-<span class='va'>msnset</span> <span class='op'>&lt;-</span> <span class='va'>msnset</span><span class='op'>[</span><span class='fl'>11</span><span class='op'>:</span><span class='fl'>15</span>, <span class='op'>]</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt; X19  32838.044  37066.058  41429.627  39700.475
-#&gt; X2    3715.089   4254.323   4748.462   5249.904
-#&gt; X20  34509.686  34928.747  41911.032  42843.839
-#&gt; X21  21262.148  23168.729  25407.068  25949.954
-#&gt; X22   8635.316  10036.529   9254.432   7769.749</div><div class='input'>
-<span class='co'>## arbitrary grouping into two groups</span>
-<span class='va'>grp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>msnset.comb</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>, groupBy <span class='op'>=</span> <span class='va'>grp</span>, method <span class='op'>=</span> <span class='st'>"sum"</span><span class='op'>)</span>
-<span class='fu'><a href='pSet-class.html'>dim</a></span><span class='op'>(</span><span class='va'>msnset.comb</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 2 4</div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset.comb</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt; 1   36553.13   41320.38   46178.09   44950.38
-#&gt; 2   64407.15   68134.01   76572.53   76563.54</div><div class='input'><span class='fu'>fvarLabels</span><span class='op'>(</span><span class='va'>msnset.comb</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "spectrum"            "ProteinAccession"    "ProteinDescription" 
-#&gt;  [4] "PeptideSequence"     "file"                "retention.time"     
-#&gt;  [7] "precursor.mz"        "precursor.intensity" "charge"             
-#&gt; [10] "peaks.count"         "tic"                 "ionCount"           
-#&gt; [13] "ms.level"            "acquisition.number"  "collision.energy"   
-#&gt; [16] "CV.iTRAQ4.114"       "CV.iTRAQ4.115"       "CV.iTRAQ4.116"      
-#&gt; [19] "CV.iTRAQ4.117"      </div><div class='input'>
-<span class='co'>## grouping with a list</span>
-<span class='va'>grpl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"B"</span><span class='op'>)</span>, <span class='st'>"A"</span>, <span class='st'>"A"</span>, <span class='st'>"C"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"C"</span>, <span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='co'>## optional naming</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>grpl</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'>featureNames</span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>, groupBy <span class='op'>=</span> <span class='va'>grpl</span>, method <span class='op'>=</span> <span class='st'>"sum"</span>, redundancy.handler <span class='op'>=</span> <span class='st'>"unique"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt; A   38224.78   39183.07   46659.49   48093.74
-#&gt; C   21262.15   23168.73   25407.07   25949.95</div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>, groupBy <span class='op'>=</span> <span class='va'>grpl</span>, method <span class='op'>=</span> <span class='st'>"sum"</span>, redundancy.handler <span class='op'>=</span> <span class='st'>"multiple"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt; A   71062.82   76249.13   88089.12   87794.22
-#&gt; B   41473.36   47102.59   50684.06   47470.22
-#&gt; C   29897.46   33205.26   34661.50   33719.70</div><div class='input'>
-<span class='co'>## missing data</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>4</span>, <span class='fl'>4</span><span class='op'>]</span> <span class='op'>&lt;-</span>
-    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt; X19  32838.044   37066.06  41429.627  39700.475
-#&gt; X2    3715.089         NA   4748.462   5249.904
-#&gt; X20  34509.686   34928.75  41911.032  42843.839
-#&gt; X21  21262.148   23168.73  25407.068         NA
-#&gt; X22   8635.316   10036.53   9254.432   7769.749</div><div class='input'><span class='co'>## NAs propagate in the 115 and 117 channels</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>, <span class='va'>grp</span>, <span class='st'>"sum"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
-#&gt; <span class='message'>the combineFeatures manual page for details on the effects of missing</span>
-#&gt; <span class='message'>values on data aggregation.</span></div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt; 1   36553.13         NA   46178.09   44950.38
-#&gt; 2   64407.15   68134.01   76572.53         NA</div><div class='input'><span class='co'>## NAs are removed before summing</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>, <span class='va'>grp</span>, <span class='st'>"sum"</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
-#&gt; <span class='message'>the combineFeatures manual page for details on the effects of missing</span>
-#&gt; <span class='message'>values on data aggregation.</span></div><div class='output co'>#&gt;   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt; 1   36553.13   37066.06   46178.09   44950.38
-#&gt; 2   64407.15   68134.01   76572.53   50613.59</div><div class='input'>
-<span class='co'>## using iPQF</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>anyNA</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset2</span>,
-           groupBy <span class='op'>=</span> <span class='fu'>fData</span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>accession</span>,
-           redundancy.handler <span class='op'>=</span> <span class='st'>"unique"</span>,
-           method <span class='op'>=</span> <span class='st'>"iPQF"</span>,
-           low.support.filter <span class='op'>=</span> <span class='cn'>FALSE</span>,
-           ratio.calc <span class='op'>=</span> <span class='st'>"sum"</span>,
-           method.combine <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>The following 1 proteins are only supported by 1 or 2 peptide spectra,</span>
-#&gt; <span class='message'>hence, protein quantification is not reliable and can only be calculated</span>
-#&gt; <span class='message'>by the 'mean' in these cases, corresponding protein accessions are:</span>
-#&gt; <span class='message'>  O95678</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        X114.ions X115.ions X116.ions X117.ions
-#&gt; O95678 0.2404726 0.2682764 0.2584247 0.2328263
-#&gt; P01766 0.2610278 0.2467206 0.2544715 0.2377801
-#&gt; P01776 0.2678859 0.2591250 0.2423396 0.2306495
-#&gt; P02749 0.2640340 0.2523566 0.2510357 0.2325736
-#&gt; P02763 0.2503318 0.2524583 0.2501628 0.2470472
-#&gt; P07225 0.2533961 0.2506013 0.2504353 0.2455673</div><div class='input'>
-<span class='co'>## using robust summarisation</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span> <span class='co'>## reset data</span>
-<span class='va'>msnset</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>msnset</span>, <span class='fl'>2</span><span class='op'>)</span> <span class='co'>## log2 transform</span>
-
-<span class='co'>## Feature X46, in the ENO protein has one missig value</span>
-<span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>, arr.ind <span class='op'>=</span> <span class='fu'><a href='pSet-class.html'>dim</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;     row col
-#&gt; X2    2   2
-#&gt; X21   4   4</div><div class='input'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>[</span><span class='st'>"X46"</span>, <span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='error'>Error in h(simpleError(msg, call)): error in evaluating the argument 'object' in selecting a method for function 'exprs': subscript out of bounds</span></div><div class='input'><span class='co'>## Only the missing value in X46 and iTRAQ4.116 will be ignored</span>
-<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>,
-           fcol <span class='op'>=</span> <span class='st'>"ProteinAccession"</span>,
-           method <span class='op'>=</span> <span class='st'>"robust"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Your data contains missing values. Please read the relevant section in</span>
-#&gt; <span class='message'>the combineFeatures manual page for details on the effects of missing</span>
-#&gt; <span class='message'>values on data aggregation.</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt; ECA1032   15.00308   15.17781   15.33838   15.27687
-#&gt; ECA1104   14.37600   14.49989   14.63294         NA
-#&gt; ECA1294   11.85918         NA   12.21324   12.35808
-#&gt; ECA3356   13.07603   13.29297   13.17593   12.92365
-#&gt; ECA4514   15.07471   15.09213   15.35504   15.38680</div><div class='input'>
-<span class='va'>msnset2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnSet-class.html'>filterNA</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span> <span class='co'>## remove features with missing value(s)</span>
-<span class='va'>res2</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset2</span>,
-      fcol <span class='op'>=</span> <span class='st'>"ProteinAccession"</span>,
-      method <span class='op'>=</span> <span class='st'>"robust"</span><span class='op'>)</span>
-<span class='co'>## Here, the values for ENO are different because the whole feature</span>
-<span class='co'>## X46 that contained the missing value was removed prior to fitting.</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>res2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt; ECA1032   15.00308   15.17781   15.33838   15.27687
-#&gt; ECA3356   13.07603   13.29297   13.17593   12.92365
-#&gt; ECA4514   15.07471   15.09213   15.35504   15.38680</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>msnset</span> <span class='op'>&lt;-</span> <span class='va'>msnset</span><span class='op'>[</span><span class='fl'>11</span><span class='op'>:</span><span class='fl'>15</span>, <span class='op'>]</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X19  32838.044  37066.058  41429.627  39700.475</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2    3715.089   4254.323   4748.462   5249.904</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X20  34509.686  34928.747  41911.032  42843.839</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X21  21262.148  23168.729  25407.068  25949.954</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X22   8635.316  10036.529   9254.432   7769.749</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## arbitrary grouping into two groups</span></span>
+<span class='r-in'><span class='va'>grp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>msnset.comb</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>, groupBy <span class='op'>=</span> <span class='va'>grp</span>, method <span class='op'>=</span> <span class='st'>"sum"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='pSet-class.html'>dim</a></span><span class='op'>(</span><span class='va'>msnset.comb</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 2 4</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset.comb</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1   36553.13   41320.38   46178.09   44950.38</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2   64407.15   68134.01   76572.53   76563.54</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fvarLabels</a></span><span class='op'>(</span><span class='va'>msnset.comb</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "spectrum"            "ProteinAccession"    "ProteinDescription" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4] "PeptideSequence"     "file"                "retention.time"     </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "precursor.mz"        "precursor.intensity" "charge"             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10] "peaks.count"         "tic"                 "ionCount"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "ms.level"            "acquisition.number"  "collision.energy"   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [16] "CV.iTRAQ4.114"       "CV.iTRAQ4.115"       "CV.iTRAQ4.116"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "CV.iTRAQ4.117"      </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## grouping with a list</span></span>
+<span class='r-in'><span class='va'>grpl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A"</span>, <span class='st'>"B"</span><span class='op'>)</span>, <span class='st'>"A"</span>, <span class='st'>"A"</span>, <span class='st'>"C"</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"C"</span>, <span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'>## optional naming</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>grpl</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureNames.html'>featureNames</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>, groupBy <span class='op'>=</span> <span class='va'>grpl</span>, method <span class='op'>=</span> <span class='st'>"sum"</span>, redundancy.handler <span class='op'>=</span> <span class='st'>"unique"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A   38224.78   39183.07   46659.49   48093.74</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> C   21262.15   23168.73   25407.07   25949.95</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>, groupBy <span class='op'>=</span> <span class='va'>grpl</span>, method <span class='op'>=</span> <span class='st'>"sum"</span>, redundancy.handler <span class='op'>=</span> <span class='st'>"multiple"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> A   71062.82   76249.13   88089.12   87794.22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> B   41473.36   47102.59   50684.06   47470.22</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> C   29897.46   33205.26   34661.50   33719.70</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## missing data</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>4</span>, <span class='fl'>4</span><span class='op'>]</span> <span class='op'>&lt;-</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>2</span>, <span class='fl'>2</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X19  32838.044   37066.06  41429.627  39700.475</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2    3715.089         NA   4748.462   5249.904</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X20  34509.686   34928.75  41911.032  42843.839</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X21  21262.148   23168.73  25407.068         NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X22   8635.316   10036.53   9254.432   7769.749</span>
+<span class='r-in'><span class='co'>## NAs propagate in the 115 and 117 channels</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>, <span class='va'>grp</span>, <span class='st'>"sum"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Your data contains missing values. Please read the relevant section in</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> the combineFeatures manual page for details on the effects of missing</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> values on data aggregation.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1   36553.13         NA   46178.09   44950.38</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2   64407.15   68134.01   76572.53         NA</span>
+<span class='r-in'><span class='co'>## NAs are removed before summing</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>, <span class='va'>grp</span>, <span class='st'>"sum"</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Your data contains missing values. Please read the relevant section in</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> the combineFeatures manual page for details on the effects of missing</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> values on data aggregation.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1   36553.13   37066.06   46178.09   44950.38</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2   64407.15   68134.01   76572.53   50613.59</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## using iPQF</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>anyNA</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
+<span class='r-in'><span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset2</span>,</span>
+<span class='r-in'>           groupBy <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>accession</span>,</span>
+<span class='r-in'>           redundancy.handler <span class='op'>=</span> <span class='st'>"unique"</span>,</span>
+<span class='r-in'>           method <span class='op'>=</span> <span class='st'>"iPQF"</span>,</span>
+<span class='r-in'>           low.support.filter <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
+<span class='r-in'>           ratio.calc <span class='op'>=</span> <span class='st'>"sum"</span>,</span>
+<span class='r-in'>           method.combine <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The following 1 proteins are only supported by 1 or 2 peptide spectra,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> hence, protein quantification is not reliable and can only be calculated</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> by the 'mean' in these cases, corresponding protein accessions are:</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>   O95678</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        X114.ions X115.ions X116.ions X117.ions</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> O95678 0.2404726 0.2682764 0.2584247 0.2328263</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P01766 0.2610278 0.2467206 0.2544715 0.2377801</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P01776 0.2678859 0.2591250 0.2423396 0.2306495</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P02749 0.2640340 0.2523566 0.2510357 0.2325736</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P02763 0.2503318 0.2524583 0.2501628 0.2470472</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> P07225 0.2533961 0.2506013 0.2504353 0.2455673</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## using robust summarisation</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span> <span class='co'>## reset data</span></span>
+<span class='r-in'><span class='va'>msnset</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>msnset</span>, <span class='fl'>2</span><span class='op'>)</span> <span class='co'>## log2 transform</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Feature X46, in the ENO protein has one missig value</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>, arr.ind <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     row col</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2    2   2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X21   4   4</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>[</span><span class='st'>"X46"</span>, <span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-err co'><span class='r-pr'>#&gt;</span> <span class='error'>Error in h(simpleError(msg, call))</span> error in evaluating the argument 'object' in selecting a method for function 'exprs': subscript out of bounds</span>
+<span class='r-in'><span class='co'>## Only the missing value in X46 and iTRAQ4.116 will be ignored</span></span>
+<span class='r-in'><span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset</span>,</span>
+<span class='r-in'>           fcol <span class='op'>=</span> <span class='st'>"ProteinAccession"</span>,</span>
+<span class='r-in'>           method <span class='op'>=</span> <span class='st'>"robust"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Your data contains missing values. Please read the relevant section in</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> the combineFeatures manual page for details on the effects of missing</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> values on data aggregation.</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ECA1032   15.00308   15.17781   15.33838   15.27687</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ECA1104   14.37600   14.49989   14.63294         NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ECA1294   11.85918         NA   12.21324   12.35808</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ECA3356   13.07603   13.29297   13.17593   12.92365</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ECA4514   15.07471   15.09213   15.35504   15.38680</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>msnset2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnSet-class.html'>filterNA</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span> <span class='co'>## remove features with missing value(s)</span></span>
+<span class='r-in'><span class='va'>res2</span> <span class='op'>&lt;-</span> <span class='fu'>combineFeatures</span><span class='op'>(</span><span class='va'>msnset2</span>,</span>
+<span class='r-in'>      fcol <span class='op'>=</span> <span class='st'>"ProteinAccession"</span>,</span>
+<span class='r-in'>      method <span class='op'>=</span> <span class='st'>"robust"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'>## Here, the values for ENO are different because the whole feature</span></span>
+<span class='r-in'><span class='co'>## X46 that contained the missing value was removed prior to fitting.</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></span><span class='op'>(</span><span class='va'>res2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ECA1032   15.00308   15.17781   15.33838   15.27687</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ECA3356   13.07603   13.29297   13.17593   12.92365</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ECA4514   15.07471   15.09213   15.35504   15.38680</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -425,11 +450,11 @@ If NA values are present, a message will be shown. Details on how
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -437,6 +462,8 @@ If NA values are present, a message will be shown. Details on how
 
   
 
+
+  
 
   </body>
 </html>

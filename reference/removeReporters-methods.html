@@ -67,9 +67,15 @@ Note that this method only works for MS2 spectra or experiments that
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -83,7 +89,7 @@ Note that this method only works for MS2 spectra or experiments that
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -189,19 +195,23 @@ Note that this method only works for MS2 spectra or experiments that
   processing methods.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>sp1</span> <span class='op'>&lt;-</span> <span class='va'>itraqdata</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-<span class='va'>sp2</span> <span class='op'>&lt;-</span> <span class='fu'>removeReporters</span><span class='op'>(</span><span class='va'>sp1</span>,reporters<span class='op'>=</span><span class='va'>iTRAQ4</span><span class='op'>)</span>
-<span class='va'>sel</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>sp1</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>114</span> <span class='op'>&amp;</span> <span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>sp1</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>114.2</span>
-<span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>sp1</span><span class='op'>)</span><span class='op'>[</span><span class='va'>sel</span><span class='op'>]</span>
-</div><div class='output co'>#&gt;  [1] 114.0956 114.0975 114.0993 114.1012 114.1030 114.1049 114.1067 114.1085
-#&gt;  [9] 114.1104 114.1122 114.1141 114.1159 114.1178 114.1196 114.1214 114.1233
-#&gt; [17] 114.1251</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>sp1</span><span class='op'>)</span><span class='op'>[</span><span class='va'>sel</span><span class='op'>]</span>
-</div><div class='output co'>#&gt;  [1]      0.0000      0.0000      0.0000      0.0000   1640.2427  25143.0898
-#&gt;  [7]  87905.3906 164363.5156 197455.8125 158061.2812  79058.3672  17596.0898
-#&gt; [13]    346.5309      0.0000      0.0000      0.0000      0.0000</div><div class='input'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>sp1</span>,full<span class='op'>=</span><span class='cn'>TRUE</span>,reporters<span class='op'>=</span><span class='va'>iTRAQ4</span><span class='op'>)</span>
-</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>sp2</span><span class='op'>)</span><span class='op'>[</span><span class='va'>sel</span><span class='op'>]</span>
-</div><div class='output co'>#&gt;  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</div><div class='input'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>sp2</span>,full<span class='op'>=</span><span class='cn'>TRUE</span>,reporters<span class='op'>=</span><span class='va'>iTRAQ4</span><span class='op'>)</span>
-</div><div class='img'><img src='removeReporters-methods-1.png' alt='' width='700' height='433' /></div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>sp1</span> <span class='op'>&lt;-</span> <span class='va'>itraqdata</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-in'><span class='va'>sp2</span> <span class='op'>&lt;-</span> <span class='fu'>removeReporters</span><span class='op'>(</span><span class='va'>sp1</span>,reporters<span class='op'>=</span><span class='va'>iTRAQ4</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>sel</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>sp1</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>114</span> <span class='op'>&amp;</span> <span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>sp1</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='fl'>114.2</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>sp1</span><span class='op'>)</span><span class='op'>[</span><span class='va'>sel</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 114.0956 114.0975 114.0993 114.1012 114.1030 114.1049 114.1067 114.1085</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] 114.1104 114.1122 114.1141 114.1159 114.1178 114.1196 114.1214 114.1233</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] 114.1251</span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>sp1</span><span class='op'>)</span><span class='op'>[</span><span class='va'>sel</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]      0.0000      0.0000      0.0000      0.0000   1640.2427  25143.0898</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7]  87905.3906 164363.5156 197455.8125 158061.2812  79058.3672  17596.0898</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13]    346.5309      0.0000      0.0000      0.0000      0.0000</span>
+<span class='r-in'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>sp1</span>,full<span class='op'>=</span><span class='cn'>TRUE</span>,reporters<span class='op'>=</span><span class='va'>iTRAQ4</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>sp2</span><span class='op'>)</span><span class='op'>[</span><span class='va'>sel</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span>
+<span class='r-in'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>sp2</span>,full<span class='op'>=</span><span class='cn'>TRUE</span>,reporters<span class='op'>=</span><span class='va'>iTRAQ4</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='removeReporters-methods-1.png' alt='' width='700' height='433' /></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -213,11 +223,11 @@ Note that this method only works for MS2 spectra or experiments that
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -225,6 +235,8 @@ Note that this method only works for MS2 spectra or experiments that
 
   
 
+
+  
 
   </body>
 </html>

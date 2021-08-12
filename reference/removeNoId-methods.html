@@ -60,9 +60,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -76,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -168,47 +174,56 @@
     <div class='dont-index'><p><code><a href='MSnExp-class.html'>MSnExp</a></code> and <code><a href='MSnSet-class.html'>MSnSet</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>  <span class='va'>quantFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"MSnbase"</span>, dir <span class='op'>=</span> <span class='st'>"extdata"</span><span class='op'>)</span>,
-                     full.name <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"mzXML$"</span><span class='op'>)</span>
-  <span class='va'>identFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"MSnbase"</span>, dir <span class='op'>=</span> <span class='st'>"extdata"</span><span class='op'>)</span>,
-                     full.name <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"dummyiTRAQ.mzid"</span><span class='op'>)</span>
-  <span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>quantFile</span><span class='op'>)</span>
-  <span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='addIdentificationData-methods.html'>addIdentificationData</a></span><span class='op'>(</span><span class='va'>msexp</span>, <span class='va'>identFile</span><span class='op'>)</span>
-  <span class='fu'>fData</span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span><span class='op'>$</span><span class='va'>sequence</span>
-</div><div class='output co'>#&gt; [1] "VESITARHGEVLQLRPK" "IDGQWVTHQWLKK"     NA                 
-#&gt; [4] NA                  "LVILLFR"          </div><div class='input'>  <span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 5</div><div class='input'>
-  <span class='co'>## using default fcol</span>
-  <span class='va'>msexp2</span> <span class='op'>&lt;-</span> <span class='fu'>removeNoId</span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span>
-  <span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>msexp2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 3</div><div class='input'>  <span class='fu'>fData</span><span class='op'>(</span><span class='va'>msexp2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>sequence</span>
-</div><div class='output co'>#&gt; [1] "VESITARHGEVLQLRPK" "IDGQWVTHQWLKK"     "LVILLFR"          </div><div class='input'>
-  <span class='co'>## using keep</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'>fvarLabels</span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "spectrum"                 "acquisition.number"      
-#&gt;  [3] "sequence"                 "chargeState"             
-#&gt;  [5] "rank"                     "passThreshold"           
-#&gt;  [7] "experimentalMassToCharge" "calculatedMassToCharge"  
-#&gt;  [9] "peptideRef"               "modNum"                  
-#&gt; [11] "isDecoy"                  "post"                    
-#&gt; [13] "pre"                      "start"                   
-#&gt; [15] "end"                      "DatabaseAccess"          
-#&gt; [17] "DBseqLength"              "DatabaseSeq"             
-#&gt; [19] "DatabaseDescription"      "scan.number.s."          
-#&gt; [21] "idFile"                   "MS.GF.RawScore"          
-#&gt; [23] "MS.GF.DeNovoScore"        "MS.GF.SpecEValue"        
-#&gt; [25] "MS.GF.EValue"             "modPeptideRef"           
-#&gt; [27] "modName"                  "modMass"                 
-#&gt; [29] "modLocation"              "subOriginalResidue"      
-#&gt; [31] "subReplacementResidue"    "subLocation"             
-#&gt; [33] "nprot"                    "npep.prot"               
-#&gt; [35] "npsm.prot"                "npsm.pep"                </div><div class='input'>  <span class='op'>(</span><span class='va'>k</span> <span class='op'>&lt;-</span> <span class='fu'>fData</span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span><span class='op'>$</span><span class='st'>'MS.GF.EValue'</span> <span class='op'>&gt;</span> <span class='fl'>75</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1]  TRUE FALSE    NA    NA  TRUE</div><div class='input'>  <span class='va'>k</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>k</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
-  <span class='va'>k</span>
-</div><div class='output co'>#&gt; [1]  TRUE FALSE FALSE FALSE  TRUE</div><div class='input'>  <span class='va'>msexp3</span> <span class='op'>&lt;-</span> <span class='fu'>removeNoId</span><span class='op'>(</span><span class='va'>msexp</span>, keep <span class='op'>=</span> <span class='va'>k</span><span class='op'>)</span>
-  <span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>msexp3</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 2</div><div class='input'>  <span class='fu'>fData</span><span class='op'>(</span><span class='va'>msexp3</span><span class='op'>)</span><span class='op'>$</span><span class='va'>sequence</span>
-</div><div class='output co'>#&gt; [1] "VESITARHGEVLQLRPK" "LVILLFR"          </div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'>  <span class='va'>quantFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"MSnbase"</span>, dir <span class='op'>=</span> <span class='st'>"extdata"</span><span class='op'>)</span>,</span>
+<span class='r-in'>                     full.name <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"mzXML$"</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='va'>identFile</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"MSnbase"</span>, dir <span class='op'>=</span> <span class='st'>"extdata"</span><span class='op'>)</span>,</span>
+<span class='r-in'>                     full.name <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"dummyiTRAQ.mzid"</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>quantFile</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='addIdentificationData-methods.html'>addIdentificationData</a></span><span class='op'>(</span><span class='va'>msexp</span>, <span class='va'>identFile</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span><span class='op'>$</span><span class='va'>sequence</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "VESITARHGEVLQLRPK" "IDGQWVTHQWLKK"     NA                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4] NA                  "LVILLFR"          </span>
+<span class='r-in'>  <span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 5</span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'>## using default fcol</span></span>
+<span class='r-in'>  <span class='va'>msexp2</span> <span class='op'>&lt;-</span> <span class='fu'>removeNoId</span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>msexp2</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 3</span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>msexp2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>sequence</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "VESITARHGEVLQLRPK" "IDGQWVTHQWLKK"     "LVILLFR"          </span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'>## using keep</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fvarLabels</a></span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "spectrum"                 "acquisition.number"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3] "sequence"                 "chargeState"             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "rank"                     "passThreshold"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7] "experimentalMassToCharge" "calculatedMassToCharge"  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "peptideRef"               "modNum"                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] "isDecoy"                  "post"                    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "pre"                      "start"                   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [15] "end"                      "DatabaseAccess"          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "DBseqLength"              "DatabaseSeq"             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [19] "DatabaseDescription"      "scan.number.s."          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [21] "idFile"                   "MS.GF.RawScore"          </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [23] "MS.GF.DeNovoScore"        "MS.GF.SpecEValue"        </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "MS.GF.EValue"             "modPeptideRef"           </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [27] "modName"                  "modMass"                 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [29] "modLocation"              "subOriginalResidue"      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [31] "subReplacementResidue"    "subLocation"             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [33] "nprot"                    "npep.prot"               </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [35] "npsm.prot"                "npsm.pep"                </span>
+<span class='r-in'>  <span class='op'>(</span><span class='va'>k</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span><span class='op'>$</span><span class='st'>'MS.GF.EValue'</span> <span class='op'>&gt;</span> <span class='fl'>75</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1]  TRUE FALSE    NA    NA  TRUE</span>
+<span class='r-in'>  <span class='va'>k</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>k</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span></span>
+<span class='r-in'>  <span class='va'>k</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1]  TRUE FALSE FALSE FALSE  TRUE</span>
+<span class='r-in'>  <span class='va'>msexp3</span> <span class='op'>&lt;-</span> <span class='fu'>removeNoId</span><span class='op'>(</span><span class='va'>msexp</span>, keep <span class='op'>=</span> <span class='va'>k</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>msexp3</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 2</span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>msexp3</span><span class='op'>)</span><span class='op'>$</span><span class='va'>sequence</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "VESITARHGEVLQLRPK" "LVILLFR"          </span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -220,11 +235,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -232,6 +247,8 @@
 
   
 
+
+  
 
   </body>
 </html>

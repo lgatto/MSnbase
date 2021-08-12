@@ -64,9 +64,15 @@ used instead (i.e. the chromatogram() method)." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -80,7 +86,7 @@ used instead (i.e. the chromatogram() method)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -149,10 +155,10 @@ values. Instances of the class can be created with the
 <code>Chromatogram</code> constructor function but in most cases the dedicated
 methods for <a href='OnDiskMSnExp-class.html'>OnDiskMSnExp</a> and
 <a href='MSnExp-class.html'>MSnExp</a> objects extracting chromatograms should be
-used instead (i.e. the <code><a href='chromatogram,MSnExp-method.html'>chromatogram()</a></code> method).</p>
+used instead (i.e. the <code><a href='chromatogram-MSnExp-method.html'>chromatogram()</a></code> method).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>Chromatogram</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>Chromatogram</span><span class='op'>(</span>
   rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span><span class='op'>(</span><span class='op'>)</span>,
   intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>numeric</a></span><span class='op'>(</span><span class='op'>)</span>,
   mz <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA_real_</span>, <span class='cn'>NA_real_</span><span class='op'>)</span>,
@@ -219,9 +225,9 @@ used instead (i.e. the <code><a href='chromatogram,MSnExp-method.html'>chromatog
 
 <span class='co'># S4 method for Chromatogram</span>
 <span class='fu'><a href='bin-methods.html'>bin</a></span><span class='op'>(</span>
-  <span class='va'>object</span>,
+  <span class='va'>x</span>,
   binSize <span class='op'>=</span> <span class='fl'>0.5</span>,
-  breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>floor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>object</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>ceiling</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>object</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>, by <span class='op'>=</span> <span class='va'>binSize</span><span class='op'>)</span>,
+  breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Round.html'>floor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>ceiling</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>, by <span class='op'>=</span> <span class='va'>binSize</span><span class='op'>)</span>,
   fun <span class='op'>=</span> <span class='va'>max</span>
 <span class='op'>)</span>
 
@@ -232,7 +238,18 @@ used instead (i.e. the <code><a href='chromatogram,MSnExp-method.html'>chromatog
 <span class='fu'>filterIntensity</span><span class='op'>(</span><span class='va'>object</span>, intensity <span class='op'>=</span> <span class='fl'>0</span>, <span class='va'>...</span><span class='op'>)</span>
 
 <span class='co'># S4 method for Chromatogram,Chromatogram</span>
-<span class='fu'>alignRt</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"closest"</span>, <span class='st'>"approx"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>alignRt</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"closest"</span>, <span class='st'>"approx"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S4 method for Chromatogram,Chromatogram</span>
+<span class='fu'>compareChromatograms</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>y</span>,
+  ALIGNFUN <span class='op'>=</span> <span class='va'>alignRt</span>,
+  ALIGNFUNARGS <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  FUN <span class='op'>=</span> <span class='va'>cor</span>,
+  FUNARGS <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>use <span class='op'>=</span> <span class='st'>"pairwise.complete.obs"</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -246,35 +263,35 @@ has to be equal to the length of <code>intensity</code>).</p></td>
       <th>intensity</th>
       <td><p>for <code>Chromatogram</code>: <code>numeric</code> with the intensity values
 (length has to be equal to the length of <code>rtime</code>). For <code>filterIntensity</code>:
-<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code> or <code>function</code> to use to filter intensities. See description
+<code>numeric(1)</code> or <code>function</code> to use to filter intensities. See description
 for details.</p></td>
     </tr>
     <tr>
       <th>mz</th>
-      <td><p>for <code>Chromatogram</code>: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code> representing the mz value range
+      <td><p>for <code>Chromatogram</code>: <code>numeric(2)</code> representing the mz value range
 (min, max) on which the chromatogram was created. This is supposed to
 contain the <em>real</em> range of mz values in contrast to <code>filterMz</code>.
 If not applicable use <code>mzrange = c(0, 0)</code>.</p></td>
     </tr>
     <tr>
       <th>filterMz</th>
-      <td><p>for <code>Chromatogram</code>: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code> representing the mz value
+      <td><p>for <code>Chromatogram</code>: <code>numeric(2)</code> representing the mz value
 range (min, max) that was used to filter the original object on m/z
 dimension. If not applicable use <code>filterMz = c(0, 0)</code>.</p></td>
     </tr>
     <tr>
       <th>precursorMz</th>
-      <td><p>for <code>Chromatogram</code>: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code> for SRM/MRM transitions.
+      <td><p>for <code>Chromatogram</code>: <code>numeric(2)</code> for SRM/MRM transitions.
 Represents the mz of the precursor ion. See details for more information.</p></td>
     </tr>
     <tr>
       <th>productMz</th>
-      <td><p>for <code>Chromatogram</code>: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code> for SRM/MRM transitions.
+      <td><p>for <code>Chromatogram</code>: <code>numeric(2)</code> for SRM/MRM transitions.
 Represents the mz of the product. See details for more information.</p></td>
     </tr>
     <tr>
       <th>fromFile</th>
-      <td><p>for <code>Chromatogram</code>: <code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code> the index of the file within
+      <td><p>for <code>Chromatogram</code>: <code>integer(1)</code> the index of the file within
 the <code>OnDiskMSnExp</code> or <code>MSnExp</code> from which the chromatogram was extracted.</p></td>
     </tr>
     <tr>
@@ -286,7 +303,7 @@ chromatogram), <code>"max"</code> (base peak chromatogram), <code>"min"</code> a
     </tr>
     <tr>
       <th>msLevel</th>
-      <td><p>for <code>Chromatogram</code>: <code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code> with the MS level from
+      <td><p>for <code>Chromatogram</code>: <code>integer(1)</code> with the MS level from
 which the chromatogram was extracted.</p></td>
     </tr>
     <tr>
@@ -295,7 +312,7 @@ which the chromatogram was extracted.</p></td>
     </tr>
     <tr>
       <th>filter</th>
-      <td><p>for <code>mz</code>: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> defining whether the m/z range to filter
+      <td><p>for <code>mz</code>: <code>logical(1)</code> defining whether the m/z range to filter
 the originating object (e.g. <code>MSnExp</code> object) should be returned or the
 m/z range of the actual data. Defaults to <code>filter = FALSE</code>.</p></td>
     </tr>
@@ -305,12 +322,12 @@ m/z range of the actual data. Defaults to <code>filter = FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>rt</th>
-      <td><p>for <code>filterRt</code>: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code> defining the lower and upper retention
+      <td><p>for <code>filterRt</code>: <code>numeric(2)</code> defining the lower and upper retention
 time to which the <code>Chromatogram</code> should be subsetted.</p></td>
     </tr>
     <tr>
       <th>all</th>
-      <td><p>for <code>clean</code>: <code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code> whether all 0 intensities should be
+      <td><p>for <code>clean</code>: <code>logical(1)</code> whether all 0 intensities should be
 removed. Defaults to <code>all = FALSE</code>. See <code><a href='clean-methods.html'>clean()</a></code> for details.</p></td>
     </tr>
     <tr>
@@ -349,11 +366,12 @@ will be used as plot title.</p></td>
       <th>...</th>
       <td><p>for <code>plot</code>: additional arguments to be passed to the
 base <code>plot</code> function. For <code>filterIntensity</code>: additional parameters passed
-along to the function provided with <code>intensity</code>.</p></td>
+along to the function provided with <code>intensity</code>.
+For <code>compareChromatograms</code>: ignored</p></td>
     </tr>
     <tr>
       <th>binSize</th>
-      <td><p>for <code>bin</code>: <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code> with the size of the bins
+      <td><p>for <code>bin</code>: <code>numeric(1)</code> with the size of the bins
 (in seconds). Defaults to <code>binSize = 0.5</code>.</p></td>
     </tr>
     <tr>
@@ -369,7 +387,7 @@ values falling within each bin. Defaults to <code>fun = max</code>.</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p><code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>. For <code>normalise</code>: defining whether each
+      <td><p><code>character(1)</code>. For <code>normalise</code>: defining whether each
 chromatogram should be normalized to its maximum signal
 (<code>method = "max"</code>) or total signal (<code>method = "sum"</code>).
 For <code>alignRt</code>: aligning approach that should be used (see description).
@@ -380,20 +398,40 @@ Defaults to <code>method = "closest"</code>.</p></td>
       <td><p>for <code>alignRt</code>: <code>Chromatogram</code> against which <code>x</code> should be aligned
 against.</p></td>
     </tr>
+    <tr>
+      <th>ALIGNFUN</th>
+      <td><p>for <code>compareChromatograms</code>: function to align chromatogram
+<code>x</code> against chromatogram <code>y</code>. Defaults to <code>alignRt</code>.</p></td>
+    </tr>
+    <tr>
+      <th>ALIGNFUNARGS</th>
+      <td><p><code>list</code> of parameters to be passed to <code>ALIGNFUN</code>.</p></td>
+    </tr>
+    <tr>
+      <th>FUN</th>
+      <td><p>for <code>compareChromatograms</code>: function to calculate a similarity
+score on the intensity values of the compared and aligned chromatograms.
+Defaults to <code>FUN = cor</code>.</p></td>
+    </tr>
+    <tr>
+      <th>FUNARGS</th>
+      <td><p>for <code>compareChromatograms</code>: <code>list</code> with additional parameters
+for <code>FUN</code>. Defaults to <code>FUNARGS = list(use = "pairwise.complete.obs")</code>.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>mz</code>, <code>filterMz</code>, <code>precursorMz</code> and
-<code>productMz</code> are stored as a <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code> representing a range
+<code>productMz</code> are stored as a <code>numeric(2)</code> representing a range
 even if the chromatogram was generated for only a single ion (i.e. a
 single mz value). Using ranges for <code>mz</code> values allow this class to
-be used also for e.g. total ion chromatograms or base peak chromatograms.</p><pre>The slots `precursorMz` and `productMz` allow to represent SRM
+be used also for e.g. total ion chromatograms or base peak chromatograms.</p><pre><code>The slots `precursorMz` and `productMz` allow to represent SRM
 (single reaction monitoring) and MRM (multiple SRM) chromatograms. As
 example, a `Chromatogram` for a SRM transition 273 -&gt; 153 will have
 a `@precursorMz = c(273, 273)` and a
 `@productMz = c(153, 153)`.
-</pre>
+</code></pre>
 
     <h2 class="hasAnchor" id="object-creation"><a class="anchor" href="#object-creation"></a>Object creation</h2>
 
@@ -401,7 +439,7 @@ a `@precursorMz = c(273, 273)` and a
 
 
 <p><code>Chromatogram</code> objects can be extracted from an <code>MSnExp</code> or <code>OnDiskMSnExp</code>
-object with the <code><a href='chromatogram,MSnExp-method.html'>chromatogram()</a></code> function.</p>
+object with the <code><a href='chromatogram-MSnExp-method.html'>chromatogram()</a></code> function.</p>
 <p>Alternatively, the constructor function <code>Chromatogram</code> can be used, which
 takes arguments <code>rtime</code>, <code>intensity</code>, <code>mz</code>, <code>filterMz</code>, <code>precursorMz</code>,
 <code>productMz</code>, <code>fromFile</code>, <code>aggregationFun</code> and <code>msLevel</code>.</p>
@@ -414,21 +452,21 @@ takes arguments <code>rtime</code>, <code>intensity</code>, <code>mz</code>, <co
 <code>Chromatogram</code>.</p></li>
 <li><p><code>as.data.frame</code>: returns a <code>data.frame</code> with columns <code>"rtime"</code> and
 <code>"intensity"</code>.</p></li>
-<li><p><code>fromFile</code>: returns an <code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code> with the index of the originating file.</p></li>
+<li><p><code>fromFile</code>: returns an <code>integer(1)</code> with the index of the originating file.</p></li>
 <li><p><code>intensity</code>: returns the intensities from the <code>Chromatogram</code>.</p></li>
 <li><p><code>isEmpty</code>: returns <code>TRUE</code> if the chromatogram is empty or has only <code>NA</code>
 intensities.</p></li>
 <li><p><code>length</code>: returns the length (i.e. number of data points) of the
 <code>Chromatogram</code>.</p></li>
-<li><p><code>msLevel</code>: returns an <code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code> with the MS level of the chromatogram.</p></li>
+<li><p><code>msLevel</code>: returns an <code>integer(1)</code> with the MS level of the chromatogram.</p></li>
 <li><p><code>mz</code>: get the m/z (range) from the <code>Chromatogram</code>. The function returns
-a <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code> with the lower and upper boundaries. Parameter <code>filter</code>
+a <code>numeric(2)</code> with the lower and upper boundaries. Parameter <code>filter</code>
 allows to specify whether the m/z range used to filter the originating
 object should be returned or the m/z range of the actual data.</p></li>
 <li><p><code>precursorMz</code>: get the m/z of the precursor ion. The function returns a
-<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code> with the lower and upper boundary.</p></li>
+<code>numeric(2)</code> with the lower and upper boundary.</p></li>
 <li><p><code>productMz</code>: get the m/z of the producto chromatogram/ion. The function
-returns a <code><a href='https://rdrr.io/r/base/numeric.html'>numeric(2)</a></code> with the lower and upper m/z value.</p></li>
+returns a <code>numeric(2)</code> with the lower and upper m/z value.</p></li>
 <li><p><code>rtime</code>: returns the retention times from the <code>Chromatogram</code>.</p></li>
 </ul>
 
@@ -458,7 +496,7 @@ for data points that should be removed. See examples below.</p></li>
 <li><p><code>alignRt</code>: Aligns chromatogram <code>x</code> against chromatogram <code>y</code>. The resulting
 chromatogram has the same length (number of data points) than <code>y</code> and the
 same retention times thus allowing to perform any pair-wise comparisons
-between the chromatograms. If <code>x</code> is a <code><a href='MChromatograms.html'>MChromatograms()</a></code> object, each
+between the chromatograms. If <code>x</code> is a <code><a href='MChromatograms-class.html'>MChromatograms()</a></code> object, each
 <code>Chromatogram</code> in it is aligned against <code>y</code>. Additional parameters (<code>...</code>)
 are passed along to the alignment functions (e.g. <code>closest()</code>).</p>
 <p>Parameter <code>method</code> allows to specify which alignment method
@@ -485,6 +523,15 @@ the retention time representing the mid-point of the bins and the
 intensity the binned signal. Parameters <code>binSize</code> and <code>breaks</code> allow to
 define the binning, <code>fun</code> the function which should be used to aggregate
 the intensities within a bin.</p></li>
+<li><p><code>compareChromatograms</code>: calculates a similarity score between 2
+chromatograms after aligning them. Parameter <code>ALIGNFUN</code> allows to define
+a function that can be used to align <code>x</code> against <code>y</code> (defaults to
+<code>ALIGNFUN = alignRt</code>). Subsequently, the similarity is calculated on the
+aligned intensities with the function provided with parameter <code>FUN</code> which
+defaults to <code>cor</code> (hence by default the Pearson correlation is calculated
+between the aligned intensities of the two compared chromatograms).
+Additional parameters can be passed to the <code>ALIGNFUN</code> and <code>FUN</code> with the
+parameter <code>ALIGNFUNARGS</code> and <code>FUNARGS</code>, respectively.</p></li>
 <li><p><code>clean</code>: removes 0-intensity data points (and <code>NA</code> values). See <code><a href='clean-methods.html'>clean()</a></code>
 for details.</p></li>
 <li><p><code>normalize</code>, <code>normalise</code>: <em>normalises</em> the intensities of a chromatogram by
@@ -502,7 +549,7 @@ intensity (<code>method = "sum"</code>) of the chromatogram.</p></li>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='MChromatograms.html'>MChromatograms</a> for combining <code>Chromatogram</code> in
+    <div class='dont-index'><p><a href='MChromatograms-class.html'>MChromatograms</a> for combining <code>Chromatogram</code> in
 a two-dimensional matrix (rows being mz-rt ranges, columns samples).
 <code>chromatogram()] for the method to extract chromatogram data from an </code>MSnExp<code>or</code>OnDiskMSnExp<code>object. [clean()] for the method to *clean* a</code>Chromatogram` object.</p></div>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
@@ -510,126 +557,148 @@ a two-dimensional matrix (rows being mz-rt ranges, columns samples).
     <p>Johannes Rainer</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'>## Create a simple Chromatogram object.</span>
-<span class='va'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100</span>, sd <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>rts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span><span class='op'>(</span><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>chr</span> <span class='op'>&lt;-</span> <span class='fu'>Chromatogram</span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='va'>rts</span>, intensity <span class='op'>=</span> <span class='va'>ints</span><span class='op'>)</span>
-<span class='va'>chr</span>
-</div><div class='output co'>#&gt; Object of class: Chromatogram
-#&gt; length of object: 100
-#&gt; from file: 
-#&gt; mz range: [NA, NA]
-#&gt; rt range: [1, 100]
-#&gt; MS level: 1</div><div class='input'>
-<span class='co'>## Extract intensities</span>
-<span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1] 140.0043517  25.5317055 243.7263611   0.5571287  62.1552721 114.8411606
-#&gt;   [7] 182.1817661  24.7325302  24.4199607  28.2705449  55.3699384  62.8982042
-#&gt;  [13] 206.5024895 163.0989402  51.2426950 186.3011492  52.2012515   5.2601910
-#&gt;  [19]  54.2996343  91.4074827  46.8154420  36.2951256 130.4543545  73.7776321
-#&gt;  [25] 188.8504929   9.7445104  93.5847354   1.5950311  82.6788954 151.2399651
-#&gt;  [31]  93.5363190  17.6488611  24.3685465 162.3548883  11.2038083  13.3997013
-#&gt;  [37] 191.0087468  27.9237242  31.3445978 106.7307879   7.0034850  63.9123324
-#&gt;  [43]   4.9964899  25.1483443  44.4797116 275.5417575   4.6531380  57.7709069
-#&gt;  [49]  11.8194874 191.1720491  86.2086482  24.3236740  20.6087195   1.9177592
-#&gt;  [55]   2.9560754  54.9827542 227.4114857 268.2557184  36.1221255  21.3355750
-#&gt;  [61] 107.4345882  66.5088249 111.3952419  24.5896412 117.7563309  97.5850616
-#&gt;  [67] 106.5057320  13.1670635  48.8628809 169.9450568 147.0736306  28.4150344
-#&gt;  [73] 133.7320413  23.6696283 131.8293384  52.3909788  60.6748047  10.9935672
-#&gt;  [79]  17.2181715   9.0327287 192.4343341 129.8392759  74.8791268  55.6224329
-#&gt;  [85]  54.8257264 111.0534893 261.2334333  15.5693776  43.3889790  38.1951112
-#&gt;  [91]  42.4187575 106.3101996 104.8712620   3.8102895  48.6148920 167.2882611
-#&gt;  [97]  35.4361164  94.6347886 131.6826356  29.6640025</div><div class='input'>
-<span class='co'>## Extract retention times</span>
-<span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18
-#&gt;  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36
-#&gt;  [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54
-#&gt;  [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72
-#&gt;  [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90
-#&gt;  [91]  91  92  93  94  95  96  97  98  99 100</div><div class='input'>
-<span class='co'>## Extract the mz range - is NA for the present example</span>
-<span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] NA NA</div><div class='input'>
-<span class='co'>## plot the Chromatogram</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span>
-</div><div class='img'><img src='Chromatogram-class-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>## Create a simple Chromatogram object based on random values.</span>
-<span class='va'>chr</span> <span class='op'>&lt;-</span> <span class='fu'>Chromatogram</span><span class='op'>(</span>intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>1000</span>, mean <span class='op'>=</span> <span class='fl'>2000</span>, sd <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span><span class='op'>)</span>,
-        rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>1000</span>, mean <span class='op'>=</span> <span class='fl'>10</span>, sd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>chr</span>
-</div><div class='output co'>#&gt; Object of class: Chromatogram
-#&gt; length of object: 1000
-#&gt; from file: 
-#&gt; mz range: [NA, NA]
-#&gt; rt range: [0.002530252, 23.75382]
-#&gt; MS level: 1</div><div class='input'>
-<span class='co'>## Get the intensities</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 1658.884 1828.917 1971.020 1935.111 1965.487 1752.787</div><div class='input'>
-<span class='co'>## Get the retention time</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.002530252 0.004804333 0.086750187 0.102224373 0.114592272 0.155135059</div><div class='input'>
-<span class='co'>## What is the retention time range of the object?</span>
-<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1]  0.002530252 23.753823765</div><div class='input'>
-<span class='co'>## Filter the chromatogram to keep only values between 4 and 10 seconds</span>
-<span class='va'>chr2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterRt</a></span><span class='op'>(</span><span class='va'>chr</span>, rt <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>chr2</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 4.031794 9.975626</div><div class='input'>
-<span class='co'>## Data manipulations:</span>
-
-<span class='co'>## normalize a chromatogram</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='normalise-methods.html'>normalize</a></span><span class='op'>(</span><span class='va'>chr</span>, method <span class='op'>=</span> <span class='st'>"max"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='Chromatogram-class-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>## Align chromatograms against each other</span>
-
-<span class='va'>chr1</span> <span class='op'>&lt;-</span> <span class='fu'>Chromatogram</span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span>, <span class='fl'>10</span><span class='op'>)</span>,
-    intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>14</span>, <span class='fl'>30</span>, <span class='fl'>24</span>, <span class='fl'>6</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>chr2</span> <span class='op'>&lt;-</span> <span class='fu'>Chromatogram</span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2.5</span>, <span class='fl'>3.42</span>, <span class='fl'>4.5</span>, <span class='fl'>5.43</span>, <span class='fl'>6.5</span><span class='op'>)</span>,
-    intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>12</span>, <span class='fl'>15</span>, <span class='fl'>11</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>chr1</span>, col <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>chr2</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>chr2</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>, type <span class='op'>=</span> <span class='st'>"l"</span><span class='op'>)</span>
-
-<span class='co'>## Align chr2 to chr1 without interpolation</span>
-<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>alignRt</span><span class='op'>(</span><span class='va'>chr2</span>, <span class='va'>chr1</span><span class='op'>)</span>
-<span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</div><div class='input'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] NA  5 12 15 11  5 NA NA NA NA</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"#00ff0080"</span>, type <span class='op'>=</span> <span class='st'>"l"</span><span class='op'>)</span>
-
-<span class='co'>## Align chr2 to chr1 with interpolation</span>
-<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>alignRt</span><span class='op'>(</span><span class='va'>chr2</span>, <span class='va'>chr1</span>, method <span class='op'>=</span> <span class='st'>"approx"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"#ff000080"</span>, type <span class='op'>=</span> <span class='st'>"l"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>, col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"black"</span>, <span class='st'>"blue"</span>, <span class='st'>"#00ff0080"</span>,<span class='st'>"#ff000080"</span><span class='op'>)</span>,lty <span class='op'>=</span> <span class='fl'>1</span>,
-    legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr1"</span>, <span class='st'>"chr2"</span>, <span class='st'>"chr2 matchRtime"</span>, <span class='st'>"chr2 approx"</span><span class='op'>)</span><span class='op'>)</span>
-
-
-<span class='co'>## Data filtering</span>
-
-<span class='va'>chr1</span> <span class='op'>&lt;-</span> <span class='fu'>Chromatogram</span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span>, <span class='fl'>10</span><span class='op'>)</span>,
-    intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>14</span>, <span class='fl'>30</span>, <span class='fl'>24</span>, <span class='fl'>6</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'>## Remove data points with intensities below 10</span>
-<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>filterIntensity</span><span class='op'>(</span><span class='va'>chr1</span>, <span class='fl'>10</span><span class='op'>)</span>
-<span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 14 30 24</div><div class='input'>
-<span class='co'>## Remove data points with an intensity lower than 10% of the maximum</span>
-<span class='co'>## intensity in the Chromatogram</span>
-<span class='va'>filt_fun</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>prop</span> <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>x</span><span class='op'>@</span><span class='va'>intensity</span> <span class='op'>&gt;=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>@</span><span class='va'>intensity</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>prop</span>
-<span class='op'>}</span>
-<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>filterIntensity</span><span class='op'>(</span><span class='va'>chr1</span>, <span class='va'>filt_fun</span><span class='op'>)</span>
-<span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1]  3  5 14 30 24  6</div><div class='input'>
-<span class='co'>## Remove data points with an intensity lower than half of the maximum</span>
-<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>filterIntensity</span><span class='op'>(</span><span class='va'>chr1</span>, <span class='va'>filt_fun</span>, prop <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
-<span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 30 24</div><div class='img'><img src='Chromatogram-class-3.png' alt='' width='700' height='433' /></div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='co'>## Create a simple Chromatogram object.</span></span>
+<span class='r-in'><span class='va'>ints</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100</span>, sd <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>rts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span><span class='op'>(</span><span class='fu'><a href='pSet-class.html'>length</a></span><span class='op'>(</span><span class='va'>ints</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>chr</span> <span class='op'>&lt;-</span> <span class='fu'>Chromatogram</span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='va'>rts</span>, intensity <span class='op'>=</span> <span class='va'>ints</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>chr</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class: Chromatogram</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> length of object: 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> from file: </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> mz range: [NA, NA]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> rt range: [1, 100]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MS level: 1</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract intensities</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1] 140.0043517  25.5317055 243.7263611   0.5571287  62.1552721 114.8411606</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [7] 182.1817661  24.7325302  24.4199607  28.2705449  55.3699384  62.8982042</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [13] 206.5024895 163.0989402  51.2426950 186.3011492  52.2012515   5.2601910</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19]  54.2996343  91.4074827  46.8154420  36.2951256 130.4543545  73.7776321</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [25] 188.8504929   9.7445104  93.5847354   1.5950311  82.6788954 151.2399651</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [31]  93.5363190  17.6488611  24.3685465 162.3548883  11.2038083  13.3997013</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37] 191.0087468  27.9237242  31.3445978 106.7307879   7.0034850  63.9123324</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [43]   4.9964899  25.1483443  44.4797116 275.5417575   4.6531380  57.7709069</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [49]  11.8194874 191.1720491  86.2086482  24.3236740  20.6087195   1.9177592</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55]   2.9560754  54.9827542 227.4114857 268.2557184  36.1221255  21.3355750</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [61] 107.4345882  66.5088249 111.3952419  24.5896412 117.7563309  97.5850616</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [67] 106.5057320  13.1670635  48.8628809 169.9450568 147.0736306  28.4150344</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73] 133.7320413  23.6696283 131.8293384  52.3909788  60.6748047  10.9935672</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [79]  17.2181715   9.0327287 192.4343341 129.8392759  74.8791268  55.6224329</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [85]  54.8257264 111.0534893 261.2334333  15.5693776  43.3889790  38.1951112</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91]  42.4187575 106.3101996 104.8712620   3.8102895  48.6148920 167.2882611</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [97]  35.4361164  94.6347886 131.6826356  29.6640025</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract retention times</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1]   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17  18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19]  19  20  21  22  23  24  25  26  27  28  29  30  31  32  33  34  35  36</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37]  37  38  39  40  41  42  43  44  45  46  47  48  49  50  51  52  53  54</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55]  55  56  57  58  59  60  61  62  63  64  65  66  67  68  69  70  71  72</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73]  73  74  75  76  77  78  79  80  81  82  83  84  85  86  87  88  89  90</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91]  91  92  93  94  95  96  97  98  99 100</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Extract the mz range - is NA for the present example</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>mz</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] NA NA</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## plot the Chromatogram</span></span>
+<span class='r-in'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='Chromatogram-class-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Create a simple Chromatogram object based on random values.</span></span>
+<span class='r-in'><span class='va'>chr</span> <span class='op'>&lt;-</span> <span class='fu'>Chromatogram</span><span class='op'>(</span>intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>1000</span>, mean <span class='op'>=</span> <span class='fl'>2000</span>, sd <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span class='r-in'>        rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>abs</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>1000</span>, mean <span class='op'>=</span> <span class='fl'>10</span>, sd <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>chr</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Object of class: Chromatogram</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> length of object: 1000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> from file: </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> mz range: [NA, NA]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> rt range: [0.002530252, 23.75382]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> MS level: 1</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Get the intensities</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1658.884 1828.917 1971.020 1935.111 1965.487 1752.787</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Get the retention time</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.002530252 0.004804333 0.086750187 0.102224373 0.114592272 0.155135059</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## What is the retention time range of the object?</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1]  0.002530252 23.753823765</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Filter the chromatogram to keep only values between 4 and 10 seconds</span></span>
+<span class='r-in'><span class='va'>chr2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='MSnExp-class.html'>filterRt</a></span><span class='op'>(</span><span class='va'>chr</span>, rt <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>chr2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 4.031794 9.975626</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Data manipulations:</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## normalize a chromatogram</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mfrow <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>chr</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='normalise-methods.html'>normalize</a></span><span class='op'>(</span><span class='va'>chr</span>, method <span class='op'>=</span> <span class='st'>"max"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='Chromatogram-class-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Align chromatograms against each other</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>chr1</span> <span class='op'>&lt;-</span> <span class='fu'>Chromatogram</span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span>, <span class='fl'>10</span><span class='op'>)</span>,</span>
+<span class='r-in'>    intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>14</span>, <span class='fl'>30</span>, <span class='fl'>24</span>, <span class='fl'>6</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>chr2</span> <span class='op'>&lt;-</span> <span class='fu'>Chromatogram</span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2.5</span>, <span class='fl'>3.42</span>, <span class='fl'>4.5</span>, <span class='fl'>5.43</span>, <span class='fl'>6.5</span><span class='op'>)</span>,</span>
+<span class='r-in'>    intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>12</span>, <span class='fl'>15</span>, <span class='fl'>11</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>chr1</span>, col <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>chr2</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>chr2</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"blue"</span>, type <span class='op'>=</span> <span class='st'>"l"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Align chr2 to chr1 without interpolation</span></span>
+<span class='r-in'><span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>alignRt</span><span class='op'>(</span><span class='va'>chr2</span>, <span class='va'>chr1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10</span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] NA  5 12 15 11  5 NA NA NA NA</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"#00ff0080"</span>, type <span class='op'>=</span> <span class='st'>"l"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Align chr2 to chr1 with interpolation</span></span>
+<span class='r-in'><span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>alignRt</span><span class='op'>(</span><span class='va'>chr2</span>, <span class='va'>chr1</span>, method <span class='op'>=</span> <span class='st'>"approx"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='fu'><a href='Spectrum-class.html'>rtime</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>, <span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"#ff000080"</span>, type <span class='op'>=</span> <span class='st'>"l"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span><span class='op'>(</span><span class='st'>"topright"</span>, col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"black"</span>, <span class='st'>"blue"</span>, <span class='st'>"#00ff0080"</span>,<span class='st'>"#ff000080"</span><span class='op'>)</span>,lty <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>    legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"chr1"</span>, <span class='st'>"chr2"</span>, <span class='st'>"chr2 matchRtime"</span>, <span class='st'>"chr2 approx"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Compare Chromatograms. Align chromatograms with `alignRt` and</span></span>
+<span class='r-in'><span class='co'>## method `"approx"`</span></span>
+<span class='r-in'><span class='fu'>compareChromatograms</span><span class='op'>(</span><span class='va'>chr2</span>, <span class='va'>chr1</span>, ALIGNFUNARGS <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='st'>"approx"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.9768469</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Data filtering</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>chr1</span> <span class='op'>&lt;-</span> <span class='fu'>Chromatogram</span><span class='op'>(</span>rtime <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span>, <span class='fl'>10</span><span class='op'>)</span>,</span>
+<span class='r-in'>    intensity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>14</span>, <span class='fl'>30</span>, <span class='fl'>24</span>, <span class='fl'>6</span>, <span class='fl'>2</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Remove data points with intensities below 10</span></span>
+<span class='r-in'><span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>filterIntensity</span><span class='op'>(</span><span class='va'>chr1</span>, <span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 14 30 24</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Remove data points with an intensity lower than 10% of the maximum</span></span>
+<span class='r-in'><span class='co'>## intensity in the Chromatogram</span></span>
+<span class='r-in'><span class='va'>filt_fun</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>prop</span> <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>x</span><span class='op'>@</span><span class='va'>intensity</span> <span class='op'>&gt;=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>@</span><span class='va'>intensity</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>*</span> <span class='va'>prop</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>filterIntensity</span><span class='op'>(</span><span class='va'>chr1</span>, <span class='va'>filt_fun</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1]  3  5 14 30 24  6</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Remove data points with an intensity lower than half of the maximum</span></span>
+<span class='r-in'><span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>filterIntensity</span><span class='op'>(</span><span class='va'>chr1</span>, <span class='va'>filt_fun</span>, prop <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='Spectrum-class.html'>intensity</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 30 24</span>
+<span class='r-plt'><img src='Chromatogram-class-3.png' alt='' width='700' height='433' /></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -641,11 +710,11 @@ a two-dimensional matrix (rows being mz-rt ranges, columns samples).
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -653,6 +722,8 @@ a two-dimensional matrix (rows being mz-rt ranges, columns samples).
 
   
 
+
+  
 
   </body>
 </html>

@@ -62,9 +62,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -78,7 +84,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -209,32 +215,37 @@
 <p>More details about fragment calculation: <code><a href='calculateFragments-methods.html'>calculateFragments</a></code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## find path to a mzXML file</span>
-<span class='va'>file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"MSnbase"</span>, dir <span class='op'>=</span> <span class='st'>"extdata"</span><span class='op'>)</span>,
-            full.name <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"mzXML$"</span><span class='op'>)</span>
-
-<span class='co'>## create basic MSnExp</span>
-<span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>file</span>, centroided.<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
-
-<span class='co'>## centroid them</span>
-<span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pickPeaks-methods.html'>pickPeaks</a></span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span>
-
-<span class='co'>## plot the first against the second spectrum</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>msexp</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='img'><img src='plotSpectrumSpectrum-methods-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>## add sequence information</span>
-<span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>msexp</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>, sequences<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"VESITARHGEVLQLRPK"</span>,
-                                         <span class='st'>"IDGQWVTHQWLKK"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='plotSpectrumSpectrum-methods-2.png' alt='' width='700' height='433' /></div><div class='input'>
-
-<span class='va'>itraqdata2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pickPeaks-methods.html'>pickPeaks</a></span><span class='op'>(</span><span class='va'>itraqdata</span><span class='op'>)</span>
-<span class='op'>(</span><span class='va'>k</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'>fData</span><span class='op'>(</span><span class='va'>itraqdata2</span><span class='op'>)</span><span class='op'>[</span>, <span class='st'>"PeptideSequence"</span><span class='op'>]</span> <span class='op'>==</span> <span class='st'>"TAGIQIVADDLTVTNPK"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 41 42</div><div class='input'><span class='va'>mzk</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span><span class='op'>(</span><span class='va'>itraqdata2</span><span class='op'>)</span><span class='op'>[</span><span class='va'>k</span><span class='op'>]</span>
-<span class='va'>zk</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum2-class.html'>precursorCharge</a></span><span class='op'>(</span><span class='va'>itraqdata2</span><span class='op'>)</span><span class='op'>[</span><span class='va'>k</span><span class='op'>]</span>
-<span class='va'>mzk</span> <span class='op'>*</span> <span class='va'>zk</span>
-</div><div class='output co'>#&gt;      X46      X47 
-#&gt; 2046.175 2045.169 </div><div class='input'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>itraqdata2</span><span class='op'>[[</span><span class='va'>k</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>itraqdata2</span><span class='op'>[[</span><span class='va'>k</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
-</div><div class='img'><img src='plotSpectrumSpectrum-methods-3.png' alt='' width='700' height='433' /></div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'>## find path to a mzXML file</span></span>
+<span class='r-in'><span class='va'>file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span>package <span class='op'>=</span> <span class='st'>"MSnbase"</span>, dir <span class='op'>=</span> <span class='st'>"extdata"</span><span class='op'>)</span>,</span>
+<span class='r-in'>            full.name <span class='op'>=</span> <span class='cn'>TRUE</span>, pattern <span class='op'>=</span> <span class='st'>"mzXML$"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## create basic MSnExp</span></span>
+<span class='r-in'><span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='readMSData.html'>readMSData</a></span><span class='op'>(</span><span class='va'>file</span>, centroided.<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## centroid them</span></span>
+<span class='r-in'><span class='va'>msexp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pickPeaks-method.html'>pickPeaks</a></span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## plot the first against the second spectrum</span></span>
+<span class='r-in'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>msexp</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='plotSpectrumSpectrum-methods-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## add sequence information</span></span>
+<span class='r-in'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>msexp</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>msexp</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>, sequences<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/S4Vectors/man/Vector-class.html'>c</a></span><span class='op'>(</span><span class='st'>"VESITARHGEVLQLRPK"</span>,</span>
+<span class='r-in'>                                         <span class='st'>"IDGQWVTHQWLKK"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='plotSpectrumSpectrum-methods-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>itraqdata2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='pickPeaks-method.html'>pickPeaks</a></span><span class='op'>(</span><span class='va'>itraqdata</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>k</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/BiocGenerics/man/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>fData</a></span><span class='op'>(</span><span class='va'>itraqdata2</span><span class='op'>)</span><span class='op'>[</span>, <span class='st'>"PeptideSequence"</span><span class='op'>]</span> <span class='op'>==</span> <span class='st'>"TAGIQIVADDLTVTNPK"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 41 42</span>
+<span class='r-in'><span class='va'>mzk</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum2-class.html'>precursorMz</a></span><span class='op'>(</span><span class='va'>itraqdata2</span><span class='op'>)</span><span class='op'>[</span><span class='va'>k</span><span class='op'>]</span></span>
+<span class='r-in'><span class='va'>zk</span> <span class='op'>&lt;-</span> <span class='fu'><a href='Spectrum2-class.html'>precursorCharge</a></span><span class='op'>(</span><span class='va'>itraqdata2</span><span class='op'>)</span><span class='op'>[</span><span class='va'>k</span><span class='op'>]</span></span>
+<span class='r-in'><span class='va'>mzk</span> <span class='op'>*</span> <span class='va'>zk</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      X46      X47 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2046.175 2045.169 </span>
+<span class='r-in'><span class='fu'><a href='plot-methods.html'>plot</a></span><span class='op'>(</span><span class='va'>itraqdata2</span><span class='op'>[[</span><span class='va'>k</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>itraqdata2</span><span class='op'>[[</span><span class='va'>k</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='plotSpectrumSpectrum-methods-3.png' alt='' width='700' height='433' /></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -246,11 +257,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -258,6 +269,8 @@
 
   
 
+
+  
 
   </body>
 </html>

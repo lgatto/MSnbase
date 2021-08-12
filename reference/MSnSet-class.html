@@ -63,9 +63,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -79,7 +85,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
       </span>
     </div>
 
@@ -159,10 +165,10 @@
 <p>The constructor <code>MSnSet(exprs, fData, pData)</code> can be used to
   create <code>MSnSet</code> instances. Argument <code>exprs</code> is a
   <code>matrix</code> and <code>fData</code> and <code>pData</code> must be of class
-  <code>data.frame</code> or <code>"AnnotatedDataFrame"</code> and all
+  <code>data.frame</code> or <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.AnnotatedDataFrame.html'>AnnotatedDataFrame</a>"</code> and all
   must meet the dimensions and name validity constrains.</p>
 <p>Objects can also be created by calls of the form <code>new("MSnSet",
-  exprs, ...)</code>.  See also <code>"ExpressionSet"</code> for
+  exprs, ...)</code>.  See also <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.ExpressionSet.html'>ExpressionSet</a>"</code> for
   helpful information.  Expression data produced from other softwares
   can thus make use of this standardized data container to benefit
   <code>R</code> and <code>Bioconductor</code> packages. Proteomics expression data
@@ -198,18 +204,18 @@
 
     <dt><code>assayData</code>:</dt><dd><p>Object of class <code>"assayData"</code>
       containing a matrix with equal with column number equal to
-      <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(phenoData)</a></code>. <code>assayData</code> must contain a matrix
+      <code>nrow(phenoData)</code>. <code>assayData</code> must contain a matrix
       <code>exprs</code> with rows represening features (e.g., reporters ions)
-      and columns representing samples. See the <code>"AssayData"</code>
-      class, <code><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></code> and <code>assayData</code> accessor
+      and columns representing samples. See the <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.AssayData.html'>AssayData</a>"</code>
+      class, <code><a href='https://rdrr.io/pkg/Biobase/man/exprs.html'>exprs</a></code> and <code><a href='https://rdrr.io/pkg/Biobase/man/assayData.html'>assayData</a></code> accessor
       for more details. This slot in indirectly inherited from
-      <code>"eSet"</code>.</p></dd>
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code>.</p></dd>
 
     <dt><code>phenoData</code>:</dt><dd><p>Object of class <code>"AnnotatedDataFrame"</code>
       containing experimenter-supplied variables describing sample (i.e
       the individual tags for an labelled MS experiment) (indireclty
-      inherited from <code>"eSet"</code>). See
-      <code>phenoData</code> and the <code>"eSet"</code> class
+      inherited from <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code>). See
+      <code><a href='https://rdrr.io/pkg/Biobase/man/phenoData.html'>phenoData</a></code> and the <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code> class
       for more details. This slot can be accessed as a <code>data.frame</code>
       with <code>pData</code> and be replaced by a new valid (i.e. of
       compatible dimensions and row names) <code>data.frame</code> with
@@ -219,57 +225,57 @@
       <code>"AnnotatedDataFrame"</code> containing variables describing
       features (spectra in our case), e.g. identificaiton data, peptide
       sequence, identification score,... (inherited indirectly from
-      <code>"eSet"</code>). See <code>featureData</code> and
-      the <code>"eSet"</code> class for more details. This slot
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code>). See <code><a href='https://rdrr.io/pkg/Biobase/man/featureData.html'>featureData</a></code> and
+      the <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code> class for more details. This slot
       can be accessed as a <code>data.frame</code> with <code>fData</code> and be
       replaced by a new valid (i.e. of compatible dimensions and row
       names) <code>data.frame</code> with <code>fData()&lt;-</code>.</p></dd>
 
     <dt><code>experimentData</code>:</dt><dd><p>Object of class
       <code>"<a href='MIAPE-class.html'>MIAPE</a>"</code>, containing details of experimental
-      methods (inherited from <code>"eSet"</code>). See
-      <code>experimentData</code> and the <code>"eSet"</code>
+      methods (inherited from <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code>). See
+      <code><a href='https://rdrr.io/pkg/Biobase/man/abstract.html'>experimentData</a></code> and the <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code>
       class for more details.</p></dd>
 
     <dt><code>annotation</code>:</dt><dd><p>not used here.</p></dd>
 
     <dt><code>protocolData</code>:</dt><dd><p>Object of class
-      <code>"AnnotatedDataFrame"</code> containing
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.AnnotatedDataFrame.html'>AnnotatedDataFrame</a>"</code> containing
       equipment-generated variables (inherited indirectly from
-      <code>"eSet"</code>). See
-      <code>protocolData</code> and the <code>"eSet"</code>
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code>). See
+      <code><a href='https://rdrr.io/pkg/Biobase/man/protocolData.html'>protocolData</a></code> and the <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code>
       class for more details.</p></dd>
 
     <dt><code>.__classVersion__</code>:</dt><dd><p>Object of class
-      <code>"Versions"</code> describing the versions of R,
-      the Biobase package, <code>"eSet"</code>,
+      <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.Versions.html'>Versions</a>"</code> describing the versions of R,
+      the Biobase package, <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code>,
       <code>"<a href='pSet-class.html'>pSet</a>"</code> and <code>MSnSet</code> of the
       current instance. Intended for developer use and debugging (inherited
-      indirectly from <code>"eSet"</code>).</p></dd>
+      indirectly from <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code>).</p></dd>
   
 </dl>
 
     <h2 class="hasAnchor" id="extends"><a class="anchor" href="#extends"></a>Extends</h2>
 
-    <p>Class <code>"eSet"</code>, directly.
-  Class <code>"VersionedBiobase"</code>, by class "eSet", distance 2.
-  Class <code>"Versioned"</code>, by class "eSet", distance 3.</p>
+    <p>Class <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code>, directly.
+  Class <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.VersionedBiobase.html'>VersionedBiobase</a>"</code>, by class "eSet", distance 2.
+  Class <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.Versioned.html'>Versioned</a>"</code>, by class "eSet", distance 3.</p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     <p>MSnSet specific methods or over-riding it's super-class are described
-  below. See also more <code>"eSet"</code> for
+  below. See also more <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code> for
   inherited methods.</p>
 <p></p><dl>
     %% \item{$name}{\code{signature(x = "pSet")}: Access \code{name} column
     %%   in \code{featureData}. Note that this behaviour is different to
     %%   the \code{eSet}, where \code{$} accesses the \code{phenoData}. }
-    <dt>acquisitionNum</dt><dd><p><code><a href='Spectrum-class.html'>acquisitionNum(signature(object = "MSnSet"))</a></code>: Returns the
+    <dt>acquisitionNum</dt><dd><p><code>acquisitionNum(signature(object = "MSnSet"))</code>: Returns the
       a numeric vector with acquisition number of each spectrum. The vector
       names are the corresponding spectrum names.
       The information is extracted from the object's <code>featureData</code> slot.</p></dd>
 
-    <dt>fromFile</dt><dd><p><code><a href='Spectrum-class.html'>fromFile(signature(object = "MSnSet"))</a></code>: get the index of
-      the file (in <code><a href='pSet-class.html'>fileNames(object)</a></code>) from which the raw
+    <dt>fromFile</dt><dd><p><code>fromFile(signature(object = "MSnSet"))</code>: get the index of
+      the file (in <code>fileNames(object)</code>) from which the raw
       spectra from which the corresponding feature were originally
       read. The relevant information is extracted from the object's
       <code>featureData</code> slot.      Returns a numeric vector with names corresponding to the spectrum
@@ -303,7 +309,7 @@
 
     <dt>as(,"ExpressionSet")</dt><dd><p><code>signature(x = "MSnSet")</code>: Coerce
       object from <code>MSnSet</code> to
-      <code>ExpressionSet-class</code>. The <code>experimentData</code> slot
+      <code><a href='https://rdrr.io/pkg/Biobase/man/class.ExpressionSet.html'>ExpressionSet-class</a></code>. The <code>experimentData</code> slot
       is converted to a <code>MIAME</code> instance. It is also possible to
       coerce an <code>ExpressionSet</code> to and <code>MSnSet</code>, in which case
       the <code>experimentData</code> slot is newly initialised.</p></dd>
@@ -341,7 +347,7 @@
       spectra) out of all available for each set defined by
       <code>groupBy</code> (typically proteins) and creates a new instance of
       class <code>MSnSet</code>. If less than <code>n</code> features are available,
-      all are selected. The <code><a href='https://rdrr.io/r/base/nrow.html'>ncol(object)</a></code> features are summerised
+      all are selected. The <code>ncol(object)</code> features are summerised
       using <code>fun</code> (default is <code>sum</code>) prior to be ordered in
       decreasing order. Additional parameters can be passed to
       <code>fun</code> through <code>...</code>, for instance to control the
@@ -386,7 +392,7 @@
 
 
     <dt>log</dt><dd><p>signature(object = "MSnSet", base = "numeric")</p></dd> Log
-      transforms <code><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs(object)</a></code> using
+      transforms <code>exprs(object)</code> using
       <code><a href='https://rdrr.io/r/base/Log.html'>base::log</a></code>. <code>base</code> (defaults is <code>e='exp(1)'</code>) must
       be a positive or complex number, the base with respect to which
       logarithms are computed.
@@ -515,7 +521,7 @@
     <dt>ms2df</dt><dd><p>signature(x, fcols)</p></dd>Coerces the <code>MSnSet</code> instance
       to a <code>data.frame</code>. The direction of the data is retained and
       the feature variable labels that match <code>fcol</code> are appended to
-      the expression values. See also <code><a href='as.html'>as(x, "data.frame")</a></code> above.
+      the expression values. See also <code>as(x, "data.frame")</code> above.
       
 
     <dt>addMSnSetMetadata</dt><dd><p>signature(x, y)</p></dd>When coercing an
@@ -538,7 +544,7 @@
 
     <div class='dont-index'>
 
-<p><code>"eSet"</code>, <code>"ExpressionSet"</code> and
+<p><code>"<a href='https://rdrr.io/pkg/Biobase/man/class.eSet.html'>eSet</a>"</code>, <code>"<a href='https://rdrr.io/pkg/Biobase/man/class.ExpressionSet.html'>ExpressionSet</a>"</code> and
   <code><a href='quantify-methods.html'>quantify</a></code>. <code>MSnSet</code> quantitation values and
   annotation can be exported to a file with
   <code>write.exprs</code>. See <code><a href='readMSnSet.html'>readMSnSet</a></code> to
@@ -546,118 +552,148 @@
   <code>data.frame</code>.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>
-<span class='va'>msnset</span> <span class='op'>&lt;-</span> <span class='va'>msnset</span><span class='op'>[</span><span class='fl'>10</span><span class='op'>:</span><span class='fl'>15</span><span class='op'>]</span>
-
-<span class='fu'>exprs</span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span>
-<span class='fu'>exprs</span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>2</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span>
-<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt; X18       TRUE      FALSE      FALSE       TRUE
-#&gt; X19       TRUE       TRUE      FALSE      FALSE
-#&gt; X2       FALSE      FALSE      FALSE      FALSE
-#&gt; X20      FALSE      FALSE      FALSE      FALSE
-#&gt; X21      FALSE      FALSE      FALSE      FALSE
-#&gt; X22      FALSE      FALSE      FALSE      FALSE</div><div class='input'><span class='fu'>featureNames</span><span class='op'>(</span><span class='fu'>filterNA</span><span class='op'>(</span><span class='va'>msnset</span>, pNA <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "X2"  "X20" "X21" "X22"</div><div class='input'><span class='fu'>featureNames</span><span class='op'>(</span><span class='fu'>filterNA</span><span class='op'>(</span><span class='va'>msnset</span>, pattern <span class='op'>=</span> <span class='st'>"0110"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "X18" "X2"  "X20" "X21" "X22"</div><div class='input'>
-<span class='va'>M</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>12</span><span class='op'>)</span>, <span class='fl'>4</span><span class='op'>)</span>
-<span class='va'>pd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>otherpdata <span class='op'>=</span> <span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span>
-<span class='va'>fd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>otherfdata <span class='op'>=</span> <span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>)</span>
-<span class='va'>x0</span> <span class='op'>&lt;-</span> <span class='fu'>MSnSet</span><span class='op'>(</span><span class='va'>M</span>, <span class='va'>fd</span>, <span class='va'>pd</span><span class='op'>)</span>
-<span class='fu'>sampleNames</span><span class='op'>(</span><span class='va'>x0</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "1" "2" "3"</div><div class='input'>
-<span class='va'>M</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>12</span><span class='op'>)</span>, <span class='fl'>4</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>LETTERS</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"id"</span>, <span class='va'>LETTERS</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>)</span>
-<span class='va'>pd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>otherpdata <span class='op'>=</span> <span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>pd</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span>
-<span class='va'>fd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>otherfdata <span class='op'>=</span> <span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>fd</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span>
-<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'>MSnSet</span><span class='op'>(</span><span class='va'>M</span>, <span class='va'>fd</span>, <span class='va'>pd</span><span class='op'>)</span>
-<span class='fu'>sampleNames</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "A" "B" "C"</div><div class='input'>
-
-<span class='co'>## Visualisation</span>
-
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span>
-</div><div class='img'><img src='MSnSet-class-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Changing colours</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, high <span class='op'>=</span> <span class='st'>"darkgreen"</span><span class='op'>)</span>
-</div><div class='img'><img src='MSnSet-class-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, high <span class='op'>=</span> <span class='st'>"darkgreen"</span>, low <span class='op'>=</span> <span class='st'>"yellow"</span><span class='op'>)</span>
-</div><div class='img'><img src='MSnSet-class-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Forcing feature names</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, fnames <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='img'><img src='MSnSet-class-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Facetting</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, facetBy <span class='op'>=</span> <span class='st'>"replicate"</span><span class='op'>)</span>
-</div><div class='img'><img src='MSnSet-class-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span>
-</div><div class='img'><img src='MSnSet-class-6.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ggplot2.tidyverse.org'>"ggplot2"</a></span><span class='op'>)</span> <span class='co'>## for facet_grid</span>
-<span class='va'>p</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span><span class='op'>(</span><span class='va'>replicate</span> <span class='op'>~</span> <span class='va'>membrane.prep</span>, scales <span class='op'>=</span> <span class='st'>'free'</span>, space <span class='op'>=</span> <span class='st'>'free'</span><span class='op'>)</span>
-</div><div class='img'><img src='MSnSet-class-7.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>p</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span><span class='op'>(</span><span class='va'>markers</span> <span class='op'>~</span> <span class='va'>replicate</span><span class='op'>)</span>
-</div><div class='img'><img src='MSnSet-class-8.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Fold-changes</span>
-<span class='va'>dd</span> <span class='op'>&lt;-</span> <span class='va'>dunkley2006</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>dd</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/tidyeval.html'>exprs</a></span><span class='op'>(</span><span class='va'>dd</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>0.25</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dd</span><span class='op'>)</span>
-</div><div class='img'><img src='MSnSet-class-9.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dd</span>, low <span class='op'>=</span> <span class='st'>"green"</span>, high <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
-</div><div class='img'><img src='MSnSet-class-10.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>## Feature names are displayed by default for smaller data</span>
-<span class='va'>dunkley2006</span> <span class='op'>&lt;-</span> <span class='va'>dunkley2006</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>25</span>, <span class='op'>]</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span>
-</div><div class='img'><img src='MSnSet-class-11.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, legend <span class='op'>=</span> <span class='st'>"hello"</span><span class='op'>)</span>
-</div><div class='img'><img src='MSnSet-class-12.png' alt='' width='700' height='433' /></div><div class='input'>
-
-<span class='co'>## Coercion</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://bioconductor.org/packages/SummarizedExperiment'>"SummarizedExperiment"</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span>
-    <span class='va'>se</span> <span class='op'>&lt;-</span> <span class='fu'><a href='as.html'>as</a></span><span class='op'>(</span><span class='va'>msnset</span>, <span class='st'>"SummarizedExperiment"</span><span class='op'>)</span>
-    <span class='fu'>metadata</span><span class='op'>(</span><span class='va'>se</span><span class='op'>)</span> <span class='co'>## only logging</span>
-    <span class='va'>se</span> <span class='op'>&lt;-</span> <span class='fu'>addMSnSetMetadata</span><span class='op'>(</span><span class='va'>se</span>, <span class='va'>msnset</span><span class='op'>)</span>
-    <span class='fu'>metadata</span><span class='op'>(</span><span class='va'>se</span><span class='op'>)</span> <span class='co'>## all metadata</span>
-    <span class='va'>msnset2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='as.html'>as</a></span><span class='op'>(</span><span class='va'>se</span>, <span class='st'>"MSnSet"</span><span class='op'>)</span>
-    <span class='fu'><a href='pSet-class.html'>processingData</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading required package: SummarizedExperiment</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: MatrixGenerics</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: matrixStats</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘matrixStats’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:Biobase’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    anyMissing, rowMedians</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘MatrixGenerics’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:matrixStats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,</span>
-#&gt; <span class='message'>    colCounts, colCummaxs, colCummins, colCumprods, colCumsums,</span>
-#&gt; <span class='message'>    colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,</span>
-#&gt; <span class='message'>    colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,</span>
-#&gt; <span class='message'>    colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,</span>
-#&gt; <span class='message'>    colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,</span>
-#&gt; <span class='message'>    colWeightedMeans, colWeightedMedians, colWeightedSds,</span>
-#&gt; <span class='message'>    colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,</span>
-#&gt; <span class='message'>    rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,</span>
-#&gt; <span class='message'>    rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,</span>
-#&gt; <span class='message'>    rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,</span>
-#&gt; <span class='message'>    rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,</span>
-#&gt; <span class='message'>    rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,</span>
-#&gt; <span class='message'>    rowWeightedMads, rowWeightedMeans, rowWeightedMedians,</span>
-#&gt; <span class='message'>    rowWeightedSds, rowWeightedVars</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:Biobase’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    rowMedians</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomicRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: IRanges</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: GenomeInfoDb</span></div><div class='output co'>#&gt; - - - Processing information - - -
-#&gt; Data loaded: Wed May 11 18:54:39 2011 
-#&gt; iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#&gt; Subset [55,4][6,4] Fri Feb 12 11:24:05 2021 
-#&gt;  MSnbase version: 1.1.22 </div><div class='input'>
-<span class='fu'><a href='as.html'>as</a></span><span class='op'>(</span><span class='va'>msnset</span>, <span class='st'>"ExpressionSet"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; ExpressionSet (storageMode: lockedEnvironment)
-#&gt; assayData: 6 features, 4 samples 
-#&gt;   element names: exprs 
-#&gt; protocolData: none
-#&gt; phenoData
-#&gt;   sampleNames: iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
-#&gt;   varLabels: mz reporters
-#&gt;   varMetadata: labelDescription
-#&gt; featureData
-#&gt;   featureNames: X18 X19 ... X22 (6 total)
-#&gt;   fvarLabels: spectrum ProteinAccession ... collision.energy (15 total)
-#&gt;   fvarMetadata: labelDescription
-#&gt; experimentData: use 'experimentData(object)'
-#&gt; Annotation: No annotation </div><div class='input'>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>msnset</span> <span class='op'>&lt;-</span> <span class='va'>msnset</span><span class='op'>[</span><span class='fl'>10</span><span class='op'>:</span><span class='fl'>15</span><span class='op'>]</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>exprs</span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span></span>
+<span class='r-in'><span class='fu'>exprs</span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>2</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X18       TRUE      FALSE      FALSE       TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X19       TRUE       TRUE      FALSE      FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X2       FALSE      FALSE      FALSE      FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X20      FALSE      FALSE      FALSE      FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X21      FALSE      FALSE      FALSE      FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> X22      FALSE      FALSE      FALSE      FALSE</span>
+<span class='r-in'><span class='fu'>featureNames</span><span class='op'>(</span><span class='fu'>filterNA</span><span class='op'>(</span><span class='va'>msnset</span>, pNA <span class='op'>=</span> <span class='fl'>1</span><span class='op'>/</span><span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "X2"  "X20" "X21" "X22"</span>
+<span class='r-in'><span class='fu'>featureNames</span><span class='op'>(</span><span class='fu'>filterNA</span><span class='op'>(</span><span class='va'>msnset</span>, pattern <span class='op'>=</span> <span class='st'>"0110"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "X18" "X2"  "X20" "X21" "X22"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>M</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>12</span><span class='op'>)</span>, <span class='fl'>4</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>pd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>otherpdata <span class='op'>=</span> <span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>fd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>otherfdata <span class='op'>=</span> <span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x0</span> <span class='op'>&lt;-</span> <span class='fu'>MSnSet</span><span class='op'>(</span><span class='va'>M</span>, <span class='va'>fd</span>, <span class='va'>pd</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>sampleNames</span><span class='op'>(</span><span class='va'>x0</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "1" "2" "3"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>M</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>12</span><span class='op'>)</span>, <span class='fl'>4</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>LETTERS</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"id"</span>, <span class='va'>LETTERS</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>pd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>otherpdata <span class='op'>=</span> <span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>pd</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>fd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>otherfdata <span class='op'>=</span> <span class='va'>letters</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>fd</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>M</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'>MSnSet</span><span class='op'>(</span><span class='va'>M</span>, <span class='va'>fd</span>, <span class='va'>pd</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>sampleNames</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "A" "B" "C"</span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Visualisation</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://github.com/lgatto/pRolocdata'>"pRolocdata"</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='MSnSet-class-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='co'>## Changing colours</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, high <span class='op'>=</span> <span class='st'>"darkgreen"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='MSnSet-class-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, high <span class='op'>=</span> <span class='st'>"darkgreen"</span>, low <span class='op'>=</span> <span class='st'>"yellow"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='MSnSet-class-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='co'>## Forcing feature names</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, fnames <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='MSnSet-class-4.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='co'>## Facetting</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, facetBy <span class='op'>=</span> <span class='st'>"replicate"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='MSnSet-class-5.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='MSnSet-class-6.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ggplot2.tidyverse.org'>"ggplot2"</a></span><span class='op'>)</span> <span class='co'>## for facet_grid</span></span>
+<span class='r-in'><span class='va'>p</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span><span class='op'>(</span><span class='va'>replicate</span> <span class='op'>~</span> <span class='va'>membrane.prep</span>, scales <span class='op'>=</span> <span class='st'>'free'</span>, space <span class='op'>=</span> <span class='st'>'free'</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='MSnSet-class-7.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='va'>p</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></span><span class='op'>(</span><span class='va'>markers</span> <span class='op'>~</span> <span class='va'>replicate</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='MSnSet-class-8.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='co'>## Fold-changes</span></span>
+<span class='r-in'><span class='va'>dd</span> <span class='op'>&lt;-</span> <span class='va'>dunkley2006</span></span>
+<span class='r-in'><span class='fu'>exprs</span><span class='op'>(</span><span class='va'>dd</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'>exprs</span><span class='op'>(</span><span class='va'>dd</span><span class='op'>)</span> <span class='op'>-</span> <span class='fl'>0.25</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dd</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='MSnSet-class-9.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dd</span>, low <span class='op'>=</span> <span class='st'>"green"</span>, high <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='MSnSet-class-10.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='co'>## Feature names are displayed by default for smaller data</span></span>
+<span class='r-in'><span class='va'>dunkley2006</span> <span class='op'>&lt;-</span> <span class='va'>dunkley2006</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>25</span>, <span class='op'>]</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='MSnSet-class-11.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='va'>dunkley2006</span>, legend <span class='op'>=</span> <span class='st'>"hello"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='MSnSet-class-12.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Coercion</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://bioconductor.org/packages/SummarizedExperiment'>"SummarizedExperiment"</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>msnset</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='va'>se</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mzRident2dfr.html'>as</a></span><span class='op'>(</span><span class='va'>msnset</span>, <span class='st'>"SummarizedExperiment"</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='fu'>metadata</span><span class='op'>(</span><span class='va'>se</span><span class='op'>)</span> <span class='co'>## only logging</span></span>
+<span class='r-in'>    <span class='va'>se</span> <span class='op'>&lt;-</span> <span class='fu'>addMSnSetMetadata</span><span class='op'>(</span><span class='va'>se</span>, <span class='va'>msnset</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='fu'>metadata</span><span class='op'>(</span><span class='va'>se</span><span class='op'>)</span> <span class='co'>## all metadata</span></span>
+<span class='r-in'>    <span class='va'>msnset2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mzRident2dfr.html'>as</a></span><span class='op'>(</span><span class='va'>se</span>, <span class='st'>"MSnSet"</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='fu'><a href='pSet-class.html'>processingData</a></span><span class='op'>(</span><span class='va'>msnset2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: SummarizedExperiment</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: MatrixGenerics</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: matrixStats</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Attaching package: ‘matrixStats’</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The following objects are masked from ‘package:Biobase’:</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     anyMissing, rowMedians</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Attaching package: ‘MatrixGenerics’</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The following objects are masked from ‘package:matrixStats’:</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     colAlls, colAnyNAs, colAnys, colAvgsPerRowSet, colCollapse,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     colCounts, colCummaxs, colCummins, colCumprods, colCumsums,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     colDiffs, colIQRDiffs, colIQRs, colLogSumExps, colMadDiffs,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     colMads, colMaxs, colMeans2, colMedians, colMins, colOrderStats,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     colProds, colQuantiles, colRanges, colRanks, colSdDiffs, colSds,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     colSums2, colTabulates, colVarDiffs, colVars, colWeightedMads,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     colWeightedMeans, colWeightedMedians, colWeightedSds,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     colWeightedVars, rowAlls, rowAnyNAs, rowAnys, rowAvgsPerColSet,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     rowCollapse, rowCounts, rowCummaxs, rowCummins, rowCumprods,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     rowCumsums, rowDiffs, rowIQRDiffs, rowIQRs, rowLogSumExps,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     rowMadDiffs, rowMads, rowMaxs, rowMeans2, rowMedians, rowMins,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     rowOrderStats, rowProds, rowQuantiles, rowRanges, rowRanks,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     rowSdDiffs, rowSds, rowSums2, rowTabulates, rowVarDiffs, rowVars,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     rowWeightedMads, rowWeightedMeans, rowWeightedMedians,</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     rowWeightedSds, rowWeightedVars</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The following object is masked from ‘package:Biobase’:</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     rowMedians</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: GenomicRanges</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: IRanges</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: GenomeInfoDb</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> - - - Processing information - - -</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Data loaded: Wed May 11 18:54:39 2011 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Subset [55,4][6,4] Thu Aug 12 07:00:48 2021 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  MSnbase version: 1.1.22 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='mzRident2dfr.html'>as</a></span><span class='op'>(</span><span class='va'>msnset</span>, <span class='st'>"ExpressionSet"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ExpressionSet (storageMode: lockedEnvironment)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> assayData: 6 features, 4 samples </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   element names: exprs </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> protocolData: none</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> phenoData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   sampleNames: iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varLabels: mz reporters</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   varMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> featureData</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   featureNames: X18 X19 ... X22 (6 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarLabels: spectrum ProteinAccession ... collision.energy (15 total)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   fvarMetadata: labelDescription</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> experimentData: use 'experimentData(object)'</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Annotation: No annotation </span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -669,11 +705,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
+  <p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -681,6 +717,8 @@
 
   
 
+
+  
 
   </body>
 </html>
