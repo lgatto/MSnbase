@@ -600,8 +600,8 @@ plotXIC_MSnExp <- function(x, ...) {
     fns <- basename(fileNames(x))
     if (isMSnbaseVerbose())
         message("Retrieving data ...", appendLF = FALSE)
-    x <- as(x, "data.frame")
-    x <- split(x, x$file)
+    x <- splitByFile(x, f = as.factor(fromFile(x)))
+    x <- lapply(x, as, "data.frame")
     if (isMSnbaseVerbose())
         message("OK")
     ## Check if we are greedy and plot a too large area
