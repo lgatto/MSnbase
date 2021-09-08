@@ -200,6 +200,8 @@ jobs:
           ## Pass #2 at installing dependencies
           message(paste('****', Sys.time(), 'pass number 2 at installing dependencies: any remaining dependencies ****'))
           deps <- remotes::dev_package_deps(dependencies = TRUE, repos = BiocManager::repositories())
+          BiocManager::install("HenrikBengtsson/matrixStats")
+          BiocManager::install("SummarizedExperiment", dependencies = TRUE, ask = FALSE, update = FALSE)
           BiocManager::install(deps$package[deps$diff != 0])
           BiocManager::install("Spectra")
 

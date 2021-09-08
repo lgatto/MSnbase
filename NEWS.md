@@ -2,7 +2,8 @@
 
 ## Changes in 2.19.2
 
-- Nothing yet. 
+- Fix `plot` with `type = "XIC"` to create an empty plot for samples without
+  data points (issue [#549](https://github.com/lgatto/MSnbase/issues/549)).
 
 ## Changes in 2.19.1
 
