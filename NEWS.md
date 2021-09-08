@@ -1,9 +1,13 @@
 # MSnbase 2.19
 
+## Changes in 2.19.2
+
+- Fix `plot` with `type = "XIC"` to create an empty plot for samples without
+  data points (issue [#549](https://github.com/lgatto/MSnbase/issues/549)).
+
 ## Changes in 2.19.1
 
 - Add `compareChromatograms` method.
-
 
 # MSnbase 2.17
 
