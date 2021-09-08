@@ -1,5 +1,9 @@
 # MSnbase 2.19
 
+## Changes in 2.19.3
+
+- Nothing yet.
+
 ## Changes in 2.19.2
 
 - Fix `plot` with `type = "XIC"` to create an empty plot for samples without
