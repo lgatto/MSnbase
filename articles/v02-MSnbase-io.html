@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.3</span>
       </span>
     </div>
 
@@ -277,8 +277,8 @@
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Quantitation data loaded: Thu Aug 12 07:03:50 2021  using readMSnSet. 
-##  MSnbase version: 2.19.2</code></pre>
+## Quantitation data loaded: Thu Sep  9 06:12:17 2021  using readMSnSet. 
+##  MSnbase version: 2.19.3</code></pre>
 <div id="the-msnset-class" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-msnset-class" class="anchor" aria-hidden="true"></a>The <code>MSnSet</code> class</h3>
@@ -320,7 +320,7 @@
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-##  MSnbase version: 2.19.2</code></pre>
+##  MSnbase version: 2.19.3</code></pre>
 <p>The <code>ecol</code> columns can also be queried interactively from R using the <code>getEcols</code> and <code>grepEcols</code> function. The former return a character with all column names, given a splitting character, i.e. the separation value of the spreadsheet (typically <code>","</code> for <code>csv</code>, <code>"\t"</code> for <code>tsv</code>, …). The latter can be used to grep a pattern of interest to obtain the relevant column indices.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/grepEcols.html">getEcols</a></span><span class="op">(</span><span class="va">f0</span>, <span class="st">","</span><span class="op">)</span></code></pre></div>
@@ -350,7 +350,7 @@
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-##  MSnbase version: 2.19.2</code></pre>
+##  MSnbase version: 2.19.3</code></pre>
 <p>The <code>phenoData</code> slot can now be updated accordingly using the replacement functions <code>phenoData&lt;-</code> or <code>pData&lt;-</code> (see <code><a href="../reference/MSnSet-class.html">?MSnSet</a></code> for details).</p>
 </div>
 </div>
@@ -361,7 +361,7 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>## R version 4.1.0 (2021-05-18)
 ## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 20.04.2 LTS
+## Running under: Ubuntu 20.04.3 LTS
 ## 
 ## Matrix products: default
 ## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so
@@ -379,9 +379,9 @@
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] pRolocdata_1.31.0   MSnbase_2.19.2      ProtGenerics_1.25.2
-## [4] S4Vectors_0.31.0    mzR_2.27.1          Rcpp_1.0.7         
-## [7] Biobase_2.53.0      BiocGenerics_0.39.1 BiocStyle_2.21.3   
+## [1] pRolocdata_1.31.0   MSnbase_2.19.3      ProtGenerics_1.25.2
+## [4] S4Vectors_0.31.3    mzR_2.27.1          Rcpp_1.0.7         
+## [7] Biobase_2.53.0      BiocGenerics_0.39.2 BiocStyle_2.21.3   
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] sass_0.4.0            vsn_3.61.2            foreach_1.5.1        
@@ -392,8 +392,8 @@
 ## [16] colorspace_2.0-2      htmltools_0.5.1.1     preprocessCore_1.55.2
 ## [19] plyr_1.8.6            MALDIquant_1.20       XML_3.99-0.6         
 ## [22] pkgconfig_2.0.3       bookdown_0.22         zlibbioc_1.39.0      
-## [25] purrr_0.3.4           scales_1.1.1          affyio_1.63.1        
-## [28] BiocParallel_1.27.3   tibble_3.1.3          IRanges_2.27.0       
+## [25] purrr_0.3.4           scales_1.1.1          affyio_1.63.2        
+## [28] BiocParallel_1.27.5   tibble_3.1.3          IRanges_2.27.2       
 ## [31] generics_0.1.0        ggplot2_3.3.5         ellipsis_0.3.2       
 ## [34] cachem_1.0.5          magrittr_2.0.1        crayon_1.4.1         
 ## [37] memoise_2.0.0         evaluate_0.14         fs_1.5.0             
