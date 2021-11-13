@@ -1,3 +1,14 @@
+# MSnbase 2.20
+
+## Changes in 2.20.1
+
+- Change default for MSnbase fast load variable: set to `TRUE` also on
+  macOS (backported from devel).
+
+## Changes in 2.20.0
+
+- New release (Bioc 3.14)
+
 # MSnbase 2.19
 
 ## Changes in 2.19.2
