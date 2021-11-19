@@ -686,11 +686,11 @@ setMethod("compareChromatograms",
         for (j in seq_len(ny)) {
             if (i > j)
                 next
-            m[i, j] <- compareChromatograms(x[[i]], y[[j]], ALIGNFUN = ALIGNFUN,
-                                            ALIGNFUNARGS = ALIGNFUNARGS,
-                                            FUN = FUN, FUNARGS = FUNARGS)
+            m[j, i] <- m[i, j] <- compareChromatograms(
+                           x[[i]], y[[j]], ALIGNFUN = ALIGNFUN,
+                           ALIGNFUNARGS = ALIGNFUNARGS,
+                           FUN = FUN, FUNARGS = FUNARGS)
         }
     }
-    m[lower.tri(m)] <- m[upper.tri(m)]
     m
 }
