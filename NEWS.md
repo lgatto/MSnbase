@@ -1,5 +1,10 @@
 # MSnbase 2.21
 
+## Changes in 2.21.2
+
+- Fix bug in `compareChromatograms` that creates a non-symmetric similarity
+  matrix.
+
 ## Changes in 2.21.1
 
 - Change default for MSnbase fast load variable: set to `TRUE` also on macOS.
