@@ -196,18 +196,6 @@ jobs:
           BiocManager::install("BiocCheck")
         shell: Rscript {0}
 
-      ## See https://github.com/Bioconductor/bioconductor_docker/issues/22
-      - name: Manually install preprocessCore
-        run: |
-          git clone https://github.com/bmbolstad/preprocessCore.git
-          cd preprocessCore
-          R CMD INSTALL --configure-args="--disable-threading"  .
-
-      - name: Install latest ProtGenerics from github (remove one 1.23.7 in on Bioc)
-        run: |
-          BiocManager::install("lgatto/ProtGenerics")
-        shell: Rscript {0}
-
       - name: Install BiocGenerics
         if:  env.has_RUnit == 'true'
         run: |
