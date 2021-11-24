@@ -347,7 +347,10 @@ objects of one row are binned into the same bins. The function returns a
 intensities (\code{all = FALSE}; default). See \code{\link[=clean]{clean()}} documentation for more
 details and examples.
 \item \code{compareChromatograms}: calculates pairwise similarity score between
-chromatograms in \code{x} and \code{y}. If \code{y} is missing, a pairwise comparison
+chromatograms in \code{x} and \code{y} and returns a similarity matrix with the
+number of rows corresponding to the number of chromatograms in \code{x} and
+the number of columns to the number of chromatograms in \code{y}.
+If \code{y} is missing, a pairwise comparison
 is performed between all chromatograms in \code{x}. See documentation on
 \code{compareChromatograms} in the \code{\link[=Chromatogram]{Chromatogram()}} help page for details.
 \item \code{normalize}, \code{normalise}: \emph{normalises} the intensities of a chromatogram by

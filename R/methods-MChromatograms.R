@@ -229,7 +229,10 @@
 #'   details and examples.
 #'
 #' - `compareChromatograms`: calculates pairwise similarity score between
-#'   chromatograms in `x` and `y`. If `y` is missing, a pairwise comparison
+#'   chromatograms in `x` and `y` and returns a similarity matrix with the
+#'   number of rows corresponding to the number of chromatograms in `x` and
+#'   the number of columns to the number of chromatograms in `y`.
+#'   If `y` is missing, a pairwise comparison
 #'   is performed between all chromatograms in `x`. See documentation on
 #'   `compareChromatograms` in the [Chromatogram()] help page for details.
 #'
@@ -648,8 +651,8 @@ setMethod("compareChromatograms",
           function(x, y, ALIGNFUN = alignRt, ALIGNFUNARGS = list(),
                    FUN = cor, FUNARGS = list(use = "pairwise.complete.obs"),
                    ...) {
-              .compare_chromatograms(
-                  x, x, ALIGNFUN = alignRt, ALIGNFUNARGS = ALIGNFUNARGS,
+              .compare_chromatograms_self(
+                  x, ALIGNFUN = alignRt, ALIGNFUNARGS = ALIGNFUNARGS,
                   FUN = cor, FUNARGS = FUNARGS)
           })
 
@@ -684,10 +687,33 @@ setMethod("compareChromatograms",
     m <- matrix(NA_real_, nrow = nx, ncol = ny)
     for (i in seq_len(nx)) {
         for (j in seq_len(ny)) {
+            m[i, j] <- compareChromatograms(
+                x[[i]], y[[j]], ALIGNFUN = ALIGNFUN,
+                ALIGNFUNARGS = ALIGNFUNARGS,
+                FUN = FUN, FUNARGS = FUNARGS)
+        }
+    }
+    m
+}
+
+.compare_chromatograms_self <- function(x, ALIGNFUN = alignRt,
+                                        ALIGNFUNARGS = list(), FUN = cor,
+                                        FUNARGS = list(
+                                            use = "pairwise.complete.obs")) {
+    if (inherits(x, "MChromatograms")) {
+        if (ncol(x) > 1)
+            stop("Currently only single column MChromatograms are supported.")
+        x <- unlist(x)
+    }
+    nx <- length(x)
+
+    m <- matrix(NA_real_, nrow = nx, ncol = nx)
+    for (i in seq_len(nx)) {
+        for (j in seq_len(nx)) {
             if (i > j)
                 next
             m[j, i] <- m[i, j] <- compareChromatograms(
-                           x[[i]], y[[j]], ALIGNFUN = ALIGNFUN,
+                           x[[i]], x[[j]], ALIGNFUN = ALIGNFUN,
                            ALIGNFUNARGS = ALIGNFUNARGS,
                            FUN = FUN, FUNARGS = FUNARGS)
         }

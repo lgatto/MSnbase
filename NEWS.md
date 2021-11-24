@@ -1,5 +1,10 @@
 # MSnbase 2.20
 
+
+## Changes in 2.20.3
+
+- Fix issue [#561](https://github.com/lgatto/MSnbase/issues/561).
+
 ## Changes in 2.20.2
 
 - Fix bug in `compareChromatograms` that creates a non-symmetric similarity

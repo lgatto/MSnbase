@@ -673,4 +673,9 @@ test_that("compareChromatograms,MChromatograms works", {
 
     res_2 <- compareChromatograms(chrs, chrs)
     expect_equal(res_2, res)
+
+    res_3 <- compareChromatograms(chrs, chrs[1:2, ])
+    expect_true(nrow(res_3) == 3)
+    expect_true(ncol(res_3) == 2)
+    expect_equal(res_3, res_2[, 1:2])
 })
