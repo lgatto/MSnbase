@@ -1,5 +1,9 @@
 # MSnbase 2.21
 
+## Changes in 2.21.3
+
+- Fix bug (issue [#561])[https://github.com/lgatto/MSnbase/issues/561].
+
 ## Changes in 2.21.2
 
 - Fix bug in `compareChromatograms` that creates a non-symmetric similarity
