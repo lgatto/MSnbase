@@ -14,7 +14,7 @@ started by [Laurent Gatto](http://lgatto.github.io/) in October 2010
 then, benefited from
 [various contributions](http://lgatto.github.io/msnbase-contribs/), in
 particular [Sebastian Gibb](http://sebastiangibb.de/)
-and [Johannes Rainer](https://github.com/jotsetung/).
+and [Johannes Rainer](https://github.com/jorainer).
 
 The official page is the Bioconductor landing page
 ([release](http://www.bioconductor.org/packages/release/bioc/html/MSnbase.html) or
