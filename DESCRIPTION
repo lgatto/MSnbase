@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.21.3
+Version: 2.21.4
 Description: MSnbase provides infrastructure for manipulation,
              processing and visualisation of mass spectrometry and
              proteomics data, ranging from raw to quantitative and
@@ -71,7 +71,7 @@ Depends:
     Biobase (>= 2.15.2),
     mzR (>= 2.19.6),
     S4Vectors,
-    ProtGenerics (>= 1.25.1)
+    ProtGenerics (>= 1.27.2)
 Imports:
     MsCoreUtils,
     BiocParallel,
@@ -126,7 +126,7 @@ URL: https://lgatto.github.io/MSnbase
 biocViews: ImmunoOncology, Infrastructure, Proteomics, MassSpectrometry,
     QualityControl, DataImport
 Roxygen: list(markdown=TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Collate:
     'AllClassUnions.R'
     'AllGenerics.R'

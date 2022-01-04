@@ -679,3 +679,28 @@ test_that("compareChromatograms,MChromatograms works", {
     expect_true(ncol(res_3) == 2)
     expect_equal(res_3, res_2[, 1:2])
 })
+
+test_that("transformIntensity works", {
+    set.seed(123)
+    chr1 <- Chromatogram(rtime = 1:10 + rnorm(n = 10, sd = 0.3),
+                         intensity = c(5, 29, 50, NA, 100, 12, 3, 4, 1, 3))
+    chr2 <- Chromatogram(rtime = 1:10 + rnorm(n = 10, sd = 0.3),
+                         intensity = c(80, 50, 20, 10, 9, 4, 3, 4, 1, 3))
+    chr3 <- Chromatogram(rtime = 3:9 + rnorm(7, sd = 0.3),
+                         intensity = c(53, 80, 130, 15, 5, 3, 2))
+    chr4 <- Chromatogram(rtime = 1:10,
+                         intensity = c(NA, NA, 4, NA, NA, 9, NA, 10, 9, 1))
+    chrs <- MChromatograms(list(chr1, chr2, chr3, chr4), ncol = 2)
+
+    chrs2 <- transformIntensity(chrs)
+    expect_equal(intensity(chrs[1, 1]), intensity(chrs2[1, 1]))
+    expect_equal(intensity(chrs[1, 2]), intensity(chrs2[1, 2]))
+    expect_equal(intensity(chrs[2, 1]), intensity(chrs2[2, 1]))
+    expect_equal(intensity(chrs[2, 2]), intensity(chrs2[2, 2]))
+
+    chrs2 <- transformIntensity(chrs, FUN = log2)
+    expect_equal(log2(intensity(chrs[1, 1])), intensity(chrs2[1, 1]))
+    expect_equal(log2(intensity(chrs[1, 2])), intensity(chrs2[1, 2]))
+    expect_equal(log2(intensity(chrs[2, 1])), intensity(chrs2[2, 1]))
+    expect_equal(log2(intensity(chrs[2, 2])), intensity(chrs2[2, 2]))
+})

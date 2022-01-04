@@ -1,6 +1,6 @@
 #' @title Representation of chromatographic MS data
 #'
-#' @aliases compareChromatograms
+#' @aliases compareChromatograms transformIntensity
 #'
 #' @name Chromatogram-class
 #'
@@ -62,7 +62,8 @@
 #'
 #' @param FUN for `compareChromatograms`: function to calculate a similarity
 #'     score on the intensity values of the compared and aligned chromatograms.
-#'     Defaults to `FUN = cor`.
+#'     Defaults to `FUN = cor`. For `transformIntensity`: function to transform
+#'     chromatograms' intensity values. Defaults to `FUN = identity`.
 #'
 #' @param FUNARGS for `compareChromatograms`: `list` with additional parameters
 #'     for `FUN`. Defaults to `FUNARGS = list(use = "pairwise.complete.obs")`.
@@ -239,6 +240,9 @@
 #'   dividing them either by the maximum intensity (`method = "max"`) or total
 #'   intensity (`method = "sum"`) of the chromatogram.
 #'
+#' - `transformIntensity`: allows to manipulate the intensity values of a
+#'   chromatogram using a user provided function. See below for examples.
+#'
 #' @section Data visualization:
 #'
 #' - `plot`: plots a `Chromatogram` object.
@@ -351,6 +355,11 @@
 #' ## Remove data points with an intensity lower than half of the maximum
 #' res <- filterIntensity(chr1, filt_fun, prop = 0.5)
 #' intensity(res)
+#'
+#' ## log2 transform intensity values
+#' res <- transformIntensity(chr1, log2)
+#' intensity(res)
+#' log2(intensity(chr1))
 NULL
 
 setMethod("initialize", "Chromatogram", function(.Object, ...) {
@@ -511,3 +520,11 @@ setMethod("compareChromatograms",
                   x <- do.call(ALIGNFUN, c(list(x, y), ALIGNFUNARGS))
               do.call(FUN, c(list(x@intensity, y@intensity), FUNARGS))
           })
+
+#' @rdname Chromatogram-class
+setMethod("transformIntensity", "Chromatogram", function(object,
+                                                         FUN = identity) {
+    object <- .chromatogram_transform_intensity(object, FUN = FUN)
+    validObject(object)
+    object
+})

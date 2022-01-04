@@ -1,5 +1,10 @@
 # MSnbase 2.21
 
+## Changes in 2.21.4
+
+- Add `transformIntensity` function for `Chromatogram` and `MChromatograms`
+  objects.
+
 ## Changes in 2.21.3
 
 - Fix bug (issue [#561])[https://github.com/lgatto/MSnbase/issues/561].

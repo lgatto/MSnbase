@@ -38,6 +38,7 @@
 \alias{c,MChromatograms-method}
 \alias{compareChromatograms,MChromatograms,missing-method}
 \alias{compareChromatograms,MChromatograms,MChromatograms-method}
+\alias{transformIntensity,MChromatograms-method}
 \title{Container for multiple Chromatogram objects}
 \usage{
 MChromatograms(data, phenoData, featureData, ...)
@@ -132,6 +133,8 @@ MChromatograms(data, phenoData, featureData, ...)
   FUNARGS = list(use = "pairwise.complete.obs"),
   ...
 )
+
+\S4method{transformIntensity}{MChromatograms}(object, FUN = identity)
 }
 \arguments{
 \item{data}{for \code{MChromatograms}: a \code{list} of \code{\link[=Chromatogram]{Chromatogram()}} objects.}
@@ -225,9 +228,8 @@ aligned against.}
 
 \item{ALIGNFUNARGS}{\code{list} of parameters to be passed to \code{ALIGNFUN}.}
 
-\item{FUN}{for \code{compareChromatograms}: function to calculate a similarity
-score on the intensity values of the compared and aligned chromatograms.
-Defaults to \code{FUN = cor}.}
+\item{FUN}{for \code{transformIntensity}: function to transform chromatograms'
+intensity values. Defaults to \code{FUN = identity}.}
 
 \item{FUNARGS}{for \code{compareChromatograms}: \code{list} with additional parameters
 for \code{FUN}. Defaults to \code{FUNARGS = list(use = "pairwise.complete.obs")}.}
@@ -347,12 +349,17 @@ objects of one row are binned into the same bins. The function returns a
 intensities (\code{all = FALSE}; default). See \code{\link[=clean]{clean()}} documentation for more
 details and examples.
 \item \code{compareChromatograms}: calculates pairwise similarity score between
-chromatograms in \code{x} and \code{y}. If \code{y} is missing, a pairwise comparison
+chromatograms in \code{x} and \code{y} and returns a similarity matrix with the
+number of rows corresponding to the number of chromatograms in \code{x} and
+the number of columns to the number of chromatograms in \code{y}.
+If \code{y} is missing, a pairwise comparison
 is performed between all chromatograms in \code{x}. See documentation on
 \code{compareChromatograms} in the \code{\link[=Chromatogram]{Chromatogram()}} help page for details.
 \item \code{normalize}, \code{normalise}: \emph{normalises} the intensities of a chromatogram by
 dividing them either by the maximum intensity (\code{method = "max"}) or total
 intensity (\code{method = "sum"}) of the chromatogram.
+\item \code{transformIntensity}: allows to manipulate the intensity values of all
+chromatograms using a user provided function. See below for examples.
 }
 }
 
@@ -434,6 +441,10 @@ plot(chrs[2, , drop = FALSE])
 
 ## Plot all chromatograms
 plot(chrs, col = c("#ff000080", "#00ff0080"))
+
+## log2 transform intensities
+res <- transformIntensity(chrs, log2)
+plot(res)
 }
 \seealso{
 \verb{Chromatogram()] for the class representing chromatogram data. [chromatogram()] for the method to extract a }MChromatograms\verb{object from a}MSnExp\code{or}OnDiskMSnExp\verb{ object. [readSRMData()} for the function to read chromatographic data
