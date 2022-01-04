@@ -186,6 +186,7 @@ jobs:
           remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = TRUE, upgrade = TRUE)
 
           ## Manually install required packages
+          BiocManager::install("RforMassSpectrometry/ProtGenerics", ask = FALSE)
           BiocManager::install("mzR", dependencies = TRUE, ask = FALSE, update=FALSE)
           BiocManager::install("SummarizedExperiment", ask = FALSE, update = FALSE)
           BiocManager::install("msdata")
