@@ -463,7 +463,8 @@ test_that(".openMSfile works", {
     res <- MSnbase:::.openMSfile(file)
     expect_true(is(res, "mzRpwiz"))
     close(res)
-    file <- system.file("microtofq", "MM14.mzdata", package = "msdata")
+    file <- dir(system.file("microtofq", package = "msdata"),
+                pattern = "MM14.mzdata", full.names = TRUE)[1]
     res <- MSnbase:::.openMSfile(file)
     expect_true(is(res, "mzRramp"))
     close(res)
