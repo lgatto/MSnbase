@@ -75,6 +75,9 @@
 #' @param fun for `bin`: function to be used to aggregate the intensity
 #'     values falling within each bin.
 #'
+#' @param FUN for `transformIntensity`: function to transform chromatograms'
+#'     intensity values. Defaults to `FUN = identity`.
+#'
 #' @param i for `[`: `numeric`, `logical` or `character`
 #'     defining which row(s) to extract.
 #'
@@ -229,7 +232,10 @@
 #'   details and examples.
 #'
 #' - `compareChromatograms`: calculates pairwise similarity score between
-#'   chromatograms in `x` and `y`. If `y` is missing, a pairwise comparison
+#'   chromatograms in `x` and `y` and returns a similarity matrix with the
+#'   number of rows corresponding to the number of chromatograms in `x` and
+#'   the number of columns to the number of chromatograms in `y`.
+#'   If `y` is missing, a pairwise comparison
 #'   is performed between all chromatograms in `x`. See documentation on
 #'   `compareChromatograms` in the [Chromatogram()] help page for details.
 #'
@@ -237,6 +243,8 @@
 #'   dividing them either by the maximum intensity (`method = "max"`) or total
 #'   intensity (`method = "sum"`) of the chromatogram.
 #'
+#' - `transformIntensity`: allows to manipulate the intensity values of all
+#'   chromatograms using a user provided function. See below for examples.
 #'
 #' @section Data visualization:
 #'
@@ -315,6 +323,10 @@
 #'
 #' ## Plot all chromatograms
 #' plot(chrs, col = c("#ff000080", "#00ff0080"))
+#'
+#' ## log2 transform intensities
+#' res <- transformIntensity(chrs, log2)
+#' plot(res)
 NULL
 
 #' @rdname MChromatograms-class
@@ -596,46 +608,40 @@ setMethod("polarity", "MChromatograms", function(object) {
 #' @rdname MChromatograms-class
 setMethod("bin", "MChromatograms", .bin_MChromatograms)
 
-#' @rdname MChromatograms-class
-setMethod("clean", "MChromatograms", function(object, all = FALSE,
-                                             na.rm = FALSE) {
-    object@.Data <- matrix(lapply(object, clean, all = all, na.rm = na.rm),
+setMethod("addProcessing", "MChromatograms", function(object, FUN, ...) {
+    if (missing(FUN))
+        return(object)
+    object@.Data <- matrix(lapply(object, FUN, ...),
                            nrow = nrow(object), dimnames = dimnames(object))
-    if (validObject(object))
-        object
+    validObject(object)
+    object
 })
 
 #' @rdname MChromatograms-class
-setMethod("normalize", "MChromatograms",
-          function(object, method = c("max", "sum")) {
-              method <- match.arg(method)
-              object@.Data <- matrix(lapply(c(object@.Data),
-                                            FUN = .normalize_chromatogram,
-                                            method = method),
-                                     ncol = ncol(object),
-                                     dimnames = dimnames(object@.Data))
-              object
-          })
+setMethod("clean", "MChromatograms", function(object, all = FALSE,
+                                              na.rm = FALSE) {
+    addProcessing(object, FUN = clean, all = all, na.rm = na.rm)
+})
+
+#' @rdname MChromatograms-class
+setMethod("normalize", "MChromatograms", function(object, method = c("max",
+                                                                     "sum")) {
+    method <- match.arg(method)
+    addProcessing(object, FUN = .normalize_chromatogram, method = method)
+})
 
 #' @rdname MChromatograms-class
 setMethod("filterIntensity", "MChromatograms", function(object,
                                                         intensity = 0, ...) {
-    object@.Data <- matrix(lapply(c(object@.Data),
-                                  FUN = .filter_intensity_chromatogram,
-                                  intensity = intensity, ...),
-                           ncol = ncol(object),
-                           dimnames = dimnames(object@.Data))
-    object
+    addProcessing(object, FUN = .filter_intensity_chromatogram,
+                  intensity = intensity, ...)
 })
 
 #' @rdname MChromatograms-class
 setMethod("alignRt", signature = c(x = "MChromatograms", y = "Chromatogram"),
           function(x, y, method = c("closest", "approx"), ...) {
-              x@.Data <- matrix(lapply(x@.Data, .align_chromatogram, y = y,
-                                       method = method, ...),
-                                nrow = nrow(x), dimnames = dimnames(x))
-              validObject(x)
-              x
+              addProcessing(x, FUN = .align_chromatogram, y = y,
+                            method = method, ...)
           })
 
 #' @rdname MChromatograms-class
@@ -717,3 +723,9 @@ setMethod("compareChromatograms",
     }
     m
 }
+
+#' @rdname MChromatograms-class
+setMethod("transformIntensity", "MChromatograms", function(object,
+                                                           FUN = identity) {
+    addProcessing(object, FUN = .chromatogram_transform_intensity, FUN)
+})

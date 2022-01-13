@@ -329,7 +329,8 @@ exportMethods(updateObject,
 	      "alignRt",
 	      "filterIntensity",
 	      c,
-	      compareChromatograms
+	      compareChromatograms,
+	      transformIntensity
               )
 
 ## methods NOT exported

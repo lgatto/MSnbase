@@ -228,3 +228,8 @@ aggregationFun <- function(object) {
         x@intensity <- new_int
         x
     }
+
+.chromatogram_transform_intensity <- function(x, FUN = identity) {
+    x@intensity <- FUN(x@intensity)
+    x
+}
