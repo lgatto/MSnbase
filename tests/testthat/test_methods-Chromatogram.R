@@ -257,3 +257,12 @@ test_that("compareChromatograms,Chromatogram,Chromatogram works", {
     res_2 <- compareChromatograms(chr2, chr1)
     expect_equal(res_1, res_2)
 })
+
+test_that("transformIntensity,Chromatogram works", {
+    chr1 <- Chromatogram(rtime = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                         intensity = c(3, 5, 14, 30, 24, 6, 2, 1, 1, 0))
+    res <- transformIntensity(chr1)
+    expect_equal(intensity(chr1), intensity(res))
+    res <- transformIntensity(chr1, log2)
+    expect_equal(log2(intensity(chr1)), intensity(res))
+})

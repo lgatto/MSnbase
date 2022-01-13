@@ -6,24 +6,24 @@
 
 <img align = "right" src="https://raw.githubusercontent.com/Bioconductor/BiocStickers/master/MSnbase/MSnbase.png" height="200">
 
-[**MSnbase**](http://lgatto.github.io/MSnbase/) is an R/Bioconductor
+[**MSnbase**](https://lgatto.github.io/MSnbase/) is an R/Bioconductor
 package that provides infrastructure for plotting, manipulation and
 processing mass spectrometry and proteomics data. The project was
-started by [Laurent Gatto](http://lgatto.github.io/) in October 2010
+started by [Laurent Gatto](https://lgatto.github.io/) in October 2010
 (Mon Oct 4 23:35:23 2010, according to the git log) and has, since
 then, benefited from
-[various contributions](http://lgatto.github.io/msnbase-contribs/), in
-particular [Sebastian Gibb](http://sebastiangibb.de/)
-and [Johannes Rainer](https://github.com/jotsetung/).
+[various contributions](https://lgatto.github.io/msnbase-contribs/), in
+particular [Sebastian Gibb](https://sebastiangibb.de/)
+and [Johannes Rainer](https://github.com/jorainer).
 
 The official page is the Bioconductor landing page
-([release](http://www.bioconductor.org/packages/release/bioc/html/MSnbase.html) or
-[devel](http://www.bioconductor.org/packages/devel/bioc/html/MSnbase.html) versions). The
+([release](https://www.bioconductor.org/packages/release/bioc/html/MSnbase.html) or
+[devel](https://www.bioconductor.org/packages/devel/bioc/html/MSnbase.html) versions). The
 [github page](https://github.com/lgatto/MSnbase) page is for active
 development, issue tracking and forking/pulling purposes.
 
 To get an overview of the package, see the
-[*MSnbase-demo*](http://lgatto.github.io/MSnbase/articles/v01-MSnbase-demo.html)
+[*MSnbase-demo*](https://lgatto.github.io/MSnbase/articles/v01-MSnbase-demo.html)
 vignette. More vignettes are available in the *Articles* tab.
 
 ## Installation
@@ -60,7 +60,7 @@ To cite the `MSnbase` package in publications, please use:
 > isobaric tagged mass spectrometry data visualization, processing and
 > quantitation*. Bioinformatics. 2012 Jan
 > 15;28(2):288-9. doi:10.1093/bioinformatics/btr645. PubMed
-> [PMID:22113085](http://www.ncbi.nlm.nih.gov/pubmed/22113085).
+> [PMID:22113085](https://www.ncbi.nlm.nih.gov/pubmed/22113085).
 
 
 > *`MSnbase`, efficient and elegant R-based processing and
@@ -76,7 +76,7 @@ contribute to this package, you should follow the same conventions as
 the rest of the functions. Please do get in touch (preferable opening
 a [github issue](https://github.com/lgatto/MSnbase/issues/)) to
 discuss any suggestions. The
-[`MSnbase` development vignette](http://lgatto.github.io/MSnbase/articles/v05-MSnbase-development.html) gives
+[`MSnbase` development vignette](https://lgatto.github.io/MSnbase/articles/v05-MSnbase-development.html) gives
 some background on the class infrastructure.
 
 Please note that this project is released with a

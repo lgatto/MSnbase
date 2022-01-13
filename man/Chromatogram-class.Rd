@@ -6,6 +6,7 @@
 \alias{aggregationFun}
 \alias{Chromatogram-class}
 \alias{compareChromatograms}
+\alias{transformIntensity}
 \alias{show,Chromatogram-method}
 \alias{rtime,Chromatogram-method}
 \alias{intensity,Chromatogram-method}
@@ -25,6 +26,7 @@
 \alias{filterIntensity,Chromatogram-method}
 \alias{alignRt,Chromatogram,Chromatogram-method}
 \alias{compareChromatograms,Chromatogram,Chromatogram-method}
+\alias{transformIntensity,Chromatogram-method}
 \title{Representation of chromatographic MS data}
 \usage{
 Chromatogram(
@@ -100,6 +102,8 @@ aggregationFun(object)
   FUNARGS = list(use = "pairwise.complete.obs"),
   ...
 )
+
+\S4method{transformIntensity}{Chromatogram}(object, FUN = identity)
 }
 \arguments{
 \item{rtime}{for \code{Chromatogram}: \code{numeric} with the retention times (length
@@ -199,7 +203,8 @@ against.}
 
 \item{FUN}{for \code{compareChromatograms}: function to calculate a similarity
 score on the intensity values of the compared and aligned chromatograms.
-Defaults to \code{FUN = cor}.}
+Defaults to \code{FUN = cor}. For \code{transformIntensity}: function to transform
+chromatograms' intensity values. Defaults to \code{FUN = identity}.}
 
 \item{FUNARGS}{for \code{compareChromatograms}: \code{list} with additional parameters
 for \code{FUN}. Defaults to \code{FUNARGS = list(use = "pairwise.complete.obs")}.}
@@ -328,6 +333,8 @@ for details.
 \item \code{normalize}, \code{normalise}: \emph{normalises} the intensities of a chromatogram by
 dividing them either by the maximum intensity (\code{method = "max"}) or total
 intensity (\code{method = "sum"}) of the chromatogram.
+\item \code{transformIntensity}: allows to manipulate the intensity values of a
+chromatogram using a user provided function. See below for examples.
 }
 }
 
@@ -431,6 +438,11 @@ intensity(res)
 ## Remove data points with an intensity lower than half of the maximum
 res <- filterIntensity(chr1, filt_fun, prop = 0.5)
 intensity(res)
+
+## log2 transform intensity values
+res <- transformIntensity(chr1, log2)
+intensity(res)
+log2(intensity(chr1))
 }
 \seealso{
 \link{MChromatograms} for combining \code{Chromatogram} in
