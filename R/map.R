@@ -82,7 +82,7 @@ setMethod("plot", c("MSmap", "missing"),
                   scales.set <-
                       list(x = list(at = i, labels = formatRt(rtime(x)[i])),
                            y = list(at = j, labels = mz(x)[j]))
-              } 
+              }
               levelplot(log10(m),
                         scales = scales.set,
                         xlab = "Retention time",
@@ -97,7 +97,7 @@ setMethod("plot3D", "MSmap",
                       stop("The 'rgl' package needed. Install it with 'install.packages(\"rgl\")'.")
                   rgl::plot3d(dd$mz, dd$rt, dd$intensity, , type = "h",
                          xlab = "M/Z", ylab = "Retention time", zlab = "")
-              } else {                  
+              } else {
                   ms <- NULL ## get rid of 'no visible global function definition' note
                   par.set <- list(box.3d = list(lwd=.2))
                   cloud(intensity ~ mz + rt , data = dd,
@@ -108,7 +108,7 @@ setMethod("plot3D", "MSmap",
                             draw=TRUE),
                         aspect=c(.8, 1),
                         group = ms,
-                        zoom = 1, 
+                        zoom = 1,
                         par.settings = par.set,
                         axis.line = list(col = "transparent"),
                         xlab="M/Z", ylab="Retention time", zlab=NULL)
@@ -116,9 +116,9 @@ setMethod("plot3D", "MSmap",
           })
 
 
-setClassUnion("mzRraw", c("mzRpwiz", "mzRramp"))
+setClassUnion("mzRraw", c("mzRpwiz"))
 
-setMethod("MSmap", "mzRraw", 
+setMethod("MSmap", "mzRraw",
           function(object, scans, lowMz, highMz, resMz, hd,
                    zeroIsNA = FALSE) {
               if (missing(hd))
@@ -140,7 +140,7 @@ setMethod("MSmap", "mzRraw",
           })
 
 
-setMethod("MSmap", "OnDiskMSnExp", 
+setMethod("MSmap", "OnDiskMSnExp",
           function(object, scans, lowMz, highMz, resMz, hd = NULL,
                    zeroIsNA = FALSE) {
               ms1 <- which(msLevel(object) == 1)
@@ -162,4 +162,3 @@ setMethod("MSmap", "OnDiskMSnExp",
                      t = FALSE,
                      filename = fn)
           })
-

@@ -1,5 +1,9 @@
 # MSnbase 2.21
 
+## Changes in 2.21.5
+
+- Adapt to changes in `mzR` version 2.29.3.
+
 ## Changes in 2.21.4
 
 - Add `transformIntensity` function for `Chromatogram` and `MChromatograms`
