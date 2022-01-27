@@ -2,9 +2,10 @@ context("MSmap class")
 
 skip_on_travis()
 
-library("AnnotationHub")
-ah <- AnnotationHub()
-ms <- ah[["AH49008"]]
+library("rpx")
+px1 <- PXDataset("PXD000001")
+f <- pxget(px1, "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML")
+ms <- mzR::openMSfile(f)
 hd <- header(ms)
 
 ## a set of spectra of interest: MS1 spectra eluted
@@ -51,7 +52,7 @@ test_that("MSmap from mzRpwiz and OnDiskMSnExp", {
     M1 <- MSmap(msn, rtsel, 110, 112, .005)
     ## compare
     M0@call <- M1@call
-    expect_equal(M0, M1, check.attributes = FALSE)    
+    expect_equal(M0, M1, check.attributes = FALSE)
 })
 
 test_that("map data.frame", {
@@ -66,10 +67,10 @@ test_that("map data.frame", {
 })
 
 
-test_that("MSmap plotting", {
-    M <- MSmap(ms, ms1[rtsel], 521, 523, .005)
-    x <- plot3D(M)
-    expect_is(x, "trellis")
-    x <- plot(M, aspect = 1, allTicks = FALSE)
-    expect_is(x, "trellis")
-})
+## test_that("MSmap plotting", {
+##     M <- MSmap(ms, ms1[rtsel], 521, 523, .005)
+##     x <- plot3D(M)
+##     expect_is(x, "trellis")
+##     x <- plot(M, aspect = 1, allTicks = FALSE)
+##     expect_is(x, "trellis")
+## })
