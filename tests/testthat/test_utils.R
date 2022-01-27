@@ -463,10 +463,6 @@ test_that(".openMSfile works", {
     res <- MSnbase:::.openMSfile(file)
     expect_true(is(res, "mzRpwiz"))
     close(res)
-    file <- system.file("microtofq", "MM14.mzdata", package = "msdata")
-    res <- MSnbase:::.openMSfile(file)
-    expect_true(is(res, "mzRramp"))
-    close(res)
 
     ## Errors
     expect_error(MSnbase:::.openMSfile(c("a", "b")))
