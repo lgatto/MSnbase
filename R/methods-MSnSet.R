@@ -450,25 +450,29 @@ image2 <- function(x,
                    y.cex.axis = .75,
                    xlab = "Samples",
                    ylab = "Features",
+                   x.las = 2,
+                   y.las = 0,
                    ...) {
-    if (inherits(x, "MSnSet"))
-        x <- exprs(x)
-    nc <- ncol(x)
-    nr <- nrow(x)
-    lab <- colnames(x)
-    if (is.null(lab))
-        lab <- 1:nc
-    graphics::image(t(x),
-                    xlab = xlab, ylab = ylab,
-                    xaxt = "n", yaxt = "n", ...)
-    axis(1, seq(0, 1 , 1 / (nc - 1)),
-         labels = lab,
-         cex.axis = x.cex.axis)
-    yticks <- seq(0, 1, 1 / (yticks - 1)) * nr
-    axis(2, seq(0,1, 1 / (length(yticks) - 1)),
-         labels = round(yticks, 0),
-         cex.axis = y.cex.axis)
-    invisible(NULL)
+  if (inherits(x, "MSnSet"))
+    x <- exprs(x)
+  nc <- ncol(x)
+  nr <- nrow(x)
+  lab <- colnames(x)
+  if (is.null(lab))
+    lab <- 1:nc
+  graphics::image(t(x),
+                  xlab = xlab, ylab = ylab,
+                  xaxt = "n", yaxt = "n", ...)
+  axis(1, seq(0, 1 , 1 / (nc - 1)),
+       labels = lab,
+       cex.axis = x.cex.axis,
+       las = x.las)
+  yticks <- seq(0, 1, 1 / (yticks - 1)) * nr
+  axis(2, seq(0,1, 1 / (length(yticks) - 1)),
+       labels = round(yticks, 0),
+       cex.axis = y.cex.axis,
+       las = y.las)
+  invisible(NULL)
 }
 
 setMethod("plotNA", signature(object = "MSnSet"),
