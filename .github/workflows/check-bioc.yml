@@ -187,7 +187,7 @@ jobs:
 
           ## Manually install required packages
           BiocManager::install("RforMassSpectrometry/ProtGenerics", ask = FALSE)
-          BiocManager::install("mzR", dependencies = TRUE, ask = FALSE, update=FALSE)
+          BiocManager::install("sneumann/mzR", dependencies = TRUE, ask = FALSE, update = FALSE)
           BiocManager::install("SummarizedExperiment", ask = FALSE, update = FALSE)
           BiocManager::install("msdata")
           BiocManager::install("magick", dependencies = TRUE, ask = FALSE, update=FALSE)
