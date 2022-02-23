@@ -1,5 +1,10 @@
 # MSnbase 2.21
 
+## Changes in 2.21.6
+
+- Allow different orientation of axis labels in image2 (see [issue
+  571](https://github.com/lgatto/MSnbase/issues/571)).
+
 ## Changes in 2.21.5
 
 - Adapt to changes in `mzR` version 2.29.3.
@@ -11,7 +16,8 @@
 
 ## Changes in 2.21.3
 
-- Fix bug (issue [#561])[https://github.com/lgatto/MSnbase/issues/561].
+- Fix bug (issue
+  [#561](https://github.com/lgatto/MSnbase/issues/561)).
 
 ## Changes in 2.21.2
 
