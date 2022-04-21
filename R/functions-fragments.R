@@ -143,7 +143,7 @@
     if (length(idx)) {
       loss <- df[idx, ]
       loss[, c("ion", "type")] <- paste0(c(loss$ion, loss$type), ion)
-      loss$mz <- loss$mz - mass
+      loss$mz <- loss$mz - mass / loss$z
       rbind(df, loss)
     } else {
       df

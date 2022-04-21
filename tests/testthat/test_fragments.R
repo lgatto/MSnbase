@@ -123,6 +123,20 @@ test_that("calculateFragments", {
                (calculateFragments("AA", z=1, neutralLoss=NULL,
                                    modifications=c(Cterm=10),
                                    type="y")$mz - p) / 2)
+
+    ## issue #573 (charge is ignored in neutral loss calculation)
+    expect_equal(
+        subset(calculateFragments("PEPTIDEE", z = 3, type = "b"), pos == 7L),
+        data.frame(
+            mz = c(261.4570693, 255.4535476),
+            ion = c("b7", "b7_"),
+            type = c("b", "b_"),
+            pos = 7L,
+            z = 3,
+            seq = "PEPTIDE"
+        ),
+        check.attributes = FALSE # row.names differ
+    )
 })
 
 test_that("defaultNeutralLoss", {
