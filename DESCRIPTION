@@ -57,7 +57,8 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
                     comment = c(ORCID = "0000-0002-6977-7147")),
              person(given = "Sebastian", family = "Gibb",
                     email = "mail@sebastiangibb.de",
-                    role = c("aut", "cre")))
+                    role = c("aut", "cre"),
+                    comment=c(ORCID="0000-0001-7406-4443")))
 Author: Laurent Gatto, Johannes Rainer and Sebastian Gibb with
     contributions from Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin
     Lazar, Vladislav Petyuk, Thomas Naake, Richie Cotton, Arne Smits,
