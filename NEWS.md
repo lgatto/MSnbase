@@ -1,5 +1,10 @@
 # MSnbase 2.21
 
+## Changes in 2.21.7
+
+- Fix *mz* calculation in `calculateFragments` for neutral losses with a
+  charge > 1 (see [issue 573](https://github.com/lgatto/MSnbase/issues/573)).
+
 ## Changes in 2.21.6
 
 - Allow different orientation of axis labels in image2 (see [issue
