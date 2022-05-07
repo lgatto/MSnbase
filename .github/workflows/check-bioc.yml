@@ -185,17 +185,20 @@ jobs:
           message(paste('****', Sys.time(), 'pass number 2 at installing dependencies: any remaining dependencies ****'))
           remotes::install_local(dependencies = TRUE, repos = BiocManager::repositories(), build_vignettes = TRUE, upgrade = TRUE)
 
-          ## Manually install required packages
+          ## For running the checks
+          message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
+          remotes::install_cran("rcmdcheck")
+          BiocManager::install("BiocCheck")
+        shell: Rscript {0}
+
+      - name: Install more dependencies
+        run: |
           ## BiocManager::install("RforMassSpectrometry/ProtGenerics", ask = FALSE)
           ## BiocManager::install("sneumann/mzR", dependencies = TRUE, ask = FALSE, update = FALSE)
           ## BiocManager::install("SummarizedExperiment", ask = FALSE, update = FALSE)
           BiocManager::install("msdata")
           BiocManager::install("magick", dependencies = TRUE, ask = FALSE, update=TRUE)
           # BiocManager::install(c("devtools", "usethis", "vdiffr"), dependencies = TRUE, ask = FALSE, update = FALSE)
-          ## For running the checks
-          message(paste('****', Sys.time(), 'installing rcmdcheck and BiocCheck ****'))
-          remotes::install_cran("rcmdcheck")
-          BiocManager::install("BiocCheck")
         shell: Rscript {0}
 
       - name: Install BiocGenerics
