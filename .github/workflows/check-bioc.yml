@@ -170,6 +170,7 @@ jobs:
 
       - name: Install dependencies (manually)
         run: |
+          BiocManager::install("preprocessCore", configure.args="--disable-threading")
           ## BiocManager::install("RforMassSpectrometry/ProtGenerics", ask = FALSE)
           ## BiocManager::install("sneumann/mzR", dependencies = TRUE, ask = FALSE, update = FALSE)
           ## BiocManager::install("SummarizedExperiment", ask = FALSE, update = FALSE)
@@ -177,12 +178,6 @@ jobs:
           BiocManager::install("magick", dependencies = TRUE, ask = FALSE, update=TRUE)
           # BiocManager::install(c("devtools", "usethis", "vdiffr"), dependencies = TRUE, ask = FALSE, update = FALSE)
         shell: Rscript {0}
-        
-      - name: Manually install preprocessCore ## see https://github.com/Bioconductor/bioconductor_docker/issues/22
-        run: |
-          git clone https://github.com/bmbolstad/preprocessCore.git
-          cd preprocessCore
-          R CMD INSTALL --configure-args="--disable-threading" .
           
       - name: Install dependencies
         run: |
