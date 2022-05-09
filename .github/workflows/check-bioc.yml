@@ -52,7 +52,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - { os: ubuntu-latest, r: '4.2', bioc: '3.15', cont: "bioconductor/bioconductor_docker:RELEASE_3_15", rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest" }
+          - { os: ubuntu-latest, r: '4.2', bioc: '3.15', cont: "bioconductor/bioconductor_docker:devel", rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest" }
           ## - { os: macOS-latest, r: '4.2', bioc: '3.16'}
           ## - { os: windows-latest, r: '4.2', bioc: '3.16'}
     env:
@@ -170,7 +170,7 @@ jobs:
 
       - name: Install dependencies (manually)
         run: |
-          BiocManager::install("preprocessCore", configure.args="--disable-threading")
+          ## BiocManager::install("preprocessCore", configure.args="--disable-threading")
           ## BiocManager::install("RforMassSpectrometry/ProtGenerics", ask = FALSE)
           ## BiocManager::install("sneumann/mzR", dependencies = TRUE, ask = FALSE, update = FALSE)
           ## BiocManager::install("SummarizedExperiment", ask = FALSE, update = FALSE)
