@@ -167,11 +167,13 @@ subsetting returns a \code{MChromatograms} object (or a \code{Chromatogram} obje
 if a single element is extracted).}
 
 \item{value}{for \verb{[<-}: the replacement object(s). Can be a \code{list}
-of [Chromatogram()\verb{objects or, if length of}i\code{and}j\verb{are 1, a single}Chromatogram` object.\preformatted{For `pData<-`: a `data.frame` with the number of rows matching
+of [Chromatogram()\verb{objects or, if length of}i\code{and}j\verb{are 1, a single}Chromatogram` object.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{For `pData<-`: a `data.frame` with the number of rows matching
 the number of columns of `object`.
 
 For `colnames`: a `character` with the new column names.
-}}
+}\if{html}{\out{</div>}}}
 
 \item{col}{for \code{plot}: the color to be used for plotting. Either a
 vector of length 1 or equal to \code{ncol(x)}.}
@@ -240,7 +242,9 @@ single element is extracted (e.g. if \code{i} and \code{j} are of length
 1) a \code{\link[=Chromatogram]{Chromatogram()}} object is returned. Otherwise (if
 \code{drop = FALSE}, the default, is specified) a \code{MChromatograms}
 object is returned. If \code{drop = TRUE} is specified, the method
-returns a \code{list} of \code{Chromatogram} objects.\preformatted{For `phenoData`: an `AnnotatedDataFrame` representing the
+returns a \code{list} of \code{Chromatogram} objects.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{For `phenoData`: an `AnnotatedDataFrame` representing the
 pheno data of the object.
 
 For `pData`: a `data.frame` representing the pheno data of
@@ -250,7 +254,7 @@ For `$`: the value of the corresponding column in the pheno data
 table of the object.
 
 For all other methods see function description.
-}
+}\if{html}{\out{</div>}}
 }
 \description{
 The \code{MChromatograms} class allows to store

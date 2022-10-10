@@ -232,12 +232,12 @@ test_that("Test internal spectrapply function", {
     spl <- spectra(onDisk)
     ## Test Spectrum method:
     res1 <- lapply(spl, ionCount)
-    res2 <- MSnbase:::spectrapply(onDisk, ionCount)
+    res2 <- spectrapply(onDisk, ionCount)
     expect_identical(res1, res2)
 
     ## Plain function
     res1 <- lapply(spl, function(z) return(mean(mz(z))))
-    res2 <- MSnbase:::spectrapply(onDisk, function(z) {
+    res2 <- spectrapply(onDisk, function(z) {
         return(mean(mz(z)))
     })
     expect_identical(res1, res2)
@@ -246,7 +246,7 @@ test_that("Test internal spectrapply function", {
     res1 <- lapply(spl, function(z, int) {
         return(mean(mz(z)[intensity(z) > int]))
     }, int = 30)
-    res2 <- MSnbase:::spectrapply(onDisk, function(z, int) {
+    res2 <- spectrapply(onDisk, function(z, int) {
         return(mean(mz(z)[intensity(z) > int]))
     }, int = 30)
     expect_identical(res1, res2)

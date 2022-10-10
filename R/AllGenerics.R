@@ -81,7 +81,6 @@ setGeneric("filterFile", function (object, ...) standardGeneric("filterFile"))
 ## isolationWindow generic is in mzR
 
 setGeneric("bpi", function(object, ...) standardGeneric("bpi"))
-setGeneric("spectrapply", function(object, ...) standardGeneric("spectrapply"))
 setGeneric("splitByFile", function(object, f, ...) standardGeneric("splitByFile"))
 
 ## Chromatogram class:

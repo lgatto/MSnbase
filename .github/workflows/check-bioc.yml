@@ -171,14 +171,14 @@ jobs:
       - name: Install dependencies (manually)
         run: |
           BiocManager::install("preprocessCore", configure.args="--disable-threading", force = TRUE, type = "source")
-          ## BiocManager::install("RforMassSpectrometry/ProtGenerics", ask = FALSE)
+          BiocManager::install("RforMassSpectrometry/ProtGenerics", ask = FALSE)
           ## BiocManager::install("sneumann/mzR", dependencies = TRUE, ask = FALSE, update = FALSE)
           ## BiocManager::install("SummarizedExperiment", ask = FALSE, update = FALSE)
           BiocManager::install("msdata")
           BiocManager::install("magick", dependencies = TRUE, ask = FALSE, update=TRUE)
           # BiocManager::install(c("devtools", "usethis", "vdiffr"), dependencies = TRUE, ask = FALSE, update = FALSE)
         shell: Rscript {0}
-          
+
       - name: Install dependencies
         run: |
           ## Try installing the package dependencies in steps. First the local
