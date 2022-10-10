@@ -171,7 +171,7 @@ jobs:
       - name: Install dependencies (manually)
         run: |
           BiocManager::install("preprocessCore", configure.args="--disable-threading", force = TRUE, type = "source")
-          BiocManager::install("RforMassSpectrometry/ProtGenerics", ask = FALSE)
+          BiocManager::install("RforMassSpectrometry/ProtGenerics", ask =FALSE,force = TRUE)
           ## BiocManager::install("sneumann/mzR", dependencies = TRUE, ask = FALSE, update = FALSE)
           ## BiocManager::install("SummarizedExperiment", ask = FALSE, update = FALSE)
           BiocManager::install("msdata")
