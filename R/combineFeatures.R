@@ -196,11 +196,10 @@ combineMatrixFeatures <- function(matr,    ## matrix
             summarisedFeatures <- by(matr, groupBy, MsCoreUtils::medianPolish, ...)
         } else if (method == "robust") {
             ## by() converts the matr matrix into a data.frame, which
-            ## then fails in robustSummary(), hence the usage of an
-            ## anonymous function to coerce to a matrix.
-            summarisedFeatures <- by(matr, groupBy,
-                                     function(x, ...)
-                                         MsCoreUtils::robustSummary(as.matrix(x), ...))
+            ## then fails in robustSummary(), hence the usage of
+            ## robustAsMatrix() that first converts to a matrix
+            robustAsMatrix <- function(x, ...) MsCoreUtils::robustSummary(as.matrix(x), ...)
+            summarisedFeatures <- by(matr, groupBy, robustAsMatrix, ...)
         } else if (method == "weighted.mean") {
             ## Expecting 'w' argument
             args <- list(...)
