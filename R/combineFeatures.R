@@ -195,7 +195,12 @@ combineMatrixFeatures <- function(matr,    ## matrix
         if (method == "medpolish") {
             summarisedFeatures <- by(matr, groupBy, MsCoreUtils::medianPolish, ...)
         } else if (method == "robust") {
-            summarisedFeatures <- by(matr, groupBy, MsCoreUtils::robustSummary, ...)
+            ## by() converts the matr matrix into a data.frame, which
+            ## then fails in robustSummary(), hence the usage of an
+            ## anonymous function to coerce to a matrix.
+            summarisedFeatures <- by(matr, groupBy,
+                                     function(x, ...)
+                                         MsCoreUtils::robustSummary(as.matrix(x), ...))
         } else if (method == "weighted.mean") {
             ## Expecting 'w' argument
             args <- list(...)
