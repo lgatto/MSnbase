@@ -223,12 +223,14 @@ The \code{mz}, \code{filterMz}, \code{precursorMz} and
 \code{productMz} are stored as a \code{numeric(2)} representing a range
 even if the chromatogram was generated for only a single ion (i.e. a
 single mz value). Using ranges for \code{mz} values allow this class to
-be used also for e.g. total ion chromatograms or base peak chromatograms.\preformatted{The slots `precursorMz` and `productMz` allow to represent SRM
+be used also for e.g. total ion chromatograms or base peak chromatograms.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{The slots `precursorMz` and `productMz` allow to represent SRM
 (single reaction monitoring) and MRM (multiple SRM) chromatograms. As
 example, a `Chromatogram` for a SRM transition 273 -> 153 will have
 a `@precursorMz = c(273, 273)` and a
 `@productMz = c(153, 153)`.
-}
+}\if{html}{\out{</div>}}
 }
 \section{Object creation}{
 

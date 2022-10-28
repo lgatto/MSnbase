@@ -79,14 +79,16 @@ scans/spectra measured in the specified retention time range. If in a
 specific scan (for a give retention time) no signal was measured in the
 specified mz range, a \code{NA_real_} is reported as intensity for the
 retention time (see Notes for more information). This can be changed
-using the \code{missing} parameter.\preformatted{By default or if \code{mz} and/or \code{rt} are numeric vectors, the
+using the \code{missing} parameter.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{By default or if \code{mz} and/or \code{rt} are numeric vectors, the
 function extracts one \code{\link{Chromatogram}} object for each file
 in the \code{\linkS4class{MSnExp}} or \code{\linkS4class{OnDiskMSnExp}}
 object. Providing a numeric matrix with argument \code{mz} or \code{rt}
 enables to extract multiple chromatograms per file, one for each row in
 the matrix. If the number of columns of \code{mz} or \code{rt} are not
 equal to 2, \code{range} is called on each row of the matrix.
-}
+}\if{html}{\out{</div>}}
 }
 \examples{
 ## Read a test data file.

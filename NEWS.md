@@ -1,5 +1,9 @@
 # MSnbase 2.23
 
+## Changes in 2.23.1
+
+- Import `spectrapply` generic from `ProtGenerics`.
+
 ## Changes in 2.23.0
 
 - New release (Bioc 3.16)
