@@ -1,5 +1,9 @@
 # MSnbase 2.23
 
+## Changes in 2.23.2
+
+- Fix robust aggregation for MsCoreUtils 1.9.2.
+
 ## Changes in 2.23.1
 
 - Import `spectrapply` generic from `ProtGenerics`.
