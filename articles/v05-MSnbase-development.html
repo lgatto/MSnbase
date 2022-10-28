@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.23.2</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -87,17 +87,24 @@
 
       
 
-      </header><script src="v05-MSnbase-development_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>A short introduction to <em>MSnbase</em> development</h1>
-                        <h4 data-toc-skip class="author">Laurent Gatto</h4>
+      <h1 data-toc-skip>A short introduction to <em>MSnbase</em>
+development</h1>
+                        <h4 data-toc-skip class="author">Laurent
+Gatto</h4>
             <address class="author_afil">
-      de Duve Institute, UCLouvain, Belgium<br><h4 data-toc-skip class="author">Johannes Rainer</h4>
+      de Duve Institute, UCLouvain,
+Belgium<br><h4 data-toc-skip class="author">Johannes
+Rainer</h4>
             <address class="author_afil">
-      Institute for Biomedicine, Eurac Research, Bolzano, Italy.<br><h4 data-toc-skip class="author">Sebastian Gibb</h4>
+      Institute for Biomedicine, Eurac Research, Bolzano,
+Italy.<br><h4 data-toc-skip class="author">Sebastian
+Gibb</h4>
             <address class="author_afil">
-      Department of Anesthesiology and Intensive Care, University Medicine Greifswald, Germany.<br><small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/master/vignettes/v05-MSnbase-development.Rmd" class="external-link"><code>vignettes/v05-MSnbase-development.Rmd</code></a></small>
+      Department of Anesthesiology and Intensive Care, University
+Medicine Greifswald, Germany.<br><small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/HEAD/vignettes/v05-MSnbase-development.Rmd" class="external-link"><code>vignettes/v05-MSnbase-development.Rmd</code></a></small>
       <div class="hidden name"><code>v05-MSnbase-development.Rmd</code></div>
 
     </address>
@@ -108,529 +115,720 @@
     
         <div class="abstract">
       <p class="abstract">Abstract</p>
-      <p>This vignette describes the classes implemented in  package. It is intended as a starting point for developers or users who would like to learn more or further develop/extend mass spectrometry and proteomics data structures.</p>
+      <p>This vignette describes the classes implemented in package. It
+      is intended as a starting point for developers or users who would
+      like to learn more or further develop/extend mass spectrometry and
+      proteomics data structures.</p>
     </div>
     
-<div id="foreword" class="section level1 unnumbered">
-<h1 class="hasAnchor">
-<a href="#foreword" class="anchor" aria-hidden="true"></a>Foreword</h1>
-<p>This software is free and open-source software. If you use it, please support the project by citing it in publications:</p>
+<div class="section level2">
+<h2 class="unnumbered" id="foreword">Foreword<a class="anchor" aria-label="anchor" href="#foreword"></a>
+</h2>
+<p>This software is free and open-source software. If you use it, please
+support the project by citing it in publications:</p>
 <blockquote>
-<p>Gatto L, Lilley KS. MSnbase-an R/Bioconductor package for isobaric tagged mass spectrometry data visualization, processing and quantitation. Bioinformatics. 2012 Jan 15;28(2):288-9. doi: <a href="https://doi.org/10.1093/bioinformatics/btr645" class="external-link">10.1093/bioinformatics/btr645</a>. PMID: <a href="https://www.ncbi.nlm.nih.gov/pubmed/22113085" class="external-link">22113085</a>.</p>
+<p>Gatto L, Lilley KS. MSnbase-an R/Bioconductor package for isobaric
+tagged mass spectrometry data visualization, processing and
+quantitation. Bioinformatics. 2012 Jan 15;28(2):288-9. doi: <a href="https://doi.org/10.1093/bioinformatics/btr645" class="external-link">10.1093/bioinformatics/btr645</a>.
+PMID: <a href="https://www.ncbi.nlm.nih.gov/pubmed/22113085" class="external-link">22113085</a>.</p>
 </blockquote>
 <blockquote>
-<p><em><code>MSnbase</code>, efficient and elegant R-based processing and visualisation of raw mass spectrometry data</em>. Laurent Gatto, Sebastian Gibb, Johannes Rainer. bioRxiv 2020.04.29.067868; doi: <a href="https://doi.org/10.1101/2020.04.29.067868" class="external-link uri">https://doi.org/10.1101/2020.04.29.067868</a></p>
+<p><em><code>MSnbase</code>, efficient and elegant R-based processing
+and visualisation of raw mass spectrometry data</em>. Laurent Gatto,
+Sebastian Gibb, Johannes Rainer. bioRxiv 2020.04.29.067868; doi: <a href="https://doi.org/10.1101/2020.04.29.067868" class="external-link uri">https://doi.org/10.1101/2020.04.29.067868</a></p>
 </blockquote>
 </div>
-<div id="questions-and-bugs" class="section level1 unnumbered">
-<h1 class="hasAnchor">
-<a href="#questions-and-bugs" class="anchor" aria-hidden="true"></a>Questions and bugs</h1>
-<p>For bugs, typos, suggestions or other questions, please file an issue in our tracking system (<a href="https://github.com/lgatto/MSnbase/issues" class="external-link uri">https://github.com/lgatto/MSnbase/issues</a>) providing as much information as possible, a reproducible example and the output of <code><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo()</a></code>.</p>
-<p>If you don’t have a GitHub account or wish to reach a broader audience for general questions about proteomics analysis using R, you may want to use the Bioconductor support site: <a href="https://support.bioconductor.org/" class="external-link uri">https://support.bioconductor.org/</a>.</p>
-<p><strong>NB</strong> This document is going to be updated based on current major development plans in <code>MSnbase</code>.</p>
+<div class="section level2">
+<h2 class="unnumbered" id="questions-and-bugs">Questions and bugs<a class="anchor" aria-label="anchor" href="#questions-and-bugs"></a>
+</h2>
+<p>For bugs, typos, suggestions or other questions, please file an issue
+in our tracking system (<a href="https://github.com/lgatto/MSnbase/issues" class="external-link uri">https://github.com/lgatto/MSnbase/issues</a>) providing as
+much information as possible, a reproducible example and the output of
+<code><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo()</a></code>.</p>
+<p>If you don’t have a GitHub account or wish to reach a broader
+audience for general questions about proteomics analysis using R, you
+may want to use the Bioconductor support site: <a href="https://support.bioconductor.org/" class="external-link uri">https://support.bioconductor.org/</a>.</p>
+<p><strong>NB</strong> This document is going to be updated based on
+current major development plans in <code>MSnbase</code>.</p>
 </div>
-<div id="introduction" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction</h1>
-<p>This document is not a replacement for the individual manual pages, that document the slots of the <em><a href="https://bioconductor.org/packages/3.14/MSnbase" class="external-link">MSnbase</a></em> classes. It is a centralised high-level description of the package design.</p>
-<p><em><a href="https://bioconductor.org/packages/3.14/MSnbase" class="external-link">MSnbase</a></em> aims at being compatible with the <em><a href="https://bioconductor.org/packages/3.14/Biobase" class="external-link">Biobase</a></em> infrastructure <span class="citation">(Gentleman et al. 2004)</span>. Many meta data structures that are used in <code>eSet</code> and associated classes are also used here. As such, knowledge of the <em>Biobase development and the new eSet</em> vignette would be beneficial; the vignette can directly be accessed with <code><a href="https://cran.rstudio.com/web/packages/Biobase/vignettes/BiobaseDevelopment.pdf" class="external-link">vignette("BiobaseDevelopment", package="Biobase")</a></code>.</p>
-<p>The initial goal is to use the <em><a href="https://bioconductor.org/packages/3.14/MSnbase" class="external-link">MSnbase</a></em> infrastructure for MS2 labelled (iTRAQ <span class="citation">(Ross et al. 2004)</span> and TMT <span class="citation">(Thompson et al. 2003)</span>) and label-free (spectral counting, index and abundance) quantitation - see the documentation for the <code>quantify</code> function for details. The infrastructure is currently extended to support a wider range of technologies, including metabolomics.</p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>This document is not a replacement for the individual manual pages,
+that document the slots of the <em><a href="https://bioconductor.org/packages/3.16/MSnbase" class="external-link">MSnbase</a></em>
+classes. It is a centralised high-level description of the package
+design.</p>
+<p><em><a href="https://bioconductor.org/packages/3.16/MSnbase" class="external-link">MSnbase</a></em>
+aims at being compatible with the <em><a href="https://bioconductor.org/packages/3.16/Biobase" class="external-link">Biobase</a></em>
+infrastructure <span class="citation">(Gentleman et al. 2004)</span>.
+Many meta data structures that are used in <code>eSet</code> and
+associated classes are also used here. As such, knowledge of the
+<em>Biobase development and the new eSet</em> vignette would be
+beneficial; the vignette can directly be accessed with
+<code><a href="https://bioconductor.org/packages/release/bioc/vignettes/Biobase/inst/doc/BiobaseDevelopment.pdf" class="external-link">vignette("BiobaseDevelopment", package="Biobase")</a></code>.</p>
+<p>The initial goal is to use the <em><a href="https://bioconductor.org/packages/3.16/MSnbase" class="external-link">MSnbase</a></em>
+infrastructure for MS2 labelled (iTRAQ <span class="citation">(Ross et
+al. 2004)</span> and TMT <span class="citation">(Thompson et al.
+2003)</span>) and label-free (spectral counting, index and abundance)
+quantitation - see the documentation for the <code>quantify</code>
+function for details. The infrastructure is currently extended to
+support a wider range of technologies, including metabolomics.</p>
 </div>
-<div id="coding-style" class="section level1">
-<h1 class="hasAnchor">
-<a href="#coding-style" class="anchor" aria-hidden="true"></a>Coding style</h1>
-<p><code>MSnbase</code> follows the <a href="https://bioconductor.org/developers/how-to/coding-style/" class="external-link">Bioconductor style guide</a>. In particular</p>
+<div class="section level2">
+<h2 id="coding-style">Coding style<a class="anchor" aria-label="anchor" href="#coding-style"></a>
+</h2>
+<p><code>MSnbase</code> follows the <a href="https://bioconductor.org/developers/how-to/coding-style/" class="external-link">Bioconductor
+style guide</a>. In particular</p>
 <ul>
 <li>Do not use <code>.</code> when naming symbols.</li>
-<li>A leading <code>.</code> can be used for hidden/local functions or variables.</li>
-<li>Snake case should be restricted to internal functions. For consistency, we favour camel case for public functions.</li>
-<li>Class names should start with a capital and each class should posses a constructor with identical name. Running the constructor without any input should produce a valid empty object.</li>
+<li>A leading <code>.</code> can be used for hidden/local functions or
+variables.</li>
+<li>Snake case should be restricted to internal functions. For
+consistency, we favour camel case for public functions.</li>
+<li>Class names should start with a capital and each class should posses
+a constructor with identical name. Running the constructor without any
+input should produce a valid empty object.</li>
 <li>Use <code>##</code> to start full-line comments.</li>
-<li>For roxygen headers <code>#'</code> is preferred, although <code>##'</code> is tolerated.</li>
-<li>Use spaces between <code>=</code> in function arguments or class definition: <code>f(a = 1, b = 2)</code>.</li>
+<li>For roxygen headers <code>#'</code> is preferred, although
+<code>##'</code> is tolerated.</li>
+<li>Use spaces between <code>=</code> in function arguments or class
+definition: <code>f(a = 1, b = 2)</code>.</li>
 <li>Always use a space after a comma: <code>a, b, c</code>.</li>
 <li>Always use spaces around binary operators: <code>a + b</code>.</li>
-<li>Lines should be kept shorter than 80 characters. For example the following code isn’t accepted</li>
+<li>Lines should be kept shorter than 80 characters. For example the
+following code isn’t accepted</li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># no wrap at 80</span>
-<span class="va">someVeryLongVariableName</span> <span class="op">&lt;-</span> <span class="fu">someVeryLongFunctionName</span><span class="op">(</span>withSomeEvenLongerFunctionArgumentA <span class="op">=</span> <span class="fl">1</span>, withSomeEvenLongerFunctionArgumentB <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># no wrap at 80</span></span>
+<span><span class="va">someVeryLongVariableName</span> <span class="op">&lt;-</span> <span class="fu">someVeryLongFunctionName</span><span class="op">(</span>withSomeEvenLongerFunctionArgumentA <span class="op">=</span> <span class="fl">1</span>, withSomeEvenLongerFunctionArgumentB <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p>and should be wrapped as shown below:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># alternative 1</span>
-<span class="va">someVeryLongVariableName</span> <span class="op">&lt;-</span>
-    <span class="fu">someVeryLongFunctionName</span><span class="op">(</span>withSomeEvenLongerFunctionArgumentA <span class="op">=</span> <span class="fl">1</span>,
-                             withSomeEvenLongerFunctionArgumentB <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-
-<span class="co"># alternative 2</span>
-<span class="va">someVeryLongVariableName</span> <span class="op">&lt;-</span> <span class="fu">someVeryLongFunctionName</span><span class="op">(</span>
-    withSomeEvenLongerFunctionArgumentA <span class="op">=</span> <span class="fl">1</span>,
-    withSomeEvenLongerFunctionArgumentB <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># alternative 1</span></span>
+<span><span class="va">someVeryLongVariableName</span> <span class="op">&lt;-</span></span>
+<span>    <span class="fu">someVeryLongFunctionName</span><span class="op">(</span>withSomeEvenLongerFunctionArgumentA <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                             withSomeEvenLongerFunctionArgumentB <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># alternative 2</span></span>
+<span><span class="va">someVeryLongVariableName</span> <span class="op">&lt;-</span> <span class="fu">someVeryLongFunctionName</span><span class="op">(</span></span>
+<span>    withSomeEvenLongerFunctionArgumentA <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>    withSomeEvenLongerFunctionArgumentB <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="msnbase-classes" class="section level1">
-<h1 class="hasAnchor">
-<a href="#msnbase-classes" class="anchor" aria-hidden="true"></a><em><a href="https://bioconductor.org/packages/3.14/MSnbase" class="external-link">MSnbase</a></em> classes</h1>
-<p>All classes have a <code>.__classVersion__</code> slot, of class <code>Versioned</code> from the <em><a href="https://bioconductor.org/packages/3.14/Biobase" class="external-link">Biobase</a></em> package. This slot documents the class version for any instance to be used for debugging and object update purposes. Any change in a class implementation should trigger a version change.</p>
-<div id="pset-a-virtual-class-for-raw-mass-spectrometry-data-and-meta-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#pset-a-virtual-class-for-raw-mass-spectrometry-data-and-meta-data" class="anchor" aria-hidden="true"></a><code>pSet</code>: a virtual class for raw mass spectrometry data and meta data</h2>
-<p>This virtual class is the main container for mass spectrometry data, i.e spectra, and meta data. It is based on the <code>eSet</code> implementation for genomic data. The main difference with <code>eSet</code> is that the <code>assayData</code> slot is an environment containing any number of <code>Spectrum</code> instances (see the <a href="#Spectrum"><code>Spectrum</code> section</a>).</p>
-<p>One new slot is introduced, namely <code>processingData</code>, that contains one <code>MSnProcess</code> instance (see the <a href="#MSnProcess"><code>MSnProcess</code> section</a>). and the <code>experimentData</code> slot is now expected to contain <code>MIAPE</code> data. The <code>annotation</code> slot has not been implemented, as no prior feature annotation is known in shotgun proteomics.</p>
+<div class="section level2">
+<h2 id="msnbase-classes">
+<em><a href="https://bioconductor.org/packages/3.16/MSnbase" class="external-link">MSnbase</a></em>
+classes<a class="anchor" aria-label="anchor" href="#msnbase-classes"></a>
+</h2>
+<p>All classes have a <code>.__classVersion__</code> slot, of class
+<code>Versioned</code> from the <em><a href="https://bioconductor.org/packages/3.16/Biobase" class="external-link">Biobase</a></em>
+package. This slot documents the class version for any instance to be
+used for debugging and object update purposes. Any change in a class
+implementation should trigger a version change.</p>
+<div class="section level3">
+<h3 id="pset-a-virtual-class-for-raw-mass-spectrometry-data-and-meta-data">
+<code>pSet</code>: a virtual class for raw mass spectrometry data
+and meta data<a class="anchor" aria-label="anchor" href="#pset-a-virtual-class-for-raw-mass-spectrometry-data-and-meta-data"></a>
+</h3>
+<p>This virtual class is the main container for mass spectrometry data,
+i.e spectra, and meta data. It is based on the <code>eSet</code>
+implementation for genomic data. The main difference with
+<code>eSet</code> is that the <code>assayData</code> slot is an
+environment containing any number of <code>Spectrum</code> instances
+(see the <a href="#Spectrum"><code>Spectrum</code> section</a>).</p>
+<p>One new slot is introduced, namely <code>processingData</code>, that
+contains one <code>MSnProcess</code> instance (see the <a href="#MSnProcess"><code>MSnProcess</code> section</a>). and the
+<code>experimentData</code> slot is now expected to contain
+<code>MIAPE</code> data. The <code>annotation</code> slot has not been
+implemented, as no prior feature annotation is known in shotgun
+proteomics.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"pSet"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Virtual Class "pSet" [package "MSnbase"]
-## 
-## Slots:
-##                                                                
-## Name:           assayData          phenoData        featureData
-## Class:        environment AnnotatedDataFrame AnnotatedDataFrame
-##                                                                
-## Name:      experimentData       protocolData     processingData
-## Class:              MIAxE AnnotatedDataFrame         MSnProcess
-##                                             
-## Name:              .cache  .__classVersion__
-## Class:        environment           Versions
-## 
-## Extends: "Versioned"
-## 
-## Known Subclasses: 
-## Class "MSnExp", directly
-## Class "OnDiskMSnExp", by class "MSnExp", distance 2, with explicit coerce</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"pSet"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Virtual Class "pSet" [package "MSnbase"]</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Slots:</span></span>
+<span><span class="co">##                                                                </span></span>
+<span><span class="co">## Name:           assayData          phenoData        featureData</span></span>
+<span><span class="co">## Class:        environment AnnotatedDataFrame AnnotatedDataFrame</span></span>
+<span><span class="co">##                                                                </span></span>
+<span><span class="co">## Name:      experimentData       protocolData     processingData</span></span>
+<span><span class="co">## Class:              MIAxE AnnotatedDataFrame         MSnProcess</span></span>
+<span><span class="co">##                                             </span></span>
+<span><span class="co">## Name:              .cache  .__classVersion__</span></span>
+<span><span class="co">## Class:        environment           Versions</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Extends: "Versioned"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Known Subclasses: </span></span>
+<span><span class="co">## Class "MSnExp", directly</span></span>
+<span><span class="co">## Class "OnDiskMSnExp", by class "MSnExp", distance 2, with explicit coerce</span></span></code></pre>
 </div>
-<div id="msnexp-a-class-for-ms-experiments" class="section level2">
-<h2 class="hasAnchor">
-<a href="#msnexp-a-class-for-ms-experiments" class="anchor" aria-hidden="true"></a><code>MSnExp</code>: a class for MS experiments</h2>
-<p><code>MSnExp</code> extends <code>pSet</code> to store MS experiments. It does not add any new slots to <code>pSet</code>. Accessors and setters are all inherited from <code>pSet</code> and new ones should be implemented for <code>pSet</code>. Methods that manipulate actual data in experiments are implemented for <code>MSnExp</code> objects.</p>
+<div class="section level3">
+<h3 id="msnexp-a-class-for-ms-experiments">
+<code>MSnExp</code>: a class for MS experiments<a class="anchor" aria-label="anchor" href="#msnexp-a-class-for-ms-experiments"></a>
+</h3>
+<p><code>MSnExp</code> extends <code>pSet</code> to store MS
+experiments. It does not add any new slots to <code>pSet</code>.
+Accessors and setters are all inherited from <code>pSet</code> and new
+ones should be implemented for <code>pSet</code>. Methods that
+manipulate actual data in experiments are implemented for
+<code>MSnExp</code> objects.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MSnExp"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Class "MSnExp" [package "MSnbase"]
-## 
-## Slots:
-##                                                                
-## Name:           assayData          phenoData        featureData
-## Class:        environment AnnotatedDataFrame AnnotatedDataFrame
-##                                                                
-## Name:      experimentData       protocolData     processingData
-## Class:              MIAxE AnnotatedDataFrame         MSnProcess
-##                                             
-## Name:              .cache  .__classVersion__
-## Class:        environment           Versions
-## 
-## Extends: 
-## Class "pSet", directly
-## Class "Versioned", by class "pSet", distance 2
-## 
-## Known Subclasses: 
-## Class "OnDiskMSnExp", directly, with explicit coerce</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MSnExp"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Class "MSnExp" [package "MSnbase"]</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Slots:</span></span>
+<span><span class="co">##                                                                </span></span>
+<span><span class="co">## Name:           assayData          phenoData        featureData</span></span>
+<span><span class="co">## Class:        environment AnnotatedDataFrame AnnotatedDataFrame</span></span>
+<span><span class="co">##                                                                </span></span>
+<span><span class="co">## Name:      experimentData       protocolData     processingData</span></span>
+<span><span class="co">## Class:              MIAxE AnnotatedDataFrame         MSnProcess</span></span>
+<span><span class="co">##                                             </span></span>
+<span><span class="co">## Name:              .cache  .__classVersion__</span></span>
+<span><span class="co">## Class:        environment           Versions</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Extends: </span></span>
+<span><span class="co">## Class "pSet", directly</span></span>
+<span><span class="co">## Class "Versioned", by class "pSet", distance 2</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Known Subclasses: </span></span>
+<span><span class="co">## Class "OnDiskMSnExp", directly, with explicit coerce</span></span></code></pre>
 </div>
-<div id="ondiskmsnexp-a-on-disk-implementation-of-the-msnexp-class" class="section level2">
-<h2 class="hasAnchor">
-<a href="#ondiskmsnexp-a-on-disk-implementation-of-the-msnexp-class" class="anchor" aria-hidden="true"></a><code>OnDiskMSnExp</code>: a on-disk implementation of the <code>MSnExp</code> class</h2>
-<p>The <code>OnDiskMSnExp</code> class extends <code>MSnExp</code> and inherits all of its functionality but is aimed to use as little memory as possible based on a balance between memory demand and performance. Most of the spectrum-specific data, like retention time, polarity, total ion current are stored within the object’s <code>featureData</code> slot. The actual M/Z and intensity values from the individual spectra are, in contrast to <code>MSnExp</code> objects, not kept in memory (in the <code>assayData</code> slot), but are fetched from the original files on-demand. Because mzML files are indexed, using the <em><a href="https://bioconductor.org/packages/3.14/mzR" class="external-link">mzR</a></em> package to read the relevant spectrum data is fast and only moderately slower than for in-memory <code>MSnExp</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
-<p>To keep track of data manipulation steps that are applied to spectrum data (such as performed by methods <code>removePeaks</code> or <code>clean</code>) a <em>lazy execution</em> framework was implemented. Methods that manipulate or subset a spectrum’s M/Z or intensity values can not be applied directly to a <code>OnDiskMSnExp</code> object, since the relevant data is not kept in memory. Thus, any call to a processing method that changes or subset M/Z or intensity values are added as <code>ProcessingStep</code> items to the object’s <code>spectraProcessingQueue</code>. When the spectrum data is then queried from an <code>OnDiskMSnExp</code>, the spectra are read in from the file and all these processing steps are applied on-the-fly to the spectrum data before being returned to the user.</p>
-<p>The operations involving extracting or manipulating spectrum data are applied on a per-file basis, which enables parallel processing. Thus, all corresponding method implementations for <code>OnDiskMSnExp</code> objects have an argument <code>BPPARAM</code> and users can set a <code>PARALLEL_THRESH</code> option flag<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> that enables to define how and when parallel processing should be performed (using the <em><a href="https://bioconductor.org/packages/3.14/BiocParallel" class="external-link">BiocParallel</a></em> package).</p>
-<p>Note that all data manipulations that are not applied to M/Z or intensity values of a spectrum (e.g. sub-setting by retention time etc) are very fast as they operate directly to the object’s <code>featureData</code> slot.</p>
+<div class="section level3">
+<h3 id="ondiskmsnexp-a-on-disk-implementation-of-the-msnexp-class">
+<code>OnDiskMSnExp</code>: a on-disk implementation of the
+<code>MSnExp</code> class<a class="anchor" aria-label="anchor" href="#ondiskmsnexp-a-on-disk-implementation-of-the-msnexp-class"></a>
+</h3>
+<p>The <code>OnDiskMSnExp</code> class extends <code>MSnExp</code> and
+inherits all of its functionality but is aimed to use as little memory
+as possible based on a balance between memory demand and performance.
+Most of the spectrum-specific data, like retention time, polarity, total
+ion current are stored within the object’s <code>featureData</code>
+slot. The actual M/Z and intensity values from the individual spectra
+are, in contrast to <code>MSnExp</code> objects, not kept in memory (in
+the <code>assayData</code> slot), but are fetched from the original
+files on-demand. Because mzML files are indexed, using the <em><a href="https://bioconductor.org/packages/3.16/mzR" class="external-link">mzR</a></em> package
+to read the relevant spectrum data is fast and only moderately slower
+than for in-memory <code>MSnExp</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<p>To keep track of data manipulation steps that are applied to spectrum
+data (such as performed by methods <code>removePeaks</code> or
+<code>clean</code>) a <em>lazy execution</em> framework was implemented.
+Methods that manipulate or subset a spectrum’s M/Z or intensity values
+can not be applied directly to a <code>OnDiskMSnExp</code> object, since
+the relevant data is not kept in memory. Thus, any call to a processing
+method that changes or subset M/Z or intensity values are added as
+<code>ProcessingStep</code> items to the object’s
+<code>spectraProcessingQueue</code>. When the spectrum data is then
+queried from an <code>OnDiskMSnExp</code>, the spectra are read in from
+the file and all these processing steps are applied on-the-fly to the
+spectrum data before being returned to the user.</p>
+<p>The operations involving extracting or manipulating spectrum data are
+applied on a per-file basis, which enables parallel processing. Thus,
+all corresponding method implementations for <code>OnDiskMSnExp</code>
+objects have an argument <code>BPPARAM</code> and users can set a
+<code>PARALLEL_THRESH</code> option flag<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> that enables to define
+how and when parallel processing should be performed (using the <em><a href="https://bioconductor.org/packages/3.16/BiocParallel" class="external-link">BiocParallel</a></em>
+package).</p>
+<p>Note that all data manipulations that are not applied to M/Z or
+intensity values of a spectrum (e.g. sub-setting by retention time etc)
+are very fast as they operate directly to the object’s
+<code>featureData</code> slot.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"OnDiskMSnExp"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Class "OnDiskMSnExp" [package "MSnbase"]
-## 
-## Slots:
-##                                                                            
-## Name:  spectraProcessingQueue                backend              assayData
-## Class:                   list              character            environment
-##                                                                            
-## Name:               phenoData            featureData         experimentData
-## Class:     AnnotatedDataFrame     AnnotatedDataFrame                  MIAxE
-##                                                                            
-## Name:            protocolData         processingData                 .cache
-## Class:     AnnotatedDataFrame             MSnProcess            environment
-##                              
-## Name:       .__classVersion__
-## Class:               Versions
-## 
-## Extends: 
-## Class "MSnExp", directly
-## Class "pSet", by class "MSnExp", distance 2
-## Class "Versioned", by class "MSnExp", distance 3</code></pre>
-<p>The distinction between <code>MSnExp</code> and <code>OnDiskMSnExp</code> is often not explicitly stated as it should not matter, from a user’s perspective, which data structure they are working with, as both behave in equivalent ways. Often, they are referred to as <em>in-memory</em> and <em>on-disk</em> <code>MSnExp</code> implementations.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"OnDiskMSnExp"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Class "OnDiskMSnExp" [package "MSnbase"]</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Slots:</span></span>
+<span><span class="co">##                                                                            </span></span>
+<span><span class="co">## Name:  spectraProcessingQueue                backend              assayData</span></span>
+<span><span class="co">## Class:                   list              character            environment</span></span>
+<span><span class="co">##                                                                            </span></span>
+<span><span class="co">## Name:               phenoData            featureData         experimentData</span></span>
+<span><span class="co">## Class:     AnnotatedDataFrame     AnnotatedDataFrame                  MIAxE</span></span>
+<span><span class="co">##                                                                            </span></span>
+<span><span class="co">## Name:            protocolData         processingData                 .cache</span></span>
+<span><span class="co">## Class:     AnnotatedDataFrame             MSnProcess            environment</span></span>
+<span><span class="co">##                              </span></span>
+<span><span class="co">## Name:       .__classVersion__</span></span>
+<span><span class="co">## Class:               Versions</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Extends: </span></span>
+<span><span class="co">## Class "MSnExp", directly</span></span>
+<span><span class="co">## Class "pSet", by class "MSnExp", distance 2</span></span>
+<span><span class="co">## Class "Versioned", by class "MSnExp", distance 3</span></span></code></pre>
+<p>The distinction between <code>MSnExp</code> and
+<code>OnDiskMSnExp</code> is often not explicitly stated as it should
+not matter, from a user’s perspective, which data structure they are
+working with, as both behave in equivalent ways. Often, they are
+referred to as <em>in-memory</em> and <em>on-disk</em>
+<code>MSnExp</code> implementations.</p>
 </div>
-<div id="msnset-a-class-for-quantitative-proteomics-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#msnset-a-class-for-quantitative-proteomics-data" class="anchor" aria-hidden="true"></a><code>MSnSet</code>: a class for quantitative proteomics data</h2>
-<p>This class stores quantitation data and meta data after running <code>quantify</code> on an <code>MSnExp</code> object or by creating an <code>MSnSet</code> instance from an external file, as described in the <em>MSnbase-io</em> vignette and in <code><a href="../reference/readMSnSet.html">?readMSnSet</a></code>, <code>readMzTabData</code>, etc. The quantitative data is in form of a <em>n</em> by <em>p</em> matrix, where <em>n</em> is the number of features/spectra originally in the <code>MSnExp</code> used as parameter in <code>quantify</code> and <em>p</em> is the number of reporter ions. If read from an external file, <em>n</em> corresponds to the number of features (protein groups, proteins, peptides, spectra) in the file and <span class="math inline">\(p\)</span> is the number of columns with quantitative data (samples) in the file.</p>
-<p>This prompted to keep a similar implementation as the <code>ExpressionSet</code> class, while adding the proteomics-specific annotation slot introduced in the <code>pSet</code> class, namely <code>processingData</code> for objects of class <code>MSnProcess</code>.</p>
+<div class="section level3">
+<h3 id="msnset-a-class-for-quantitative-proteomics-data">
+<code>MSnSet</code>: a class for quantitative proteomics data<a class="anchor" aria-label="anchor" href="#msnset-a-class-for-quantitative-proteomics-data"></a>
+</h3>
+<p>This class stores quantitation data and meta data after running
+<code>quantify</code> on an <code>MSnExp</code> object or by creating an
+<code>MSnSet</code> instance from an external file, as described in the
+<em>MSnbase-io</em> vignette and in <code><a href="../reference/readMSnSet.html">?readMSnSet</a></code>,
+<code>readMzTabData</code>, etc. The quantitative data is in form of a
+<em>n</em> by <em>p</em> matrix, where <em>n</em> is the number of
+features/spectra originally in the <code>MSnExp</code> used as parameter
+in <code>quantify</code> and <em>p</em> is the number of reporter ions.
+If read from an external file, <em>n</em> corresponds to the number of
+features (protein groups, proteins, peptides, spectra) in the file and
+<span class="math inline">\(p\)</span> is the number of columns with
+quantitative data (samples) in the file.</p>
+<p>This prompted to keep a similar implementation as the
+<code>ExpressionSet</code> class, while adding the proteomics-specific
+annotation slot introduced in the <code>pSet</code> class, namely
+<code>processingData</code> for objects of class
+<code>MSnProcess</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MSnSet"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Class "MSnSet" [package "MSnbase"]
-## 
-## Slots:
-##                                                                
-## Name:      experimentData     processingData               qual
-## Class:              MIAPE         MSnProcess         data.frame
-##                                                                
-## Name:           assayData          phenoData        featureData
-## Class:          AssayData AnnotatedDataFrame AnnotatedDataFrame
-##                                                                
-## Name:          annotation       protocolData  .__classVersion__
-## Class:          character AnnotatedDataFrame           Versions
-## 
-## Extends: 
-## Class "eSet", directly
-## Class "VersionedBiobase", by class "eSet", distance 2
-## Class "Versioned", by class "eSet", distance 3</code></pre>
-<p>The <code>MSnSet</code> class extends the virtual <code>eSet</code> class to provide compatibility for <code>ExpressionSet</code>-like behaviour. The experiment meta-data in <code>experimentData</code> is also of class <code>MIAPE</code> . The <code>annotation</code> slot, inherited from <code>eSet</code> is not used. As a result, it is easy to convert <code>ExpressionSet</code> data from/to <code>MSnSet</code> objects with the coersion method <code>as</code>.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MSnSet"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Class "MSnSet" [package "MSnbase"]</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Slots:</span></span>
+<span><span class="co">##                                                                </span></span>
+<span><span class="co">## Name:      experimentData     processingData               qual</span></span>
+<span><span class="co">## Class:              MIAPE         MSnProcess         data.frame</span></span>
+<span><span class="co">##                                                                </span></span>
+<span><span class="co">## Name:           assayData          phenoData        featureData</span></span>
+<span><span class="co">## Class:          AssayData AnnotatedDataFrame AnnotatedDataFrame</span></span>
+<span><span class="co">##                                                                </span></span>
+<span><span class="co">## Name:          annotation       protocolData  .__classVersion__</span></span>
+<span><span class="co">## Class:          character AnnotatedDataFrame           Versions</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Extends: </span></span>
+<span><span class="co">## Class "eSet", directly</span></span>
+<span><span class="co">## Class "VersionedBiobase", by class "eSet", distance 2</span></span>
+<span><span class="co">## Class "Versioned", by class "eSet", distance 3</span></span></code></pre>
+<p>The <code>MSnSet</code> class extends the virtual <code>eSet</code>
+class to provide compatibility for <code>ExpressionSet</code>-like
+behaviour. The experiment meta-data in <code>experimentData</code> is
+also of class <code>MIAPE</code> . The <code>annotation</code> slot,
+inherited from <code>eSet</code> is not used. As a result, it is easy to
+convert <code>ExpressionSet</code> data from/to <code>MSnSet</code>
+objects with the coersion method <code>as</code>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">msnset</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">msnset</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "MSnSet"
-## attr(,"package")
-## [1] "MSnbase"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">msnset</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">msnset</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "MSnSet"</span></span>
+<span><span class="co">## attr(,"package")</span></span>
+<span><span class="co">## [1] "MSnbase"</span></span></code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="fu"><a href="../reference/mzRident2dfr.html">as</a></span><span class="op">(</span><span class="va">msnset</span>, <span class="st">"ExpressionSet"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "ExpressionSet"
-## attr(,"package")
-## [1] "Biobase"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="fu"><a href="../reference/mzRident2dfr.html">as</a></span><span class="op">(</span><span class="va">msnset</span>, <span class="st">"ExpressionSet"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "ExpressionSet"</span></span>
+<span><span class="co">## attr(,"package")</span></span>
+<span><span class="co">## [1] "Biobase"</span></span></code></pre>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sample.ExpressionSet</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">sample.ExpressionSet</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "ExpressionSet"
-## attr(,"package")
-## [1] "Biobase"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sample.ExpressionSet</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">sample.ExpressionSet</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "ExpressionSet"</span></span>
+<span><span class="co">## attr(,"package")</span></span>
+<span><span class="co">## [1] "Biobase"</span></span></code></pre>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="fu"><a href="../reference/mzRident2dfr.html">as</a></span><span class="op">(</span><span class="va">sample.ExpressionSet</span>, <span class="st">"MSnSet"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "MSnSet"
-## attr(,"package")
-## [1] "MSnbase"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="fu"><a href="../reference/mzRident2dfr.html">as</a></span><span class="op">(</span><span class="va">sample.ExpressionSet</span>, <span class="st">"MSnSet"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "MSnSet"</span></span>
+<span><span class="co">## attr(,"package")</span></span>
+<span><span class="co">## [1] "MSnbase"</span></span></code></pre>
 </div>
-<div id="MSnProcess" class="section level2">
-<h2 class="hasAnchor">
-<a href="#MSnProcess" class="anchor" aria-hidden="true"></a><code>MSnProcess</code>: a class for logging processing meta data</h2>
-<p>This class aims at recording specific manipulations applied to <code>MSnExp</code> or <code>MSnSet</code> instances. The <code>processing</code> slot is a <code>character</code> vector that describes major processing. Most other slots are of class <code>logical</code> that indicate whether the data has been centroided, smoothed,  although many of the functionality is not implemented yet. Any new processing that is implemented should be documented and logged here.</p>
-<p>It also documents the raw data file from which the data originates (<code>files</code> slot) and the <em><a href="https://bioconductor.org/packages/3.14/MSnbase" class="external-link">MSnbase</a></em> version that was in use when the <code>MSnProcess</code> instance, and hence the <code>MSnExp</code>/<code>MSnSet</code> objects, were originally created.</p>
+<div class="section level3">
+<h3 id="MSnProcess">
+<code>MSnProcess</code>: a class for logging processing meta
+data<a class="anchor" aria-label="anchor" href="#MSnProcess"></a>
+</h3>
+<p>This class aims at recording specific manipulations applied to
+<code>MSnExp</code> or <code>MSnSet</code> instances. The
+<code>processing</code> slot is a <code>character</code> vector that
+describes major processing. Most other slots are of class
+<code>logical</code> that indicate whether the data has been centroided,
+smoothed, although many of the functionality is not implemented yet. Any
+new processing that is implemented should be documented and logged
+here.</p>
+<p>It also documents the raw data file from which the data originates
+(<code>files</code> slot) and the <em><a href="https://bioconductor.org/packages/3.16/MSnbase" class="external-link">MSnbase</a></em>
+version that was in use when the <code>MSnProcess</code> instance, and
+hence the <code>MSnExp</code>/<code>MSnSet</code> objects, were
+originally created.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MSnProcess"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Class "MSnProcess" [package "MSnbase"]
-## 
-## Slots:
-##                                                                               
-## Name:              files        processing            merged           cleaned
-## Class:         character         character           logical           logical
-##                                                                               
-## Name:       removedPeaks          smoothed           trimmed        normalised
-## Class:         character           logical           numeric           logical
-##                                           
-## Name:     MSnbaseVersion .__classVersion__
-## Class:         character          Versions
-## 
-## Extends: "Versioned"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MSnProcess"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Class "MSnProcess" [package "MSnbase"]</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Slots:</span></span>
+<span><span class="co">##                                                                               </span></span>
+<span><span class="co">## Name:              files        processing            merged           cleaned</span></span>
+<span><span class="co">## Class:         character         character           logical           logical</span></span>
+<span><span class="co">##                                                                               </span></span>
+<span><span class="co">## Name:       removedPeaks          smoothed           trimmed        normalised</span></span>
+<span><span class="co">## Class:         character           logical           numeric           logical</span></span>
+<span><span class="co">##                                           </span></span>
+<span><span class="co">## Name:     MSnbaseVersion .__classVersion__</span></span>
+<span><span class="co">## Class:         character          Versions</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Extends: "Versioned"</span></span></code></pre>
 </div>
-<div id="miape-minimum-information-about-a-proteomics-experiment" class="section level2">
-<h2 class="hasAnchor">
-<a href="#miape-minimum-information-about-a-proteomics-experiment" class="anchor" aria-hidden="true"></a><code>MIAPE</code>: Minimum Information About a Proteomics Experiment</h2>
-<p>The Minimum Information About a Proteomics Experiment <span class="citation">(Chris F. Taylor et al. 2007; Chris F. Taylor et al. 2008)</span> <code>MIAPE</code> class describes the experiment, including contact details, information about the mass spectrometer and control and analysis software.</p>
+<div class="section level3">
+<h3 id="miape-minimum-information-about-a-proteomics-experiment">
+<code>MIAPE</code>: Minimum Information About a Proteomics
+Experiment<a class="anchor" aria-label="anchor" href="#miape-minimum-information-about-a-proteomics-experiment"></a>
+</h3>
+<p>The Minimum Information About a Proteomics Experiment <span class="citation">(Chris F. Taylor et al. 2007; Chris F. Taylor et al.
+2008)</span> <code>MIAPE</code> class describes the experiment,
+including contact details, information about the mass spectrometer and
+control and analysis software.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MIAPE"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Class "MIAPE" [package "MSnbase"]
-## 
-## Slots:
-##                                                         
-## Name:                     title                      url
-## Class:                character                character
-##                                                         
-## Name:                  abstract                pubMedIds
-## Class:                character                character
-##                                                         
-## Name:                   samples            preprocessing
-## Class:                     list                     list
-##                                                         
-## Name:                     other                dateStamp
-## Class:                     list                character
-##                                                         
-## Name:                      name                      lab
-## Class:                character                character
-##                                                         
-## Name:                   contact                    email
-## Class:                character                character
-##                                                         
-## Name:           instrumentModel   instrumentManufacturer
-## Class:                character                character
-##                                                         
-## Name:  instrumentCustomisations             softwareName
-## Class:                character                character
-##                                                         
-## Name:           softwareVersion        switchingCriteria
-## Class:                character                character
-##                                                         
-## Name:            isolationWidth            parameterFile
-## Class:                  numeric                character
-##                                                         
-## Name:                 ionSource         ionSourceDetails
-## Class:                character                character
-##                                                         
-## Name:                  analyser          analyserDetails
-## Class:                character                character
-##                                                         
-## Name:              collisionGas        collisionPressure
-## Class:                character                  numeric
-##                                                         
-## Name:           collisionEnergy             detectorType
-## Class:                character                character
-##                                                         
-## Name:       detectorSensitivity        .__classVersion__
-## Class:                character                 Versions
-## 
-## Extends: 
-## Class "MIAxE", directly
-## Class "Versioned", by class "MIAxE", distance 2</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MIAPE"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Class "MIAPE" [package "MSnbase"]</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Slots:</span></span>
+<span><span class="co">##                                                         </span></span>
+<span><span class="co">## Name:                     title                      url</span></span>
+<span><span class="co">## Class:                character                character</span></span>
+<span><span class="co">##                                                         </span></span>
+<span><span class="co">## Name:                  abstract                pubMedIds</span></span>
+<span><span class="co">## Class:                character                character</span></span>
+<span><span class="co">##                                                         </span></span>
+<span><span class="co">## Name:                   samples            preprocessing</span></span>
+<span><span class="co">## Class:                     list                     list</span></span>
+<span><span class="co">##                                                         </span></span>
+<span><span class="co">## Name:                     other                dateStamp</span></span>
+<span><span class="co">## Class:                     list                character</span></span>
+<span><span class="co">##                                                         </span></span>
+<span><span class="co">## Name:                      name                      lab</span></span>
+<span><span class="co">## Class:                character                character</span></span>
+<span><span class="co">##                                                         </span></span>
+<span><span class="co">## Name:                   contact                    email</span></span>
+<span><span class="co">## Class:                character                character</span></span>
+<span><span class="co">##                                                         </span></span>
+<span><span class="co">## Name:           instrumentModel   instrumentManufacturer</span></span>
+<span><span class="co">## Class:                character                character</span></span>
+<span><span class="co">##                                                         </span></span>
+<span><span class="co">## Name:  instrumentCustomisations             softwareName</span></span>
+<span><span class="co">## Class:                character                character</span></span>
+<span><span class="co">##                                                         </span></span>
+<span><span class="co">## Name:           softwareVersion        switchingCriteria</span></span>
+<span><span class="co">## Class:                character                character</span></span>
+<span><span class="co">##                                                         </span></span>
+<span><span class="co">## Name:            isolationWidth            parameterFile</span></span>
+<span><span class="co">## Class:                  numeric                character</span></span>
+<span><span class="co">##                                                         </span></span>
+<span><span class="co">## Name:                 ionSource         ionSourceDetails</span></span>
+<span><span class="co">## Class:                character                character</span></span>
+<span><span class="co">##                                                         </span></span>
+<span><span class="co">## Name:                  analyser          analyserDetails</span></span>
+<span><span class="co">## Class:                character                character</span></span>
+<span><span class="co">##                                                         </span></span>
+<span><span class="co">## Name:              collisionGas        collisionPressure</span></span>
+<span><span class="co">## Class:                character                  numeric</span></span>
+<span><span class="co">##                                                         </span></span>
+<span><span class="co">## Name:           collisionEnergy             detectorType</span></span>
+<span><span class="co">## Class:                character                character</span></span>
+<span><span class="co">##                                                         </span></span>
+<span><span class="co">## Name:       detectorSensitivity        .__classVersion__</span></span>
+<span><span class="co">## Class:                character                 Versions</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Extends: </span></span>
+<span><span class="co">## Class "MIAxE", directly</span></span>
+<span><span class="co">## Class "Versioned", by class "MIAxE", distance 2</span></span></code></pre>
 </div>
-<div id="Spectum" class="section level2">
-<h2 class="hasAnchor">
-<a href="#Spectum" class="anchor" aria-hidden="true"></a><code>Spectrum</code> <em>et al.</em>: classes for MS spectra</h2>
-<p><code>Spectrum</code> is a virtual class that defines common attributes to all types of spectra. MS1 and MS2 specific attributes are defined in the <code>Spectrum1</code> and <code>Spectrum2</code> classes, that directly extend <code>Spectrum</code>.</p>
+<div class="section level3">
+<h3 id="Spectum">
+<code>Spectrum</code> <em>et al.</em>: classes for MS spectra<a class="anchor" aria-label="anchor" href="#Spectum"></a>
+</h3>
+<p><code>Spectrum</code> is a virtual class that defines common
+attributes to all types of spectra. MS1 and MS2 specific attributes are
+defined in the <code>Spectrum1</code> and <code>Spectrum2</code>
+classes, that directly extend <code>Spectrum</code>.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"Spectrum"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Virtual Class "Spectrum" [package "MSnbase"]
-## 
-## Slots:
-##                                                                               
-## Name:            msLevel        peaksCount                rt    acquisitionNum
-## Class:           integer           integer           numeric           integer
-##                                                                               
-## Name:          scanIndex               tic                mz         intensity
-## Class:           integer           numeric           numeric           numeric
-##                                                                               
-## Name:           fromFile        centroided          smoothed          polarity
-## Class:           integer           logical           logical           integer
-##                         
-## Name:  .__classVersion__
-## Class:          Versions
-## 
-## Extends: "Versioned"
-## 
-## Known Subclasses: "Spectrum2", "Spectrum1"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"Spectrum"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Virtual Class "Spectrum" [package "MSnbase"]</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Slots:</span></span>
+<span><span class="co">##                                                                               </span></span>
+<span><span class="co">## Name:            msLevel        peaksCount                rt    acquisitionNum</span></span>
+<span><span class="co">## Class:           integer           integer           numeric           integer</span></span>
+<span><span class="co">##                                                                               </span></span>
+<span><span class="co">## Name:          scanIndex               tic                mz         intensity</span></span>
+<span><span class="co">## Class:           integer           numeric           numeric           numeric</span></span>
+<span><span class="co">##                                                                               </span></span>
+<span><span class="co">## Name:           fromFile        centroided          smoothed          polarity</span></span>
+<span><span class="co">## Class:           integer           logical           logical           integer</span></span>
+<span><span class="co">##                         </span></span>
+<span><span class="co">## Name:  .__classVersion__</span></span>
+<span><span class="co">## Class:          Versions</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Extends: "Versioned"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Known Subclasses: "Spectrum2", "Spectrum1"</span></span></code></pre>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"Spectrum1"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Class "Spectrum1" [package "MSnbase"]
-## 
-## Slots:
-##                                                                               
-## Name:            msLevel        peaksCount                rt    acquisitionNum
-## Class:           integer           integer           numeric           integer
-##                                                                               
-## Name:          scanIndex               tic                mz         intensity
-## Class:           integer           numeric           numeric           numeric
-##                                                                               
-## Name:           fromFile        centroided          smoothed          polarity
-## Class:           integer           logical           logical           integer
-##                         
-## Name:  .__classVersion__
-## Class:          Versions
-## 
-## Extends: 
-## Class "Spectrum", directly
-## Class "Versioned", by class "Spectrum", distance 2</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"Spectrum1"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Class "Spectrum1" [package "MSnbase"]</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Slots:</span></span>
+<span><span class="co">##                                                                               </span></span>
+<span><span class="co">## Name:            msLevel        peaksCount                rt    acquisitionNum</span></span>
+<span><span class="co">## Class:           integer           integer           numeric           integer</span></span>
+<span><span class="co">##                                                                               </span></span>
+<span><span class="co">## Name:          scanIndex               tic                mz         intensity</span></span>
+<span><span class="co">## Class:           integer           numeric           numeric           numeric</span></span>
+<span><span class="co">##                                                                               </span></span>
+<span><span class="co">## Name:           fromFile        centroided          smoothed          polarity</span></span>
+<span><span class="co">## Class:           integer           logical           logical           integer</span></span>
+<span><span class="co">##                         </span></span>
+<span><span class="co">## Name:  .__classVersion__</span></span>
+<span><span class="co">## Class:          Versions</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Extends: </span></span>
+<span><span class="co">## Class "Spectrum", directly</span></span>
+<span><span class="co">## Class "Versioned", by class "Spectrum", distance 2</span></span></code></pre>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"Spectrum2"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Class "Spectrum2" [package "MSnbase"]
-## 
-## Slots:
-##                                                                
-## Name:              merged        precScanNum        precursorMz
-## Class:            numeric            integer            numeric
-##                                                                
-## Name:  precursorIntensity    precursorCharge    collisionEnergy
-## Class:            numeric            integer            numeric
-##                                                                
-## Name:             msLevel         peaksCount                 rt
-## Class:            integer            integer            numeric
-##                                                                
-## Name:      acquisitionNum          scanIndex                tic
-## Class:            integer            integer            numeric
-##                                                                
-## Name:                  mz          intensity           fromFile
-## Class:            numeric            numeric            integer
-##                                                                
-## Name:          centroided           smoothed           polarity
-## Class:            logical            logical            integer
-##                          
-## Name:   .__classVersion__
-## Class:           Versions
-## 
-## Extends: 
-## Class "Spectrum", directly
-## Class "Versioned", by class "Spectrum", distance 2</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"Spectrum2"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Class "Spectrum2" [package "MSnbase"]</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Slots:</span></span>
+<span><span class="co">##                                                                </span></span>
+<span><span class="co">## Name:              merged        precScanNum        precursorMz</span></span>
+<span><span class="co">## Class:            numeric            integer            numeric</span></span>
+<span><span class="co">##                                                                </span></span>
+<span><span class="co">## Name:  precursorIntensity    precursorCharge    collisionEnergy</span></span>
+<span><span class="co">## Class:            numeric            integer            numeric</span></span>
+<span><span class="co">##                                                                </span></span>
+<span><span class="co">## Name:             msLevel         peaksCount                 rt</span></span>
+<span><span class="co">## Class:            integer            integer            numeric</span></span>
+<span><span class="co">##                                                                </span></span>
+<span><span class="co">## Name:      acquisitionNum          scanIndex                tic</span></span>
+<span><span class="co">## Class:            integer            integer            numeric</span></span>
+<span><span class="co">##                                                                </span></span>
+<span><span class="co">## Name:                  mz          intensity           fromFile</span></span>
+<span><span class="co">## Class:            numeric            numeric            integer</span></span>
+<span><span class="co">##                                                                </span></span>
+<span><span class="co">## Name:          centroided           smoothed           polarity</span></span>
+<span><span class="co">## Class:            logical            logical            integer</span></span>
+<span><span class="co">##                          </span></span>
+<span><span class="co">## Name:   .__classVersion__</span></span>
+<span><span class="co">## Class:           Versions</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Extends: </span></span>
+<span><span class="co">## Class "Spectrum", directly</span></span>
+<span><span class="co">## Class "Versioned", by class "Spectrum", distance 2</span></span></code></pre>
 </div>
-<div id="reporterions-a-class-for-isobaric-tags" class="section level2">
-<h2 class="hasAnchor">
-<a href="#reporterions-a-class-for-isobaric-tags" class="anchor" aria-hidden="true"></a><code>ReporterIons</code>: a class for isobaric tags</h2>
-<p>The iTRAQ and TMT (or any other peak of interest) are implemented <code>ReporterIons</code> instances, that essentially defines an expected MZ position for the peak and a width around this value as well a names for the reporters.</p>
+<div class="section level3">
+<h3 id="reporterions-a-class-for-isobaric-tags">
+<code>ReporterIons</code>: a class for isobaric tags<a class="anchor" aria-label="anchor" href="#reporterions-a-class-for-isobaric-tags"></a>
+</h3>
+<p>The iTRAQ and TMT (or any other peak of interest) are implemented
+<code>ReporterIons</code> instances, that essentially defines an
+expected MZ position for the peak and a width around this value as well
+a names for the reporters.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"ReporterIons"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Class "ReporterIons" [package "MSnbase"]
-## 
-## Slots:
-##                                                                               
-## Name:               name     reporterNames       description                mz
-## Class:         character         character         character           numeric
-##                                                             
-## Name:                col             width .__classVersion__
-## Class:         character           numeric          Versions
-## 
-## Extends: "Versioned"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"ReporterIons"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Class "ReporterIons" [package "MSnbase"]</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Slots:</span></span>
+<span><span class="co">##                                                                               </span></span>
+<span><span class="co">## Name:               name     reporterNames       description                mz</span></span>
+<span><span class="co">## Class:         character         character         character           numeric</span></span>
+<span><span class="co">##                                                             </span></span>
+<span><span class="co">## Name:                col             width .__classVersion__</span></span>
+<span><span class="co">## Class:         character           numeric          Versions</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Extends: "Versioned"</span></span></code></pre>
 </div>
-<div id="chromatogram-and-mchromatograms-classes-to-handle-chromatographic-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#chromatogram-and-mchromatograms-classes-to-handle-chromatographic-data" class="anchor" aria-hidden="true"></a><code>Chromatogram</code> and <code>MChromatograms</code>: classes to handle chromatographic data</h2>
-<p>The <code>Chromatogram</code> class represents chromatographic MS data, i.e. retention time and intensity duplets for one file/sample. The <code>MChromatograms</code> class (Matrix of Chromatograms) allows to arrange multiple <code>Chromatogram</code> instances in a two-dimensional grid, with columns supposed to represent different samples and rows two-dimensional areas in the plane spanned by the m/z and retention time dimensions from which the intensities are extracted (e.g. an extracted ion chromatogram for a specific ion). The <code>MChromatograms</code> class extends the base <code>matrix</code> class. <code>MChromatograms</code> objects can be extracted from an <code>MSnExp</code> or <code>OnDiskMSnExp</code> object using the <code>chromatogram</code> method.</p>
+<div class="section level3">
+<h3 id="chromatogram-and-mchromatograms-classes-to-handle-chromatographic-data">
+<code>Chromatogram</code> and <code>MChromatograms</code>: classes
+to handle chromatographic data<a class="anchor" aria-label="anchor" href="#chromatogram-and-mchromatograms-classes-to-handle-chromatographic-data"></a>
+</h3>
+<p>The <code>Chromatogram</code> class represents chromatographic MS
+data, i.e. retention time and intensity duplets for one file/sample. The
+<code>MChromatograms</code> class (Matrix of Chromatograms) allows to
+arrange multiple <code>Chromatogram</code> instances in a
+two-dimensional grid, with columns supposed to represent different
+samples and rows two-dimensional areas in the plane spanned by the m/z
+and retention time dimensions from which the intensities are extracted
+(e.g. an extracted ion chromatogram for a specific ion). The
+<code>MChromatograms</code> class extends the base <code>matrix</code>
+class. <code>MChromatograms</code> objects can be extracted from an
+<code>MSnExp</code> or <code>OnDiskMSnExp</code> object using the
+<code>chromatogram</code> method.</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"Chromatogram"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Class "Chromatogram" [package "MSnbase"]
-## 
-## Slots:
-##                                                                               
-## Name:              rtime         intensity                mz          filterMz
-## Class:           numeric           numeric           numeric           numeric
-##                                                                               
-## Name:        precursorMz         productMz          fromFile    aggregationFun
-## Class:           numeric           numeric           integer         character
-##                                           
-## Name:            msLevel .__classVersion__
-## Class:           integer          Versions
-## 
-## Extends: "Versioned"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"Chromatogram"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Class "Chromatogram" [package "MSnbase"]</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Slots:</span></span>
+<span><span class="co">##                                                                               </span></span>
+<span><span class="co">## Name:              rtime         intensity                mz          filterMz</span></span>
+<span><span class="co">## Class:           numeric           numeric           numeric           numeric</span></span>
+<span><span class="co">##                                                                               </span></span>
+<span><span class="co">## Name:        precursorMz         productMz          fromFile    aggregationFun</span></span>
+<span><span class="co">## Class:           numeric           numeric           integer         character</span></span>
+<span><span class="co">##                                           </span></span>
+<span><span class="co">## Name:            msLevel .__classVersion__</span></span>
+<span><span class="co">## Class:           integer          Versions</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Extends: "Versioned"</span></span></code></pre>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MChromatograms"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Class "MChromatograms" [package "MSnbase"]
-## 
-## Slots:
-##                                                                
-## Name:               .Data          phenoData        featureData
-## Class:             matrix AnnotatedDataFrame AnnotatedDataFrame
-## 
-## Extends: 
-## Class "matrix", from data part
-## Class "array", by class "matrix", distance 2
-## Class "structure", by class "matrix", distance 3
-## Class "vector", by class "matrix", distance 4, with explicit coerce
-## Class "vector_OR_Vector", by class "matrix", distance 5, with explicit coerce
-## Class "vector_OR_factor", by class "matrix", distance 5, with explicit coerce</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MChromatograms"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Class "MChromatograms" [package "MSnbase"]</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Slots:</span></span>
+<span><span class="co">##                                                                </span></span>
+<span><span class="co">## Name:               .Data          phenoData        featureData</span></span>
+<span><span class="co">## Class:             matrix AnnotatedDataFrame AnnotatedDataFrame</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Extends: </span></span>
+<span><span class="co">## Class "matrix", from data part</span></span>
+<span><span class="co">## Class "array", by class "matrix", distance 2</span></span>
+<span><span class="co">## Class "structure", by class "matrix", distance 3</span></span>
+<span><span class="co">## Class "vector", by class "matrix", distance 4, with explicit coerce</span></span>
+<span><span class="co">## Class "vector_OR_Vector", by class "matrix", distance 5, with explicit coerce</span></span>
+<span><span class="co">## Class "vector_OR_factor", by class "matrix", distance 5, with explicit coerce</span></span></code></pre>
 </div>
-<div id="other-classes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#other-classes" class="anchor" aria-hidden="true"></a>Other classes</h2>
-<div id="lists-of-msnset-instances" class="section level3 unnumbered">
-<h3 class="hasAnchor">
-<a href="#lists-of-msnset-instances" class="anchor" aria-hidden="true"></a>Lists of <code>MSnSet</code> instances</h3>
-<p>When several <code>MSnSet</code> instances are related to each other and should be stored together as different objects, they can be grouped as a list into and <code>MSnSetList</code> object. In addition to the actual <code>list</code> slot, this class also has basic logging functionality and enables iteration over the <code>MSnSet</code> instances using a dedicated <code>lapply</code> methods.</p>
+<div class="section level3">
+<h3 id="other-classes">Other classes<a class="anchor" aria-label="anchor" href="#other-classes"></a>
+</h3>
+<div class="section level4">
+<h4 class="unnumbered" id="lists-of-msnset-instances">Lists of <code>MSnSet</code> instances<a class="anchor" aria-label="anchor" href="#lists-of-msnset-instances"></a>
+</h4>
+<p>When several <code>MSnSet</code> instances are related to each other
+and should be stored together as different objects, they can be grouped
+as a list into and <code>MSnSetList</code> object. In addition to the
+actual <code>list</code> slot, this class also has basic logging
+functionality and enables iteration over the <code>MSnSet</code>
+instances using a dedicated <code>lapply</code> methods.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MSnSetList"</span><span class="op">)</span></code></pre></div>
-<pre><code>## Class "MSnSetList" [package "MSnbase"]
-## 
-## Slots:
-##                                                                               
-## Name:                  x               log       featureData .__classVersion__
-## Class:              list              list         DataFrame          Versions
-## 
-## Extends: "Versioned"</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MSnSetList"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Class "MSnSetList" [package "MSnbase"]</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Slots:</span></span>
+<span><span class="co">##                                                                               </span></span>
+<span><span class="co">## Name:                  x               log       featureData .__classVersion__</span></span>
+<span><span class="co">## Class:              list              list         DataFrame          Versions</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Extends: "Versioned"</span></span></code></pre>
 </div>
 </div>
 </div>
-<div id="miscellaneous" class="section level1">
-<h1 class="hasAnchor">
-<a href="#miscellaneous" class="anchor" aria-hidden="true"></a>Miscellaneous</h1>
-<div id="unit-tests" class="section level4 unnumbered">
-<h4 class="hasAnchor">
-<a href="#unit-tests" class="anchor" aria-hidden="true"></a>Unit tests</h4>
-<p><em><a href="https://bioconductor.org/packages/3.14/MSnbase" class="external-link">MSnbase</a></em> implements unit tests with the <em><a href="https://CRAN.R-project.org/package=testthat" class="external-link">testthat</a></em> package.</p>
+<div class="section level2">
+<h2 id="miscellaneous">Miscellaneous<a class="anchor" aria-label="anchor" href="#miscellaneous"></a>
+</h2>
+<div class="section level5">
+<h5 class="unnumbered" id="unit-tests">Unit tests<a class="anchor" aria-label="anchor" href="#unit-tests"></a>
+</h5>
+<p><em><a href="https://bioconductor.org/packages/3.16/MSnbase" class="external-link">MSnbase</a></em>
+implements unit tests with the <em><a href="https://CRAN.R-project.org/package=testthat" class="external-link">testthat</a></em>
+package.</p>
 </div>
-<div id="processing-methods" class="section level4 unnumbered">
-<h4 class="hasAnchor">
-<a href="#processing-methods" class="anchor" aria-hidden="true"></a>Processing methods</h4>
-<p>Methods that process raw data, i.e. spectra should be implemented for <code>Spectrum</code> objects first and then <code>eapply</code>ed (or similar) to the <code>assayData</code> slot of an <code>MSnExp</code> instance in the specific method.</p>
+<div class="section level5">
+<h5 class="unnumbered" id="processing-methods">Processing methods<a class="anchor" aria-label="anchor" href="#processing-methods"></a>
+</h5>
+<p>Methods that process raw data, i.e. spectra should be implemented for
+<code>Spectrum</code> objects first and then <code>eapply</code>ed (or
+similar) to the <code>assayData</code> slot of an <code>MSnExp</code>
+instance in the specific method.</p>
 </div>
 </div>
-<div id="session-information" class="section level1">
-<h1 class="hasAnchor">
-<a href="#session-information" class="anchor" aria-hidden="true"></a>Session information</h1>
+<div class="section level2">
+<h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
+</h2>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## R version 4.1.0 (2021-05-18)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 20.04.3 LTS
-## 
-## Matrix products: default
-## BLAS/LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.8.so
-## 
-## locale:
-##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
-##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=C             
-##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
-## 
-## attached base packages:
-## [1] stats4    stats     graphics  grDevices utils     datasets  methods  
-## [8] base     
-## 
-## other attached packages:
-## [1] MSnbase_2.19.3      ProtGenerics_1.25.2 S4Vectors_0.31.3   
-## [4] mzR_2.27.1          Rcpp_1.0.7          Biobase_2.53.0     
-## [7] BiocGenerics_0.39.2 BiocStyle_2.21.3   
-## 
-## loaded via a namespace (and not attached):
-##  [1] sass_0.4.0            vsn_3.61.2            foreach_1.5.1        
-##  [4] jsonlite_1.7.2        bslib_0.2.5.1         assertthat_0.2.1     
-##  [7] BiocManager_1.30.16   affy_1.71.0           yaml_2.2.1           
-## [10] impute_1.67.0         pillar_1.6.2          lattice_0.20-44      
-## [13] glue_1.4.2            limma_3.49.4          digest_0.6.27        
-## [16] colorspace_2.0-2      htmltools_0.5.1.1     preprocessCore_1.55.2
-## [19] plyr_1.8.6            MALDIquant_1.20       XML_3.99-0.6         
-## [22] pkgconfig_2.0.3       bookdown_0.22         zlibbioc_1.39.0      
-## [25] purrr_0.3.4           scales_1.1.1          affyio_1.63.2        
-## [28] BiocParallel_1.27.5   tibble_3.1.3          IRanges_2.27.2       
-## [31] generics_0.1.0        ggplot2_3.3.5         ellipsis_0.3.2       
-## [34] cachem_1.0.5          magrittr_2.0.1        crayon_1.4.1         
-## [37] memoise_2.0.0         evaluate_0.14         fs_1.5.0             
-## [40] ncdf4_1.17            fansi_0.5.0           doParallel_1.0.16    
-## [43] MASS_7.3-54           textshaping_0.3.5     tools_4.1.0          
-## [46] lifecycle_1.0.0       stringr_1.4.0         munsell_0.5.0        
-## [49] cluster_2.1.2         pcaMethods_1.85.0     compiler_4.1.0       
-## [52] pkgdown_1.6.1.9001    jquerylib_0.1.4       mzID_1.31.0          
-## [55] systemfonts_1.0.2     rlang_0.4.11          grid_4.1.0           
-## [58] iterators_1.0.13      MsCoreUtils_1.5.0     rmarkdown_2.10       
-## [61] gtable_0.3.0          codetools_0.2-18      DBI_1.1.1            
-## [64] R6_2.5.0              knitr_1.33            dplyr_1.0.7          
-## [67] fastmap_1.1.0         utf8_1.2.2            clue_0.3-59          
-## [70] rprojroot_2.0.2       ragg_1.1.3            desc_1.3.0           
-## [73] stringi_1.7.3         parallel_4.1.0        vctrs_0.3.8          
-## [76] tidyselect_1.1.1      xfun_0.25</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## R version 4.2.1 (2022-06-23)</span></span>
+<span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
+<span><span class="co">## Running under: Ubuntu 20.04.5 LTS</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Matrix products: default</span></span>
+<span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3</span></span>
+<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/liblapack.so.3</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## locale:</span></span>
+<span><span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
+<span><span class="co">##  [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    </span></span>
+<span><span class="co">##  [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   </span></span>
+<span><span class="co">##  [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 </span></span>
+<span><span class="co">##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            </span></span>
+<span><span class="co">## [11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## attached base packages:</span></span>
+<span><span class="co">## [1] stats4    stats     graphics  grDevices utils     datasets  methods  </span></span>
+<span><span class="co">## [8] base     </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## other attached packages:</span></span>
+<span><span class="co">## [1] MSnbase_2.23.2      ProtGenerics_1.29.1 S4Vectors_0.35.4   </span></span>
+<span><span class="co">## [4] mzR_2.31.1          Rcpp_1.0.9          Biobase_2.57.1     </span></span>
+<span><span class="co">## [7] BiocGenerics_0.43.4 BiocStyle_2.25.0   </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## loaded via a namespace (and not attached):</span></span>
+<span><span class="co">##  [1] sass_0.4.2            vsn_3.65.0            foreach_1.5.2        </span></span>
+<span><span class="co">##  [4] jsonlite_1.8.3        bslib_0.4.0           assertthat_0.2.1     </span></span>
+<span><span class="co">##  [7] BiocManager_1.30.19   affy_1.75.0           yaml_2.3.6           </span></span>
+<span><span class="co">## [10] impute_1.71.0         pillar_1.8.1          lattice_0.20-45      </span></span>
+<span><span class="co">## [13] glue_1.6.2            limma_3.53.10         digest_0.6.30        </span></span>
+<span><span class="co">## [16] colorspace_2.0-3      htmltools_0.5.3       preprocessCore_1.57.1</span></span>
+<span><span class="co">## [19] plyr_1.8.7            MALDIquant_1.21       XML_3.99-0.11        </span></span>
+<span><span class="co">## [22] pkgconfig_2.0.3       bookdown_0.29         zlibbioc_1.43.0      </span></span>
+<span><span class="co">## [25] purrr_0.3.5           scales_1.2.1          affyio_1.67.0        </span></span>
+<span><span class="co">## [28] BiocParallel_1.31.15  tibble_3.1.8          generics_0.1.3       </span></span>
+<span><span class="co">## [31] IRanges_2.31.2        ggplot2_3.3.6         cachem_1.0.6         </span></span>
+<span><span class="co">## [34] cli_3.4.1             magrittr_2.0.3        memoise_2.0.1        </span></span>
+<span><span class="co">## [37] evaluate_0.17         fs_1.5.2              ncdf4_1.19           </span></span>
+<span><span class="co">## [40] fansi_1.0.3           doParallel_1.0.17     MASS_7.3-58.1        </span></span>
+<span><span class="co">## [43] textshaping_0.3.6     tools_4.2.1           lifecycle_1.0.3      </span></span>
+<span><span class="co">## [46] stringr_1.4.1         munsell_0.5.0         cluster_2.1.4        </span></span>
+<span><span class="co">## [49] pcaMethods_1.89.0     compiler_4.2.1        pkgdown_2.0.6.9000   </span></span>
+<span><span class="co">## [52] jquerylib_0.1.4       mzID_1.35.0           systemfonts_1.0.4    </span></span>
+<span><span class="co">## [55] rlang_1.0.6           grid_4.2.1            iterators_1.0.14     </span></span>
+<span><span class="co">## [58] MsCoreUtils_1.9.2     rmarkdown_2.17        gtable_0.3.1         </span></span>
+<span><span class="co">## [61] codetools_0.2-18      DBI_1.1.3             R6_2.5.1             </span></span>
+<span><span class="co">## [64] knitr_1.40            dplyr_1.0.10          fastmap_1.1.0        </span></span>
+<span><span class="co">## [67] utf8_1.2.2            clue_0.3-62           rprojroot_2.0.3      </span></span>
+<span><span class="co">## [70] ragg_1.2.4            desc_1.4.2            stringi_1.7.8        </span></span>
+<span><span class="co">## [73] parallel_4.2.1        vctrs_0.5.0           tidyselect_1.2.0     </span></span>
+<span><span class="co">## [76] xfun_0.34</span></span></code></pre>
 </div>
-<div id="references" class="section level1 unnumbered">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor" aria-hidden="true"></a>References</h1>
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Gentleman2004" class="csl-entry">
-Gentleman, Robert C., Vincent J. Carey, Douglas M. Bates, Ben Bolstad, Marcel Dettling, Sandrine Dudoit, Byron Ellis, et al. 2004. <span>“Bioconductor: Open Software Development for Computational Biology and Bioinformatics.”</span> <em>Genome Biol</em> 5 (10): –80. <a href="https://doi.org/10.1186/gb-2004-5-10-r80" class="external-link">https://doi.org/10.1186/gb-2004-5-10-r80</a>.
+Gentleman, Robert C., Vincent J. Carey, Douglas M. Bates, Ben Bolstad,
+Marcel Dettling, Sandrine Dudoit, Byron Ellis, et al. 2004.
+<span>“Bioconductor: Open Software Development for Computational Biology
+and Bioinformatics.”</span> <em>Genome Biol</em> 5 (10): –80. <a href="https://doi.org/10.1186/gb-2004-5-10-r80" class="external-link">https://doi.org/10.1186/gb-2004-5-10-r80</a>.
 </div>
 <div id="ref-Ross2004" class="csl-entry">
-Ross, Philip L., Yulin N. Huang, Jason N. Marchese, Brian Williamson, Kenneth Parker, Stephen Hattan, Nikita Khainovski, et al. 2004. <span>“Multiplexed Protein Quantitation in Saccharomyces Cerevisiae Using Amine-Reactive Isobaric Tagging Reagents.”</span> <em>Mol Cell Proteomics</em> 3 (12): 1154–69. <a href="https://doi.org/10.1074/mcp.M400129-MCP200" class="external-link">https://doi.org/10.1074/mcp.M400129-MCP200</a>.
-</div>
-<div id="ref-Taylor2007" class="csl-entry">
-Taylor, Chris F., Norman W. Paton, Kathryn S. Lilley, Pierre-Alain Binz, Randall K. Julian, Andrew R. Jones, Weimin Zhu, et al. 2007. <span>“The Minimum Information about a Proteomics Experiment (MIAPE).”</span> <em>Nat Biotechnol</em> 25 (8): 887–93. <a href="https://doi.org/10.1038/nbt1329" class="external-link">https://doi.org/10.1038/nbt1329</a>.
+Ross, Philip L., Yulin N. Huang, Jason N. Marchese, Brian Williamson,
+Kenneth Parker, Stephen Hattan, Nikita Khainovski, et al. 2004.
+<span>“Multiplexed Protein Quantitation in Saccharomyces Cerevisiae
+Using Amine-Reactive Isobaric Tagging Reagents.”</span> <em>Mol Cell
+Proteomics</em> 3 (12): 1154–69. <a href="https://doi.org/10.1074/mcp.M400129-MCP200" class="external-link">https://doi.org/10.1074/mcp.M400129-MCP200</a>.
 </div>
 <div id="ref-Taylor2008" class="csl-entry">
-Taylor, Chris F, Pierre-Alain Binz, Ruedi Aebersold, Michel Affolter, Robert Barkovich, Eric W Deutsch, David M Horn, et al. 2008. <span>“Guidelines for Reporting the Use of Mass Spectrometry in Proteomics.”</span> <em>Nat. Biotechnol.</em> 26 (8): 860–61. <a href="https://doi.org/10.1038/nbt0808-860" class="external-link">https://doi.org/10.1038/nbt0808-860</a>.
+Taylor, Chris F, Pierre-Alain Binz, Ruedi Aebersold, Michel Affolter,
+Robert Barkovich, Eric W Deutsch, David M Horn, et al. 2008.
+<span>“Guidelines for Reporting the Use of Mass Spectrometry in
+Proteomics.”</span> <em>Nat. Biotechnol.</em> 26 (8): 860–61. <a href="https://doi.org/10.1038/nbt0808-860" class="external-link">https://doi.org/10.1038/nbt0808-860</a>.
+</div>
+<div id="ref-Taylor2007" class="csl-entry">
+Taylor, Chris F., Norman W. Paton, Kathryn S. Lilley, Pierre-Alain Binz,
+Randall K. Julian, Andrew R. Jones, Weimin Zhu, et al. 2007. <span>“The
+Minimum Information about a Proteomics Experiment (MIAPE).”</span>
+<em>Nat Biotechnol</em> 25 (8): 887–93. <a href="https://doi.org/10.1038/nbt1329" class="external-link">https://doi.org/10.1038/nbt1329</a>.
 </div>
 <div id="ref-Thompson2003" class="csl-entry">
-Thompson, Andrew, Jürgen Schäfer, Karsten Kuhn, Stefan Kienle, Josef Schwarz, Günter Schmidt, Thomas Neumann, R Johnstone, A Karim A Mohammed, and Christian Hamon. 2003. <span>“Tandem Mass Tags: A Novel Quantification Strategy for Comparative Analysis of Complex Protein Mixtures by <span>MS/MS</span>.”</span> <em>Anal. Chem.</em> 75 (8): 1895–1904.
+Thompson, Andrew, Jürgen Schäfer, Karsten Kuhn, Stefan Kienle, Josef
+Schwarz, Günter Schmidt, Thomas Neumann, R Johnstone, A Karim A
+Mohammed, and Christian Hamon. 2003. <span>“<a href="https://www.ncbi.nlm.nih.gov/pubmed/12713048" class="external-link">Tandem Mass Tags: A
+Novel Quantification Strategy for Comparative Analysis of Complex
+Protein Mixtures by <span>MS/MS</span>.</a>”</span> <em>Anal. Chem.</em>
+75 (8): 1895–1904.
 </div>
 </div>
 </div>
-<div class="footnotes">
+<div class="footnotes footnotes-end-of-document">
 <hr>
 <ol>
-<li id="fn1"><p>The <em>benchmarking</em> vignette compares data size and operation speed of the two implementations.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn1"><p>The <em>benchmarking</em> vignette compares data size
+and operation speed of the two implementations.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 <li id="fn2"><p>see <code><a href="../reference/MSnbaseOptions.html">?MSnbaseOptions</a></code> for details.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
@@ -653,7 +851,7 @@ Thompson, Andrew, Jürgen Schäfer, Karsten Kuhn, Stefan Kienle, Josef Schwarz, 
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer>

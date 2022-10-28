@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.23.2</span>
       </span>
     </div>
 
@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -87,15 +87,19 @@
 
       
 
-      </header><script src="v04-benchmarking_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>MSnbase benchmarking</h1>
-                        <h4 data-toc-skip class="author">Laurent Gatto</h4>
+                        <h4 data-toc-skip class="author">Laurent
+Gatto</h4>
             <address class="author_afil">
-      de Duve Institute, UCLouvain, Belgium<br><h4 data-toc-skip class="author">Johannes Rainer</h4>
+      de Duve Institute, UCLouvain,
+Belgium<br><h4 data-toc-skip class="author">Johannes
+Rainer</h4>
             <address class="author_afil">
-      Center for Biomedicine, EURAC, Bolzano, Italy<br><small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/master/vignettes/v04-benchmarking.Rmd" class="external-link"><code>vignettes/v04-benchmarking.Rmd</code></a></small>
+      Center for Biomedicine, EURAC, Bolzano,
+Italy<br><small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/HEAD/vignettes/v04-benchmarking.Rmd" class="external-link"><code>vignettes/v04-benchmarking.Rmd</code></a></small>
       <div class="hidden name"><code>v04-benchmarking.Rmd</code></div>
 
     </address>
@@ -104,154 +108,228 @@
 
     
     
-<div id="introduction" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction" class="anchor" aria-hidden="true"></a>Introduction</h1>
-<p>In this vignette, we will document various timings and benchmarkings of the <em><a href="https://bioconductor.org/packages/3.14/MSnbase" class="external-link">MSnbase</a></em> version 2, that focuses on <em>on-disk</em> data access (as opposed to <em>in-memory</em>). More details about the new implementation are documented in the respective classes manual pages and in</p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>In this vignette, we will document various timings and benchmarkings
+of the <em><a href="https://bioconductor.org/packages/3.16/MSnbase" class="external-link">MSnbase</a></em>
+version 2, that focuses on <em>on-disk</em> data access (as opposed to
+<em>in-memory</em>). More details about the new implementation are
+documented in the respective classes manual pages and in</p>
 <blockquote>
-<p><em><code>MSnbase</code>, efficient and elegant R-based processing and visualisation of raw mass spectrometry data</em>. Laurent Gatto, Sebastian Gibb, Johannes Rainer. bioRxiv 2020.04.29.067868; doi: <a href="https://doi.org/10.1101/2020.04.29.067868" class="external-link uri">https://doi.org/10.1101/2020.04.29.067868</a></p>
+<p><em><code>MSnbase</code>, efficient and elegant R-based processing
+and visualisation of raw mass spectrometry data</em>. Laurent Gatto,
+Sebastian Gibb, Johannes Rainer. bioRxiv 2020.04.29.067868; doi: <a href="https://doi.org/10.1101/2020.04.29.067868" class="external-link uri">https://doi.org/10.1101/2020.04.29.067868</a></p>
 </blockquote>
-<p>As a benchmarking dataset, we are going to use a subset of an TMT 6-plex experiment acquired on an LTQ Orbitrap Velos, that is distributed with the <em><a href="https://bioconductor.org/packages/3.14/msdata" class="external-link">msdata</a></em> package</p>
+<p>As a benchmarking dataset, we are going to use a subset of an TMT
+6-plex experiment acquired on an LTQ Orbitrap Velos, that is distributed
+with the <em><a href="https://bioconductor.org/packages/3.16/msdata" class="external-link">msdata</a></em>
+package</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"msdata"</span><span class="op">)</span>
-<span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">msdata</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/msdata/man/proteomics.html" class="external-link">proteomics</a></span><span class="op">(</span>full.names <span class="op">=</span> <span class="cn">TRUE</span>,
-                        pattern <span class="op">=</span> <span class="st">"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/path.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"</code></pre>
-<p>We need to load the <em><a href="https://bioconductor.org/packages/3.14/MSnbase" class="external-link">MSnbase</a></em> package and set the session-wide verbosity flag to <code>FALSE</code>.</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st">"msdata"</span><span class="op">)</span></span>
+<span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">msdata</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/msdata/man/proteomics.html" class="external-link">proteomics</a></span><span class="op">(</span>full.names <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                        pattern <span class="op">=</span> <span class="st">"TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/path.html" class="external-link">basename</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"</span></span></code></pre>
+<p>We need to load the <em><a href="https://bioconductor.org/packages/3.16/MSnbase" class="external-link">MSnbase</a></em>
+package and set the session-wide verbosity flag to
+<code>FALSE</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://lgatto.github.io/MSnbase" class="external-link">"MSnbase"</a></span><span class="op">)</span>
-<span class="fu"><a href="../reference/MSnbaseOptions.html">setMSnbaseVerbose</a></span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://lgatto.github.io/MSnbase" class="external-link">"MSnbase"</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/MSnbaseOptions.html">setMSnbaseVerbose</a></span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="benchmarking" class="section level1">
-<h1 class="hasAnchor">
-<a href="#benchmarking" class="anchor" aria-hidden="true"></a>Benchmarking</h1>
-<div id="reading-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#reading-data" class="anchor" aria-hidden="true"></a>Reading data</h2>
-<p>We first read the data using the original behaviour <code>readMSData</code> function by setting the <code>mode</code> argument to <code>"inMemory"</code> to generates an in-memory representation of the MS2-level raw data and measure the time needed for this operation.</p>
+<div class="section level2">
+<h2 id="benchmarking">Benchmarking<a class="anchor" aria-label="anchor" href="#benchmarking"></a>
+</h2>
+<div class="section level3">
+<h3 id="reading-data">Reading data<a class="anchor" aria-label="anchor" href="#reading-data"></a>
+</h3>
+<p>We first read the data using the original behaviour
+<code>readMSData</code> function by setting the <code>mode</code>
+argument to <code>"inMemory"</code> to generates an in-memory
+representation of the MS2-level raw data and measure the time needed for
+this operation.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">inmem</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readMSData.html">readMSData</a></span><span class="op">(</span><span class="va">f</span>, msLevel <span class="op">=</span> <span class="fl">2</span>,
-                                mode <span class="op">=</span> <span class="st">"inMemory"</span>,
-                                centroided <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>##    user  system elapsed 
-##   5.075   0.092   5.161</code></pre>
-<p>Next, we use the <code>readMSData</code> function to generate an on-disk representation of the same data by setting <code>mode = "onDisk"</code>.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">inmem</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readMSData.html">readMSData</a></span><span class="op">(</span><span class="va">f</span>, msLevel <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                                mode <span class="op">=</span> <span class="st">"inMemory"</span>,</span>
+<span>                                centroided <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    user  system elapsed </span></span>
+<span><span class="co">##   5.246   0.136   5.375</span></span></code></pre>
+<p>Next, we use the <code>readMSData</code> function to generate an
+on-disk representation of the same data by setting
+<code>mode = "onDisk"</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">ondisk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readMSData.html">readMSData</a></span><span class="op">(</span><span class="va">f</span>, msLevel <span class="op">=</span> <span class="fl">2</span>,
-                                  mode <span class="op">=</span> <span class="st">"onDisk"</span>,
-                                  centroided <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>##    user  system elapsed 
-##   1.177   0.024   1.195</code></pre>
-<p>Creating the on-disk experiment is considerable faster and scales to much bigger, multi-file data, both in terms of object creation time, but also in terms of object size (see next section). We must of course make sure that these two datasets are equivalent:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">ondisk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readMSData.html">readMSData</a></span><span class="op">(</span><span class="va">f</span>, msLevel <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                                  mode <span class="op">=</span> <span class="st">"onDisk"</span>,</span>
+<span>                                  centroided <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    user  system elapsed </span></span>
+<span><span class="co">##   1.393   0.028   1.414</span></span></code></pre>
+<p>Creating the on-disk experiment is considerable faster and scales to
+much bigger, multi-file data, both in terms of object creation time, but
+also in terms of object size (see next section). We must of course make
+sure that these two datasets are equivalent:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">inmem</span>, <span class="va">ondisk</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">inmem</span>, <span class="va">ondisk</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 </div>
-<div id="data-size" class="section level2">
-<h2 class="hasAnchor">
-<a href="#data-size" class="anchor" aria-hidden="true"></a>Data size</h2>
-<p>To compare the size occupied in memory of these two objects, we are going to use the <code>object_size</code> function from the <em><a href="https://CRAN.R-project.org/package=pryr" class="external-link">pryr</a></em> package, which accounts for the data (the spectra) in the <code>assayData</code> environment (as opposed to the <code>object.size</code> function from the <code>utils</code> package).</p>
+<div class="section level3">
+<h3 id="data-size">Data size<a class="anchor" aria-label="anchor" href="#data-size"></a>
+</h3>
+<p>To compare the size occupied in memory of these two objects, we are
+going to use the <code>object_size</code> function from the <em><a href="https://CRAN.R-project.org/package=pryr" class="external-link">pryr</a></em> package,
+which accounts for the data (the spectra) in the <code>assayData</code>
+environment (as opposed to the <code>object.size</code> function from
+the <code>utils</code> package).</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/hadley/pryr" class="external-link">"pryr"</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/pryr/man/object_size.html" class="external-link">object_size</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">)</span></code></pre></div>
-<pre><code>## 2,768,208 B</code></pre>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/hadley/pryr" class="external-link">"pryr"</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/pryr/man/object_size.html" class="external-link">object_size</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 2.77 MB</span></span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/pryr/man/object_size.html" class="external-link">object_size</a></span><span class="op">(</span><span class="va">ondisk</span><span class="op">)</span></code></pre></div>
-<pre><code>## 238,248 B</code></pre>
-<p>The difference is explained by the fact that for <code>ondisk</code>, the spectra are not created and stored in memory; they are access on disk when needed, such as for example for plotting:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/pryr/man/object_size.html" class="external-link">object_size</a></span><span class="op">(</span><span class="va">ondisk</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## 238.25 kB</span></span></code></pre>
+<p>The difference is explained by the fact that for <code>ondisk</code>,
+the spectra are not created and stored in memory; they are access on
+disk when needed, such as for example for plotting:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">[[</span><span class="fl">200</span><span class="op">]</span><span class="op">]</span>, full <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">ondisk</span><span class="op">[[</span><span class="fl">200</span><span class="op">]</span><span class="op">]</span>, full <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">[[</span><span class="fl">200</span><span class="op">]</span><span class="op">]</span>, full <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">ondisk</span><span class="op">[[</span><span class="fl">200</span><span class="op">]</span><span class="op">]</span>, full <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="v04-benchmarking_files/figure-html/plot1-1.png" alt="Plotting in-memory and on-disk spectra" width="700"><p class="caption">
 Plotting in-memory and on-disk spectra
 </p>
 </div>
 </div>
-<div id="accessing-spectra" class="section level2">
-<h2 class="hasAnchor">
-<a href="#accessing-spectra" class="anchor" aria-hidden="true"></a>Accessing spectra</h2>
-<p>The drawback of the on-disk representation is when the spectrum data has to actually be accessed. To compare access time, we are going to use the <em><a href="https://CRAN.R-project.org/package=microbenchmark" class="external-link">microbenchmark</a></em> and repeat access 10 times to compare access to all 451 and a single spectrum in-memory (i.e. pre-loaded and constructed) and on-disk (i.e. on-the-fly access).</p>
+<div class="section level3">
+<h3 id="accessing-spectra">Accessing spectra<a class="anchor" aria-label="anchor" href="#accessing-spectra"></a>
+</h3>
+<p>The drawback of the on-disk representation is when the spectrum data
+has to actually be accessed. To compare access time, we are going to use
+the <em><a href="https://CRAN.R-project.org/package=microbenchmark" class="external-link">microbenchmark</a></em>
+and repeat access 10 times to compare access to all 451 and a single
+spectrum in-memory (i.e. pre-loaded and constructed) and on-disk
+(i.e. on-the-fly access).</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/joshuaulrich/microbenchmark/" class="external-link">"microbenchmark"</a></span><span class="op">)</span>
-<span class="va">mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="../reference/pSet-class.html">spectra</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">)</span>,
-                     <span class="va">inmem</span><span class="op">[[</span><span class="fl">200</span><span class="op">]</span><span class="op">]</span>,
-                     <span class="fu"><a href="../reference/pSet-class.html">spectra</a></span><span class="op">(</span><span class="va">ondisk</span><span class="op">)</span>,
-                     <span class="va">ondisk</span><span class="op">[[</span><span class="fl">200</span><span class="op">]</span><span class="op">]</span>,
-                     times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
-<span class="va">mb</span></code></pre></div>
-<pre><code>## Unit: microseconds
-##             expr      min       lq      mean   median       uq      max neval
-##   spectra(inmem)    131.1    169.4    224.79    221.0    274.4    407.6    10
-##     inmem[[200]]     27.0     52.3     64.87     58.5     81.4    100.2    10
-##  spectra(ondisk) 342586.3 352309.1 361631.53 360533.3 361783.3 393525.2    10
-##    ondisk[[200]] 158119.0 170715.1 177895.49 175355.8 189283.7 198129.3    10</code></pre>
-<p>While it takes order or magnitudes more time to access the data on-the-fly rather than a pre-generated spectrum, accessing all spectra is only marginally slower than accessing all spectra, as most of the time is spent preparing the file for access, which is done only once.</p>
-<p>On-disk access performance will depend on the read throughput of the disk. A comparison of the data import of the above file from an internal solid state drive and from an USB3 connected hard disk showed only small differences for the <code>onDisk</code> mode (1.07 <em>vs</em> 1.36 seconds), while no difference were observed for accessing individual or all spectra. Thus, for this particular setup, performance was about the same for SSD and HDD. This might however not apply to setting in which data import is performed in parallel from multiple files.</p>
-<p>Data access does not prohibit interactive usage, such as plotting, for example, as it is about 1/2 seconds, which is an operation that is relatively rare, compared to subsetting and filtering, which are faster for on-disk data:</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/joshuaulrich/microbenchmark/" class="external-link">"microbenchmark"</a></span><span class="op">)</span></span>
+<span><span class="va">mb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="../reference/pSet-class.html">spectra</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">)</span>,</span>
+<span>                     <span class="va">inmem</span><span class="op">[[</span><span class="fl">200</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>                     <span class="fu"><a href="../reference/pSet-class.html">spectra</a></span><span class="op">(</span><span class="va">ondisk</span><span class="op">)</span>,</span>
+<span>                     <span class="va">ondisk</span><span class="op">[[</span><span class="fl">200</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>                     times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">mb</span></span></code></pre></div>
+<pre><code><span><span class="co">## Unit: microseconds</span></span>
+<span><span class="co">##             expr      min       lq      mean    median       uq      max neval</span></span>
+<span><span class="co">##   spectra(inmem)    101.8    227.6    216.88    235.45    256.6    261.6    10</span></span>
+<span><span class="co">##     inmem[[200]]     24.3     30.4     62.58     69.15     83.0    111.2    10</span></span>
+<span><span class="co">##  spectra(ondisk) 459578.3 461358.0 463638.02 462101.90 463889.1 477829.3    10</span></span>
+<span><span class="co">##    ondisk[[200]] 247245.1 248530.0 251288.52 251093.70 251743.1 261683.2    10</span></span></code></pre>
+<p>While it takes order or magnitudes more time to access the data
+on-the-fly rather than a pre-generated spectrum, accessing all spectra
+is only marginally slower than accessing all spectra, as most of the
+time is spent preparing the file for access, which is done only
+once.</p>
+<p>On-disk access performance will depend on the read throughput of the
+disk. A comparison of the data import of the above file from an internal
+solid state drive and from an USB3 connected hard disk showed only small
+differences for the <code>onDisk</code> mode (1.07 <em>vs</em> 1.36
+seconds), while no difference were observed for accessing individual or
+all spectra. Thus, for this particular setup, performance was about the
+same for SSD and HDD. This might however not apply to setting in which
+data import is performed in parallel from multiple files.</p>
+<p>Data access does not prohibit interactive usage, such as plotting,
+for example, as it is about 1/2 seconds, which is an operation that is
+relatively rare, compared to subsetting and filtering, which are faster
+for on-disk data:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="../reference/pSet-class.html">length</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">)</span>, <span class="fl">100</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>##    user  system elapsed 
-##   0.114   0.000   0.114</code></pre>
+<code class="sourceCode R"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="../reference/pSet-class.html">length</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">)</span>, <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    user  system elapsed </span></span>
+<span><span class="co">##   0.110   0.000   0.111</span></span></code></pre>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">ondisk</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>##    user  system elapsed 
-##   0.013   0.000   0.013</code></pre>
-<p>Operations on the spectra data, such as peak picking, smoothing, cleaning, … are cleverly cached and only applied when the data is accessed, to minimise file access overhead. Finally, specific operations such as for example quantitation (see next section) are optimised for speed.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">ondisk</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    user  system elapsed </span></span>
+<span><span class="co">##   0.015   0.000   0.015</span></span></code></pre>
+<p>Operations on the spectra data, such as peak picking, smoothing,
+cleaning, … are cleverly cached and only applied when the data is
+accessed, to minimise file access overhead. Finally, specific operations
+such as for example quantitation (see next section) are optimised for
+speed.</p>
 </div>
-<div id="ms2-quantitation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#ms2-quantitation" class="anchor" aria-hidden="true"></a>MS2 quantitation</h2>
-<p>Below, we perform TMT 6-plex reporter ions quantitation on the first 100 spectra and verify that the results are identical (ignoring feature names).</p>
+<div class="section level3">
+<h3 id="ms2-quantitation">MS2 quantitation<a class="anchor" aria-label="anchor" href="#ms2-quantitation"></a>
+</h3>
+<p>Below, we perform TMT 6-plex reporter ions quantitation on the first
+100 spectra and verify that the results are identical (ignoring feature
+names).</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">eim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, reporters <span class="op">=</span> <span class="va">TMT6</span>,
-                            method <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>##    user  system elapsed 
-##   3.739   0.036   3.780</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">eim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, reporters <span class="op">=</span> <span class="va">TMT6</span>,</span>
+<span>                            method <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    user  system elapsed </span></span>
+<span><span class="co">##   3.194   0.007   3.201</span></span></code></pre>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">eod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">ondisk</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, reporters <span class="op">=</span> <span class="va">TMT6</span>,
-                            method <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>##    user  system elapsed 
-##   0.265   0.024   0.286</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">eod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">ondisk</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, reporters <span class="op">=</span> <span class="va">TMT6</span>,</span>
+<span>                            method <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    user  system elapsed </span></span>
+<span><span class="co">##   0.314   0.016   0.327</span></span></code></pre>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">eim</span>, <span class="va">eod</span>, check.attributes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">eim</span>, <span class="va">eod</span>, check.attributes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 </div>
 </div>
-<div id="notable-differences-on-disk-and-in-memory-implementations" class="section level1">
-<h1 class="hasAnchor">
-<a href="#notable-differences-on-disk-and-in-memory-implementations" class="anchor" aria-hidden="true"></a>Notable differences <em>on-disk</em> and <em>in-memory</em> implementations</h1>
-<p>The <code>MSnExp</code> and <code>OnDiskMSnExp</code> documentation files and the <em>MSnbase developement</em> vignette provide more information about implementation details.</p>
-<div id="ms-levels" class="section level2">
-<h2 class="hasAnchor">
-<a href="#ms-levels" class="anchor" aria-hidden="true"></a>MS levels</h2>
-<p><em>On-disk</em> support multiple MS levels in one object, while <em>in-memory</em> only supports a single level. While support for multiple MS levels could be added to the in-memory back-end, memory constrains make this pretty-much useless and will most likely never happen.</p>
+<div class="section level2">
+<h2 id="notable-differences-on-disk-and-in-memory-implementations">Notable differences <em>on-disk</em> and <em>in-memory</em>
+implementations<a class="anchor" aria-label="anchor" href="#notable-differences-on-disk-and-in-memory-implementations"></a>
+</h2>
+<p>The <code>MSnExp</code> and <code>OnDiskMSnExp</code> documentation
+files and the <em>MSnbase developement</em> vignette provide more
+information about implementation details.</p>
+<div class="section level3">
+<h3 id="ms-levels">MS levels<a class="anchor" aria-label="anchor" href="#ms-levels"></a>
+</h3>
+<p><em>On-disk</em> support multiple MS levels in one object, while
+<em>in-memory</em> only supports a single level. While support for
+multiple MS levels could be added to the in-memory back-end, memory
+constrains make this pretty-much useless and will most likely never
+happen.</p>
 </div>
-<div id="serialisation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#serialisation" class="anchor" aria-hidden="true"></a>Serialisation</h2>
-<p><em>In-memory</em> objects can be <code><a href="https://rdrr.io/r/base/save.html" class="external-link">save()</a></code>ed and <code><a href="https://rdrr.io/r/base/load.html" class="external-link">load()</a></code>ed, while <em>on-disk</em> can’t. As a workaround, the latter can be coerced to <em>in-memory</em> instances with <code>as(, "MSnExp")</code>. We would need <code>mzML</code> write support in <em><a href="https://bioconductor.org/packages/3.14/mzR" class="external-link">mzR</a></em> to be able to implement serialisation for <em>on-disk</em> data.</p>
+<div class="section level3">
+<h3 id="serialisation">Serialisation<a class="anchor" aria-label="anchor" href="#serialisation"></a>
+</h3>
+<p><em>In-memory</em> objects can be <code><a href="https://rdrr.io/r/base/save.html" class="external-link">save()</a></code>ed and
+<code><a href="https://rdrr.io/r/base/load.html" class="external-link">load()</a></code>ed, while <em>on-disk</em> can’t. As a workaround,
+the latter can be coerced to <em>in-memory</em> instances with
+<code>as(, "MSnExp")</code>. We would need <code>mzML</code> write
+support in <em><a href="https://bioconductor.org/packages/3.16/mzR" class="external-link">mzR</a></em> to be
+able to implement serialisation for <em>on-disk</em> data.</p>
 </div>
-<div id="data-processing" class="section level2">
-<h2 class="hasAnchor">
-<a href="#data-processing" class="anchor" aria-hidden="true"></a>Data processing</h2>
-<p>Whenever possible, accessing and processing <em>on-disk</em> data is delayed (<em>lazy</em> processing). These operations are stored in a <em>processing queue</em> until the spectra are effectively instantiated.</p>
+<div class="section level3">
+<h3 id="data-processing">Data processing<a class="anchor" aria-label="anchor" href="#data-processing"></a>
+</h3>
+<p>Whenever possible, accessing and processing <em>on-disk</em> data is
+delayed (<em>lazy</em> processing). These operations are stored in a
+<em>processing queue</em> until the spectra are effectively
+instantiated.</p>
 </div>
-<div id="validity" class="section level2">
-<h2 class="hasAnchor">
-<a href="#validity" class="anchor" aria-hidden="true"></a>Validity</h2>
-<p>The <em>on-disk</em> <code>validObject</code> method doesn’t verify the validity on the spectra (as there aren’t any to check). The <code>validateOnDiskMSnExp</code> function, on the other hand, instantiates all spectra and checks their validity (in addition to calling <code>validObject</code>).</p>
+<div class="section level3">
+<h3 id="validity">Validity<a class="anchor" aria-label="anchor" href="#validity"></a>
+</h3>
+<p>The <em>on-disk</em> <code>validObject</code> method doesn’t verify
+the validity on the spectra (as there aren’t any to check). The
+<code>validateOnDiskMSnExp</code> function, on the other hand,
+instantiates all spectra and checks their validity (in addition to
+calling <code>validObject</code>).</p>
 </div>
 </div>
-<div id="conclusions" class="section level1">
-<h1 class="hasAnchor">
-<a href="#conclusions" class="anchor" aria-hidden="true"></a>Conclusions</h1>
-<p>This document focuses on speed and size improvements of the new on-disk <code>MSnExp</code> representation. The extend of these improvements will substantially increase for larger data.</p>
-<p>For general functionality about the on-disk <code>MSnExp</code> data class and <em><a href="https://bioconductor.org/packages/3.14/MSnbase" class="external-link">MSnbase</a></em> in general, see other vignettes available with</p>
+<div class="section level2">
+<h2 id="conclusions">Conclusions<a class="anchor" aria-label="anchor" href="#conclusions"></a>
+</h2>
+<p>This document focuses on speed and size improvements of the new
+on-disk <code>MSnExp</code> representation. The extend of these
+improvements will substantially increase for larger data.</p>
+<p>For general functionality about the on-disk <code>MSnExp</code> data
+class and <em><a href="https://bioconductor.org/packages/3.16/MSnbase" class="external-link">MSnbase</a></em>
+in general, see other vignettes available with</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"MSnbase"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"MSnbase"</span><span class="op">)</span></span></code></pre></div>
 </div>
   </div>
 
@@ -272,7 +350,7 @@ Plotting in-memory and on-disk spectra
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer>
