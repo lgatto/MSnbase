@@ -680,6 +680,10 @@ kNeighbours <- kNeighbors
 #'     should only stop if two consecutive measurements with increasing (or
 #'     same) signal are encountered or already at the first (default).
 #'
+#' @param descendIfEdge `logical(1)` If a local maximum is found at the edge of
+#'     a spectrum, should the descend still continue on the other side of the
+#'     peak (centroid)? Defaults to FALSE. 
+#'
 #' @author Johannes Rainer
 #'
 #' @md
@@ -739,43 +743,46 @@ kNeighbours <- kNeighbors
 #'     signalPercentage = 0)
 #' points(mzs_2[, 1], mzs_2[, 2], col = "red", type = "h")
 descendPeak <- function(mz, intensity, peakIdx = NULL, signalPercentage = 33,
-                        stopAtTwo = FALSE, ...) {
-    if (length(mz) != length(intensity))
-        stop("lengths of 'mz' and 'intensity' have to match")
-    if (length(peakIdx) == 0)
-        return(cbind(mz = mz[peakIdx], intensity = intensity[peakIdx]))
-    len <- length(mz)
-    signalPercentage = signalPercentage / 100
-    max_k <- 30                        # max peak region to consider
-    ## Define the index of values to include.
-    do.call(rbind, lapply(peakIdx, function(z) {
-        ## Define the region of interest in which we will search for signal
-        ## larger than the threshold. We restrict to a max region +- max_k
-        ## data points large.
-        ## 1) Ensure that the region we consider is symmetric around the
-        ##    peak - important at the edges.
-        from_to <- c(max(1, z - max_k), min(len, z + max_k))
-        half_width <- min(abs(from_to - z))
-        ## Descend to the right
-        to_idx <- z + half_width
-        ## 2) Restrict the region to the area with monotonically decreasing
-        ##    signal (from the apex).
-        tmp_idx <- .findPeakValley(z:to_idx, intensity, stopAtTwo)
-        if (!is.na(tmp_idx))
-            to_idx <- tmp_idx
-        ## Descend to left
-        from_idx <- z - half_width
-        tmp_idx <- .findPeakValley(z:from_idx, intensity, stopAtTwo)
-        if (!is.na(tmp_idx))
-            from_idx <- tmp_idx
-        ## Define the peak threshold
-        peak_thr <- intensity[z] * signalPercentage
-        ## Define which values in the region are above the threshold.
-        roi <- from_idx:to_idx
-        idxs <- roi[which(intensity[roi] > peak_thr)]
-        c(mz = weighted.mean(x = mz[idxs], w = intensity[idxs], na.rm = TRUE),
-          intensity = intensity[z])
-    }))
+                        stopAtTwo = FALSE, descendIfEdge = FALSE, ...) {
+  if (length(mz) != length(intensity))
+    stop("lengths of 'mz' and 'intensity' have to match")
+  if (length(peakIdx) == 0)
+    return(cbind(mz = mz[peakIdx], intensity = intensity[peakIdx]))
+  len <- length(mz)
+  signalPercentage = signalPercentage / 100
+  max_k <- 30                        # max peak region to consider
+  ## Define the index of values to include.
+  do.call(rbind, lapply(peakIdx, function(z) {
+    ## Define the region of interest in which we will search for signal
+    ## larger than the threshold. We restrict to a max region +- max_k
+    ## data points large.
+    ## 1) Ensure that the region we consider is symmetric around the
+    ##    peak - important at the edges.
+    from_to <- c(max(1, z - max_k), min(len, z + max_k))
+    half_width <- min(abs(from_to - z))
+    ## Descend to the right
+    ## Fix for issue #583: if `descendIfEdge` is TRUE, take the full width,
+    ## else take the half width (Defaults to FALSE to keep current behaviour)
+    to_idx <- ifelse(descendIfEdge, from_to[2], z + half_width)  
+    
+    ## 2) Restrict the region to the area with monotonically decreasing
+    ##    signal (from the apex).
+    tmp_idx <- .findPeakValley(z:to_idx, intensity, stopAtTwo)
+    if (!is.na(tmp_idx))
+      to_idx <- tmp_idx
+    ## Descend to left
+    from_idx <- ifelse(descendIfEdge, from_to[1], z - half_width) 
+    tmp_idx <- .findPeakValley(z:from_idx, intensity, stopAtTwo)
+    if (!is.na(tmp_idx))
+      from_idx <- tmp_idx
+    ## Define the peak threshold
+    peak_thr <- intensity[z] * signalPercentage
+    ## Define which values in the region are above the threshold.
+    roi <- from_idx:to_idx
+    idxs <- roi[which(intensity[roi] > peak_thr)]
+    c(mz = weighted.mean(x = mz[idxs], w = intensity[idxs], na.rm = TRUE),
+      intensity = intensity[z])
+  }))
 }
 
 .findPeakValley <- function(idx, intensity, stopAtTwo = FALSE) {
