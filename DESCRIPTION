@@ -51,6 +51,10 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
              person(given = "Miguel", family = "Cosenza-Contreras",
                     email = "migueljcc5@gmail.com",
                     role = "ctb"),
+             person(given = "Pascal", family = "Maas",
+                    email = "p.maas@lacdr.leidenuniv.nl",
+                    comment = c(ORCID = "0000-0001-9379-6041"),
+                    role = "ctb"),
              person(given = "Johannes", family = "Rainer",
                     email = "Johannes.Rainer@eurac.edu",
                     role = c("aut", "cre"),
@@ -62,8 +66,8 @@ Authors@R: c(person(given = "Laurent", family = "Gatto",
 Author: Laurent Gatto, Johannes Rainer and Sebastian Gibb with
     contributions from Guangchuang Yu, Samuel Wieczorek, Vasile-Cosmin
     Lazar, Vladislav Petyuk, Thomas Naake, Richie Cotton, Arne Smits,
-    Martina Fisher, Ludger Goeminne, Adriaan Sticker and Lieven
-    Clement.
+    Martina Fisher, Ludger Goeminne, Adriaan Sticker, Lieven
+    Clement and Pascal Maas.
 Maintainer: Laurent Gatto <laurent.gatto@uclouvain.be>
 Depends:
     R (>= 3.5),
