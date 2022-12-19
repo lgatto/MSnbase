@@ -1,3 +1,15 @@
+# MSnbase 2.25
+
+## MSnbase 2.25.0
+
+- New devel (Bioc 3.17)
+
+# MSnbase 2.24
+
+## MSnbase 2.24.0
+
+- New release (Bioc 3.16)
+
 # MSnbase 2.23
 
 ## Changes in 2.23.2
