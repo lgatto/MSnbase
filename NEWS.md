@@ -1,5 +1,9 @@
 # MSnbase 2.25
 
+## MSnbase 2.25.1
+
+- Fix remote mztab filename.
+
 ## MSnbase 2.25.0
 
 - New devel (Bioc 3.17)
