@@ -16,7 +16,7 @@ then, benefited from
 particular [Sebastian Gibb](https://sebastiangibb.de/)
 and [Johannes Rainer](https://github.com/jorainer).
 
-The official page is the Bioconductor landing page
+The official package page is the Bioconductor landing page
 ([release](https://www.bioconductor.org/packages/release/bioc/html/MSnbase.html) or
 [devel](https://www.bioconductor.org/packages/devel/bioc/html/MSnbase.html) versions). The
 [github page](https://github.com/lgatto/MSnbase) page is for active
@@ -28,7 +28,7 @@ vignette. More vignettes are available in the *Articles* tab.
 
 ## Installation
 
-To install the package: 
+To install the package:
 
 
 ```r
