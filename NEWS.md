@@ -1,9 +1,20 @@
+# MSnbase 2.27
+
+## MSnbase 2.27.1
+
+- Fix declarations of centroided/smoothed setters for OnDiskMSnExp
+  objects (from Hervé Pagès via Github).
+
+## MSnbase 2.27.0
+
+- New devel
+
 # MSnbase 2.25
 
 ## MSnbase 2.25.2
 
 - Fix bug in descendPeaks (see [#583](https://github.com/lgatto/MSnbase/issues/583))
- 
+
 ## MSnbase 2.25.1
 
 - Fix remote mztab filename.

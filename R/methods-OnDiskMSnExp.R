@@ -184,7 +184,7 @@ setMethod("centroided", "OnDiskMSnExp",
 
 setReplaceMethod("centroided",
                  signature(object = "OnDiskMSnExp", value = "logical"),
-                 function(object, value, msLevel.) {
+                 function(object, msLevel., ..., value) {
                      if (missing(msLevel.)) {
                          if (length(value) == 1)
                              value <- rep(value, length(object))
@@ -223,7 +223,7 @@ setMethod("smoothed", "OnDiskMSnExp",
 
 setReplaceMethod("smoothed",
                  signature(object = "OnDiskMSnExp", value = "logical"),
-                 function(object, value, msLevel.) {
+                 function(object, msLevel., ..., value) {
                      if (missing(msLevel.)) {
                          if (length(value) == 1)
                              value <- rep(value, length(object))
