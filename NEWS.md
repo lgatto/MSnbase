@@ -1,9 +1,15 @@
-# MSnbase 2.25
+# MSnbase 2.27
 
-## MSnbase 2.25.3
+## MSnbase 2.27.1
 
 - Fix declarations of centroided/smoothed setters for OnDiskMSnExp
   objects (from Hervé Pagès via Github).
+
+## MSnbase 2.27.0
+
+- New devel
+
+# MSnbase 2.25
 
 ## MSnbase 2.25.2
 
