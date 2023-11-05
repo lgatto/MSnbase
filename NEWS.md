@@ -1,3 +1,9 @@
+# MSnbase 2.29
+
+## MSnbase 2.29.0
+
+- New devel
+
 # MSnbase 2.27
 
 ## MSnbase 2.27.1
