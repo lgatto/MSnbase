@@ -1,5 +1,10 @@
 # MSnbase 2.29
 
+## MSnbase 2.29.1
+
+- Check for identical ion header in `readMgfData()` (see [issue
+  597](https://github.com/lgatto/MSnbase/issues/597)).
+
 ## MSnbase 2.29.0
 
 - New devel

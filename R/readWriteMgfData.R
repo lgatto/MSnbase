@@ -53,7 +53,7 @@ writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
   }
   cat(paste0("COM=",COM), file = con, sep = "")
 
-  
+
   verbose <- verbose & length(splist) > 1
 
   if (verbose)
@@ -160,6 +160,12 @@ readMgfData <- function(filename,
     close(pb)
 
   fdata <- do.call(rbind, fdata)
+
+  ## This checks that the headers are all the same
+  fdn <- sapply(fdata, names, simplify = FALSE)
+  fdn1 <- fdn[[1]]
+  for (i in fdn)
+      stopifnot(identical(fdn1, i), "Ion headers identical.")
 
   names(spectra) <- paste0("X", seq_along(spectra))
   assaydata <- list2env(spectra)
