@@ -1,11 +1,11 @@
-pandoc: 2.19.2
+pandoc: 3.1.1
 pkgdown: 2.0.7.9000
-pkgdown_sha: c354aa7e5ea1f9936692494c28c89e5bdd31fc68
+pkgdown_sha: ab96d2fa60be7a6e54eb8132b572688eadc41be3
 articles:
   v01-MSnbase-demo: v01-MSnbase-demo.html
   v02-MSnbase-io: v02-MSnbase-io.html
   v03-MSnbase-centroiding: v03-MSnbase-centroiding.html
   v04-benchmarking: v04-benchmarking.html
   v05-MSnbase-development: v05-MSnbase-development.html
-last_built: 2023-02-17T18:04Z
+last_built: 2023-11-06T00:26Z
 

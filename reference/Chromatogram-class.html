@@ -23,7 +23,7 @@ used instead (i.e. the chromatogram() method)."><!-- mathjax --><script src="htt
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.25.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.0</span>
       </span>
     </div>
 
@@ -358,11 +358,11 @@ for <code>FUN</code>. Defaults to <code>FUNARGS = list(use = "pairwise.complete.
 even if the chromatogram was generated for only a single ion (i.e. a
 single mz value). Using ranges for <code>mz</code> values allow this class to
 be used also for e.g. total ion chromatograms or base peak chromatograms.</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>The slots <span class="st">`</span><span class="at">precursorMz</span><span class="st">`</span> and <span class="st">`</span><span class="at">productMz</span><span class="st">`</span> allow to represent SRM</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>(single reaction monitoring) and <span class="fu">MRM</span> (multiple SRM) chromatograms. As</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>example, a <span class="st">`</span><span class="at">Chromatogram</span><span class="st">`</span> <span class="cf">for</span> a SRM transition <span class="dv">273</span> <span class="ot">-&gt;</span> <span class="dv">153</span> will have</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>a <span class="st">`</span><span class="at">@precursorMz = c(273, 273)</span><span class="st">`</span> and a</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">`</span><span class="at">@productMz = c(153, 153)</span><span class="st">`</span>.</span></code></pre><p></p></div>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>The slots <span class="st">`</span><span class="at">precursorMz</span><span class="st">`</span> and <span class="st">`</span><span class="at">productMz</span><span class="st">`</span> allow to represent SRM</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>(single reaction monitoring) and <span class="fu">MRM</span> (multiple SRM) chromatograms. As</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>example, a <span class="st">`</span><span class="at">Chromatogram</span><span class="st">`</span> <span class="cf">for</span> a SRM transition <span class="dv">273</span> <span class="ot">-&gt;</span> <span class="dv">153</span> will have</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>a <span class="st">`</span><span class="at">@precursorMz = c(273, 273)</span><span class="st">`</span> and a</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="st">`</span><span class="at">@productMz = c(153, 153)</span><span class="st">`</span>.</span></code></pre><p></p></div>
     </div>
     <div id="object-creation">
     <h2>Object creation</h2>
@@ -500,23 +500,23 @@ a two-dimensional matrix (rows being mz-rt ranges, columns samples).
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Extract intensities</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="Spectrum-class.html">intensity</a></span><span class="op">(</span><span class="va">chr</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1]   8.567913  81.471321  30.707218  59.456374  25.422630   3.353650</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [7]  42.025648  28.685348  67.901490 145.521749 186.513081  18.799489</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] 121.050988 135.168409  77.628569  67.480547  73.177026  95.737262</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [19]  12.872968   6.362350  23.629227  44.901048 116.500356  15.095966</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [25]   5.759153  35.138438   3.338353  24.282256 170.353517  93.395309</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] 106.115793  17.994179  88.037013  75.991982  10.989033  44.514570</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [37]   9.599506  83.898253 104.182185 145.748571   3.035822  86.098035</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [43]  64.866158  55.266762 101.559118  51.526169 116.754180  15.492152</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [49]  40.867097  63.271419 106.699416 110.834454  74.559692 159.777997</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [55]  15.069034  67.557916  26.048750  15.809700  91.426750 113.326356</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] 153.749463  44.487768  11.157581 118.378924 106.469760 217.762924</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [67]  99.102969  52.276983  22.513593  45.179752  58.837455   8.220039</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 120.501947  83.233417 116.720807  89.464166 143.576062  19.000605</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [79]  69.236596 202.449415  64.202986 101.832947 113.524056  11.754068</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [85]   2.705186  63.619338 130.794500  65.736989   9.220141  38.982575</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [91]  79.358980  64.499639 103.483748 103.327833  57.351359  40.759603</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [97]  59.859557  28.205438  42.372267  94.625242</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 125.7164665 127.9234738 120.2319515  38.1122660   4.9343469  67.7309859</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [7]  86.4209679  54.1799756  41.3405608  88.2887290  14.1638191 231.1338611</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] 130.9590446 109.1239641  28.1853602 155.3914858 133.2655920 147.4724544</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19]   7.9073301 126.2780533  38.9203044 155.7626132 174.8020381 130.1463521</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [25]  56.6422037  67.4121045 124.0711190  45.3601467  60.8599500  52.5753473</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] 100.1317019   8.1746079 102.9286383  41.8823202  27.5666432  42.3083644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37]   6.9837735 210.6485537  19.6796876  35.5234374  74.2137806  83.2797490</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [43]  19.0940094  87.9802114  98.5286632  74.2260591 139.6278198   8.1306667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [49]  42.5512070 111.7638174 197.0891155 146.6018150  42.4514680  43.3334796</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] 119.6928444 128.2087547  16.9021884 118.0485947  89.3645645  20.4276995</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [61]  10.3847336  91.0129725   1.2516069   0.2606439  35.3726566  46.9266232</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [67]  97.6131459   7.5964687  69.1775933 115.6426507  71.5722099 129.5200310</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73]  40.3217982  68.1059289 166.0154421  14.6161608 105.4495413  96.2287495</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [79] 107.1620371 117.3635473  51.0834035 243.5724339  38.1529566  29.5086555</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [85]  20.2047020 147.3976671  10.8120934  46.0246592  44.2683566 133.5479278</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91]  74.5909710 122.8263743 131.6837615 178.4048171  49.0776155  74.2999468</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [97]  24.7861638  17.4763702  88.0928328 163.0482157</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Extract retention times</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">chr</span><span class="op">)</span></span></span>
@@ -543,26 +543,26 @@ a two-dimensional matrix (rows being mz-rt ranges, columns samples).
 <span class="r-out co"><span class="r-pr">#&gt;</span> length of object: 1000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> from file: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mz range: [NA, NA]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rt range: [0.1095273, 24.20634]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rt range: [0.0029072, 27.56163]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MS level: 1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Get the intensities</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="Spectrum-class.html">intensity</a></span><span class="op">(</span><span class="va">chr</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2272.276 2228.480 1834.359 1920.166 2047.956 2060.119</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2264.805 2239.497 1887.437 1901.865 1983.413 1773.162</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Get the retention time</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">chr</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1095273 0.2509454 0.2839980 0.2969110 0.3811698 0.3918592</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.00290720 0.02240283 0.22942600 0.23498676 0.41780478 0.42909880</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## What is the retention time range of the object?</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="fu"><a href="Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">chr</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.1095273 24.2063401</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.0029072 27.5616315</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Filter the chromatogram to keep only values between 4 and 10 seconds</span></span></span>
 <span class="r-in"><span><span class="va">chr2</span> <span class="op">&lt;-</span> <span class="fu"><a href="MSnExp-class.html">filterRt</a></span><span class="op">(</span><span class="va">chr</span>, rt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="fu"><a href="Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">chr2</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.043837 9.997023</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.002257 9.981579</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Data manipulations:</span></span></span>
 <span class="r-in"><span></span></span>
