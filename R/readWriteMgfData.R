@@ -159,13 +159,14 @@ readMgfData <- function(filename,
   if (verbose)
     close(pb)
 
-  fdata <- do.call(rbind, fdata)
-
   ## This checks that the headers are all the same
   fdn <- sapply(fdata, names, simplify = FALSE)
   fdn1 <- fdn[[1]]
-  for (i in fdn)
-      stopifnot(identical(fdn1, i), "Ion headers identical.")
+  if (!all(sapply(fdn, function(x) identical(x, fdn1)))) {
+      stop("Ion headers identical.")
+  }
+
+  fdata <- do.call(rbind, fdata)
 
   names(spectra) <- paste0("X", seq_along(spectra))
   assaydata <- list2env(spectra)
