@@ -1,8 +1,9 @@
 .onAttach <- function(libname, pkgname) {
   packageStartupMessage(
       paste("\nThis is MSnbase version", packageVersion("MSnbase"), "\n",
-            " Visit https://lgatto.github.io/MSnbase/ to get started.\n"))
-
+            " Visit https://lgatto.github.io/MSnbase/ to get started.\n",
+            "Consider switching to the 'R for Mass Spectrometry'\n",
+            "packages - see https://RforMassSpectrometry.org for details.\n"))
   if (interactive() && .Platform$OS.type == "windows" &&
       .Platform$GUI == "Rgui") {
       Biobase::addVigs2WinMenu("MSnbase")

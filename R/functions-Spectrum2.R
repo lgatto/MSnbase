@@ -7,7 +7,7 @@
 #' equal
 #' @param method matching method
 #' @param relative relative (or absolute) deviation
-#' @param ... further arguments passed to calculateFragments
+#' @param ... further arguments passed to `PSMarch:::.calculateFragments()`
 #' @noRd
 calculateFragments_Spectrum2 <- function(sequence, object, tolerance=0.1,
                                          method=c("highest", "closest", "all"),

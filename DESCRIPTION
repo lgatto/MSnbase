@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.29.1
+Version: 2.29.2
 Description: MSnbase provides infrastructure for manipulation,
              processing and visualisation of mass spectrometry and
              proteomics data, ranging from raw to quantitative and
@@ -79,6 +79,7 @@ Depends:
     ProtGenerics (>= 1.29.1)
 Imports:
     MsCoreUtils,
+    PSMatch,
     BiocParallel,
     IRanges (>= 2.13.28),
     plyr,
@@ -167,7 +168,6 @@ Collate:
     'functions-Spectrum1.R'
     'functions-Spectrum2.R'
     'functions-addIdentificationData.R'
-    'functions-fragments.R'
     'functions-mzR.R'
     'functions-plotting.R'
     'header.R'

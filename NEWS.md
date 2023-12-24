@@ -1,5 +1,10 @@
 # MSnbase 2.29
 
+## MSnbase 2.29.2
+
+- Use fragmentation functions from PSMatch.
+- Mention R for Mass Spectrometry in start-up message.
+
 ## MSnbase 2.29.1
 
 - Check for identical ion header in `readMgfData()` (see [issue

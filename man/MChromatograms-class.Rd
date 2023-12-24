@@ -7,6 +7,7 @@
 \alias{coerce,matrix,MChromatograms-method}
 \alias{show,MChromatograms-method}
 \alias{[,MChromatograms,ANY,ANY,ANY-method}
+\alias{[<-,MChromatograms,ANY,ANY,ANY-method}
 \alias{[<-,MChromatograms-method}
 \alias{plot,MChromatograms,ANY-method}
 \alias{phenoData,MChromatograms-method}
@@ -15,6 +16,7 @@
 \alias{$,MChromatograms-method}
 \alias{$<-,MChromatograms-method}
 \alias{colnames<-,MChromatograms-method}
+\alias{colnames<-,MChromatograms,ANY-method}
 \alias{sampleNames,MChromatograms-method}
 \alias{sampleNames<-,MChromatograms,ANY-method}
 \alias{isEmpty,MChromatograms-method}

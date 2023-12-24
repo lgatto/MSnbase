@@ -33,7 +33,7 @@ plot_MSnExp <- function(object,
     }
     p <- p +
         facet_grid(n ~ ., scales = "free_y") +
-        labs(x = "M/Z", y = "Intensity") + 
+        labs(x = "M/Z", y = "Intensity") +
         title
     if (!full) {
         if (class(reporters) != "ReporterIons")
@@ -41,7 +41,7 @@ plot_MSnExp <- function(object,
         width <- reporters@width
         rlim1 <- min(reporters@mz) - width
         rlim2 <- max(reporters@mz) + width
-        reps <- coord_cartesian(xlim = c(rlim1, rlim2)) 
+        reps <- coord_cartesian(xlim = c(rlim1, rlim2))
         breaks <- scale_x_continuous(breaks = seq(rlim1, rlim2, (rlim2-rlim1)/10))
         p <- p + reps + breaks
     }
@@ -102,14 +102,14 @@ plotMzDelta_MSnExp <- function(object,            ## MSnExp object
                         ggtitle("Histogram of Mass Delta Distribution")
     if (withLabels) {
         y_offset <- x_offset <- rep(0.5, 21)
-        names(y_offset) <- names(x_offset) <- .get.amino.acids()$AA
+        names(y_offset) <- names(x_offset) <- PSMatch::getAminoAcids()$AA
         x_offset[c("I", "L", "K", "Q")] <- 1
         y_offset[c("V", "C")] <- 1
         y_offset[c("P", "T")] <- 0
         y_offset[c("N", "E")] <- 1
         y_offset[c("K", "Q", "I", "L")] <- 0
         y_offset[c("D", "M")] <- 0
-        aa <- cbind(.get.amino.acids(), x_offset, y_offset)
+        aa <- cbind(PSMatch::getAminoAcids(), x_offset, y_offset)
         ## removing Isoleucine, as it has the same residue mass
         ## as leucine, and updating leucine's label to I/L
         aa$AA <- as.character(aa$AA)
@@ -118,7 +118,7 @@ plotMzDelta_MSnExp <- function(object,            ## MSnExp object
         ## Removing Q as it is too close to K to show
         ## up correctly and updating K label to K/Q
         aa[aa$AA == "Q", "ResidueMass"] <- NA
-        aa[aa$AA == "K", "AA"] <- "K/Q"    
+        aa[aa$AA == "K", "AA"] <- "K/Q"
         p <- p +
             geom_vline(data = aa,
                        aes(xintercept = ResidueMass,
@@ -132,8 +132,7 @@ plotMzDelta_MSnExp <- function(object,            ## MSnExp object
                                      size = size) +
                                          theme(legend.position = "none")
     }
-    if (plot) 
+    if (plot)
         print(p)
     invisible(p)
 }
-

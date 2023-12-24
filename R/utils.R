@@ -1,50 +1,18 @@
-##' Returns a \code{data.frame} of amino acid properties: \code{AA},
-##' \code{ResidueMass}, \code{Abbrev3}, \code{ImmoniumIonMass},
-##' \code{Name}, \code{Hydrophobicity}, \code{Hydrophilicity},
-##' \code{SideChainMass}, \code{pK1}, \code{pK2} and \code{pI}.
-##'
-##' @title Amino acids
-##' @return A \code{data.frame}
-##' @author Laurent Gatto
-##' @examples
-##' get.amino.acids()
-get.amino.acids <- function()
-    .get.amino.acids()
-
-.get.amino.acids <- function() {
-  get("amino.acids",envir=.MSnbaseEnv)
-}
-
-##' Returns a \code{double} of used atomic mass.
-##'
-##' @title Atomic mass.
-##' @return A named \code{double}.
-##' @author Sebastian Gibb
-##' @examples
-##' get.atomic.mass()
-get.atomic.mass <- function()
-    .get.atomic.mass()
-
-.get.atomic.mass <- function() {
-  get("atomic.mass",envir=.MSnbaseEnv)
-}
-
-
 ##'  This function is used to convert retention times. Conversion is
 ##'  seconds to/from the more human friendly format "mm:sec". The
 ##'  implementation is from [MsCoreUtils::formatRt()].
-##' 
+##'
 ##' @title Format Retention Time
-##' 
+##'
 ##' @param rt retention time in seconds (`numeric`) or "mm:sec"
 ##'     (`character`).
-##' 
+##'
 ##' @return A vector of same length as `rt`.
-##' 
+##'
 ##' @author Laurent Gatto and Sebastian Gibb
 ##'
 ##' @examples
-##' 
+##'
 ##' formatRt(1524)
 ##' formatRt("25:24")
 formatRt <- function(rt)

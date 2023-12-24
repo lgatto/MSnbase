@@ -42,7 +42,7 @@
       one-letter-code of the modified amino acid
       (default: Carbamidomethyl \code{modifications=c(C=57.02146)}). Additional
       you can specifiy the type of \code{neutralLoss} (default:
-      \code{defaultNeutralLoss()}).
+      \code{PSMatch::defaultNeutralLoss()}).
       See \code{\link{calculateFragments}} for details.
 
       There are a lot of graphical arguments available to control the

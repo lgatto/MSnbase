@@ -17,6 +17,10 @@ import(scales)
 import(lattice)
 import(methods)
 
+importFrom(PSMatch,
+           getAminoAcids,
+           defaultNeutralLoss)
+
 importFrom(MsCoreUtils, closest, rbindFill,
            impute_matrix, normalize_matrix,
            robustSummary, medianPolish,
@@ -74,7 +78,6 @@ S3method(t, MSnSet)
 export(MSnSet,
        abstract,
        compareMSnSets,
-       defaultNeutralLoss,
        readMgfData,
        readMSData,
        readMSData2,
@@ -111,8 +114,6 @@ export(MSnSet,
        updateFeatureNames,
        updateSampleNames,
        normalise, ## for normalize method
-       get.amino.acids,
-       get.atomic.mass,
        listOf,
        npcv,
        selectFeatureData,
@@ -327,11 +328,11 @@ exportMethods(updateObject,
               "isolationWindowUpperMz",
               "filterPrecursorMz",
               "filterIsolationWindow",
-	      "alignRt",
-	      "filterIntensity",
-	      c,
-	      compareChromatograms,
-	      transformIntensity
+              "alignRt",
+              "filterIntensity",
+              c,
+              compareChromatograms,
+              transformIntensity
               )
 
 ## methods NOT exported

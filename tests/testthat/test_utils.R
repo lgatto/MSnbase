@@ -269,14 +269,6 @@ test_that("rowsd", {
     expect_equal(MSnbase:::rowsd(mna, group=group, na.rm=TRUE), rnarm)
 })
 
-test_that("get.amino.acids", {
-    aa <- get.amino.acids()
-    cn <- c("AA", "ResidueMass", "Abbrev3", "ImmoniumIonMass", "Name",
-            "Hydrophobicity", "Hydrophilicity", "SideChainMass",
-            "pK1", "pK2", "pI") ## from man
-    expect_identical(colnames(aa), cn)
-})
-
 test_that("utils.removePeaks", {
     int <- c(0, 0, 1:3, 2, 0, 0, 1:2, 2, 2:1, 0, 1:3, 2, 2:3, 0)
     expect_equal(MSnbase:::utils.removePeaks(int, 0), int)

@@ -1,7 +1,6 @@
 \name{calculateFragments-methods}
 \alias{calculateFragments}
 \alias{calculateFragments,character,missing-method}
-\alias{defaultNeutralLoss}
 \docType{methods}
 
 \title{ Calculate ions produced by fragmentation. }
@@ -111,17 +110,17 @@ calculateFragments("VESITARHGEVLQLRPK",
 calculateFragments("VESITARHGEVLQLRPK", msexp[[1]])
 
 ## neutral loss
-defaultNeutralLoss()
+PSMatch::defaultNeutralLoss()
 
 ## disable water loss on the C terminal
-defaultNeutralLoss(disableWaterLoss="Cterm")
+PSMatch::defaultNeutralLoss(disableWaterLoss="Cterm")
 
 ## real example
 calculateFragments("PQR")
 calculateFragments("PQR",
-                   neutralLoss=defaultNeutralLoss(disableWaterLoss="Cterm"))
+                   neutralLoss=PSMatch::defaultNeutralLoss(disableWaterLoss="Cterm"))
 calculateFragments("PQR",
-                   neutralLoss=defaultNeutralLoss(disableAmmoniaLoss="Q"))
+                   neutralLoss=PSMatch::defaultNeutralLoss(disableAmmoniaLoss="Q"))
 
 ## disable neutral loss completely
 calculateFragments("PQR", neutralLoss=NULL)
