@@ -52,7 +52,7 @@ env:
   run_covr: 'true'
   run_pkgdown: 'true'
   has_RUnit: 'false'
-  cache-version: 'cache-v2'
+  cache-version: 'cache-v3'
 
 jobs:
   ## This first job uses the GitHub repository branch name to infer what
@@ -209,10 +209,8 @@ jobs:
 
       - name: Install dependencies (manually)
         run: |
-          BiocManager::install("preprocessCore", configure.args="--disable-threading", force = TRUE, type = "source")
-          BiocManager::install("msdata")
-          BiocManager::install(c("vsn", "affy")) 
-          BiocManager::install("magick", dependencies = TRUE, ask = FALSE, update=TRUE)
+          ## BiocManager::install("preprocessCore", configure.args="--disable-threading", force = TRUE, type = "source")
+          ## BiocManager::install("magick", dependencies = TRUE, ask = FALSE, update=TRUE)
         shell: Rscript {0}
 
       ## See https://github.com/Bioconductor/bioconductor_docker/issues/22
@@ -222,13 +220,9 @@ jobs:
           cd preprocessCore
           R CMD INSTALL --configure-args="--disable-threading"  .
 
-      - name: Install MsCoreUtils from Github
-        run: BiocManager::install("RforMassSpectrometry/MsCoreUtils")
-        shell: Rscript {0}
-
-      - name: Install ProtGenerics from Github
-        run: BiocManager::install("RforMassSpectrometry/ProtGenerics")
-        shell: Rscript {0}
+      ## - name: Install ProtGenerics from Github
+      ##   run: BiocManager::install("RforMassSpectrometry/ProtGenerics")
+      ##   shell: Rscript {0}
 
       - name: Session info
         run: |
