@@ -207,11 +207,11 @@ jobs:
           BiocManager::install("BiocCheck")
         shell: Rscript {0}
 
-      - name: Install dependencies (manually)
-        run: |
-          ## BiocManager::install("preprocessCore", configure.args="--disable-threading", force = TRUE, type = "source")
-          ## BiocManager::install("magick", dependencies = TRUE, ask = FALSE, update=TRUE)
-        shell: Rscript {0}
+      # - name: Install dependencies (manually)
+      #   run: |
+      #     ## BiocManager::install("preprocessCore", configure.args="--disable-threading", force = TRUE, type = "source")
+      #     ## BiocManager::install("magick", dependencies = TRUE, ask = FALSE, update=TRUE)
+      #   shell: Rscript {0}
 
       ## See https://github.com/Bioconductor/bioconductor_docker/issues/22
       - name: Manually install preprocessCore
@@ -219,6 +219,11 @@ jobs:
           git clone https://github.com/bmbolstad/preprocessCore.git
           cd preprocessCore
           R CMD INSTALL --configure-args="--disable-threading"  .
+
+      - name: Install missing dependencies
+        run: |
+          BiocManager::install(c("Rcpp", "mzR", "S4Vectors", "PSMatch", "IRanges", "plyr", "vsn", "pcaMethods", "mzID", "ggplot2", "scales"), force = FALSE, type = "source")
+        shell: Rscript {0}
 
       ## - name: Install ProtGenerics from Github
       ##   run: BiocManager::install("RforMassSpectrometry/ProtGenerics")
