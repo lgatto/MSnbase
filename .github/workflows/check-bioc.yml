@@ -220,11 +220,6 @@ jobs:
           cd preprocessCore
           R CMD INSTALL --configure-args="--disable-threading"  .
 
-      - name: Install missing dependencies
-        run: |
-          BiocManager::install(c("Rcpp", "mzR", "S4Vectors", "PSMatch", "IRanges", "plyr", "vsn", "pcaMethods", "mzID", "ggplot2", "scales"), force = FALSE, type = "source")
-        shell: Rscript {0}
-
       ## - name: Install ProtGenerics from Github
       ##   run: BiocManager::install("RforMassSpectrometry/ProtGenerics")
       ##   shell: Rscript {0}
