@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.2</span>
       </span>
     </div>
 
@@ -573,8 +573,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## And the file names:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="pSet-class.html">fileNames</a></span><span class="op">(</span><span class="va">odmse</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/usr/local/lib/R/host-site-library/msdata/microtofq/MM14.mzML"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "/usr/local/lib/R/host-site-library/msdata/microtofq/MM8.mzML" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/__w/_temp/Library/msdata/microtofq/MM14.mzML"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "/__w/_temp/Library/msdata/microtofq/MM8.mzML" </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Scan index and acquisitionNum</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="Spectrum-class.html">scanIndex</a></span><span class="op">(</span><span class="va">odmse</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -985,7 +985,7 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 <span class="r-in"><span><span class="co">## Alternatively, we could also subset the whole object by spectra and/or samples:</span></span></span>
 <span class="r-in"><span><span class="va">subs</span> <span class="op">&lt;-</span> <span class="va">odmse</span><span class="op">[</span><span class="fu"><a href="Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">odmse</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">2</span> <span class="op">&amp;</span> <span class="fu"><a href="Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">odmse</span><span class="op">)</span> <span class="op">&lt;=</span> <span class="fl">20</span>, <span class="op">]</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="pSet-class.html">fileNames</a></span><span class="op">(</span><span class="va">subs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/usr/local/lib/R/host-site-library/msdata/microtofq/MM8.mzML"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/__w/_temp/Library/msdata/microtofq/MM8.mzML"</span>
 <span class="r-in"><span><span class="fu"><a href="Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">subs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   F2.S006   F2.S007   F2.S008   F2.S009   F2.S010   F2.S011   F2.S012   F2.S013 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2.169000  2.506002  2.842998  3.178998  3.516000  3.852000  4.188000  4.525002 </span>
@@ -1117,9 +1117,9 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Number of spectra: 35 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MSn retention times: 45:27 - 45:30 minutes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded [Mon Nov  6 08:23:39 2023] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Filter: select parent/children scans for 21945 [Mon Nov  6 08:23:40 2023] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded [Sat Dec 30 19:23:09 2023] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Filter: select parent/children scans for 21945 [Sat Dec 30 19:23:09 2023] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Meta data  - - -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> phenoData</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   rowNames: MS3TMT11.mzML</span>
@@ -1149,9 +1149,9 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Number of spectra: 3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MSn retention times: 45:27 - 45:27 minutes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded [Mon Nov  6 08:23:39 2023] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Filter: select parent/children scans for 21946 [Mon Nov  6 08:23:41 2023] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded [Sat Dec 30 19:23:09 2023] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Filter: select parent/children scans for 21946 [Sat Dec 30 19:23:09 2023] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Meta data  - - -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> phenoData</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   rowNames: MS3TMT11.mzML</span>

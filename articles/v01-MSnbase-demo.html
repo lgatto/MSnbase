@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.2</span>
       </span>
     </div>
 
@@ -655,7 +655,7 @@ protein.</p>
 <span><span class="co">## - - - Processing information - - -</span></span>
 <span><span class="co">## Data loaded: Wed May 11 18:54:39 2011 </span></span>
 <span><span class="co">## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] </span></span>
-<span><span class="co">## Data [logically] subsetted 3 spectra: Mon Nov  6 08:26:25 2023 </span></span>
+<span><span class="co">## Data [logically] subsetted 3 spectra: Sat Dec 30 19:24:59 2023 </span></span>
 <span><span class="co">##  MSnbase version: 1.1.22 </span></span>
 <span><span class="co">## - - - Meta data  - - -</span></span>
 <span><span class="co">## phenoData</span></span>
@@ -1140,8 +1140,8 @@ experiment to the original 1.9 Mb.</p>
 <span><span class="co">## - - - Processing information - - -</span></span>
 <span><span class="co">## Data loaded: Wed May 11 18:54:39 2011 </span></span>
 <span><span class="co">## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] </span></span>
-<span><span class="co">## Curves &lt;= 400 set to '0': Mon Nov  6 08:26:33 2023 </span></span>
-<span><span class="co">## Spectra cleaned: Mon Nov  6 08:26:33 2023 </span></span>
+<span><span class="co">## Curves &lt;= 400 set to '0': Sat Dec 30 19:25:04 2023 </span></span>
+<span><span class="co">## Spectra cleaned: Sat Dec 30 19:25:05 2023 </span></span>
 <span><span class="co">##  MSnbase version: 1.1.22 </span></span>
 <span><span class="co">## - - - Meta data  - - -</span></span>
 <span><span class="co">## phenoData</span></span>
@@ -1246,9 +1246,9 @@ number of reporter ions, that can be accessed with the
 <span><span class="co">## - - - Processing information - - -</span></span>
 <span><span class="co">## Data loaded: Wed May 11 18:54:39 2011 </span></span>
 <span><span class="co">## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] </span></span>
-<span><span class="co">## Curves &lt;= 400 set to '0': Mon Nov  6 08:26:33 2023 </span></span>
-<span><span class="co">## Spectra cleaned: Mon Nov  6 08:26:33 2023 </span></span>
-<span><span class="co">## iTRAQ4 quantification by trapezoidation: Mon Nov  6 08:26:37 2023 </span></span>
+<span><span class="co">## Curves &lt;= 400 set to '0': Sat Dec 30 19:25:04 2023 </span></span>
+<span><span class="co">## Spectra cleaned: Sat Dec 30 19:25:05 2023 </span></span>
+<span><span class="co">## iTRAQ4 quantification by trapezoidation: Sat Dec 30 19:25:07 2023 </span></span>
 <span><span class="co">##  MSnbase version: 1.1.22</span></span></code></pre>
 <div class="sourceCode" id="cb102"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">qnt</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -1469,7 +1469,7 @@ imputation on the <code>naset</code> example data:</p>
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">impute</a></span><span class="op">(</span><span class="va">naset</span>, <span class="st">"min"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/pSet-class.html">processingData</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">## Data imputation using min Mon Nov  6 08:26:39 2023 </span></span>
+<span><span class="co">## Data imputation using min Sat Dec 30 19:25:08 2023 </span></span>
 <span><span class="co">##  MSnbase version: 1.15.6</span></span></code></pre>
 <div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -1541,7 +1541,7 @@ figure @ref(fig:miximp)).</p>
 <span><span class="co">## experimentData: use 'experimentData(object)'</span></span>
 <span><span class="co">## Annotation:  </span></span>
 <span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">## Data imputation using mixed Mon Nov  6 08:26:40 2023 </span></span>
+<span><span class="co">## Data imputation using mixed Sat Dec 30 19:25:09 2023 </span></span>
 <span><span class="co">##  MSnbase version: 1.15.6</span></span></code></pre>
 <p>Please read <code>?MsCoreUtils::impute_matix()</code> for a
 description of the different methods.</p>
@@ -1693,14 +1693,14 @@ functions with <code>method=function(x) { ... }</code>. We will use the
 <span><span class="co">## - - - Processing information - - -</span></span>
 <span><span class="co">## Data loaded: Wed May 11 18:54:39 2011 </span></span>
 <span><span class="co">## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] </span></span>
-<span><span class="co">## Curves &lt;= 400 set to '0': Mon Nov  6 08:26:33 2023 </span></span>
-<span><span class="co">## Spectra cleaned: Mon Nov  6 08:26:33 2023 </span></span>
-<span><span class="co">## iTRAQ4 quantification by trapezoidation: Mon Nov  6 08:26:37 2023 </span></span>
-<span><span class="co">## Subset [55,4][54,4] Mon Nov  6 08:26:37 2023 </span></span>
-<span><span class="co">## Removed features with more than 0 NAs: Mon Nov  6 08:26:37 2023 </span></span>
-<span><span class="co">## Dropped featureData's levels Mon Nov  6 08:26:37 2023 </span></span>
-<span><span class="co">## Combined 54 features into 40 using median: Mon Nov  6 08:26:42 2023 </span></span>
-<span><span class="co">##  MSnbase version: 2.29.1</span></span></code></pre>
+<span><span class="co">## Curves &lt;= 400 set to '0': Sat Dec 30 19:25:04 2023 </span></span>
+<span><span class="co">## Spectra cleaned: Sat Dec 30 19:25:05 2023 </span></span>
+<span><span class="co">## iTRAQ4 quantification by trapezoidation: Sat Dec 30 19:25:07 2023 </span></span>
+<span><span class="co">## Subset [55,4][54,4] Sat Dec 30 19:25:07 2023 </span></span>
+<span><span class="co">## Removed features with more than 0 NAs: Sat Dec 30 19:25:07 2023 </span></span>
+<span><span class="co">## Dropped featureData's levels Sat Dec 30 19:25:07 2023 </span></span>
+<span><span class="co">## Combined 54 features into 40 using median: Sat Dec 30 19:25:10 2023 </span></span>
+<span><span class="co">##  MSnbase version: 2.29.2</span></span></code></pre>
 <p>Of interest is also the <code>iPQF</code> spectra-to-protein
 summarisation method, which integrates peptide spectra characteristics
 and quantitative values for protein quantitation estimation. See
@@ -1775,12 +1775,12 @@ automatically from the feature meta-data using the default
 <code class="sourceCode R"><span><span class="va">siquant</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">msexp</span>, method <span class="op">=</span> <span class="st">"SIn"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/pSet-class.html">processingData</a></span><span class="op">(</span><span class="va">siquant</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">## Data loaded: Mon Nov  6 08:26:31 2023 </span></span>
-<span><span class="co">## Filtered 2 unidentified peptides out [Mon Nov  6 08:26:32 2023] </span></span>
-<span><span class="co">## Quantitation by total ion current [Mon Nov  6 08:26:42 2023] </span></span>
-<span><span class="co">## Combined 3 features into 3 using sum: Mon Nov  6 08:26:43 2023 </span></span>
-<span><span class="co">## Quantification by SIn [Mon Nov  6 08:26:43 2023] </span></span>
-<span><span class="co">##  MSnbase version: 2.29.1</span></span></code></pre>
+<span><span class="co">## Data loaded: Sat Dec 30 19:25:03 2023 </span></span>
+<span><span class="co">## Filtered 2 unidentified peptides out [Sat Dec 30 19:25:04 2023] </span></span>
+<span><span class="co">## Quantitation by total ion current [Sat Dec 30 19:25:10 2023] </span></span>
+<span><span class="co">## Combined 3 features into 3 using sum: Sat Dec 30 19:25:11 2023 </span></span>
+<span><span class="co">## Quantification by SIn [Sat Dec 30 19:25:11 2023] </span></span>
+<span><span class="co">##  MSnbase version: 2.29.2</span></span></code></pre>
 <div class="sourceCode" id="cb151"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">siquant</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##         dummyiTRAQ.mzXML</span></span>
@@ -2162,8 +2162,8 @@ inserted appropriately.</p>
 <span><span class="co">## experimentData: use 'experimentData(object)'</span></span>
 <span><span class="co">## Annotation:  </span></span>
 <span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">## Combined [27,4] and [24,4] MSnSets Mon Nov  6 08:26:55 2023 </span></span>
-<span><span class="co">##  MSnbase version: 2.29.1</span></span></code></pre>
+<span><span class="co">## Combined [27,4] and [24,4] MSnSets Sat Dec 30 19:25:18 2023 </span></span>
+<span><span class="co">##  MSnbase version: 2.29.2</span></span></code></pre>
 <p>In summary, when experiments with different samples need to be
 combined (along the columns), one needs to (1) clarify the sample names
 using <code>updateSampleNames</code> or better manually, for biological
@@ -2305,7 +2305,7 @@ using the <code>topN</code> method.</p>
 <div class="section level2">
 <h2 class="unnumbered" id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
-<pre><code><span><span class="co">## R version 4.3.1 (2023-06-16)</span></span>
+<pre><code><span><span class="co">## R version 4.3.2 (2023-10-31)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
 <span><span class="co">## Running under: Ubuntu 22.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
@@ -2330,95 +2330,97 @@ using the <code>topN</code> method.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
 <span><span class="co">##  [1] gplots_3.1.3         msdata_0.42.0        pRoloc_1.42.0       </span></span>
-<span><span class="co">##  [4] BiocParallel_1.36.0  MLInterfaces_1.82.0  cluster_2.1.4       </span></span>
-<span><span class="co">##  [7] annotate_1.80.0      XML_3.99-0.15        AnnotationDbi_1.64.1</span></span>
+<span><span class="co">##  [4] BiocParallel_1.36.0  MLInterfaces_1.82.0  cluster_2.1.6       </span></span>
+<span><span class="co">##  [7] annotate_1.80.0      XML_3.99-0.16        AnnotationDbi_1.64.1</span></span>
 <span><span class="co">## [10] IRanges_2.36.0       pRolocdata_1.40.0    Rdisop_1.62.0       </span></span>
-<span><span class="co">## [13] zoo_1.8-12           MSnbase_2.29.1       ProtGenerics_1.33.1 </span></span>
-<span><span class="co">## [16] S4Vectors_0.40.1     mzR_2.36.0           Rcpp_1.0.11         </span></span>
+<span><span class="co">## [13] zoo_1.8-12           MSnbase_2.29.2       ProtGenerics_1.34.0 </span></span>
+<span><span class="co">## [16] S4Vectors_0.40.2     mzR_2.36.0           Rcpp_1.0.11         </span></span>
 <span><span class="co">## [19] Biobase_2.62.0       BiocGenerics_0.48.1  ggplot2_3.4.4       </span></span>
 <span><span class="co">## [22] BiocStyle_2.30.0    </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##   [1] splines_4.3.1               bitops_1.0-7               </span></span>
-<span><span class="co">##   [3] filelock_1.0.2              tibble_3.2.1               </span></span>
+<span><span class="co">##   [1] splines_4.3.2               bitops_1.0-7               </span></span>
+<span><span class="co">##   [3] filelock_1.0.3              tibble_3.2.1               </span></span>
 <span><span class="co">##   [5] hardhat_1.3.0               preprocessCore_1.61.0      </span></span>
-<span><span class="co">##   [7] pROC_1.18.5                 rpart_4.1.21               </span></span>
-<span><span class="co">##   [9] lifecycle_1.0.3             doParallel_1.0.17          </span></span>
-<span><span class="co">##  [11] rprojroot_2.0.4             globals_0.16.2             </span></span>
-<span><span class="co">##  [13] lattice_0.22-5              MASS_7.3-60                </span></span>
+<span><span class="co">##   [7] pROC_1.18.5                 rpart_4.1.23               </span></span>
+<span><span class="co">##   [9] lifecycle_1.0.4             doParallel_1.0.17          </span></span>
+<span><span class="co">##  [11] globals_0.16.2              lattice_0.22-5             </span></span>
+<span><span class="co">##  [13] MASS_7.3-60                 MultiAssayExperiment_1.28.0</span></span>
 <span><span class="co">##  [15] dendextend_1.17.1           magrittr_2.0.3             </span></span>
 <span><span class="co">##  [17] limma_3.58.1                plotly_4.10.3              </span></span>
-<span><span class="co">##  [19] sass_0.4.7                  rmarkdown_2.25             </span></span>
-<span><span class="co">##  [21] jquerylib_0.1.4             yaml_2.3.7                 </span></span>
-<span><span class="co">##  [23] MsCoreUtils_1.15.1          DBI_1.1.3                  </span></span>
+<span><span class="co">##  [19] sass_0.4.8                  rmarkdown_2.25             </span></span>
+<span><span class="co">##  [21] jquerylib_0.1.4             yaml_2.3.8                 </span></span>
+<span><span class="co">##  [23] MsCoreUtils_1.14.1          DBI_1.2.0                  </span></span>
 <span><span class="co">##  [25] RColorBrewer_1.1-3          lubridate_1.9.3            </span></span>
 <span><span class="co">##  [27] abind_1.4-5                 zlibbioc_1.48.0            </span></span>
 <span><span class="co">##  [29] GenomicRanges_1.54.1        purrr_1.0.2                </span></span>
-<span><span class="co">##  [31] mixtools_2.0.0              RCurl_1.98-1.13            </span></span>
-<span><span class="co">##  [33] nnet_7.3-19                 rappdirs_0.3.3             </span></span>
-<span><span class="co">##  [35] ipred_0.9-14                lava_1.7.3                 </span></span>
-<span><span class="co">##  [37] GenomeInfoDbData_1.2.11     listenv_0.9.0              </span></span>
-<span><span class="co">##  [39] parallelly_1.36.0           pkgdown_2.0.7.9000         </span></span>
-<span><span class="co">##  [41] ncdf4_1.21                  codetools_0.2-19           </span></span>
-<span><span class="co">##  [43] DelayedArray_0.28.0         xml2_1.3.5                 </span></span>
-<span><span class="co">##  [45] tidyselect_1.2.0            farver_2.1.1               </span></span>
-<span><span class="co">##  [47] viridis_0.6.4               matrixStats_1.0.0          </span></span>
-<span><span class="co">##  [49] BiocFileCache_2.10.1        jsonlite_1.8.7             </span></span>
-<span><span class="co">##  [51] caret_6.0-94                e1071_1.7-13               </span></span>
-<span><span class="co">##  [53] survival_3.5-7              iterators_1.0.14           </span></span>
-<span><span class="co">##  [55] systemfonts_1.0.5           foreach_1.5.2              </span></span>
-<span><span class="co">##  [57] segmented_1.6-4             tools_4.3.1                </span></span>
-<span><span class="co">##  [59] progress_1.2.2              ragg_1.2.6                 </span></span>
-<span><span class="co">##  [61] glue_1.6.2                  prodlim_2023.08.28         </span></span>
-<span><span class="co">##  [63] gridExtra_2.3               SparseArray_1.2.0          </span></span>
-<span><span class="co">##  [65] mgcv_1.9-0                  xfun_0.41                  </span></span>
-<span><span class="co">##  [67] MatrixGenerics_1.14.0       GenomeInfoDb_1.38.0        </span></span>
-<span><span class="co">##  [69] dplyr_1.1.3                 withr_2.5.2                </span></span>
-<span><span class="co">##  [71] BiocManager_1.30.22         fastmap_1.1.1              </span></span>
-<span><span class="co">##  [73] fansi_1.0.5                 caTools_1.18.2             </span></span>
-<span><span class="co">##  [75] digest_0.6.33               timechange_0.2.0           </span></span>
-<span><span class="co">##  [77] R6_2.5.1                    textshaping_0.3.7          </span></span>
-<span><span class="co">##  [79] colorspace_2.1-0            gtools_3.9.4               </span></span>
-<span><span class="co">##  [81] lpSolve_5.6.19              biomaRt_2.58.0             </span></span>
-<span><span class="co">##  [83] RSQLite_2.3.3               utf8_1.2.4                 </span></span>
-<span><span class="co">##  [85] tidyr_1.3.0                 generics_0.1.3             </span></span>
-<span><span class="co">##  [87] hexbin_1.28.3               data.table_1.14.8          </span></span>
-<span><span class="co">##  [89] recipes_1.0.8               FNN_1.1.3.2                </span></span>
-<span><span class="co">##  [91] class_7.3-22                prettyunits_1.2.0          </span></span>
-<span><span class="co">##  [93] httr_1.4.7                  htmlwidgets_1.6.2          </span></span>
-<span><span class="co">##  [95] S4Arrays_1.2.0              ModelMetrics_1.2.2.2       </span></span>
-<span><span class="co">##  [97] pkgconfig_2.0.3             gtable_0.3.4               </span></span>
-<span><span class="co">##  [99] timeDate_4022.108           blob_1.2.4                 </span></span>
-<span><span class="co">## [101] impute_1.76.0               XVector_0.42.0             </span></span>
-<span><span class="co">## [103] htmltools_0.5.7             bookdown_0.36              </span></span>
-<span><span class="co">## [105] MALDIquant_1.22.1           clue_0.3-65                </span></span>
-<span><span class="co">## [107] scales_1.2.1                png_0.1-8                  </span></span>
-<span><span class="co">## [109] gower_1.0.1                 knitr_1.45                 </span></span>
-<span><span class="co">## [111] reshape2_1.4.4              coda_0.19-4                </span></span>
-<span><span class="co">## [113] nlme_3.1-163                curl_5.1.0                 </span></span>
-<span><span class="co">## [115] proxy_0.4-27                cachem_1.0.8               </span></span>
-<span><span class="co">## [117] stringr_1.5.0               KernSmooth_2.23-22         </span></span>
-<span><span class="co">## [119] parallel_4.3.1              mzID_1.40.0                </span></span>
-<span><span class="co">## [121] vsn_3.70.0                  desc_1.4.2                 </span></span>
-<span><span class="co">## [123] pillar_1.9.0                vctrs_0.6.4                </span></span>
-<span><span class="co">## [125] pcaMethods_1.94.0           randomForest_4.7-1.1       </span></span>
-<span><span class="co">## [127] dbplyr_2.4.0                xtable_1.8-4               </span></span>
-<span><span class="co">## [129] evaluate_0.23               mvtnorm_1.2-3              </span></span>
-<span><span class="co">## [131] cli_3.6.1                   compiler_4.3.1             </span></span>
-<span><span class="co">## [133] rlang_1.1.2                 crayon_1.5.2               </span></span>
-<span><span class="co">## [135] future.apply_1.11.0         labeling_0.4.3             </span></span>
-<span><span class="co">## [137] LaplacesDemon_16.1.6        mclust_6.0.0               </span></span>
-<span><span class="co">## [139] affy_1.80.0                 plyr_1.8.9                 </span></span>
-<span><span class="co">## [141] fs_1.6.3                    stringi_1.7.12             </span></span>
-<span><span class="co">## [143] viridisLite_0.4.2           munsell_0.5.0              </span></span>
-<span><span class="co">## [145] Biostrings_2.70.1           lazyeval_0.2.2             </span></span>
-<span><span class="co">## [147] Matrix_1.6-1.1              hms_1.1.3                  </span></span>
-<span><span class="co">## [149] bit64_4.0.5                 future_1.33.0              </span></span>
-<span><span class="co">## [151] KEGGREST_1.42.0             statmod_1.5.0              </span></span>
-<span><span class="co">## [153] highr_0.10                  SummarizedExperiment_1.32.0</span></span>
-<span><span class="co">## [155] kernlab_0.9-32              memoise_2.0.1              </span></span>
-<span><span class="co">## [157] affyio_1.72.0               bslib_0.5.1                </span></span>
-<span><span class="co">## [159] sampling_2.10               bit_4.0.5</span></span></code></pre>
+<span><span class="co">##  [31] mixtools_2.0.0              AnnotationFilter_1.26.0    </span></span>
+<span><span class="co">##  [33] RCurl_1.98-1.13             nnet_7.3-19                </span></span>
+<span><span class="co">##  [35] rappdirs_0.3.3              ipred_0.9-14               </span></span>
+<span><span class="co">##  [37] lava_1.7.3                  GenomeInfoDbData_1.2.11    </span></span>
+<span><span class="co">##  [39] listenv_0.9.0               parallelly_1.36.0          </span></span>
+<span><span class="co">##  [41] pkgdown_2.0.7.9000          ncdf4_1.22                 </span></span>
+<span><span class="co">##  [43] codetools_0.2-19            DelayedArray_0.28.0        </span></span>
+<span><span class="co">##  [45] xml2_1.3.6                  tidyselect_1.2.0           </span></span>
+<span><span class="co">##  [47] farver_2.1.1                viridis_0.6.4              </span></span>
+<span><span class="co">##  [49] matrixStats_1.2.0           BiocFileCache_2.10.1       </span></span>
+<span><span class="co">##  [51] jsonlite_1.8.8              caret_6.0-94               </span></span>
+<span><span class="co">##  [53] e1071_1.7-14                survival_3.5-7             </span></span>
+<span><span class="co">##  [55] iterators_1.0.14            systemfonts_1.0.5          </span></span>
+<span><span class="co">##  [57] foreach_1.5.2               segmented_2.0-1            </span></span>
+<span><span class="co">##  [59] tools_4.3.2                 progress_1.2.3             </span></span>
+<span><span class="co">##  [61] ragg_1.2.7                  glue_1.6.2                 </span></span>
+<span><span class="co">##  [63] prodlim_2023.08.28          gridExtra_2.3              </span></span>
+<span><span class="co">##  [65] SparseArray_1.2.3           mgcv_1.9-1                 </span></span>
+<span><span class="co">##  [67] xfun_0.41                   MatrixGenerics_1.14.0      </span></span>
+<span><span class="co">##  [69] GenomeInfoDb_1.38.5         dplyr_1.1.4                </span></span>
+<span><span class="co">##  [71] withr_2.5.2                 BiocManager_1.30.22        </span></span>
+<span><span class="co">##  [73] fastmap_1.1.1               fansi_1.0.6                </span></span>
+<span><span class="co">##  [75] caTools_1.18.2              digest_0.6.33              </span></span>
+<span><span class="co">##  [77] timechange_0.2.0            R6_2.5.1                   </span></span>
+<span><span class="co">##  [79] textshaping_0.3.7           colorspace_2.1-0           </span></span>
+<span><span class="co">##  [81] gtools_3.9.5                lpSolve_5.6.20             </span></span>
+<span><span class="co">##  [83] biomaRt_2.58.0              RSQLite_2.3.4              </span></span>
+<span><span class="co">##  [85] utf8_1.2.4                  tidyr_1.3.0                </span></span>
+<span><span class="co">##  [87] generics_0.1.3              hexbin_1.28.3              </span></span>
+<span><span class="co">##  [89] data.table_1.14.10          recipes_1.0.9              </span></span>
+<span><span class="co">##  [91] FNN_1.1.3.2                 class_7.3-22               </span></span>
+<span><span class="co">##  [93] prettyunits_1.2.0           PSMatch_1.6.0              </span></span>
+<span><span class="co">##  [95] httr_1.4.7                  htmlwidgets_1.6.4          </span></span>
+<span><span class="co">##  [97] S4Arrays_1.2.0              ModelMetrics_1.2.2.2       </span></span>
+<span><span class="co">##  [99] pkgconfig_2.0.3             gtable_0.3.4               </span></span>
+<span><span class="co">## [101] timeDate_4032.109           blob_1.2.4                 </span></span>
+<span><span class="co">## [103] impute_1.76.0               XVector_0.42.0             </span></span>
+<span><span class="co">## [105] htmltools_0.5.7             bookdown_0.37              </span></span>
+<span><span class="co">## [107] MALDIquant_1.22.1           clue_0.3-65                </span></span>
+<span><span class="co">## [109] scales_1.3.0                png_0.1-8                  </span></span>
+<span><span class="co">## [111] gower_1.0.1                 knitr_1.45                 </span></span>
+<span><span class="co">## [113] reshape2_1.4.4              coda_0.19-4                </span></span>
+<span><span class="co">## [115] nlme_3.1-164                curl_5.2.0                 </span></span>
+<span><span class="co">## [117] proxy_0.4-27                cachem_1.0.8               </span></span>
+<span><span class="co">## [119] stringr_1.5.1               KernSmooth_2.23-22         </span></span>
+<span><span class="co">## [121] parallel_4.3.2              mzID_1.40.0                </span></span>
+<span><span class="co">## [123] vsn_3.70.0                  desc_1.4.3                 </span></span>
+<span><span class="co">## [125] pillar_1.9.0                vctrs_0.6.5                </span></span>
+<span><span class="co">## [127] pcaMethods_1.94.0           randomForest_4.7-1.1       </span></span>
+<span><span class="co">## [129] dbplyr_2.4.0                xtable_1.8-4               </span></span>
+<span><span class="co">## [131] evaluate_0.23               mvtnorm_1.2-4              </span></span>
+<span><span class="co">## [133] cli_3.6.2                   compiler_4.3.2             </span></span>
+<span><span class="co">## [135] rlang_1.1.2                 crayon_1.5.2               </span></span>
+<span><span class="co">## [137] future.apply_1.11.1         labeling_0.4.3             </span></span>
+<span><span class="co">## [139] LaplacesDemon_16.1.6        mclust_6.0.1               </span></span>
+<span><span class="co">## [141] QFeatures_1.12.0            affy_1.80.0                </span></span>
+<span><span class="co">## [143] plyr_1.8.9                  fs_1.6.3                   </span></span>
+<span><span class="co">## [145] stringi_1.8.3               viridisLite_0.4.2          </span></span>
+<span><span class="co">## [147] munsell_0.5.0               Biostrings_2.70.1          </span></span>
+<span><span class="co">## [149] lazyeval_0.2.2              Matrix_1.6-4               </span></span>
+<span><span class="co">## [151] hms_1.1.3                   future_1.33.1              </span></span>
+<span><span class="co">## [153] bit64_4.0.5                 KEGGREST_1.42.0            </span></span>
+<span><span class="co">## [155] statmod_1.5.0               highr_0.10                 </span></span>
+<span><span class="co">## [157] SummarizedExperiment_1.32.0 kernlab_0.9-32             </span></span>
+<span><span class="co">## [159] igraph_1.6.0                memoise_2.0.1              </span></span>
+<span><span class="co">## [161] affyio_1.72.0               bslib_0.6.1                </span></span>
+<span><span class="co">## [163] sampling_2.10               bit_4.0.5</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

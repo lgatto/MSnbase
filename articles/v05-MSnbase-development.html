@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.2</span>
       </span>
     </div>
 
@@ -678,7 +678,9 @@ class. <code>MChromatograms</code> objects can be extracted from an
 <span><span class="co">## Extends: </span></span>
 <span><span class="co">## Class "matrix", from data part</span></span>
 <span><span class="co">## Class "array", by class "matrix", distance 2</span></span>
+<span><span class="co">## Class "replValueSp", by class "matrix", distance 2</span></span>
 <span><span class="co">## Class "structure", by class "matrix", distance 3</span></span>
+<span><span class="co">## Class "matrix_OR_array_OR_table_OR_numeric", by class "matrix", distance 3</span></span>
 <span><span class="co">## Class "vector", by class "matrix", distance 4, with explicit coerce</span></span>
 <span><span class="co">## Class "vector_OR_factor", by class "matrix", distance 5, with explicit coerce</span></span>
 <span><span class="co">## Class "vector_OR_Vector", by class "matrix", distance 5, with explicit coerce</span></span></code></pre>
@@ -732,7 +734,7 @@ instance in the specific method.</p>
 </h2>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.3.1 (2023-06-16)</span></span>
+<pre><code><span><span class="co">## R version 4.3.2 (2023-10-31)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu (64-bit)</span></span>
 <span><span class="co">## Running under: Ubuntu 22.04.3 LTS</span></span>
 <span><span class="co">## </span></span>
@@ -756,36 +758,59 @@ instance in the specific method.</p>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] MSnbase_2.29.1      ProtGenerics_1.33.1 S4Vectors_0.40.1   </span></span>
+<span><span class="co">## [1] MSnbase_2.29.2      ProtGenerics_1.34.0 S4Vectors_0.40.2   </span></span>
 <span><span class="co">## [4] mzR_2.36.0          Rcpp_1.0.11         Biobase_2.62.0     </span></span>
 <span><span class="co">## [7] BiocGenerics_0.48.1 BiocStyle_2.30.0   </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] gtable_0.3.4          impute_1.76.0         xfun_0.41            </span></span>
-<span><span class="co">##  [4] bslib_0.5.1           ggplot2_3.4.4         lattice_0.22-5       </span></span>
-<span><span class="co">##  [7] generics_0.1.3        vctrs_0.6.4           tools_4.3.1          </span></span>
-<span><span class="co">## [10] parallel_4.3.1        tibble_3.2.1          fansi_1.0.5          </span></span>
-<span><span class="co">## [13] vsn_3.70.0            cluster_2.1.4         pkgconfig_2.0.3      </span></span>
-<span><span class="co">## [16] desc_1.4.2            lifecycle_1.0.3       compiler_4.3.1       </span></span>
-<span><span class="co">## [19] stringr_1.5.0         textshaping_0.3.7     statmod_1.5.0        </span></span>
-<span><span class="co">## [22] munsell_0.5.0         codetools_0.2-19      ncdf4_1.21           </span></span>
-<span><span class="co">## [25] clue_0.3-65           htmltools_0.5.7       sass_0.4.7           </span></span>
-<span><span class="co">## [28] yaml_2.3.7            preprocessCore_1.61.0 pkgdown_2.0.7.9000   </span></span>
-<span><span class="co">## [31] pillar_1.9.0          jquerylib_0.1.4       MASS_7.3-60          </span></span>
-<span><span class="co">## [34] BiocParallel_1.36.0   limma_3.58.1          affy_1.80.0          </span></span>
-<span><span class="co">## [37] cachem_1.0.8          iterators_1.0.14      foreach_1.5.2        </span></span>
-<span><span class="co">## [40] MALDIquant_1.22.1     pcaMethods_1.94.0     tidyselect_1.2.0     </span></span>
-<span><span class="co">## [43] digest_0.6.33         stringi_1.7.12        dplyr_1.1.3          </span></span>
-<span><span class="co">## [46] purrr_1.0.2           bookdown_0.36         rprojroot_2.0.4      </span></span>
-<span><span class="co">## [49] fastmap_1.1.1         grid_4.3.1            colorspace_2.1-0     </span></span>
-<span><span class="co">## [52] cli_3.6.1             magrittr_2.0.3        XML_3.99-0.15        </span></span>
-<span><span class="co">## [55] utf8_1.2.4            scales_1.2.1          rmarkdown_2.25       </span></span>
-<span><span class="co">## [58] affyio_1.72.0         mzID_1.40.0           ragg_1.2.6           </span></span>
-<span><span class="co">## [61] memoise_2.0.1         evaluate_0.23         knitr_1.45           </span></span>
-<span><span class="co">## [64] IRanges_2.36.0        doParallel_1.0.17     rlang_1.1.2          </span></span>
-<span><span class="co">## [67] glue_1.6.2            BiocManager_1.30.22   jsonlite_1.8.7       </span></span>
-<span><span class="co">## [70] plyr_1.8.9            R6_2.5.1              zlibbioc_1.48.0      </span></span>
-<span><span class="co">## [73] systemfonts_1.0.5     fs_1.6.3              MsCoreUtils_1.15.1</span></span></code></pre>
+<span><span class="co">##  [1] bitops_1.0-7                rlang_1.1.2                </span></span>
+<span><span class="co">##  [3] magrittr_2.0.3              clue_0.3-65                </span></span>
+<span><span class="co">##  [5] matrixStats_1.2.0           compiler_4.3.2             </span></span>
+<span><span class="co">##  [7] systemfonts_1.0.5           vctrs_0.6.5                </span></span>
+<span><span class="co">##  [9] stringr_1.5.1               pkgconfig_2.0.3            </span></span>
+<span><span class="co">## [11] crayon_1.5.2                fastmap_1.1.1              </span></span>
+<span><span class="co">## [13] XVector_0.42.0              utf8_1.2.4                 </span></span>
+<span><span class="co">## [15] rmarkdown_2.25              preprocessCore_1.61.0      </span></span>
+<span><span class="co">## [17] ragg_1.2.7                  purrr_1.0.2                </span></span>
+<span><span class="co">## [19] xfun_0.41                   MultiAssayExperiment_1.28.0</span></span>
+<span><span class="co">## [21] zlibbioc_1.48.0             cachem_1.0.8               </span></span>
+<span><span class="co">## [23] GenomeInfoDb_1.38.5         jsonlite_1.8.8             </span></span>
+<span><span class="co">## [25] DelayedArray_0.28.0         BiocParallel_1.36.0        </span></span>
+<span><span class="co">## [27] parallel_4.3.2              cluster_2.1.6              </span></span>
+<span><span class="co">## [29] R6_2.5.1                    bslib_0.6.1                </span></span>
+<span><span class="co">## [31] stringi_1.8.3               limma_3.58.1               </span></span>
+<span><span class="co">## [33] GenomicRanges_1.54.1        jquerylib_0.1.4            </span></span>
+<span><span class="co">## [35] bookdown_0.37               SummarizedExperiment_1.32.0</span></span>
+<span><span class="co">## [37] iterators_1.0.14            knitr_1.45                 </span></span>
+<span><span class="co">## [39] IRanges_2.36.0              Matrix_1.6-4               </span></span>
+<span><span class="co">## [41] igraph_1.6.0                tidyselect_1.2.0           </span></span>
+<span><span class="co">## [43] abind_1.4-5                 yaml_2.3.8                 </span></span>
+<span><span class="co">## [45] doParallel_1.0.17           codetools_0.2-19           </span></span>
+<span><span class="co">## [47] affy_1.80.0                 lattice_0.22-5             </span></span>
+<span><span class="co">## [49] tibble_3.2.1                plyr_1.8.9                 </span></span>
+<span><span class="co">## [51] evaluate_0.23               desc_1.4.3                 </span></span>
+<span><span class="co">## [53] pillar_1.9.0                affyio_1.72.0              </span></span>
+<span><span class="co">## [55] BiocManager_1.30.22         MatrixGenerics_1.14.0      </span></span>
+<span><span class="co">## [57] foreach_1.5.2               MALDIquant_1.22.1          </span></span>
+<span><span class="co">## [59] ncdf4_1.22                  generics_0.1.3             </span></span>
+<span><span class="co">## [61] RCurl_1.98-1.13             ggplot2_3.4.4              </span></span>
+<span><span class="co">## [63] munsell_0.5.0               scales_1.3.0               </span></span>
+<span><span class="co">## [65] glue_1.6.2                  lazyeval_0.2.2             </span></span>
+<span><span class="co">## [67] tools_4.3.2                 mzID_1.40.0                </span></span>
+<span><span class="co">## [69] QFeatures_1.12.0            vsn_3.70.0                 </span></span>
+<span><span class="co">## [71] fs_1.6.3                    XML_3.99-0.16              </span></span>
+<span><span class="co">## [73] grid_4.3.2                  impute_1.76.0              </span></span>
+<span><span class="co">## [75] MsCoreUtils_1.14.1          colorspace_2.1-0           </span></span>
+<span><span class="co">## [77] GenomeInfoDbData_1.2.11     PSMatch_1.6.0              </span></span>
+<span><span class="co">## [79] cli_3.6.2                   textshaping_0.3.7          </span></span>
+<span><span class="co">## [81] fansi_1.0.6                 S4Arrays_1.2.0             </span></span>
+<span><span class="co">## [83] dplyr_1.1.4                 AnnotationFilter_1.26.0    </span></span>
+<span><span class="co">## [85] pcaMethods_1.94.0           gtable_0.3.4               </span></span>
+<span><span class="co">## [87] sass_0.4.8                  digest_0.6.33              </span></span>
+<span><span class="co">## [89] SparseArray_1.2.3           memoise_2.0.1              </span></span>
+<span><span class="co">## [91] htmltools_0.5.7             pkgdown_2.0.7.9000         </span></span>
+<span><span class="co">## [93] lifecycle_1.0.4             statmod_1.5.0              </span></span>
+<span><span class="co">## [95] MASS_7.3-60</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

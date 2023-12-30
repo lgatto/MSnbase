@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.2</span>
       </span>
     </div>
 
@@ -724,7 +724,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8 1688.0375  136748.8 y15*   y*  15 1 SITARHGEVLQLRPK -0.07729359</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## neutral loss</span></span></span>
-<span class="r-in"><span><span class="fu">defaultNeutralLoss</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">PSMatch</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/PSMatch/man/calculateFragments.html" class="external-link">defaultNeutralLoss</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $water</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Cterm" "D"     "E"     "S"     "T"    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -733,7 +733,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## disable water loss on the C terminal</span></span></span>
-<span class="r-in"><span><span class="fu">defaultNeutralLoss</span><span class="op">(</span>disableWaterLoss<span class="op">=</span><span class="st">"Cterm"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">PSMatch</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/PSMatch/man/calculateFragments.html" class="external-link">defaultNeutralLoss</a></span><span class="op">(</span>disableWaterLoss<span class="op">=</span><span class="st">"Cterm"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $water</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "D" "E" "S" "T"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -752,7 +752,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 285.16697 y2_   y_   2 1  QR</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 286.15098 y2*   y*   2 1  QR</span>
 <span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"PQR"</span>,</span></span>
-<span class="r-in"><span>                   neutralLoss<span class="op">=</span><span class="fu">defaultNeutralLoss</span><span class="op">(</span>disableWaterLoss<span class="op">=</span><span class="st">"Cterm"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                   neutralLoss<span class="op">=</span><span class="fu">PSMatch</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/PSMatch/man/calculateFragments.html" class="external-link">defaultNeutralLoss</a></span><span class="op">(</span>disableWaterLoss<span class="op">=</span><span class="st">"Cterm"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  98.06004  b1    b   1 1   P</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 226.11862  b2    b   2 1  PQ</span>
@@ -760,7 +760,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 303.17753  y2    y   2 1  QR</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 286.15098 y2*   y*   2 1  QR</span>
 <span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"PQR"</span>,</span></span>
-<span class="r-in"><span>                   neutralLoss<span class="op">=</span><span class="fu">defaultNeutralLoss</span><span class="op">(</span>disableAmmoniaLoss<span class="op">=</span><span class="st">"Q"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                   neutralLoss<span class="op">=</span><span class="fu">PSMatch</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/PSMatch/man/calculateFragments.html" class="external-link">defaultNeutralLoss</a></span><span class="op">(</span>disableAmmoniaLoss<span class="op">=</span><span class="st">"Q"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  98.06004  b1    b   1 1   P</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 226.11862  b2    b   2 1  PQ</span>
