@@ -36,7 +36,7 @@ formalises the longtime collaborative development efforts of its core
 members under the R for Mass Spectrometry organisation to facilitate
 dissemination and accessibility of their work.
 
-I you are using MSnbase, consider switching to the **R for Mass
+If you are using MSnbase, consider switching to the **R for Mass
 Spectrometry** packages, in particular,
 [Spectra](https://rformassspectrometry.github.io/Spectra/) for raw
 data, [PSMatch](https://rformassspectrometry.github.io/PSMatch/) for
