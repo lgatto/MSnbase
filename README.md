@@ -26,6 +26,24 @@ To get an overview of the package, see the
 [*MSnbase-demo*](https://lgatto.github.io/MSnbase/articles/v01-MSnbase-demo.html)
 vignette. More vignettes are available in the *Articles* tab.
 
+## The R for Mass Spectrometry initiative
+
+The aim of the *R for Mass Spectrometry* initiative is to provide
+efficient, thoroughly documented, tested and flexible R software for
+the analysis and interpretation of high throughput mass spectrometry
+assays, including proteomics and metabolomics experiments. The project
+formalises the longtime collaborative development efforts of its core
+members under the R for Mass Spectrometry organisation to facilitate
+dissemination and accessibility of their work.
+
+I you are using MSnbase, consider switching to the **R for Mass
+Spectrometry** packages, in particular,
+[Spectra](https://rformassspectrometry.github.io/Spectra/) for raw
+data, [PSMatch](https://rformassspectrometry.github.io/PSMatch/) for
+identification data, and
+[QFeatures](https://rformassspectrometry.github.io/QFeatures/) for
+quantitative data. See https://RforMassSpectrometry.org for details.
+
 ## Installation
 
 To install the package:
