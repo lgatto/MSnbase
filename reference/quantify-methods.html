@@ -28,7 +28,7 @@ Since version 1.13.5, parallel quantitation is supported by the
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.3</span>
       </span>
     </div>
 
@@ -284,7 +284,7 @@ Since version 1.13.5, parallel quantitation is supported by the
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded: Wed May 11 18:54:39 2011 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> iTRAQ4 quantification by trapezoidation: Sat Dec 30 23:04:03 2023 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iTRAQ4 quantification by trapezoidation: Thu Jan 25 18:37:08 2024 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 1.1.22 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## specifying a custom parallel framework</span></span></span>
@@ -321,12 +321,12 @@ Since version 1.13.5, parallel quantitation is supported by the
 <span class="r-in"><span><span class="va">si</span> <span class="op">&lt;-</span> <span class="fu">quantify</span><span class="op">(</span><span class="va">msexp</span>, method <span class="op">=</span> <span class="st">"SIn"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="pSet-class.html">processingData</a></span><span class="op">(</span><span class="va">si</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded: Sat Dec 30 23:04:04 2023 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Filtered 2 unidentified peptides out [Sat Dec 30 23:04:04 2023] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Quantitation by total ion current [Sat Dec 30 23:04:04 2023] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Combined 3 features into 3 using sum: Sat Dec 30 23:04:04 2023 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Quantification by SIn [Sat Dec 30 23:04:04 2023] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded: Thu Jan 25 18:37:09 2024 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Filtered 2 unidentified peptides out [Thu Jan 25 18:37:09 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Quantitation by total ion current [Thu Jan 25 18:37:09 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Combined 3 features into 3 using sum: Thu Jan 25 18:37:09 2024 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Quantification by SIn [Thu Jan 25 18:37:09 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.3 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">si</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         dummyiTRAQ.mzXML</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ECA0510     0.0006553518</span>
@@ -336,13 +336,13 @@ Since version 1.13.5, parallel quantitation is supported by the
 <span class="r-in"><span><span class="va">saf</span> <span class="op">&lt;-</span> <span class="fu">quantify</span><span class="op">(</span><span class="va">msexp</span>, method <span class="op">=</span> <span class="st">"NSAF"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="pSet-class.html">processingData</a></span><span class="op">(</span><span class="va">saf</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded: Sat Dec 30 23:04:04 2023 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Filtered 2 unidentified peptides out [Sat Dec 30 23:04:04 2023] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Filtered 0 unidentified peptides out [Sat Dec 30 23:04:04 2023] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Quantitation by count [Sat Dec 30 23:04:04 2023] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Combined 3 features into 3 using user-defined function: Sat Dec 30 23:04:04 2023 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Quantification by NSAF [Sat Dec 30 23:04:04 2023] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded: Thu Jan 25 18:37:09 2024 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Filtered 2 unidentified peptides out [Thu Jan 25 18:37:09 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Filtered 0 unidentified peptides out [Thu Jan 25 18:37:09 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Quantitation by count [Thu Jan 25 18:37:09 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Combined 3 features into 3 using user-defined function: Thu Jan 25 18:37:09 2024 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Quantification by NSAF [Thu Jan 25 18:37:09 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.3 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">saf</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         dummyiTRAQ.mzXML</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ECA0510        0.4306167</span>
