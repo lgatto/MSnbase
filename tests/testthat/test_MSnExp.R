@@ -377,14 +377,6 @@ test_that("phenoData<- on MSnExp works", {
     expect_equal(phenoData(im), pd_2)
 })
 
-test_that("injection time", {
-    f <- msdata::proteomics(full.names = TRUE,
-                            pattern = "MS3TMT10_01022016_32917-33481.mzML.gz")
-    it1 <- MSnbase:::injectionTimeFromFile1(f) ## in millisecs
-    it2 <- fData(readMSData(f, mode = "onDisk"))$injectionTime ## in millisecs
-    expect_equal(it1, it2)
-})
-
 test_that("chromatogram,MSnExp works", {
     inMem <- microtofq_in_mem_ms1
     ## Reduce here the tests. Most of the tests are performed in

@@ -1,5 +1,9 @@
 # MSnbase 2.29
 
+## MSnbase 2.29.3
+
+- Remove XML dependency.
+
 ## MSnbase 2.29.2
 
 - Use fragmentation functions from PSMatch.
