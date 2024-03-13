@@ -25,7 +25,6 @@ importFrom(MsCoreUtils, closest, rbindFill,
            impute_matrix, normalize_matrix,
            robustSummary, medianPolish,
            formatRt)
-importFrom(XML, xmlParse, xpathSApply)
 importFrom(graphics, abline, axis, grid, legend, lines, points, text,
            barplot, layout, par, matplot, mtext)
 importFrom(stats, ave, median, medpolish, quantile, reorder, setNames,
