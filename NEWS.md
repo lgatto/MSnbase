@@ -2,7 +2,7 @@
 
 ## MSnbase 2.29.4
 
-- Remove XML dependency.
+- Move XML to suggests.
 
 ## MSnbase 2.29.3
 
