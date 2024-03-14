@@ -96,7 +96,6 @@ Imports:
     ggplot2,
     scales,
     MASS,
-    XML,
     Rcpp
 Suggests:
     testthat,
@@ -119,6 +118,7 @@ Suggests:
     imputeLCMD,
     norm,
     gplots,
+    XML,
     shiny,
     magrittr,
     SummarizedExperiment
@@ -132,7 +132,7 @@ URL: https://lgatto.github.io/MSnbase
 biocViews: ImmunoOncology, Infrastructure, Proteomics, MassSpectrometry,
     QualityControl, DataImport
 Roxygen: list(markdown=TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.1
 Collate:
     'AllClassUnions.R'
     'AllGenerics.R'
