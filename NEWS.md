@@ -1,8 +1,12 @@
 # MSnbase 2.29
 
-## MSnbase 2.29.3
+## MSnbase 2.29.4
 
 - Remove XML dependency.
+
+## MSnbase 2.29.3
+
+- Remove parts of XML dependency.
 
 ## MSnbase 2.29.2
 
