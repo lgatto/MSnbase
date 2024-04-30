@@ -7,7 +7,7 @@
 listOf(x, class, valid = TRUE)
 }
 \arguments{
-\item{x}{A code{list}.}
+\item{x}{A \code{list}.}
 
 \item{class}{A \code{character} defining the expected class.}
 

@@ -19,22 +19,22 @@
 
   The \code{plotNA} method produces plots that illustrate missing data.
   The completeness of the full dataset or a set of proteins (ordered by
-  increasing NA content along the x axis) is represented. 
+  increasing NA content along the x axis) is represented.
   The methods make use the \code{ggplot2} system. An object of class
-  'ggplot' is returned invisibly. 
+  'ggplot' is returned invisibly.
 }
 
 
 \section{Methods}{
   \describe{
-    \item{is.na}{\code{signature(x = "MSnSet")}}{      
+    \item{is.na}{\code{signature(x = "MSnSet")}
       Returns the a matrix of logicals of dimensions \code{dim(x)}
       specifiying if respective values are missing in the
       \code{MSnSet}'s expression matrix.
     }
-    \item{plotNA}{\code{signature(object = "MSnSet", pNA = "numeric")}}{
+    \item{plotNA}{\code{signature(object = "MSnSet", pNA = "numeric")}
       Plots missing data for an \code{MSnSet} instance. \code{pNA} is a
-      \code{numeric} of length 1 that specifies the percentage 
+      \code{numeric} of length 1 that specifies the percentage
       of accepted missing data values per features. This value will be
       highlighted with a point on the figure, illustrating the overall
       percentage of NA values in the full data set and the number of
