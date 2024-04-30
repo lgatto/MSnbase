@@ -577,7 +577,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
             match(fileNames(subs), fns),
             FUN = function(cur_sample, cur_file, rtm, mzm, aggFun) {
                 ## Load all spectra for that file. applies also any proc steps
-                sps <- spectra(cur_sample)
+                sps <- spectra(cur_sample, BPPARAM = SerialParam())
                 ## Related to issue #229: can we avoid getting all spectra and
                 ## just return the intensity values for each spectrum instead?
                 rts <- rtime(cur_sample)

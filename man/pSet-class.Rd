@@ -185,7 +185,7 @@
     \item{fileNames}{\code{signature(object = "pSet")}: Access file
       names in the \code{processingData} slot. }
     \item{fromFile}{\code{signature(object = "pSet")}: Access raw data
-      file indexes (to be found in the 'code{processingData}' slot) from
+      file indexes (to be found in the \code{processingData} slot) from
       which the individual object's spectra where read from. }
     \item{centroided}{\code{signature(object = "pSet")}: Indicates
       whether individual spectra are centroided ('TRUE') of uncentroided

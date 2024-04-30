@@ -364,7 +364,7 @@ setMethod("length", "pSet", function(x) length(assayData(x)))
 
 setMethod("assayData", "pSet", function(object) object@assayData)
 
-setMethod("spectra", "MSnExp", function(object) {
+setMethod("spectra", "MSnExp", function(object, ...) {
     sl <- as.list(assayData(object))
     fnames <- featureNames(object)
     ## reordering the spectra in the spectra list to match

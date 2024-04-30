@@ -30,7 +30,7 @@
   These objects are used to plot the reporter ions of interest in an
   MSMS spectra (see \code{"\linkS4class{Spectrum2}"}) as well as for
   quantification (see \code{\link{quantify}}).
-  
+
 }
 
 \usage{
@@ -46,15 +46,15 @@ TMT11HCD
 }
 
 \references{
-  Thompson A, Sch\"{a}fer J, Kuhn K, Kienle S, Schwarz J, Schmidt G,
+  Thompson A, Schäfer J, Kuhn K, Kienle S, Schwarz J, Schmidt G,
   Neumann T, Johnstone R, Mohammed AK, Hamon C.
   "Tandem mass tags: a novel quantification strategy for comparative
   analysis of complex protein mixtures by MS/MS."
   \emph{Anal Chem.} 2003 Apr 15;75(8):1895-904. \emph{Erratum} in:
   \emph{Anal Chem.} 2006 Jun 15;78(12):4235. Mohammed, A Karim A [added]
-  and  
+  and
   \emph{Anal Chem.} 2003 Sep 15;75(18):4942. Johnstone, R [added].
-  PubMed PMID: 12713048. 
+  PubMed PMID: 12713048.
 }
 
 \examples{

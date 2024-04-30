@@ -55,7 +55,7 @@
       6-plex set. Load with \code{data(TMT6)}. }
     \item{\code{TMT7}:}{\code{ReporterIon} object for the TMT
       6-plex set plus the isobaric tag. Load with \code{data(TMT6)}. }
-  }  
+  }
 }
 
 \section{Objects from the Class}{
@@ -103,7 +103,7 @@
     \item{\code{mz(object, ...)}}{ Returns the expected mz values of
       reporter ions. Additional arguments are currently ignored. }
     \item{\code{reporterColours(object)} or reporterColors(object)}{
-      Returns the colours used to highlight the reporter ions. } 
+      Returns the colours used to highlight the reporter ions. }
     \item{\code{reporterNames(object)}}{ Returns the name of the
       individual reporter ions. If not specified or is an incorrect
       number of names is provided at initialisation, the names are
@@ -129,16 +129,16 @@
   amine-reactive isobaric tagging reagents."
   \emph{Mol Cell Proteomics}, 2004 Dec;3(12):1154-69.
   Epub 2004 Sep 22. PubMed PMID: 15385600.
-  
-  Thompson A, Sch\"{a}fer J, Kuhn K, Kienle S, Schwarz J, Schmidt G,
+
+  Thompson A, Schäfer J, Kuhn K, Kienle S, Schwarz J, Schmidt G,
   Neumann T, Johnstone R, Mohammed AK, Hamon C.
   "Tandem mass tags: a novel quantification strategy for comparative
   analysis of complex protein mixtures by MS/MS."
   \emph{Anal Chem.} 2003 Apr 15;75(8):1895-904. \emph{Erratum} in:
   \emph{Anal Chem.} 2006 Jun 15;78(12):4235. Mohammed, A Karim A [added]
-  and  
+  and
   \emph{Anal Chem.} 2003 Sep 15;75(18):4942. Johnstone, R [added].
-  PubMed PMID: 12713048. 
+  PubMed PMID: 12713048.
 }
 
 \author{
@@ -161,7 +161,7 @@ ri[1:2]
 }
 
 \seealso{
-  \code{\link{TMT6}} or \code{\link{iTRAQ4}} for readily available examples. 
+  \code{\link{TMT6}} or \code{\link{iTRAQ4}} for readily available examples.
 }
 
 \keyword{classes}

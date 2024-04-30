@@ -10,12 +10,10 @@
 \alias{exprs,MSnSet-method}
 \alias{dim,MSnSet-method}
 \alias{fileNames,MSnSet-method}
-%%\alias{normalise,MSnSet-method}
 \alias{msInfo,MSnSet-method}
 \alias{processingData,MSnSet-method}
 \alias{qual,MSnSet-method}
 \alias{qual}
-%%\alias{ratios,MSnSet-method}
 \alias{show,MSnSet-method}
 \alias{purityCorrect,MSnSet-method}
 \alias{purityCorrect,MSnSet,matrix-method}
@@ -82,7 +80,6 @@
 \alias{detectorType,MSnSet-method}
 \alias{description,MSnSet-method}
 
-%% functions
 \alias{updateFvarLabels}
 \alias{updateSampleNames}
 \alias{updateFeatureNames}
@@ -214,9 +211,6 @@
   inherited methods.
 
   \describe{
-    %% \item{$name}{\code{signature(x = "pSet")}: Access \code{name} column
-    %%   in \code{featureData}. Note that this behaviour is different to
-    %%   the \code{eSet}, where \code{$} accesses the \code{phenoData}. }
     \item{acquisitionNum}{
       \code{acquisitionNum(signature(object = "MSnSet"))}: Returns the
       a numeric vector with acquisition number of each spectrum. The vector
@@ -235,26 +229,33 @@
       names.
     }
 
-
     \item{dim}{\code{signature(x = "MSnSet")}: Returns the dimensions of
       object's assay data, i.e the number of samples and the number of
       features. }
+
     \item{fileNames}{\code{signature(object = "MSnSet")}: Access file
       names in the \code{processingData} slot. }
+
     \item{msInfo}{\code{signature(object = "MSnSet")}: Prints the MIAPE-MS
       meta-data stored in the \code{experimentData} slot. }
+
     \item{processingData}{\code{signature(object = "MSnSet")}: Access the
       \code{processingData} slot. }
+
     \item{show}{\code{signature(object = "MSnSet")}: Displays object
       content as text. }
+
     \item{qual}{\code{signature(object = "MSnSet")}: Access the reporter
       ion peaks description. }
+
     \item{purityCorrect}{\code{signature(object = "MSnSet", impurities =
 	"matrix")}: performs reporter ions purity correction. See
       \code{\link{purityCorrect}} documentation for more details. }
+
     \item{normalise}{\code{signature(object = "MSnSet")}: Performs
       \code{MSnSet} normalisation. See \code{\link{normalise}} for more
       details. }
+
     \item{t}{\code{signature(x = "MSnSet")}: Returns a transposed
       \code{MSnSet} object where features are now aligned along columns
       and samples along rows and the \code{phenoData} and
@@ -281,23 +282,22 @@
       Coerce object from \code{MSnSet} to
       \code{SummarizedExperiment}. Only part of the metadata is
       retained. See \code{addMSnSetMetadata} and the example below for
-      details.  }
+      details.}
 
-    %% \item{ratios}{\code{signature(object = "MSnSet")}: ... }
-    \item{write.exprs}{signature(x = "MSnSet")}{Writes expression values
+    \item{write.exprs}{\code{signature(x = "MSnSet")}: Writes expression values
       to a tab-separated file (default is \code{tmp.txt}). The
       \code{fDataCols} parameter can be used to specify which
       \code{featureData} columns (as column names, column number or
       \code{logical}) to append on the right of the expression matrix.
       The following arguments are the same as \code{write.table}.}
 
-    \item{combine}{signature(x = "MSnSet", y = "MSnSet", ...)}{ Combines
+    \item{combine}{\code{signature(x = "MSnSet", y = "MSnSet", ...)}: Combines
       2 or more \code{MSnSet} instances according to their feature names.
       Note that the \code{qual} slot and the processing information are
       silently dropped. }
 
-    \item{topN}{signature(object = "MSnSet", groupBy, n = 3, fun, ..., verbose =
-      isMSnbaseVerbose())}{
+    \item{topN}{\code{signature(object = "MSnSet", groupBy, n = 3, fun,
+	..., verbose = isMSnbaseVerbose())}:
       Selects the \code{n} most intense features (typically peptides or
       spectra) out of all available for each set defined by
       \code{groupBy} (typically proteins) and creates a new instance of
@@ -316,8 +316,8 @@
       detailed in the \code{synapter} package vignette.
     }
 
-    \item{filterNA}{signature(object = "MSnSet", pNA = "numeric",
-      pattern = "character", droplevels = "logical")}{ This method
+    \item{filterNA}{\code{signature(object = "MSnSet", pNA = "numeric",
+      pattern = "character", droplevels = "logical")}: This method
       subsets \code{object} by removing features that have (strictly)
       more than \code{pNA} percent of NA values. Default \code{pNA} is
       0, which removes any feature that exhibits missing data.
@@ -335,38 +335,39 @@
       methods for missing data exploration.
     }
 
-    \item{filterZero}{signature(object = "MSnSet", pNA = "numeric",
-      pattern = "character", droplevels = "logical")}{ As
+    \item{filterZero}{\code{signature(object = "MSnSet", pNA = "numeric",
+      pattern = "character", droplevels = "logical")}: As
       \code{filterNA}, but for zeros.
     }
 
-    \item{filterMsLevel}{signature(object = "MSnSet", msLevel. =
-      "numeric", fcol = "character")}{ Keeps only spectra with level
+    \item{filterMsLevel}{\code{signature(object = "MSnSet", msLevel. =
+      "numeric", fcol = "character")} Keeps only spectra with level
       \code{msLevel.}, as defined by the \code{fcol} feature variable
-      (default is \code{"msLevel"}). }
+      (default is \code{"msLevel"}).
+    }
 
-
-    \item{log}{signature(object = "MSnSet", base = "numeric")}{ Log
+    \item{log}{\code{signature(object = "MSnSet", base = "numeric")} Log
       transforms \code{exprs(object)} using
       \code{base::log}. \code{base} (defaults is \code{e='exp(1)'}) must
       be a positive or complex number, the base with respect to which
       logarithms are computed.
     }
 
-    \item{droplevels}{signature(x = "MSnSet", ...)}{Drops the unused
+    \item{droplevels}{\code{signature(x = "MSnSet", ...)}Drops the unused
       factor levels in the \code{featureData} slot. See
       \code{\link{droplevels}} for details.
     }
 
-    \item{impute}{\code{signature(object = "MSnSet", ...)}}{
+    \item{impute}{\code{signature(object = "MSnSet", ...)}
       Performs data imputation on the \code{MSnSet} object.
       See \code{\link{impute}} for more details.
     }
 
-    \item{trimws}{signature(object = "MSnSet", ...)}{Trim leading and/or
+    \item{trimws}{\code{signature(object = "MSnSet", ...)}Trim leading and/or
       trailing white spaces in the feature data slot. Also available for
       \code{data.frame} objects. See \code{?base::\link[base]{trimws}}
-      for details.  }
+      for details.
+    }
 
   }
 
@@ -377,7 +378,7 @@
 
 \section{Plotting}{
   \describe{
-    \item{meanSdPlot}{\code{signature(object = "MSnSet")}}{ Plots row
+    \item{meanSdPlot}{\code{signature(object = "MSnSet")} Plots row
       standard deviations versus row means. See
       \code{\link{meanSdPlot}} (\code{vsn} package) for more details.
     }
@@ -385,7 +386,7 @@
     \item{image}{\code{signature(x = "MSnSet", facetBy = "character",
 	sOrderBy = "character", legend = "character", low = "character",
 	high = "character", fnames = "logical", nmax =
-	"numeric")}}{Produces an heatmap of expression values in the
+	"numeric")} Produces an heatmap of expression values in the
 	\code{x} object. Simple horizontal facetting is enabled by
 	passing a single character as \code{facetBy}. Arbitrary
 	facetting can be performed manually by saving the return value
@@ -410,17 +411,18 @@
       }
 
     \item{plotNA}{\code{signature(object = "MSnSet", pNA =
-	"numeric")}}{
+	"numeric")}
 	Plots missing data for an \code{MSnSet} instance. \code{pNA} is a
 	\code{numeric} of length 1 that specifies the percentage
 	of accepted missing data values per features. This value will be
 	highlighted with a point on the figure, illustrating the overall
 	percentage of NA values in the full data set and the number of
 	proteins retained. Default is 1/2. See also
-	\code{\link{plotNA}}.}
+	\code{\link{plotNA}}.
+      }
 
     \item{MAplot}{\code{signature(object = "MSnSet", log.it = "logical",
-	base = "numeric", ...)}}{
+	base = "numeric", ...)}
       Produces MA plots (Ratio as a function
       of average intensity) for the samples in \code{object}. If
       \code{ncol(object) == 2}, then one MA plot is produced using the
@@ -431,25 +433,30 @@
       \code{base}. Further \code{...} arguments will be passed to the
       respective functions.
     }
+
     \item{addIdentificationData}{\code{signature(object = "MSnSet", ...)}:
       Adds identification data to a \code{MSnSet} instance.
       See \code{\link{addIdentificationData}} documentation for
-      more details and examples. }
+      more details and examples.
+    }
 
     \item{removeNoId}{\code{signature(object = "MSnSet", fcol =
 	"pepseq", keep = NULL)}: Removes non-identified features. See
       \code{\link{removeNoId}} documentation for more details and
-      examples. }
+      examples.
+    }
 
     \item{removeMultipleAssignment}{\code{signature(object = "MSnSet",
 	fcol = "nprot")}: Removes protein groups (or feature belong to
 	protein groups) with more than one member. The latter is defined
 	by extracting a feature variable (default is
-	\code{"nprot"}). Also removes non-identified features/ }
+	\code{"nprot"}). Also removes non-identified features.
+      }
 
     \item{idSummary}{\code{signature(object = "MSnSet", ...)}: Prints a
       summary that lists the percentage of identified features per file
-      (called \code{coverage}). }
+      (called \code{coverage}).
+    }
 
   }
 }
@@ -457,28 +464,29 @@
 \section{Functions}{
   \describe{
 
-    \item{updateFvarLabels}{signature(object, label, sep)}{ This
+    \item{updateFvarLabels}{\code{signature(object, label, sep)} This
       function updates \code{object}'s featureData variable labels by
       appending \code{label}. By default, \code{label} is the variable
-      name and the separator \code{sep} is \code{.}.}
+      name and the separator \code{sep} is \code{.}.
+    }
 
-    \item{updateSampleNames}{signature(object, label, sep)}{ This
+    \item{updateSampleNames}{\code{signature(object, label, sep)} This
       function updates \code{object}'s sample names by appending
       \code{label}. By default, \code{label} is the variable name and
       the separator \code{sep} is \code{.}.}
 
-    \item{updateFeatureNames}{signature(object, label, sep)}{ This
+    \item{updateFeatureNames}{\code{signature(object, label, sep)} This
       function updates \code{object}'s feature names by appending
       \code{label}. By default, \code{label} is the variable name and
       the separator \code{sep} is \code{.}.}
 
-    \item{ms2df}{signature(x, fcols)}{Coerces the \code{MSnSet} instance
+    \item{ms2df}{\code{signature(x, fcols)} Coerces the \code{MSnSet} instance
       to a \code{data.frame}. The direction of the data is retained and
       the feature variable labels that match \code{fcol} are appended to
       the expression values. See also \code{as(x, "data.frame")} above.
       }
 
-    \item{addMSnSetMetadata}{signature(x, y)}{When coercing an
+    \item{addMSnSetMetadata}{\code{signature(x, y)} When coercing an
       \code{MSnSet} \code{y} to a \code{SummarizedExperiment} \code{x}
       with \code{x <- as(y, "SummarizedExperiment")}, most of \code{y}'s
       metadata is lost. Only the file names, the processing log and the
@@ -486,7 +494,8 @@
       along. The \code{addMSnSetMetadata} function can be used to add
       the complete \code{processingData}, \code{experimentData} and
       \code{protocolData} slots. The downside of this is that MSnbase is
-      now required to use the \code{SummarizedExperiment} object.  }
+      now required to use the \code{SummarizedExperiment} object.
+    }
 
   }
 }
