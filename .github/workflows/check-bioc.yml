@@ -184,7 +184,7 @@ jobs:
       - name: Manually install preprocessCore without threading
         ## See https://github.com/Bioconductor/bioconductor_docker/issues/22
         run: |
-          git clone git clone git@git.bioconductor.org:packages/preprocessCore
+          git clone git@git.bioconductor.org:packages/preprocessCore
           cd preprocessCore
           R CMD INSTALL --configure-args="--disable-threading"  .
 
