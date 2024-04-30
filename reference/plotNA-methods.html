@@ -6,7 +6,7 @@ is.na returns the expression matrix of it MSnSet
   table and image (see example below).
 The plotNA method produces plots that illustrate missing data.
   The completeness of the full dataset or a set of proteins (ordered by
-  increasing NA content along the x axis) is represented. 
+  increasing NA content along the x axis) is represented.
   The methods make use the ggplot2 system. An object of class
   'ggplot' is returned invisibly."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -87,7 +87,7 @@ The plotNA method produces plots that illustrate missing data.
   <code>table</code> and <code>image</code> (see example below).</p>
 <p>The <code>plotNA</code> method produces plots that illustrate missing data.
   The completeness of the full dataset or a set of proteins (ordered by
-  increasing NA content along the x axis) is represented. 
+  increasing NA content along the x axis) is represented.
   The methods make use the <code>ggplot2</code> system. An object of class
   'ggplot' is returned invisibly.</p>
     </div>
@@ -96,22 +96,20 @@ The plotNA method produces plots that illustrate missing data.
     <div id="methods">
     <h2>Methods</h2>
     <p></p><dl><dt>is.na</dt>
-<dd><p><code>signature(x = "MSnSet")</code></p></dd>
-      
+<dd><p><code>signature(x = "MSnSet")</code>
       Returns the a matrix of logicals of dimensions <code>dim(x)</code>
       specifiying if respective values are missing in the
-      <code>MSnSet</code>'s expression matrix.
-    
-    <dt>plotNA</dt>
-<dd><p><code>signature(object = "MSnSet", pNA = "numeric")</code></p></dd>
+      <code>MSnSet</code>'s expression matrix.</p></dd>
 
+    <dt>plotNA</dt>
+<dd><p><code>signature(object = "MSnSet", pNA = "numeric")</code>
       Plots missing data for an <code>MSnSet</code> instance. <code>pNA</code> is a
-      <code>numeric</code> of length 1 that specifies the percentage 
+      <code>numeric</code> of length 1 that specifies the percentage
       of accepted missing data values per features. This value will be
       highlighted with a point on the figure, illustrating the overall
       percentage of NA values in the full data set and the number of
-      proteins retained. Default is 1/2.
-    
+      proteins retained. Default is 1/2.</p></dd>
+
   
 </dl></div>
     <div id="author">

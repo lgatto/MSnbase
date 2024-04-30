@@ -209,11 +209,7 @@
     <p>MSnSet specific methods or over-riding it's super-class are described
   below. See also more <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.eSet.html" class="external-link">eSet</a>"</code> for
   inherited methods.</p>
-<p></p><dl>
-    %% \item{$name}{\code{signature(x = "pSet")}: Access \code{name} column
-    %%   in \code{featureData}. Note that this behaviour is different to
-    %%   the \code{eSet}, where \code{$} accesses the \code{phenoData}. }
-    <dt>acquisitionNum</dt>
+<p></p><dl><dt>acquisitionNum</dt>
 <dd><p><code>acquisitionNum(signature(object = "MSnSet"))</code>: Returns the
       a numeric vector with acquisition number of each spectrum. The vector
       names are the corresponding spectrum names.
@@ -230,41 +226,48 @@
       names.</p></dd>
 
 
-
     <dt>dim</dt>
 <dd><p><code>signature(x = "MSnSet")</code>: Returns the dimensions of
       object's assay data, i.e the number of samples and the number of
       features.</p></dd>
 
+
     <dt>fileNames</dt>
 <dd><p><code>signature(object = "MSnSet")</code>: Access file
       names in the <code>processingData</code> slot.</p></dd>
+
 
     <dt>msInfo</dt>
 <dd><p><code>signature(object = "MSnSet")</code>: Prints the MIAPE-MS
       meta-data stored in the <code>experimentData</code> slot.</p></dd>
 
+
     <dt>processingData</dt>
 <dd><p><code>signature(object = "MSnSet")</code>: Access the
       <code>processingData</code> slot.</p></dd>
+
 
     <dt>show</dt>
 <dd><p><code>signature(object = "MSnSet")</code>: Displays object
       content as text.</p></dd>
 
+
     <dt>qual</dt>
 <dd><p><code>signature(object = "MSnSet")</code>: Access the reporter
       ion peaks description.</p></dd>
+
 
     <dt>purityCorrect</dt>
 <dd><p><code>signature(object = "MSnSet", impurities =
 	"matrix")</code>: performs reporter ions purity correction. See
       <code><a href="purityCorrect-methods.html">purityCorrect</a></code> documentation for more details.</p></dd>
 
+
     <dt>normalise</dt>
 <dd><p><code>signature(object = "MSnSet")</code>: Performs
       <code>MSnSet</code> normalisation. See <code><a href="normalise-methods.html">normalise</a></code> for more
       details.</p></dd>
+
 
     <dt>t</dt>
 <dd><p><code>signature(x = "MSnSet")</code>: Returns a transposed
@@ -303,27 +306,25 @@
       details.</p></dd>
 
 
-    %% \item{ratios}{\code{signature(object = "MSnSet")}: ... }
     <dt>write.exprs</dt>
-<dd><p>signature(x = "MSnSet")</p></dd>
-Writes expression values
+<dd><p><code>signature(x = "MSnSet")</code>: Writes expression values
       to a tab-separated file (default is <code>tmp.txt</code>). The
       <code>fDataCols</code> parameter can be used to specify which
       <code>featureData</code> columns (as column names, column number or
       <code>logical</code>) to append on the right of the expression matrix.
-      The following arguments are the same as <code>write.table</code>.
+      The following arguments are the same as <code>write.table</code>.</p></dd>
+
 
     <dt>combine</dt>
-<dd><p>signature(x = "MSnSet", y = "MSnSet", ...)</p></dd>
- Combines
+<dd><p><code>signature(x = "MSnSet", y = "MSnSet", ...)</code>: Combines
       2 or more <code>MSnSet</code> instances according to their feature names.
       Note that the <code>qual</code> slot and the processing information are
-      silently dropped. 
+      silently dropped.</p></dd>
+
 
     <dt>topN</dt>
-<dd><p>signature(object = "MSnSet", groupBy, n = 3, fun, ..., verbose =
-      isMSnbaseVerbose())</p></dd>
-
+<dd><p><code>signature(object = "MSnSet", groupBy, n = 3, fun,
+	..., verbose = isMSnbaseVerbose())</code>:
       Selects the <code>n</code> most intense features (typically peptides or
       spectra) out of all available for each set defined by
       <code>groupBy</code> (typically proteins) and creates a new instance of
@@ -333,80 +334,70 @@ Writes expression values
       decreasing order. Additional parameters can be passed to
       <code>fun</code> through <code>...</code>, for instance to control the
       behaviour of <code>topN</code> in case of <code>NA</code> values.
-      (Works also with <code>matrix</code> instances.)
+      (Works also with <code>matrix</code> instances.)</p>
+<p>See also the <code><a href="nQuants.html">nQuants</a></code> function to retrieve the
+      actual number of retained peptides out of <code>n</code>.</p>
+<p>A complete use case using <code>topN</code> and <code>nQuants</code> is
+      detailed in the <code>synapter</code> package vignette.</p></dd>
 
-      See also the <code><a href="nQuants.html">nQuants</a></code> function to retrieve the
-      actual number of retained peptides out of <code>n</code>.
-
-      A complete use case using <code>topN</code> and <code>nQuants</code> is
-      detailed in the <code>synapter</code> package vignette.
-    
 
     <dt>filterNA</dt>
-<dd><p>signature(object = "MSnSet", pNA = "numeric",
-      pattern = "character", droplevels = "logical")</p></dd>
- This method
+<dd><p><code>signature(object = "MSnSet", pNA = "numeric",
+      pattern = "character", droplevels = "logical")</code>: This method
       subsets <code>object</code> by removing features that have (strictly)
       more than <code>pNA</code> percent of NA values. Default <code>pNA</code> is
       0, which removes any feature that exhibits missing data.
       The method can also be used with a character pattern composed of
       <code>0</code> or <code>1</code> characters only. A <code>0</code> represent a
       column/sample that is allowed a missing values, while
-      columns/samples with and <code>1</code> must not have <code>NA</code>s.
-
-      This method also accepts <code>matrix</code>
+      columns/samples with and <code>1</code> must not have <code>NA</code>s.</p>
+<p>This method also accepts <code>matrix</code>
       instances. <code>droplevels</code> defines whether unused levels in the
       feature meta-data ought to be lost. Default is <code>TRUE</code>.
-      See the <code>droplevels</code> method below.
+      See the <code>droplevels</code> method below.</p>
+<p>See also the <code><a href="plotNA-methods.html">is.na.MSnSet</a></code> and <code><a href="plotNA-methods.html">plotNA</a></code>
+      methods for missing data exploration.</p></dd>
 
-      See also the <code><a href="plotNA-methods.html">is.na.MSnSet</a></code> and <code><a href="plotNA-methods.html">plotNA</a></code>
-      methods for missing data exploration.
-    
 
     <dt>filterZero</dt>
-<dd><p>signature(object = "MSnSet", pNA = "numeric",
-      pattern = "character", droplevels = "logical")</p></dd>
- As
-      <code>filterNA</code>, but for zeros.
-    
+<dd><p><code>signature(object = "MSnSet", pNA = "numeric",
+      pattern = "character", droplevels = "logical")</code>: As
+      <code>filterNA</code>, but for zeros.</p></dd>
+
 
     <dt>filterMsLevel</dt>
-<dd><p>signature(object = "MSnSet", msLevel. =
-      "numeric", fcol = "character")</p></dd>
- Keeps only spectra with level
+<dd><p><code>signature(object = "MSnSet", msLevel. =
+      "numeric", fcol = "character")</code> Keeps only spectra with level
       <code>msLevel.</code>, as defined by the <code>fcol</code> feature variable
-      (default is <code>"msLevel"</code>). 
+      (default is <code>"msLevel"</code>).</p></dd>
 
 
     <dt>log</dt>
-<dd><p>signature(object = "MSnSet", base = "numeric")</p></dd>
- Log
+<dd><p><code>signature(object = "MSnSet", base = "numeric")</code> Log
       transforms <code>exprs(object)</code> using
       <code><a href="https://rdrr.io/r/base/Log.html" class="external-link">base::log</a></code>. <code>base</code> (defaults is <code>e='exp(1)'</code>) must
       be a positive or complex number, the base with respect to which
-      logarithms are computed.
-    
+      logarithms are computed.</p></dd>
+
 
     <dt>droplevels</dt>
-<dd><p>signature(x = "MSnSet", ...)</p></dd>
-Drops the unused
+<dd><p><code>signature(x = "MSnSet", ...)</code>Drops the unused
       factor levels in the <code>featureData</code> slot. See
-      <code><a href="https://rdrr.io/r/base/droplevels.html" class="external-link">droplevels</a></code> for details.
-    
+      <code><a href="https://rdrr.io/r/base/droplevels.html" class="external-link">droplevels</a></code> for details.</p></dd>
+
 
     <dt>impute</dt>
-<dd><p><code>signature(object = "MSnSet", ...)</code></p></dd>
-
+<dd><p><code>signature(object = "MSnSet", ...)</code>
       Performs data imputation on the <code>MSnSet</code> object.
-      See <code>impute</code> for more details.
-    
+      See <code>impute</code> for more details.</p></dd>
+
 
     <dt>trimws</dt>
-<dd><p>signature(object = "MSnSet", ...)</p></dd>
-Trim leading and/or
+<dd><p><code>signature(object = "MSnSet", ...)</code>Trim leading and/or
       trailing white spaces in the feature data slot. Also available for
       <code>data.frame</code> objects. See <code>?base::<a href="https://rdrr.io/r/base/trimws.html" class="external-link">trimws</a></code>
-      for details.  
+      for details.</p></dd>
+
 
   
 </dl><p>Additional accessors for the experimental metadata
@@ -416,18 +407,16 @@ Trim leading and/or
     <div id="plotting">
     <h2>Plotting</h2>
     <p></p><dl><dt>meanSdPlot</dt>
-<dd><p><code>signature(object = "MSnSet")</code></p></dd>
- Plots row
+<dd><p><code>signature(object = "MSnSet")</code> Plots row
       standard deviations versus row means. See
-      <code>meanSdPlot</code> (<code>vsn</code> package) for more details.
-    
+      <code>meanSdPlot</code> (<code>vsn</code> package) for more details.</p></dd>
+
 
     <dt>image</dt>
 <dd><p><code>signature(x = "MSnSet", facetBy = "character",
 	sOrderBy = "character", legend = "character", low = "character",
 	high = "character", fnames = "logical", nmax =
-	"numeric")</code></p></dd>
-Produces an heatmap of expression values in the
+	"numeric")</code> Produces an heatmap of expression values in the
 	<code>x</code> object. Simple horizontal facetting is enabled by
 	passing a single character as <code>facetBy</code>. Arbitrary
 	facetting can be performed manually by saving the return value
@@ -439,34 +428,31 @@ Produces an heatmap of expression values in the
 	data, the values are considered as log fold-changes and a
 	divergent colour scale is used. Otherwise, a gradient from low
 	to high is used. To scale the quantitative data in <code>x</code>
-	prior to plotting, please see the <code>scale</code> method.
-
-	When there are more than <code>nmax</code> (default is 50)
+	prior to plotting, please see the <code>scale</code> method.</p>
+<p>When there are more than <code>nmax</code> (default is 50)
 	features/rows, these are not printed. This behaviour can be
 	controlled by setting <code>fnames</code> to <code>TRUE</code> (always
-	print) or <code>FALSE</code> (never print). See examples below.
-
-	The code is based on Vlad Petyuk's
+	print) or <code>FALSE</code> (never print). See examples below.</p>
+<p>The code is based on Vlad Petyuk's
 	<code>vp.misc::image_msnset</code>. The previous version of this
-	method is still available through the <code>image2</code> function.
-      
+	method is still available through the <code>image2</code> function.</p></dd>
+
 
     <dt>plotNA</dt>
 <dd><p><code>signature(object = "MSnSet", pNA =
-	"numeric")</code></p></dd>
-
+	"numeric")</code>
 	Plots missing data for an <code>MSnSet</code> instance. <code>pNA</code> is a
 	<code>numeric</code> of length 1 that specifies the percentage
 	of accepted missing data values per features. This value will be
 	highlighted with a point on the figure, illustrating the overall
 	percentage of NA values in the full data set and the number of
 	proteins retained. Default is 1/2. See also
-	<code><a href="plotNA-methods.html">plotNA</a></code>.
+	<code><a href="plotNA-methods.html">plotNA</a></code>.</p></dd>
+
 
     <dt>MAplot</dt>
 <dd><p><code>signature(object = "MSnSet", log.it = "logical",
-	base = "numeric", ...)</code></p></dd>
-
+	base = "numeric", ...)</code>
       Produces MA plots (Ratio as a function
       of average intensity) for the samples in <code>object</code>. If
       <code>ncol(object) == 2</code>, then one MA plot is produced using the
@@ -475,8 +461,9 @@ Produces an heatmap of expression values in the
       <code>mva.pairs</code>. <code>log.it</code> specifies is the data
       should be log-transformed (default is <code>TRUE</code>) using
       <code>base</code>. Further <code>...</code> arguments will be passed to the
-      respective functions.
-    
+      respective functions.</p></dd>
+
+
     <dt>addIdentificationData</dt>
 <dd><p><code>signature(object = "MSnSet", ...)</code>:
       Adds identification data to a <code>MSnSet</code> instance.
@@ -496,7 +483,7 @@ Produces an heatmap of expression values in the
 	fcol = "nprot")</code>: Removes protein groups (or feature belong to
 	protein groups) with more than one member. The latter is defined
 	by extracting a feature variable (default is
-	<code>"nprot"</code>). Also removes non-identified features/</p></dd>
+	<code>"nprot"</code>). Also removes non-identified features.</p></dd>
 
 
     <dt>idSummary</dt>
@@ -510,37 +497,35 @@ Produces an heatmap of expression values in the
     <div id="functions">
     <h2>Functions</h2>
     <p></p><dl><dt>updateFvarLabels</dt>
-<dd><p>signature(object, label, sep)</p></dd>
- This
+<dd><p><code>signature(object, label, sep)</code> This
       function updates <code>object</code>'s featureData variable labels by
       appending <code>label</code>. By default, <code>label</code> is the variable
-      name and the separator <code>sep</code> is <code>.</code>.
+      name and the separator <code>sep</code> is <code>.</code>.</p></dd>
+
 
     <dt>updateSampleNames</dt>
-<dd><p>signature(object, label, sep)</p></dd>
- This
+<dd><p><code>signature(object, label, sep)</code> This
       function updates <code>object</code>'s sample names by appending
       <code>label</code>. By default, <code>label</code> is the variable name and
-      the separator <code>sep</code> is <code>.</code>.
+      the separator <code>sep</code> is <code>.</code>.</p></dd>
+
 
     <dt>updateFeatureNames</dt>
-<dd><p>signature(object, label, sep)</p></dd>
- This
+<dd><p><code>signature(object, label, sep)</code> This
       function updates <code>object</code>'s feature names by appending
       <code>label</code>. By default, <code>label</code> is the variable name and
-      the separator <code>sep</code> is <code>.</code>.
+      the separator <code>sep</code> is <code>.</code>.</p></dd>
+
 
     <dt>ms2df</dt>
-<dd><p>signature(x, fcols)</p></dd>
-Coerces the <code>MSnSet</code> instance
+<dd><p><code>signature(x, fcols)</code> Coerces the <code>MSnSet</code> instance
       to a <code>data.frame</code>. The direction of the data is retained and
       the feature variable labels that match <code>fcol</code> are appended to
-      the expression values. See also <code>as(x, "data.frame")</code> above.
-      
+      the expression values. See also <code>as(x, "data.frame")</code> above.</p></dd>
+
 
     <dt>addMSnSetMetadata</dt>
-<dd><p>signature(x, y)</p></dd>
-When coercing an
+<dd><p><code>signature(x, y)</code> When coercing an
       <code>MSnSet</code> <code>y</code> to a <code>SummarizedExperiment</code> <code>x</code>
       with <code>x &lt;- as(y, "SummarizedExperiment")</code>, most of <code>y</code>'s
       metadata is lost. Only the file names, the processing log and the
@@ -548,7 +533,8 @@ When coercing an
       along. The <code>addMSnSetMetadata</code> function can be used to add
       the complete <code>processingData</code>, <code>experimentData</code> and
       <code>protocolData</code> slots. The downside of this is that MSnbase is
-      now required to use the <code>SummarizedExperiment</code> object.  
+      now required to use the <code>SummarizedExperiment</code> object.</p></dd>
+
 
   
 </dl></div>
@@ -692,7 +678,7 @@ When coercing an
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded: Wed May 11 18:54:39 2011 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Subset [55,4][6,4] Tue Apr 30 12:21:32 2024 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Subset [55,4][6,4] Tue Apr 30 16:21:36 2024 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 1.1.22 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="mzRident2dfr.html">as</a></span><span class="op">(</span><span class="va">msnset</span>, <span class="st">"ExpressionSet"</span><span class="op">)</span></span></span>
