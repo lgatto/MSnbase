@@ -1,5 +1,9 @@
 # MSnbase 2.29
 
+## MSnbase 2.29.5
+
+- Disable nested parallel processing for `chromatogram()` method.
+
 ## MSnbase 2.29.4
 
 - Move XML to suggests.
