@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.5</span>
       </span>
     </div>
 
@@ -79,32 +79,32 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>sequence</dt>
+    <dl><dt id="arg-sequence">sequence<a class="anchor" aria-label="anchor" href="#arg-sequence"></a></dt>
 <dd><p><code>character</code>, peptide sequence.</p></dd>
 
-  <dt>object</dt>
+  <dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
 <dd><p>Object of class <code>"<a href="Spectrum2-class.html">Spectrum2</a>"</code> or
     <code>"missing"</code> .</p></dd>
 
-  <dt>tolerance</dt>
+  <dt id="arg-tolerance">tolerance<a class="anchor" aria-label="anchor" href="#arg-tolerance"></a></dt>
 <dd><p><code>numeric</code> tolerance between the theoretical and
     measured MZ values (only available if <code>object</code> is not <code>missing</code>).</p></dd>
 
-  <dt>method</dt>
+  <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
 <dd><p><code>method</code> used for for duplicated matches. Choose
     <code>"highest"</code> or <code>"closest"</code> to select the peak with the highest
     intensity respectively the closest MZ in the tolerance range. If
     <code>"all"</code> is given all possible matches in the tolerance range are
     reported (only available if <code>object</code> is not <code>missing</code>).</p></dd>
 
-  <dt>type</dt>
+  <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p><code>character</code> vector of target ions; possible values:
     <code>c("a", "b", "c", "x", "y", "z")</code>; default: <code>type=c("b", "y")</code>.</p></dd>
 
-  <dt>z</dt>
+  <dt id="arg-z">z<a class="anchor" aria-label="anchor" href="#arg-z"></a></dt>
 <dd><p><code>numeric</code> desired charge state; default <code>z=1</code>.</p></dd>
 
-  <dt>modifications</dt>
+  <dt id="arg-modifications">modifications<a class="anchor" aria-label="anchor" href="#arg-modifications"></a></dt>
 <dd><p>named <code>numeric</code> vector of used modifications. The
     name must correspond to the one-letter-code of the modified amino acid and
     the <code>numeric</code> value must represent the mass that should be added to the
@@ -113,7 +113,7 @@
     <code>Cterm</code> as names for modifications that should be added to the amino
     respectively carboxyl-terminus.</p></dd>
 
-  <dt>neutralLoss</dt>
+  <dt id="arg-neutralloss">neutralLoss<a class="anchor" aria-label="anchor" href="#arg-neutralloss"></a></dt>
 <dd><p><code>list</code>, it has to have two named elments,
     namely <code>water</code> and <code>ammonia</code> that contain a
     <code>character</code> vector which type of neutral loss should be calculated.
@@ -126,7 +126,7 @@
     <code>disableAmmoniaLoss</code> to remove single neutral loss options. See the
     example section for use cases.</p></dd>
 
-  <dt>verbose</dt>
+  <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p><code>logical</code> if <code>TRUE</code> (default) the used
     modifications are printed.</p></dd>
 
@@ -790,7 +790,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

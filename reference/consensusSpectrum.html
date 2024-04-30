@@ -19,7 +19,7 @@ definable proportion of spectra."><!-- mathjax --><script src="https://cdnjs.clo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.5</span>
       </span>
     </div>
 
@@ -93,12 +93,12 @@ definable proportion of spectra.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>x</dt>
+    <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p><code>list</code> of <a href="Spectrum-class.html">Spectrum</a> objects (either <a href="Spectrum1-class.html">Spectrum1</a> or
 <a href="Spectrum2-class.html">Spectrum2</a>).</p></dd>
 
 
-<dt>mzd</dt>
+<dt id="arg-mzd">mzd<a class="anchor" aria-label="anchor" href="#arg-mzd"></a></dt>
 <dd><p><code>numeric(1)</code> defining the maximal m/z difference below which
 mass peaks are grouped in to the same final mass peak (see details for
 more information). Defaults to <code>0</code>; see <code><a href="meanMzInts.html">meanMzInts()</a></code> for estimating
@@ -107,38 +107,38 @@ spectra. See also parameter <code>ppm</code> below for the definition of an m/z
 dependent peak grouping.</p></dd>
 
 
-<dt>minProp</dt>
+<dt id="arg-minprop">minProp<a class="anchor" aria-label="anchor" href="#arg-minprop"></a></dt>
 <dd><p><code>numeric(1)</code> defining the minimal proportion of spectra in
 which a mass peak has to be present in order to include it in the
 final consensus spectrum. Should be a number between 0 and 1 (present in
 all spectra).</p></dd>
 
 
-<dt>intensityFun</dt>
+<dt id="arg-intensityfun">intensityFun<a class="anchor" aria-label="anchor" href="#arg-intensityfun"></a></dt>
 <dd><p><code>function</code> (or name of a function) to be used to define
 the intensity of the aggregated peak. By default the median signal for
 a mass peak is reported.</p></dd>
 
 
-<dt>mzFun</dt>
+<dt id="arg-mzfun">mzFun<a class="anchor" aria-label="anchor" href="#arg-mzfun"></a></dt>
 <dd><p><code>function</code> (or name of a function) to be used to define the
 intensity of the aggregated peak. By default the median m/z is reported.
 Note that setting <code>weighted = TRUE</code> overrides this parameter.</p></dd>
 
 
-<dt>ppm</dt>
+<dt id="arg-ppm">ppm<a class="anchor" aria-label="anchor" href="#arg-ppm"></a></dt>
 <dd><p><code>numeric(1)</code> allowing to perform a m/z dependent grouping of mass
 peaks. See details for more information.</p></dd>
 
 
-<dt>weighted</dt>
+<dt id="arg-weighted">weighted<a class="anchor" aria-label="anchor" href="#arg-weighted"></a></dt>
 <dd><p><code>logical(1)</code> whether the m/z of the aggregated peak
 represents the intensity-weighted average of the m/z values of all peaks
 of the peak group. If <code>FALSE</code> (the default), the m/z of the peak is
 calculated with <code>mzFun</code>.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>additional arguments to be passed to <code>intensityFun</code>.</p></dd>
 
 </dl></div>
@@ -220,7 +220,7 @@ peak's m/z.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

@@ -19,7 +19,7 @@ either mzML or mzXML format."><!-- mathjax --><script src="https://cdnjs.cloudfl
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.5</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@ either <em>mzML</em> or <em>mzXML</em> format.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S4 method for MSnExp,character</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S4 method for class 'MSnExp,character'</span></span>
 <span><span class="fu">writeMSData</span><span class="op">(</span></span>
 <span>  <span class="va">object</span>,</span>
 <span>  <span class="va">file</span>,</span>
@@ -93,37 +93,37 @@ either <em>mzML</em> or <em>mzXML</em> format.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>object</dt>
+    <dl><dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
 <dd><p><code>OnDiskMSnExp</code> or <code>MSnExp</code> object.</p></dd>
 
 
-<dt>file</dt>
+<dt id="arg-file">file<a class="anchor" aria-label="anchor" href="#arg-file"></a></dt>
 <dd><p><code>character</code> with the file name(s). Its length has to match the
 number of samples/files of <code>x</code>.</p></dd>
 
 
-<dt>outformat</dt>
+<dt id="arg-outformat">outformat<a class="anchor" aria-label="anchor" href="#arg-outformat"></a></dt>
 <dd><p><code>character(1)</code> defining the format of the output files.
 Default output format is <code>"mzml"</code>.</p></dd>
 
 
-<dt>merge</dt>
+<dt id="arg-merge">merge<a class="anchor" aria-label="anchor" href="#arg-merge"></a></dt>
 <dd><p><code>logical(1)</code> whether the data should be saved into a single
 <em>mzML</em> file. Default is <code>merge = FALSE</code>, i.e. each sample is saved to
 a separate file. <strong>Note</strong>: <code>merge = TRUE</code> is not yet implemented.</p></dd>
 
 
-<dt>verbose</dt>
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p><code>logical(1)</code> if progress messages should be displayed.</p></dd>
 
 
-<dt>copy</dt>
+<dt id="arg-copy">copy<a class="anchor" aria-label="anchor" href="#arg-copy"></a></dt>
 <dd><p><code>logical(1)</code> if metadata (data processings, original file names
 etc) should be copied from the original files. See details for more
 information.</p></dd>
 
 
-<dt>software_processing</dt>
+<dt id="arg-software-processing">software_processing<a class="anchor" aria-label="anchor" href="#arg-software-processing"></a></dt>
 <dd><p>optionally provide specific data processing steps.
 See documentation of the <code>software_processing</code> parameter of
 <code><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">mzR::writeMSData()</a></code>.</p></dd>
@@ -175,7 +175,7 @@ are valid and can be opened with other software than <code>mzR</code>/<code>MSnb
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

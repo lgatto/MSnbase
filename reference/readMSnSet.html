@@ -29,7 +29,7 @@ Note that when using readMSnSet2, one should not set
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.5</span>
       </span>
     </div>
 
@@ -126,79 +126,79 @@ Note that when using readMSnSet2, one should not set
 
 <p>Arguments direclty passed to <code>readExpressionSet</code>. The description
   is from the <code>readExpressionSet</code> documentation page.</p>
-<dl><dt>exprsFile</dt>
+<dl><dt id="arg-exprsfile">exprsFile<a class="anchor" aria-label="anchor" href="#arg-exprsfile"></a></dt>
 <dd><p>(character) File or connection from which to read
     expression values. The file should contain a matrix with rows as
     features and columns as samples. <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></code> is called
     with this as its <code>file</code> argument and further arguments given by
     <code>exprsArgs</code>.</p></dd>
   
-  <dt>phenoDataFile</dt>
+  <dt id="arg-phenodatafile">phenoDataFile<a class="anchor" aria-label="anchor" href="#arg-phenodatafile"></a></dt>
 <dd><p>(character) File or connection from which to read
     phenotypic data. <code><a href="https://rdrr.io/pkg/Biobase/man/read.AnnotatedDataFrame.html" class="external-link">read.AnnotatedDataFrame</a></code> is called
     with this as its <code>file</code> argument and further arguments given by
     <code>phenoDataArgs</code>.</p></dd>
  
-  <dt>experimentDataFile</dt>
+  <dt id="arg-experimentdatafile">experimentDataFile<a class="anchor" aria-label="anchor" href="#arg-experimentdatafile"></a></dt>
 <dd><p>(character) File or connection from which to
     read experiment data. <code><a href="https://rdrr.io/pkg/Biobase/man/read.MIAME.html" class="external-link">read.MIAME</a></code> is called with this
     as its <code>file</code> argument and further arguments given by
     <code>experimentDataArgs</code>.</p></dd>
  
-  <dt>notesFile</dt>
+  <dt id="arg-notesfile">notesFile<a class="anchor" aria-label="anchor" href="#arg-notesfile"></a></dt>
 <dd><p>(character) File or connection from which to read
     notes; <code><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></code> is used to input the file.</p></dd>
 
-  <dt>path</dt>
+  <dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
 <dd><p>(optional) directory in which to find all the above
     files.</p></dd>
 
-  <dt>annotation</dt>
+  <dt id="arg-annotation">annotation<a class="anchor" aria-label="anchor" href="#arg-annotation"></a></dt>
 <dd><p>(character) A single character string indicating the
     annotation associated with this ExpressionSet.</p></dd>
  
-  <dt>exprsArgs</dt>
+  <dt id="arg-exprsargs">exprsArgs<a class="anchor" aria-label="anchor" href="#arg-exprsargs"></a></dt>
 <dd><p>A list of arguments to be used with
     <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></code> when reading in the expression matrix.</p></dd>
 
-  <dt>phenoDataArgs</dt>
+  <dt id="arg-phenodataargs">phenoDataArgs<a class="anchor" aria-label="anchor" href="#arg-phenodataargs"></a></dt>
 <dd><p>A list of arguments to be used (with
     <code><a href="https://rdrr.io/pkg/Biobase/man/read.AnnotatedDataFrame.html" class="external-link">read.AnnotatedDataFrame</a></code>) when reading
     the phenotypic data.</p></dd>
 
-  <dt>experimentDataArgs</dt>
+  <dt id="arg-experimentdataargs">experimentDataArgs<a class="anchor" aria-label="anchor" href="#arg-experimentdataargs"></a></dt>
 <dd><p>A list of arguments to be used (with
     <code><a href="https://rdrr.io/pkg/Biobase/man/read.MIAME.html" class="external-link">read.MIAME</a></code>) when reading the experiment data.</p></dd>
 
-  <dt>sep, header, quote, stringsAsFactors, row.names</dt>
+  <dt id="arg-sep-header-quote-stringsasfactors-row-names">sep, header, quote, stringsAsFactors, row.names<a class="anchor" aria-label="anchor" href="#arg-sep-header-quote-stringsasfactors-row-names"></a></dt>
 <dd><p>arguments used
     by the <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></code>-like functions.</p></dd>
 
-  <dt>widget</dt>
+  <dt id="arg-widget">widget<a class="anchor" aria-label="anchor" href="#arg-widget"></a></dt>
 <dd><p>A boolean value indicating whether widgets can be
     used. Widgets are NOT yet implemented for
     <code>read.AnnotatedDataFrame</code>.</p></dd>
 
-  <dt>...</dt>
+  <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Further arguments that can be passed on to the
     <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.table</a></code>-like functions.</p></dd>
 
   
 </dl><p>Additional argument, specific to <code>readMSnSet</code>:</p>
-<dl><dt>featureDataFile</dt>
+<dl><dt id="arg-featuredatafile">featureDataFile<a class="anchor" aria-label="anchor" href="#arg-featuredatafile"></a></dt>
 <dd><p>(character) File or connection from which to read
     feature data. <code><a href="https://rdrr.io/pkg/Biobase/man/read.AnnotatedDataFrame.html" class="external-link">read.AnnotatedDataFrame</a></code> is called
     with this as its <code>file</code> argument and further arguments given by
     <code>phenoDataArgs</code>.</p></dd>
  
-  <dt>featureDataArgs</dt>
+  <dt id="arg-featuredataargs">featureDataArgs<a class="anchor" aria-label="anchor" href="#arg-featuredataargs"></a></dt>
 <dd><p>A list of arguments to be used (with
     <code><a href="https://rdrr.io/pkg/Biobase/man/read.AnnotatedDataFrame.html" class="external-link">read.AnnotatedDataFrame</a></code>) when reading the phenotypic
     data.</p></dd>
 
 
 </dl><p>Arguments for <code>readMSnSet2</code>:</p>
-<dl><dt>file</dt>
+<dl><dt id="arg-file">file<a class="anchor" aria-label="anchor" href="#arg-file"></a></dt>
 <dd><p>A <code>character</code> indicating the spreadsheet file or a
     <code>data.frame</code> (new in version 1.19.8). Default, when <code>file</code>
     is a <code>character</code>, is to read the file as a comma-separated
@@ -212,7 +212,7 @@ Note that when using readMSnSet2, one should not set
 <p></p></dd>
 
 
-  <dt>ecol</dt>
+  <dt id="arg-ecol">ecol<a class="anchor" aria-label="anchor" href="#arg-ecol"></a></dt>
 <dd><p>A <code>numeric</code> indicating the indices of the columns to
     be used as expression values. Can also be a <code>character</code>
     indicating the names of the columns. Caution must be taken if the
@@ -223,7 +223,7 @@ Note that when using readMSnSet2, one should not set
 
 
   
-  <dt>fnames</dt>
+  <dt id="arg-fnames">fnames<a class="anchor" aria-label="anchor" href="#arg-fnames"></a></dt>
 <dd><p>An optional <code>character</code> or <code>numeric</code> of length
     1 indicating the column to be used as feature names.</p></dd>
 
@@ -277,7 +277,7 @@ Note that when using readMSnSet2, one should not set
 <span class="r-out co"><span class="r-pr">#&gt;</span> experimentData: use 'experimentData(object)'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Annotation:  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.5 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span><span class="op">)</span> <span class="co">## columns 5 to 20</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      M1F1A    M1F4A    M1F7A   M1F11A    M1F2B    M1F5B    M1F8B   M1F11B</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.323250 0.275500 0.216000 0.185250 0.465667 0.199667 0.174333 0.160333</span>
@@ -315,7 +315,7 @@ Note that when using readMSnSet2, one should not set
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

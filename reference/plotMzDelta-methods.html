@@ -41,7 +41,7 @@ Most of the code for plotMzDelta has kindly been contributed by
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.5</span>
       </span>
     </div>
 
@@ -125,59 +125,59 @@ Most of the code for plotMzDelta has kindly been contributed by
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>object</dt>
+    <dl><dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
 <dd><p>An object of class <code>MSnExp</code> or <code>mzRramp</code>
     (from the <code>mzR</code> package) containing MS2 spectra.</p></dd>
  
-  <dt>reporters</dt>
+  <dt id="arg-reporters">reporters<a class="anchor" aria-label="anchor" href="#arg-reporters"></a></dt>
 <dd><p>An object of class class
     <code>"<a href="ReporterIons-class.html">ReporterIons</a>"</code> that defines which reporter ion
     peaks to set to 0. The default value <code>NULL</code> leaves the spectra
     as they are.</p></dd>
 
-  <dt>subset</dt>
+  <dt id="arg-subset">subset<a class="anchor" aria-label="anchor" href="#arg-subset"></a></dt>
 <dd><p>A numeric between 0 and 1 to use a subset of 
     <code>object</code>'s MS2 spectra.</p></dd>
  
-  <dt>percentage</dt>
+  <dt id="arg-percentage">percentage<a class="anchor" aria-label="anchor" href="#arg-percentage"></a></dt>
 <dd><p>The percentage of most intense peaks to be used for
     the plot. Default is 0.1.</p></dd>
 
-  <dt>precMz</dt>
+  <dt id="arg-precmz">precMz<a class="anchor" aria-label="anchor" href="#arg-precmz"></a></dt>
 <dd><p>A <code>numeric</code> of length one or <code>NULL</code>
     default. In the latter (and preferred) case, the precursor m/z
     values are extracted from the individual MS2 spectra using the
     <code><a href="Spectrum2-class.html">precursorMz</a></code> method.</p></dd>
 
-  <dt>precMzWidth</dt>
+  <dt id="arg-precmzwidth">precMzWidth<a class="anchor" aria-label="anchor" href="#arg-precmzwidth"></a></dt>
 <dd><p>A <code>numeric</code> of length 1 that specifies the 
     width around the precursor m/z where peaks are set to 0. Default is
     2.</p></dd>
 
-  <dt>bw</dt>
+  <dt id="arg-bw">bw<a class="anchor" aria-label="anchor" href="#arg-bw"></a></dt>
 <dd><p>A <code>numeric</code> specifying the bandwith to be used to bin
     the delta m/z value to plot the histogram. Default if 1. See
     <code><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></code> for more details.</p></dd>
 
-  <dt>xlim</dt>
+  <dt id="arg-xlim">xlim<a class="anchor" aria-label="anchor" href="#arg-xlim"></a></dt>
 <dd><p>A <code>numeric</code> of length 2 specifying the range of
     delta m/z to plot on the histogram. Default is <code>c(40,200)</code>.</p></dd>
 
-  <dt>withLabels</dt>
+  <dt id="arg-withlabels">withLabels<a class="anchor" aria-label="anchor" href="#arg-withlabels"></a></dt>
 <dd><p>A <code>logical</code> defining if amino acid residue
     labels are plotted on the figure. Default is <code>TRUE</code>.</p></dd>
 
-  <dt>size</dt>
+  <dt id="arg-size">size<a class="anchor" aria-label="anchor" href="#arg-size"></a></dt>
 <dd><p>A <code>numeric</code> of length 1 specifying the font size of
     amino acids lables. Default is 2.5.</p></dd>
 
-  <dt>plot</dt>
+  <dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
 <dd><p>A <code>logical</code> of length 1 that defines whether the
     figure should be plotted on the active device. Default is
     <code>TRUE</code>. Note that the <code>ggplot</code> object is always returned
     invisibly.</p></dd>
 
-  <dt>verbose</dt>
+  <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>A <code>logical</code> of length 1 specifying whether
     textual output and a progress bar illustration the progress of data
     processing should be printed. Default is <code>TRUE</code></p></dd>
@@ -250,7 +250,7 @@ Most of the code for plotMzDelta has kindly been contributed by
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

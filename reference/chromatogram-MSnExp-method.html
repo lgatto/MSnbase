@@ -21,7 +21,7 @@ Depending on the provided parameters this can be a total ion chromatogram
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.5</span>
       </span>
     </div>
 
@@ -83,7 +83,7 @@ Depending on the provided parameters this can be a total ion chromatogram
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S4 method for MSnExp</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S4 method for class 'MSnExp'</span></span>
 <span><span class="fu">chromatogram</span><span class="op">(</span></span>
 <span>  <span class="va">object</span>,</span>
 <span>  <span class="va">rt</span>,</span>
@@ -97,13 +97,13 @@ Depending on the provided parameters this can be a total ion chromatogram
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>object</dt>
+    <dl><dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
 <dd><p>For <code>chromatogram</code>: a <code><a href="MSnExp-class.html">MSnExp</a></code> or
 <code><a href="OnDiskMSnExp-class.html">OnDiskMSnExp</a></code> object from which the chromatogram
 should be extracted.</p></dd>
 
 
-<dt>rt</dt>
+<dt id="arg-rt">rt<a class="anchor" aria-label="anchor" href="#arg-rt"></a></dt>
 <dd><p>A <code>numeric(2)</code> or two-column <code>matrix</code> defining the lower
 and upper boundary for the retention time range/window(s) for the
 chromatogram(s). If a <code>matrix</code> is provided, a chromatogram is
@@ -111,7 +111,7 @@ extracted for each row. If not specified, a chromatogram representing the
 full retention time range is extracted. See examples below for details.</p></dd>
 
 
-<dt>mz</dt>
+<dt id="arg-mz">mz<a class="anchor" aria-label="anchor" href="#arg-mz"></a></dt>
 <dd><p>A <code>numeric(2)</code> or two-column <code>matrix</code> defining the
 mass-to-charge (mz) range(s) for the chromatogram(s). For each
 spectrum/retention time, all intensity values within this mz range are
@@ -120,24 +120,24 @@ time. If not specified, the full mz range is considered. See examples
 below for details.</p></dd>
 
 
-<dt>aggregationFun</dt>
+<dt id="arg-aggregationfun">aggregationFun<a class="anchor" aria-label="anchor" href="#arg-aggregationfun"></a></dt>
 <dd><p><code>character</code> defining the function to be used for
 intensity value aggregation along the mz dimension. Allowed values are
 <code>"sum"</code> (TIC), <code>"max"</code> (BPC), <code>"min"</code> and <code>"mean"</code>.</p></dd>
 
 
-<dt>missing</dt>
+<dt id="arg-missing">missing<a class="anchor" aria-label="anchor" href="#arg-missing"></a></dt>
 <dd><p><code>numeric(1)</code> allowing to specify the intensity value for
 if for a given retention time (spectrum) no signal was measured within
 the mz range. Defaults to <code>NA_real_</code>.</p></dd>
 
 
-<dt>msLevel</dt>
+<dt id="arg-mslevel">msLevel<a class="anchor" aria-label="anchor" href="#arg-mslevel"></a></dt>
 <dd><p><code>integer</code> specifying the MS level from which the
 chromatogram should be extracted. Defaults to <code>msLevel = 1L</code>.</p></dd>
 
 
-<dt>BPPARAM</dt>
+<dt id="arg-bpparam">BPPARAM<a class="anchor" aria-label="anchor" href="#arg-bpparam"></a></dt>
 <dd><p>Parallelisation backend to be used, which will
 depend on the architecture. Default is
 <code><a href="https://rdrr.io/pkg/BiocParallel/man/register.html" class="external-link">BiocParallel::bpparam()</a></code>.</p></dd>
@@ -293,7 +293,7 @@ classes that represent single and multiple chromatograms.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

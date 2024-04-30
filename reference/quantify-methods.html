@@ -28,7 +28,7 @@ Since version 1.13.5, parallel quantitation is supported by the
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.5</span>
       </span>
     </div>
 
@@ -99,12 +99,12 @@ Since version 1.13.5, parallel quantitation is supported by the
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>object</dt>
+    <dl><dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
 <dd><p>An instance of class <code>"<a href="Spectrum-class.html">Spectrum</a>"</code> (isobaric
     tagging only) or <code>"<a href="MSnExp-class.html">MSnExp</a>"</code>.</p></dd>
 
 
-  <dt>method</dt>
+  <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
 <dd><p>Peak quantitation method. For isobaric tags, one of, possibly
     abreviated <code>"trapezoidation"</code>, <code>"max"</code>, or
     <code>"sum"</code>. These methods return respectively the area under the
@@ -121,12 +121,12 @@ Since version 1.13.5, parallel quantitation is supported by the
 <p></p></dd>
 
 
-  <dt>reporters</dt>
+  <dt id="arg-reporters">reporters<a class="anchor" aria-label="anchor" href="#arg-reporters"></a></dt>
 <dd><p>An instance of class <code>"<a href="ReporterIons-class.html">ReporterIons</a>"</code> that defines
     the peak(s) to be quantified. For isobaric tagging only.</p></dd>
 
 
-  <dt>strict</dt>
+  <dt id="arg-strict">strict<a class="anchor" aria-label="anchor" href="#arg-strict"></a></dt>
 <dd><p>For isobaric tagging only.  If strict is <code>FALSE</code> (default), the
     quantitation is performed using data points along the entire width
     of a peak. If strict is set to <code>TRUE</code>, once the apex(es) is/are
@@ -135,7 +135,7 @@ Since version 1.13.5, parallel quantitation is supported by the
 <p></p></dd>
 
 
-  <dt>BPPARAM</dt>
+  <dt id="arg-bpparam">BPPARAM<a class="anchor" aria-label="anchor" href="#arg-bpparam"></a></dt>
 <dd><p>Support for parallel processing using the <code>BiocParallel</code>
     infrastructure. When missing (default), the default registered
     <code>BiocParallelParam</code> parameters are applied using
@@ -145,25 +145,25 @@ Since version 1.13.5, parallel quantitation is supported by the
     <code>BiocParallel</code> package for details.</p></dd>
 
   
-  <dt>parallel</dt>
+  <dt id="arg-parallel">parallel<a class="anchor" aria-label="anchor" href="#arg-parallel"></a></dt>
 <dd><p>Deprecated. Please see <code>BPPARAM</code>.</p></dd>
 
 
-  <dt>qual</dt>
+  <dt id="arg-qual">qual<a class="anchor" aria-label="anchor" href="#arg-qual"></a></dt>
 <dd><p>Should the <code>qual</code> slot be populated. Default is <code>TRUE</code>.</p></dd>
 
 
-  <dt>pepseq</dt>
+  <dt id="arg-pepseq">pepseq<a class="anchor" aria-label="anchor" href="#arg-pepseq"></a></dt>
 <dd><p>A <code>character</code> giving the peptide sequence column in the feature
     data. Default is <code>"sequence"</code>.</p></dd>
 
 
   
-  <dt>verbose</dt>
+  <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Verbose of the output (only for <code>MSnExp</code> objects).</p></dd>
 
 
-  <dt>...</dt>
+  <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Further arguments passed to the quantitation functions.</p></dd>
 
 </dl></div>
@@ -284,7 +284,7 @@ Since version 1.13.5, parallel quantitation is supported by the
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded: Wed May 11 18:54:39 2011 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> iTRAQ4 quantification by trapezoidation: Thu Mar 14 06:11:31 2024 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> iTRAQ4 quantification by trapezoidation: Tue Apr 30 12:22:53 2024 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 1.1.22 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## specifying a custom parallel framework</span></span></span>
@@ -321,12 +321,12 @@ Since version 1.13.5, parallel quantitation is supported by the
 <span class="r-in"><span><span class="va">si</span> <span class="op">&lt;-</span> <span class="fu">quantify</span><span class="op">(</span><span class="va">msexp</span>, method <span class="op">=</span> <span class="st">"SIn"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="pSet-class.html">processingData</a></span><span class="op">(</span><span class="va">si</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded: Thu Mar 14 06:11:32 2024 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Filtered 2 unidentified peptides out [Thu Mar 14 06:11:32 2024] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Quantitation by total ion current [Thu Mar 14 06:11:32 2024] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Combined 3 features into 3 using sum: Thu Mar 14 06:11:32 2024 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Quantification by SIn [Thu Mar 14 06:11:32 2024] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded: Tue Apr 30 12:22:54 2024 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Filtered 2 unidentified peptides out [Tue Apr 30 12:22:54 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Quantitation by total ion current [Tue Apr 30 12:22:54 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Combined 3 features into 3 using sum: Tue Apr 30 12:22:54 2024 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Quantification by SIn [Tue Apr 30 12:22:54 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.5 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">si</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         dummyiTRAQ.mzXML</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ECA0510     0.0006553518</span>
@@ -336,13 +336,13 @@ Since version 1.13.5, parallel quantitation is supported by the
 <span class="r-in"><span><span class="va">saf</span> <span class="op">&lt;-</span> <span class="fu">quantify</span><span class="op">(</span><span class="va">msexp</span>, method <span class="op">=</span> <span class="st">"NSAF"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="pSet-class.html">processingData</a></span><span class="op">(</span><span class="va">saf</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded: Thu Mar 14 06:11:32 2024 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Filtered 2 unidentified peptides out [Thu Mar 14 06:11:32 2024] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Filtered 0 unidentified peptides out [Thu Mar 14 06:11:32 2024] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Quantitation by count [Thu Mar 14 06:11:32 2024] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Combined 3 features into 3 using user-defined function: Thu Mar 14 06:11:32 2024 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Quantification by NSAF [Thu Mar 14 06:11:32 2024] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded: Tue Apr 30 12:22:54 2024 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Filtered 2 unidentified peptides out [Tue Apr 30 12:22:54 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Filtered 0 unidentified peptides out [Tue Apr 30 12:22:54 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Quantitation by count [Tue Apr 30 12:22:54 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Combined 3 features into 3 using user-defined function: Tue Apr 30 12:22:54 2024 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Quantification by NSAF [Tue Apr 30 12:22:54 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.5 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">saf</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         dummyiTRAQ.mzXML</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ECA0510        0.4306167</span>
@@ -363,7 +363,7 @@ Since version 1.13.5, parallel quantitation is supported by the
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

@@ -25,7 +25,7 @@ general overview of feature aggregation and examples."><!-- mathjax --><script s
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.5</span>
       </span>
     </div>
 
@@ -103,36 +103,36 @@ general overview of feature aggregation and examples.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>object</dt>
+    <dl><dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
 <dd><p>An instance of class <code>MSnSet</code> containing
 absolute ion intensities.</p></dd>
 
 
-<dt>groupBy</dt>
+<dt id="arg-groupby">groupBy<a class="anchor" aria-label="anchor" href="#arg-groupby"></a></dt>
 <dd><p>Vector defining spectra to protein
 matching. Generally, this is a feature variable such as
 <code>fData(object)$accession</code>.</p></dd>
 
 
-<dt>low.support.filter</dt>
+<dt id="arg-low-support-filter">low.support.filter<a class="anchor" aria-label="anchor" href="#arg-low-support-filter"></a></dt>
 <dd><p>A <code>logical</code> specifying if proteins
 being supported by only 1-2 peptide spectra should be filtered
 out. Default is <code>FALSE</code>.</p></dd>
 
 
-<dt>ratio.calc</dt>
+<dt id="arg-ratio-calc">ratio.calc<a class="anchor" aria-label="anchor" href="#arg-ratio-calc"></a></dt>
 <dd><p>Either <code>"none"</code> (don't calculate any
 ratios), <code>"sum"</code> (default), or a specific channel (one of
 <code>sampleNames(object)</code>) defining how to calculate relative
 peptides intensities.</p></dd>
 
 
-<dt>method.combine</dt>
+<dt id="arg-method-combine">method.combine<a class="anchor" aria-label="anchor" href="#arg-method-combine"></a></dt>
 <dd><p>A <code>logical</code> defining whether to further
 use median polish to combine features.</p></dd>
 
 
-<dt>feature.weight</dt>
+<dt id="arg-feature-weight">feature.weight<a class="anchor" aria-label="anchor" href="#arg-feature-weight"></a></dt>
 <dd><p>Vector <code>"numeric"</code> giving weight to the
 different features. Default is the squared order of the
 features redundant -unique-distance metric, charge state, ion
@@ -199,7 +199,7 @@ Apr 1;32(7):1040-7. doi:10.1093/bioinformatics/btv675. Epub
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

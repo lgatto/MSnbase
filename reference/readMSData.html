@@ -20,7 +20,7 @@ meta data in mzData, mzXML and mzML."><!-- mathjax --><script src="https://cdnjs
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.5</span>
       </span>
     </div>
 
@@ -95,16 +95,16 @@ meta data in <code>mzData</code>, <code>mzXML</code> and <code>mzML</code>.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>files</dt>
+    <dl><dt id="arg-files">files<a class="anchor" aria-label="anchor" href="#arg-files"></a></dt>
 <dd><p>A <code>character</code> with file names to be read and parsed.</p></dd>
 
 
-<dt>pdata</dt>
+<dt id="arg-pdata">pdata<a class="anchor" aria-label="anchor" href="#arg-pdata"></a></dt>
 <dd><p>An object of class <a href="https://rdrr.io/pkg/Biobase/man/class.AnnotatedDataFrame.html" class="external-link">AnnotatedDataFrame</a> or
 <code>NULL</code> (default).</p></dd>
 
 
-<dt>msLevel.</dt>
+<dt id="arg-mslevel-">msLevel.<a class="anchor" aria-label="anchor" href="#arg-mslevel-"></a></dt>
 <dd><p>MS level spectra to be read. In <code>inMemory</code> mode,
 use <code>1</code> for MS1 spectra or any larger numeric for MSn
 spectra. Default is <code>2</code> for <code>InMemory</code> mode. <code>onDisk</code> mode
@@ -112,12 +112,12 @@ supports multiple levels and will, by default, read all the
 data.</p></dd>
 
 
-<dt>verbose</dt>
+<dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Verbosity flag. Default is to use
 <code><a href="MSnbaseOptions.html">isMSnbaseVerbose()</a></code>.</p></dd>
 
 
-<dt>centroided.</dt>
+<dt id="arg-centroided-">centroided.<a class="anchor" aria-label="anchor" href="#arg-centroided-"></a></dt>
 <dd><p>A <code>logical</code>, indicating whether spectra are
 centroided or not. Default is <code>NA</code> in which case the information
 is extracted from the raw file (for mzML or mzXML files). In
@@ -127,17 +127,17 @@ second element is for MS2, ... See <a href="OnDiskMSnExp-class.html">OnDiskMSnEx
 an example.</p></dd>
 
 
-<dt>smoothed.</dt>
+<dt id="arg-smoothed-">smoothed.<a class="anchor" aria-label="anchor" href="#arg-smoothed-"></a></dt>
 <dd><p>A <code>logical</code> indicating whether spectra already
 smoothed or not. Default is <code>NA</code>.</p></dd>
 
 
-<dt>cache.</dt>
+<dt id="arg-cache-">cache.<a class="anchor" aria-label="anchor" href="#arg-cache-"></a></dt>
 <dd><p>Numeric indicating caching level. Default is 0 for
 MS1 and 1 MS2 (or higher). Only relevant for <code>inMemory</code> mode.</p></dd>
 
 
-<dt>mode</dt>
+<dt id="arg-mode">mode<a class="anchor" aria-label="anchor" href="#arg-mode"></a></dt>
 <dd><p>On of <code>"inMemory"</code> (default) or <code>"onDisk"</code>. The former
 loads the raw data in memory, while the latter only generates
 the object and the raw data is accessed on disk when
@@ -193,8 +193,8 @@ absolute file paths.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Number of spectra: 5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MSn retention times: 25:01 - 25:02 minutes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded: Thu Mar 14 06:11:33 2024 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded: Tue Apr 30 12:22:55 2024 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Meta data  - - -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> phenoData</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   rowNames: dummyiTRAQ.mzXML</span>
@@ -217,8 +217,8 @@ absolute file paths.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Number of spectra: 5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MSn retention times: 25:01 - 25:02 minutes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded [Thu Mar 14 06:11:34 2024] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded [Tue Apr 30 12:22:56 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.29.5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Meta data  - - -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> phenoData</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   rowNames: dummyiTRAQ.mzXML</span>
@@ -246,7 +246,7 @@ absolute file paths.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

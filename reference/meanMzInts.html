@@ -23,7 +23,7 @@ values by the mean, or intensity weighted mean if weighted = TRUE."><!-- mathjax
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.5</span>
       </span>
     </div>
 
@@ -102,33 +102,33 @@ values by the mean, or intensity weighted mean if <code>weighted = TRUE</code>.<
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>x</dt>
+    <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p><code>list</code> of <code>Spectrum</code> objects.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>additional parameters that are passed to <code>intensityFun</code>.</p></dd>
 
 
-<dt>intensityFun</dt>
+<dt id="arg-intensityfun">intensityFun<a class="anchor" aria-label="anchor" href="#arg-intensityfun"></a></dt>
 <dd><p><code>function</code> to aggregate the intensity values per m/z
 group. Should be a function or the name of a function. The function is
 expected to return a <code>numeric(1)</code>.</p></dd>
 
 
-<dt>weighted</dt>
+<dt id="arg-weighted">weighted<a class="anchor" aria-label="anchor" href="#arg-weighted"></a></dt>
 <dd><p><code>logical(1)</code> whether m/z values per m/z group should be
 aggregated with an intensity-weighted mean. The default is to report
 the mean m/z.</p></dd>
 
 
-<dt>main</dt>
+<dt id="arg-main">main<a class="anchor" aria-label="anchor" href="#arg-main"></a></dt>
 <dd><p><code>integer(1)</code> defining the <em>main</em> spectrum, i.e. the spectrum
 which m/z and intensity values get replaced and is returned. By default
 the <em>first</em> spectrum in <code>x</code> is used.</p></dd>
 
 
-<dt>mzd</dt>
+<dt id="arg-mzd">mzd<a class="anchor" aria-label="anchor" href="#arg-mzd"></a></dt>
 <dd><p><code>numeric(1)</code> defining the maximal m/z difference below which
 mass peaks are considered to represent the same ion/mass peak.
 Intensity values for such grouped mass peaks are aggregated. If not
@@ -136,12 +136,12 @@ specified this value is estimated from the distribution of differences
 of m/z values from the provided spectra (see details).</p></dd>
 
 
-<dt>ppm</dt>
+<dt id="arg-ppm">ppm<a class="anchor" aria-label="anchor" href="#arg-ppm"></a></dt>
 <dd><p><code>numeric(1)</code> allowing to perform a m/z dependent grouping of mass
 peaks. See details for more information.</p></dd>
 
 
-<dt>timeDomain</dt>
+<dt id="arg-timedomain">timeDomain<a class="anchor" aria-label="anchor" href="#arg-timedomain"></a></dt>
 <dd><p><code>logical(1)</code> whether definition of the m/z values to be
 combined into one m/z is performed on m/z values
 (<code>timeDomain = FALSE</code>) or on <code>sqrt(mz)</code> (<code>timeDomain = TRUE</code>).
@@ -151,7 +151,7 @@ also be estimated on the square root of m/z values if
 <code>timeDomain = TRUE</code>.</p></dd>
 
 
-<dt>unionPeaks</dt>
+<dt id="arg-unionpeaks">unionPeaks<a class="anchor" aria-label="anchor" href="#arg-unionpeaks"></a></dt>
 <dd><p><code>logical(1)</code> whether the union of all peaks (peak groups)
 from all spectra are reported or only peak groups that contain peaks
 that are present in the <em>main</em> spectrum (defined by <code>main</code>). The default
@@ -268,7 +268,7 @@ spectra of an <code>MSnExp</code> object using a moving window approach.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>

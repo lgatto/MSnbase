@@ -19,7 +19,7 @@ two-dimensional structure."><!-- mathjax --><script src="https://cdnjs.cloudflar
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.29.5</span>
       </span>
     </div>
 
@@ -81,16 +81,16 @@ two-dimensional structure.</p>
     <div id="ref-usage">
     <div class="sourceCode"><pre><code>MChromatograms(data, phenoData, featureData, ...)
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 show(object)
 
-# S4 method for MChromatograms,ANY,ANY,ANY
+# S4 method for class 'MChromatograms,ANY,ANY,ANY'
 [(x, i, j, drop = FALSE)
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 [(x, i, j) &lt;- value
 
-# S4 method for MChromatograms,ANY
+# S4 method for class 'MChromatograms,ANY'
 plot(
   x,
   col = "#00000060",
@@ -102,88 +102,88 @@ plot(
   ...
 )
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 phenoData(object)
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 pData(object)
 
-# S4 method for MChromatograms,data.frame
+# S4 method for class 'MChromatograms,data.frame'
 pData(object) &lt;- value
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 $(x, name)
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 $(x, name) &lt;- value
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 colnames(x) &lt;- value
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 sampleNames(object)
 
-# S4 method for MChromatograms,ANY
+# S4 method for class 'MChromatograms,ANY'
 sampleNames(object) &lt;- value
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 isEmpty(x)
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 featureNames(object)
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 featureNames(object) &lt;- value
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 featureData(object)
 
-# S4 method for MChromatograms,ANY
+# S4 method for class 'MChromatograms,ANY'
 featureData(object) &lt;- value
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 fData(object)
 
-# S4 method for MChromatograms,ANY
+# S4 method for class 'MChromatograms,ANY'
 fData(object) &lt;- value
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 fvarLabels(object)
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 rownames(x) &lt;- value
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 precursorMz(object)
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 productMz(object)
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 mz(object)
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 polarity(object)
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 bin(x, binSize = 0.5, breaks = numeric(), fun = max)
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 clean(object, all = FALSE, na.rm = FALSE)
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 normalize(object, method = c("max", "sum"))
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 filterIntensity(object, intensity = 0, ...)
 
-# S4 method for MChromatograms,Chromatogram
+# S4 method for class 'MChromatograms,Chromatogram'
 alignRt(x, y, method = c("closest", "approx"), ...)
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 c(x, ...)
 
-# S4 method for MChromatograms,missing
+# S4 method for class 'MChromatograms,missing'
 compareChromatograms(
   x,
   y,
@@ -194,7 +194,7 @@ compareChromatograms(
   ...
 )
 
-# S4 method for MChromatograms,MChromatograms
+# S4 method for class 'MChromatograms,MChromatograms'
 compareChromatograms(
   x,
   y,
@@ -205,60 +205,60 @@ compareChromatograms(
   ...
 )
 
-# S4 method for MChromatograms
+# S4 method for class 'MChromatograms'
 transformIntensity(object, FUN = identity)</code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>data</dt>
+    <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
 <dd><p>for <code>MChromatograms</code>: a <code>list</code> of <code><a href="Chromatogram-class.html">Chromatogram()</a></code> objects.</p></dd>
 
 
-<dt>phenoData</dt>
+<dt id="arg-phenodata">phenoData<a class="anchor" aria-label="anchor" href="#arg-phenodata"></a></dt>
 <dd><p>for <code>MChromatograms</code>: either a <code>data.frame</code>,
 <code>AnnotatedDataFrame</code> describing the phenotypical information of the
 samples.</p></dd>
 
 
-<dt>featureData</dt>
+<dt id="arg-featuredata">featureData<a class="anchor" aria-label="anchor" href="#arg-featuredata"></a></dt>
 <dd><p>for <code>MChromatograms</code>: either a <code>data.frame</code> or
 <code>AnnotatedDataFrame</code> with additional information for each row of
 chromatograms.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>for <code>MChromatograms</code>: additional parameters to be passed to the
 <code>matrix</code> constructor, such as <code>nrow</code>, <code>ncol</code> and <code>byrow</code>.
 For <code>compareChromatograms</code>: ignored.</p></dd>
 
 
-<dt>object</dt>
+<dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
 <dd><p>a <code>MChromatograms</code> object.</p></dd>
 
 
-<dt>x</dt>
+<dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>for all methods: a <code>MChromatograms</code> object.</p></dd>
 
 
-<dt>i</dt>
+<dt id="arg-i">i<a class="anchor" aria-label="anchor" href="#arg-i"></a></dt>
 <dd><p>for <code>[</code>: <code>numeric</code>, <code>logical</code> or <code>character</code>
 defining which row(s) to extract.</p></dd>
 
 
-<dt>j</dt>
+<dt id="arg-j">j<a class="anchor" aria-label="anchor" href="#arg-j"></a></dt>
 <dd><p>for <code>[</code>: <code>numeric</code>, <code>logical</code> or <code>character</code>
 defining which columns(s) to extract.</p></dd>
 
 
-<dt>drop</dt>
+<dt id="arg-drop">drop<a class="anchor" aria-label="anchor" href="#arg-drop"></a></dt>
 <dd><p>for <code>[</code>: <code>logical(1)</code> whether to drop the dimensionality of the
 returned object (if possible). The default is <code>drop = FALSE</code>, i.e. each
 subsetting returns a <code>MChromatograms</code> object (or a <code>Chromatogram</code> object
 if a single element is extracted).</p></dd>
 
 
-<dt>value</dt>
+<dt id="arg-value">value<a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
 <dd><p>for <code>[&lt;-</code>: the replacement object(s). Can be a <code>list</code>
 of [Chromatogram()<code>objects or, if length of</code>i<code>and</code>j<code>are 1, a single</code>Chromatogram` object.</p>
 <p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>For <span class="st">`</span><span class="at">pData&lt;-</span><span class="st">`</span><span class="sc">:</span> a <span class="st">`</span><span class="at">data.frame</span><span class="st">`</span> with the number of rows matching</span>
@@ -267,69 +267,69 @@ of [Chromatogram()<code>objects or, if length of</code>i<code>and</code>j<code>a
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>For <span class="st">`</span><span class="at">colnames</span><span class="st">`</span><span class="sc">:</span> a <span class="st">`</span><span class="at">character</span><span class="st">`</span> with the new column names.</span></code></pre><p></p></div></dd>
 
 
-<dt>col</dt>
+<dt id="arg-col">col<a class="anchor" aria-label="anchor" href="#arg-col"></a></dt>
 <dd><p>for <code>plot</code>: the color to be used for plotting. Either a
 vector of length 1 or equal to <code>ncol(x)</code>.</p></dd>
 
 
-<dt>lty</dt>
+<dt id="arg-lty">lty<a class="anchor" aria-label="anchor" href="#arg-lty"></a></dt>
 <dd><p>for <code>plot</code>: the line type (see <code>plot</code> in the <code>graphics</code> package
 for more details). Can be either a vector of length 1 or of length equal
 to <code>ncol(x)</code>.</p></dd>
 
 
-<dt>type</dt>
+<dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>for <code>plot</code>: the type of plot (see <code>plot</code> from the <code>graphics</code>
 package for more details). Can be either a vector of length 1 or of
 length equal to <code>ncol(x)</code>.</p></dd>
 
 
-<dt>xlab</dt>
+<dt id="arg-xlab">xlab<a class="anchor" aria-label="anchor" href="#arg-xlab"></a></dt>
 <dd><p>for <code>plot</code>: the x-axis label.</p></dd>
 
 
-<dt>ylab</dt>
+<dt id="arg-ylab">ylab<a class="anchor" aria-label="anchor" href="#arg-ylab"></a></dt>
 <dd><p>for <code>plot</code>: the y-axis label.</p></dd>
 
 
-<dt>main</dt>
+<dt id="arg-main">main<a class="anchor" aria-label="anchor" href="#arg-main"></a></dt>
 <dd><p>for <code>plot</code>: the plot title. If not provided the mz range
 will be used as plot title.</p></dd>
 
 
-<dt>name</dt>
+<dt id="arg-name">name<a class="anchor" aria-label="anchor" href="#arg-name"></a></dt>
 <dd><p>for <code>$</code>, the name of the pheno data column.</p></dd>
 
 
-<dt>binSize</dt>
+<dt id="arg-binsize">binSize<a class="anchor" aria-label="anchor" href="#arg-binsize"></a></dt>
 <dd><p>for <code>bin</code>: <code>numeric(1)</code> with the size of the bins
 (in seconds).</p></dd>
 
 
-<dt>breaks</dt>
+<dt id="arg-breaks">breaks<a class="anchor" aria-label="anchor" href="#arg-breaks"></a></dt>
 <dd><p>For <code>bin</code>: <code>numeric</code> defining the bins. Usually not
 required as the function calculates the bins automatically based on
 <code>binSize</code> and the retention time range of chromatograms in the same
 row.</p></dd>
 
 
-<dt>fun</dt>
+<dt id="arg-fun">fun<a class="anchor" aria-label="anchor" href="#arg-fun"></a></dt>
 <dd><p>for <code>bin</code>: function to be used to aggregate the intensity
 values falling within each bin.</p></dd>
 
 
-<dt>all</dt>
+<dt id="arg-all">all<a class="anchor" aria-label="anchor" href="#arg-all"></a></dt>
 <dd><p>for <code>clean</code>: <code>logical(1)</code> whether all 0-intensities
 should be removed (<code>all = TRUE</code>), or whether 0-intensities
 adjacent to peaks should be kept (<code>all = FALSE</code>; default).</p></dd>
 
 
-<dt>na.rm</dt>
+<dt id="arg-na-rm">na.rm<a class="anchor" aria-label="anchor" href="#arg-na-rm"></a></dt>
 <dd><p>for <code>clean</code>: <code>logical(1)</code> whether all <code>NA</code>
 intensities should be removed prior to clean 0-intensity data points.</p></dd>
 
 
-<dt>method</dt>
+<dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
 <dd><p><code>character(1)</code>. For <code>normalise</code>: defining whether each
 chromatogram should be normalized to its maximum signal
 (<code>method = "max"</code>) or total signal (<code>method = "sum"</code>).
@@ -337,31 +337,31 @@ For <code>alignRt</code>: alignment methods (see documentation for <code>alignRt
 <code><a href="Chromatogram-class.html">Chromatogram()</a></code> help page. Defaults to <code>method = "closest"</code>.</p></dd>
 
 
-<dt>intensity</dt>
+<dt id="arg-intensity">intensity<a class="anchor" aria-label="anchor" href="#arg-intensity"></a></dt>
 <dd><p>for <code>filterIntensity</code>: <code>numeric(1)</code> or <code>function</code> to use to
 filter intensities. See description for details.</p></dd>
 
 
-<dt>y</dt>
+<dt id="arg-y">y<a class="anchor" aria-label="anchor" href="#arg-y"></a></dt>
 <dd><p>for <code>alignRt</code>: a <code><a href="Chromatogram-class.html">Chromatogram()</a></code> object against which <code>x</code> should be
 aligned against.</p></dd>
 
 
-<dt>ALIGNFUN</dt>
+<dt id="arg-alignfun">ALIGNFUN<a class="anchor" aria-label="anchor" href="#arg-alignfun"></a></dt>
 <dd><p>for <code>compareChromatograms</code>: function to align chromatogram
 <code>x</code> against chromatogram <code>y</code>. Defaults to <code>alignRt</code>.</p></dd>
 
 
-<dt>ALIGNFUNARGS</dt>
+<dt id="arg-alignfunargs">ALIGNFUNARGS<a class="anchor" aria-label="anchor" href="#arg-alignfunargs"></a></dt>
 <dd><p><code>list</code> of parameters to be passed to <code>ALIGNFUN</code>.</p></dd>
 
 
-<dt>FUN</dt>
+<dt id="arg-fun">FUN<a class="anchor" aria-label="anchor" href="#arg-fun"></a></dt>
 <dd><p>for <code>transformIntensity</code>: function to transform chromatograms'
 intensity values. Defaults to <code>FUN = identity</code>.</p></dd>
 
 
-<dt>FUNARGS</dt>
+<dt id="arg-funargs">FUNARGS<a class="anchor" aria-label="anchor" href="#arg-funargs"></a></dt>
 <dd><p>for <code>compareChromatograms</code>: <code>list</code> with additional parameters
 for <code>FUN</code>. Defaults to <code>FUNARGS = list(use = "pairwise.complete.obs")</code>.</p></dd>
 
@@ -650,7 +650,7 @@ of an SRM/MRM experiment.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
 
       </footer></div>
