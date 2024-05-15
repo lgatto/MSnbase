@@ -6,8 +6,6 @@ the MSnSet's experimentData()@other$mzTab slot."><!-- mathjax --><script src="ht
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -20,10 +18,9 @@ the MSnSet's experimentData()@other$mzTab slot."><!-- mathjax --><script src="ht
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.31.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.31.1</span>
       </span>
     </div>
-
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li>
   <a href="../reference/index.html">Reference</a>
@@ -31,7 +28,6 @@ the MSnSet's experimentData()@other$mzTab slot."><!-- mathjax --><script src="ht
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -56,15 +52,11 @@ the MSnSet's experimentData()@other$mzTab slot."><!-- mathjax --><script src="ht
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/lgatto/MSnbase/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
-
-      
-
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
@@ -72,14 +64,12 @@ the MSnSet's experimentData()@other$mzTab slot."><!-- mathjax --><script src="ht
     <small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/HEAD/R/readWriteMzTab.R" class="external-link"><code>R/readWriteMzTab.R</code></a></small>
     <div class="hidden name"><code>readMzTabData.Rd</code></div>
     </div>
-
     <div class="ref-description">
     <p>This function can be used to create an
 <code>"<a href="MSnSet-class.html">MSnSet</a>"</code> by reading and parsing an
 <code>mzTab</code> file. The metadata section is always used to populate
 the <code>MSnSet</code>'s <code>experimentData()@other$mzTab</code> slot.</p>
     </div>
-
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">readMzTabData</span><span class="op">(</span></span>
 <span>  <span class="va">file</span>,</span>
@@ -88,36 +78,26 @@ the <code>MSnSet</code>'s <code>experimentData()@other$mzTab</code> slot.</p>
 <span>  verbose <span class="op">=</span> <span class="fu"><a href="MSnbaseOptions.html">isMSnbaseVerbose</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
-
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt id="arg-file">file<a class="anchor" aria-label="anchor" href="#arg-file"></a></dt>
 <dd><p>A <code>character</code> with the <code>mzTab</code> file to be
 read in.</p></dd>
-
-
 <dt id="arg-what">what<a class="anchor" aria-label="anchor" href="#arg-what"></a></dt>
 <dd><p>One of <code>"PRT"</code>, <code>"PEP"</code> or <code>"PSM"</code>,
 defining which of protein, peptide PSMs section should be
 returned as an <code>MSnSet</code>.</p></dd>
-
-
 <dt id="arg-version">version<a class="anchor" aria-label="anchor" href="#arg-version"></a></dt>
 <dd><p>A <code>character</code> defining the format
 specification version of the mzTab file. Default is
 <code>"1.0"</code>. Version <code>"0.9"</code> is available of backwards
 compatibility. See <code><a href="readMzTabData_v0.9.html">readMzTabData_v0.9</a></code> for
 details.</p></dd>
-
-
 <dt id="arg-verbose">verbose<a class="anchor" aria-label="anchor" href="#arg-verbose"></a></dt>
 <dd><p>Produce verbose output.</p></dd>
-
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
 <p>An instance of class <code>MSnSet</code>.</p>
     </div>
     <div id="see-also">
@@ -129,7 +109,6 @@ details about the inners of <code>readMzTabData</code>.</p></div>
     <h2>Author</h2>
     <p>Laurent Gatto</p>
     </div>
-
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">testfile</span> <span class="op">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/HUPO-PSI/mzTab/master/examples/1_0-Proteomics-Release/PRIDE_Exp_Complete_Ac_16649.xml-mztab.txt"</span></span></span>
@@ -150,7 +129,7 @@ details about the inners of <code>readMzTabData</code>.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   pubMedIds: pubmed:21398567 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Annotation:  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.31.0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.31.1 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">prot</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            accession</span>
@@ -249,7 +228,7 @@ details about the inners of <code>readMzTabData</code>.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   pubMedIds: pubmed:21398567 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Annotation:  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.31.0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.31.1 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">psms</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       sequence PSM_ID accession unique       database database_version</span>
@@ -287,22 +266,12 @@ details about the inners of <code>readMzTabData</code>.</p></div>
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
     </nav></div>
 </div>
-
-
       <footer><div class="copyright">
   <p></p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
 </div>
-
 <div class="pkgdown">
   <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
-
       </footer></div>
-
-  
-
-
-  
-
   </body></html>
 

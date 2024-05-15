@@ -19,8 +19,6 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -33,10 +31,9 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MSnbase</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.31.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.31.1</span>
       </span>
     </div>
-
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
@@ -45,7 +42,6 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -74,7 +70,6 @@
 <li>
   <a href="https://github.com/lgatto/MSnbase/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
   </a>
 </li>
       </ul>
@@ -84,9 +79,6 @@
 <!--/.container -->
 </div>
 <!--/.navbar -->
-
-      
-
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -94,20 +86,17 @@
                         <h4 data-toc-skip class="author">Laurent
 Gatto</h4>
             <address class="author_afil">
-      de Duve Institute, UCLouvain, Belgium<br><small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/HEAD/vignettes/v02-MSnbase-io.Rmd" class="external-link"><code>vignettes/v02-MSnbase-io.Rmd</code></a></small>
+      de Duve Institute, UCLouvain,
+Belgium<br><small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/HEAD/vignettes/v02-MSnbase-io.Rmd" class="external-link"><code>vignettes/v02-MSnbase-io.Rmd</code></a></small>
       <div class="hidden name"><code>v02-MSnbase-io.Rmd</code></div>
-
     </address>
 </div>
-
-    
-        <div class="abstract">
+            <div class="abstract">
       <p class="abstract">Abstract</p>
       <p>This vignette describes <em>MSnbase</em>’s input and output
       capabilities.</p>
     </div>
-    
-<div class="section level2">
+    <div class="section level2">
 <h2 class="unnumbered" id="foreword">Foreword<a class="anchor" aria-label="anchor" href="#foreword"></a>
 </h2>
 <p>This software is free and open-source software. If you use it, please
@@ -367,8 +356,8 @@ object <code>res</code> and display its content.</p>
 <span><span class="co">## experimentData: use 'experimentData(object)'</span></span>
 <span><span class="co">## Annotation:  </span></span>
 <span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">## Quantitation data loaded: Wed May  1 08:24:31 2024  using readMSnSet. </span></span>
-<span><span class="co">##  MSnbase version: 2.31.0</span></span></code></pre>
+<span><span class="co">## Quantitation data loaded: Wed May 15 16:32:01 2024  using readMSnSet. </span></span>
+<span><span class="co">##  MSnbase version: 2.31.1</span></span></code></pre>
 <div class="section level4">
 <h4 id="the-msnset-class">The <code>MSnSet</code> class<a class="anchor" aria-label="anchor" href="#the-msnset-class"></a>
 </h4>
@@ -432,7 +421,7 @@ guarantee the final object validity.</p>
 <span><span class="co">## experimentData: use 'experimentData(object)'</span></span>
 <span><span class="co">## Annotation:  </span></span>
 <span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">##  MSnbase version: 2.31.0</span></span></code></pre>
+<span><span class="co">##  MSnbase version: 2.31.1</span></span></code></pre>
 <p>The <code>ecol</code> columns can also be queried interactively from
 R using the <code>getEcols</code> and <code>grepEcols</code> function.
 The former return a character with all column names, given a splitting
@@ -468,7 +457,7 @@ interest to obtain the relevant column indices.</p>
 <span><span class="co">## experimentData: use 'experimentData(object)'</span></span>
 <span><span class="co">## Annotation:  </span></span>
 <span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">##  MSnbase version: 2.31.0</span></span></code></pre>
+<span><span class="co">##  MSnbase version: 2.31.1</span></span></code></pre>
 <p>The <code>phenoData</code> slot can now be updated accordingly using
 the replacement functions <code>phenoData&lt;-</code> or
 <code>pData&lt;-</code> (see <code><a href="../reference/MSnSet-class.html">?MSnSet</a></code> for details).</p>
@@ -479,7 +468,7 @@ the replacement functions <code>phenoData&lt;-</code> or
 </h2>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.4.0 Patched (2024-04-24 r86483)</span></span>
+<pre><code><span><span class="co">## R version 4.4.0 (2024-04-24)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
 <span><span class="co">## Running under: Ubuntu 22.04.4 LTS</span></span>
 <span><span class="co">## </span></span>
@@ -503,65 +492,65 @@ the replacement functions <code>phenoData&lt;-</code> or
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] pRolocdata_1.41.0   MSnbase_2.31.0      ProtGenerics_1.35.4</span></span>
-<span><span class="co">## [4] S4Vectors_0.41.7    mzR_2.37.3          Rcpp_1.0.12        </span></span>
-<span><span class="co">## [7] Biobase_2.63.1      BiocGenerics_0.49.1 BiocStyle_2.31.0   </span></span>
+<span><span class="co">## [1] pRolocdata_1.42.0   MSnbase_2.31.1      ProtGenerics_1.36.0</span></span>
+<span><span class="co">## [4] S4Vectors_0.42.0    mzR_2.38.0          Rcpp_1.0.12        </span></span>
+<span><span class="co">## [7] Biobase_2.64.0      BiocGenerics_0.50.0 BiocStyle_2.32.0   </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] bitops_1.0-7                rlang_1.1.3                </span></span>
-<span><span class="co">##  [3] magrittr_2.0.3              clue_0.3-65                </span></span>
-<span><span class="co">##  [5] matrixStats_1.3.0           compiler_4.4.0             </span></span>
-<span><span class="co">##  [7] systemfonts_1.0.6           vctrs_0.6.5                </span></span>
-<span><span class="co">##  [9] pkgconfig_2.0.3             crayon_1.5.2               </span></span>
-<span><span class="co">## [11] fastmap_1.1.1               XVector_0.43.1             </span></span>
-<span><span class="co">## [13] utf8_1.2.4                  rmarkdown_2.26.2           </span></span>
-<span><span class="co">## [15] UCSC.utils_0.99.7           preprocessCore_1.67.0      </span></span>
-<span><span class="co">## [17] ragg_1.3.0                  purrr_1.0.2                </span></span>
-<span><span class="co">## [19] xfun_0.43                   MultiAssayExperiment_1.29.2</span></span>
-<span><span class="co">## [21] zlibbioc_1.49.3             cachem_1.0.8               </span></span>
-<span><span class="co">## [23] GenomeInfoDb_1.39.14        jsonlite_1.8.8             </span></span>
-<span><span class="co">## [25] DelayedArray_0.29.9         BiocParallel_1.37.1        </span></span>
-<span><span class="co">## [27] parallel_4.4.0              cluster_2.1.6              </span></span>
-<span><span class="co">## [29] R6_2.5.1                    bslib_0.7.0                </span></span>
-<span><span class="co">## [31] limma_3.59.10               GenomicRanges_1.55.4       </span></span>
-<span><span class="co">## [33] jquerylib_0.1.4             bookdown_0.39              </span></span>
-<span><span class="co">## [35] SummarizedExperiment_1.33.3 iterators_1.0.14           </span></span>
-<span><span class="co">## [37] knitr_1.46                  IRanges_2.37.1             </span></span>
-<span><span class="co">## [39] Matrix_1.7-0                igraph_2.0.3               </span></span>
-<span><span class="co">## [41] tidyselect_1.2.1            abind_1.4-5                </span></span>
-<span><span class="co">## [43] yaml_2.3.8                  doParallel_1.0.17          </span></span>
-<span><span class="co">## [45] codetools_0.2-20            affy_1.81.0                </span></span>
-<span><span class="co">## [47] lattice_0.22-6              tibble_3.2.1               </span></span>
-<span><span class="co">## [49] plyr_1.8.9                  evaluate_0.23              </span></span>
-<span><span class="co">## [51] desc_1.4.3                  pillar_1.9.0               </span></span>
-<span><span class="co">## [53] affyio_1.73.0               BiocManager_1.30.22        </span></span>
-<span><span class="co">## [55] MatrixGenerics_1.15.1       foreach_1.5.2              </span></span>
-<span><span class="co">## [57] MALDIquant_1.22.2           ncdf4_1.22                 </span></span>
-<span><span class="co">## [59] generics_0.1.3              RCurl_1.98-1.14            </span></span>
-<span><span class="co">## [61] ggplot2_3.5.1               munsell_0.5.1              </span></span>
-<span><span class="co">## [63] scales_1.3.0                glue_1.7.0                 </span></span>
-<span><span class="co">## [65] lazyeval_0.2.2              tools_4.4.0                </span></span>
-<span><span class="co">## [67] mzID_1.41.0                 QFeatures_1.13.7           </span></span>
-<span><span class="co">## [69] vsn_3.71.1                  fs_1.6.4                   </span></span>
-<span><span class="co">## [71] XML_3.99-0.16.1             grid_4.4.0                 </span></span>
-<span><span class="co">## [73] impute_1.77.0               tidyr_1.3.1                </span></span>
-<span><span class="co">## [75] MsCoreUtils_1.15.7          colorspace_2.1-0           </span></span>
-<span><span class="co">## [77] GenomeInfoDbData_1.2.12     PSMatch_1.7.2              </span></span>
-<span><span class="co">## [79] cli_3.6.2                   textshaping_0.3.7          </span></span>
-<span><span class="co">## [81] fansi_1.0.6                 S4Arrays_1.3.7             </span></span>
-<span><span class="co">## [83] dplyr_1.1.4                 AnnotationFilter_1.27.0    </span></span>
-<span><span class="co">## [85] pcaMethods_1.95.0           gtable_0.3.5               </span></span>
-<span><span class="co">## [87] sass_0.4.9                  digest_0.6.35              </span></span>
-<span><span class="co">## [89] SparseArray_1.3.7           htmlwidgets_1.6.4          </span></span>
-<span><span class="co">## [91] memoise_2.0.1               htmltools_0.5.8.1          </span></span>
-<span><span class="co">## [93] pkgdown_2.0.9.9000          lifecycle_1.0.4            </span></span>
-<span><span class="co">## [95] httr_1.4.7                  statmod_1.5.0              </span></span>
-<span><span class="co">## [97] MASS_7.3-60.2</span></span></code></pre>
+<span><span class="co">##  [1] rlang_1.1.3                 magrittr_2.0.3             </span></span>
+<span><span class="co">##  [3] clue_0.3-65                 matrixStats_1.3.0          </span></span>
+<span><span class="co">##  [5] compiler_4.4.0              systemfonts_1.0.6          </span></span>
+<span><span class="co">##  [7] vctrs_0.6.5                 reshape2_1.4.4             </span></span>
+<span><span class="co">##  [9] stringr_1.5.1               pkgconfig_2.0.3            </span></span>
+<span><span class="co">## [11] crayon_1.5.2                fastmap_1.1.1              </span></span>
+<span><span class="co">## [13] XVector_0.44.0              utf8_1.2.4                 </span></span>
+<span><span class="co">## [15] rmarkdown_2.26.2            UCSC.utils_1.0.0           </span></span>
+<span><span class="co">## [17] preprocessCore_1.67.0       ragg_1.3.1                 </span></span>
+<span><span class="co">## [19] purrr_1.0.2                 xfun_0.43                  </span></span>
+<span><span class="co">## [21] MultiAssayExperiment_1.30.1 zlibbioc_1.50.0            </span></span>
+<span><span class="co">## [23] cachem_1.0.8                GenomeInfoDb_1.40.0        </span></span>
+<span><span class="co">## [25] jsonlite_1.8.8              DelayedArray_0.30.1        </span></span>
+<span><span class="co">## [27] BiocParallel_1.38.0         parallel_4.4.0             </span></span>
+<span><span class="co">## [29] cluster_2.1.6               R6_2.5.1                   </span></span>
+<span><span class="co">## [31] bslib_0.7.0                 stringi_1.8.4              </span></span>
+<span><span class="co">## [33] limma_3.60.0                GenomicRanges_1.56.0       </span></span>
+<span><span class="co">## [35] jquerylib_0.1.4             iterators_1.0.14           </span></span>
+<span><span class="co">## [37] bookdown_0.39               SummarizedExperiment_1.34.0</span></span>
+<span><span class="co">## [39] knitr_1.46                  IRanges_2.38.0             </span></span>
+<span><span class="co">## [41] Matrix_1.7-0                igraph_2.0.3               </span></span>
+<span><span class="co">## [43] tidyselect_1.2.1            abind_1.4-5                </span></span>
+<span><span class="co">## [45] yaml_2.3.8                  doParallel_1.0.17          </span></span>
+<span><span class="co">## [47] codetools_0.2-20            affy_1.82.0                </span></span>
+<span><span class="co">## [49] lattice_0.22-6              tibble_3.2.1               </span></span>
+<span><span class="co">## [51] plyr_1.8.9                  evaluate_0.23              </span></span>
+<span><span class="co">## [53] desc_1.4.3                  pillar_1.9.0               </span></span>
+<span><span class="co">## [55] affyio_1.74.0               BiocManager_1.30.23        </span></span>
+<span><span class="co">## [57] MatrixGenerics_1.16.0       foreach_1.5.2              </span></span>
+<span><span class="co">## [59] MALDIquant_1.22.2           ncdf4_1.22                 </span></span>
+<span><span class="co">## [61] generics_0.1.3              ggplot2_3.5.1              </span></span>
+<span><span class="co">## [63] munsell_0.5.1               scales_1.3.0               </span></span>
+<span><span class="co">## [65] glue_1.7.0                  lazyeval_0.2.2             </span></span>
+<span><span class="co">## [67] tools_4.4.0                 mzID_1.42.0                </span></span>
+<span><span class="co">## [69] QFeatures_1.14.1            vsn_3.72.0                 </span></span>
+<span><span class="co">## [71] fs_1.6.4                    XML_3.99-0.16.1            </span></span>
+<span><span class="co">## [73] grid_4.4.0                  impute_1.78.0              </span></span>
+<span><span class="co">## [75] tidyr_1.3.1                 MsCoreUtils_1.16.0         </span></span>
+<span><span class="co">## [77] colorspace_2.1-0            GenomeInfoDbData_1.2.12    </span></span>
+<span><span class="co">## [79] PSMatch_1.8.0               cli_3.6.2                  </span></span>
+<span><span class="co">## [81] textshaping_0.3.7           fansi_1.0.6                </span></span>
+<span><span class="co">## [83] S4Arrays_1.4.0              dplyr_1.1.4                </span></span>
+<span><span class="co">## [85] AnnotationFilter_1.28.0     pcaMethods_1.96.0          </span></span>
+<span><span class="co">## [87] gtable_0.3.5                sass_0.4.9                 </span></span>
+<span><span class="co">## [89] digest_0.6.35               SparseArray_1.4.3          </span></span>
+<span><span class="co">## [91] htmlwidgets_1.6.4           memoise_2.0.1              </span></span>
+<span><span class="co">## [93] htmltools_0.5.8.1           pkgdown_2.0.9.9000         </span></span>
+<span><span class="co">## [95] lifecycle_1.0.4             httr_1.4.7                 </span></span>
+<span><span class="co">## [97] statmod_1.5.0               MASS_7.3-60.2</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-Gatto2012" class="csl-entry">
 Gatto, Laurent, and Kathryn S Lilley. 2012. <span>“<span>MS</span>nbase
 – an <span>R</span>/<span>B</span>ioconductor Package for Isobaric
@@ -600,34 +589,20 @@ Proteomics Research.”</span> <em>Nat. Biotechnol.</em> 22 (11): 1459–66.
 </ol>
 </div>
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
         <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
     </nav>
 </div>
-
 </div>
-
-
-
       <footer><div class="copyright">
   <p></p>
 <p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
 </div>
-
 <div class="pkgdown">
   <p></p>
 <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
 </div>
-
       </footer>
 </div>
-
-  
-
-
-  
-
   </body>
 </html>
