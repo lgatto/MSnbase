@@ -5,7 +5,7 @@
 - Disable nested parallel processing for `chromatogram()` method.
 - Fix Rd notes.
 
-## MSnbase 2.31.0
+# MSnbase 2.31.0
 
 - New Bioconductor devel.
 
