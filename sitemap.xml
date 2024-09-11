@@ -1,330 +1,112 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/v01-MSnbase-demo.html</loc>
-  </url>
-  <url>
-    <loc>/articles/v02-MSnbase-io.html</loc>
-  </url>
-  <url>
-    <loc>/articles/v03-MSnbase-centroiding.html</loc>
-  </url>
-  <url>
-    <loc>/articles/v04-benchmarking.html</loc>
-  </url>
-  <url>
-    <loc>/articles/v05-MSnbase-development.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/Chromatogram-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/FeatComp-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/FeaturesOfInterest-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/MChromatograms-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/MIAPE-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/MSmap-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/MSnExp-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/MSnProcess-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/MSnSet-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/MSnSetList-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/MSnbaseOptions.html</loc>
-  </url>
-  <url>
-    <loc>/reference/MSpectra.html</loc>
-  </url>
-  <url>
-    <loc>/reference/MzTab-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/OnDiskMSnExp-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ProcessingStep-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ReporterIons-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/Spectrum-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/Spectrum1-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/Spectrum2-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/TMT6.html</loc>
-  </url>
-  <url>
-    <loc>/reference/addIdentificationData-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/aggvar.html</loc>
-  </url>
-  <url>
-    <loc>/reference/averageMSnSet.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bin-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/calculateFragments-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/chromatogram-MSnExp-method.html</loc>
-  </url>
-  <url>
-    <loc>/reference/clean-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/combineFeatures.html</loc>
-  </url>
-  <url>
-    <loc>/reference/combineSpectra.html</loc>
-  </url>
-  <url>
-    <loc>/reference/combineSpectraMovingWindow.html</loc>
-  </url>
-  <url>
-    <loc>/reference/commonFeatureNames.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compareMSnSets.html</loc>
-  </url>
-  <url>
-    <loc>/reference/compareSpectra-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/consensusSpectrum.html</loc>
-  </url>
-  <url>
-    <loc>/reference/defunct.html</loc>
-  </url>
-  <url>
-    <loc>/reference/estimateMzResolution.html</loc>
-  </url>
-  <url>
-    <loc>/reference/estimateMzScattering.html</loc>
-  </url>
-  <url>
-    <loc>/reference/estimateNoise-method.html</loc>
-  </url>
-  <url>
-    <loc>/reference/extractPrecSpectra-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/extractSpectraData.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fData-utils.html</loc>
-  </url>
-  <url>
-    <loc>/reference/factorsAsStrings.html</loc>
-  </url>
-  <url>
-    <loc>/reference/featureCV.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fillUp.html</loc>
-  </url>
-  <url>
-    <loc>/reference/filterIdentificationDataFrame.html</loc>
-  </url>
-  <url>
-    <loc>/reference/formatRt.html</loc>
-  </url>
-  <url>
-    <loc>/reference/getVariableName.html</loc>
-  </url>
-  <url>
-    <loc>/reference/grepEcols.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hasSpectraOrChromatograms.html</loc>
-  </url>
-  <url>
-    <loc>/reference/iPQF.html</loc>
-  </url>
-  <url>
-    <loc>/reference/iTRAQ4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/imageNA2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/impute.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/isCentroidedFromFile.html</loc>
-  </url>
-  <url>
-    <loc>/reference/itraqdata.html</loc>
-  </url>
-  <url>
-    <loc>/reference/listOf.html</loc>
-  </url>
-  <url>
-    <loc>/reference/makeCamelCase.html</loc>
-  </url>
-  <url>
-    <loc>/reference/makeNaData.html</loc>
-  </url>
-  <url>
-    <loc>/reference/meanMzInts.html</loc>
-  </url>
-  <url>
-    <loc>/reference/missing-data.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mzRident2dfr.html</loc>
-  </url>
-  <url>
-    <loc>/reference/nFeatures.html</loc>
-  </url>
-  <url>
-    <loc>/reference/nQuants.html</loc>
-  </url>
-  <url>
-    <loc>/reference/naplot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/navMS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/normToReference.html</loc>
-  </url>
-  <url>
-    <loc>/reference/normalise-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/npcv.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pSet-class.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pickPeaks-method.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plot2d-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotDensity-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotMzDelta-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotNA-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/plotSpectrumSpectrum-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/precSelection.html</loc>
-  </url>
-  <url>
-    <loc>/reference/purityCorrect-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/quantify-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/readMSData.html</loc>
-  </url>
-  <url>
-    <loc>/reference/readMSnSet.html</loc>
-  </url>
-  <url>
-    <loc>/reference/readMgfData.html</loc>
-  </url>
-  <url>
-    <loc>/reference/readMzIdData.html</loc>
-  </url>
-  <url>
-    <loc>/reference/readMzTabData.html</loc>
-  </url>
-  <url>
-    <loc>/reference/readMzTabData_v0.9.html</loc>
-  </url>
-  <url>
-    <loc>/reference/readSRMData.html</loc>
-  </url>
-  <url>
-    <loc>/reference/reduce-data.frame-method.html</loc>
-  </url>
-  <url>
-    <loc>/reference/removeNoId-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/removePeaks-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/removeReporters-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/selectFeatureData.html</loc>
-  </url>
-  <url>
-    <loc>/reference/smooth-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/trimMz-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/updateObject-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/writeMSData.html</loc>
-  </url>
-  <url>
-    <loc>/reference/writeMgfData-methods.html</loc>
-  </url>
-  <url>
-    <loc>/reference/writeMzTabData.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/CONDUCT.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/v01-MSnbase-demo.html</loc></url>
+<url><loc>/articles/v02-MSnbase-io.html</loc></url>
+<url><loc>/articles/v03-MSnbase-centroiding.html</loc></url>
+<url><loc>/articles/v04-benchmarking.html</loc></url>
+<url><loc>/articles/v05-MSnbase-development.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/Chromatogram-class.html</loc></url>
+<url><loc>/reference/FeatComp-class.html</loc></url>
+<url><loc>/reference/FeaturesOfInterest-class.html</loc></url>
+<url><loc>/reference/MChromatograms-class.html</loc></url>
+<url><loc>/reference/MIAPE-class.html</loc></url>
+<url><loc>/reference/MSmap-class.html</loc></url>
+<url><loc>/reference/MSnExp-class.html</loc></url>
+<url><loc>/reference/MSnProcess-class.html</loc></url>
+<url><loc>/reference/MSnSet-class.html</loc></url>
+<url><loc>/reference/MSnSetList-class.html</loc></url>
+<url><loc>/reference/MSnbaseOptions.html</loc></url>
+<url><loc>/reference/MSpectra.html</loc></url>
+<url><loc>/reference/MzTab-class.html</loc></url>
+<url><loc>/reference/OnDiskMSnExp-class.html</loc></url>
+<url><loc>/reference/ProcessingStep-class.html</loc></url>
+<url><loc>/reference/ReporterIons-class.html</loc></url>
+<url><loc>/reference/Spectrum-class.html</loc></url>
+<url><loc>/reference/Spectrum1-class.html</loc></url>
+<url><loc>/reference/Spectrum2-class.html</loc></url>
+<url><loc>/reference/TMT6.html</loc></url>
+<url><loc>/reference/addIdentificationData-methods.html</loc></url>
+<url><loc>/reference/aggvar.html</loc></url>
+<url><loc>/reference/averageMSnSet.html</loc></url>
+<url><loc>/reference/bin-methods.html</loc></url>
+<url><loc>/reference/calculateFragments-methods.html</loc></url>
+<url><loc>/reference/chromatogram-MSnExp-method.html</loc></url>
+<url><loc>/reference/clean-methods.html</loc></url>
+<url><loc>/reference/combineFeatures.html</loc></url>
+<url><loc>/reference/combineSpectra.html</loc></url>
+<url><loc>/reference/combineSpectraMovingWindow.html</loc></url>
+<url><loc>/reference/commonFeatureNames.html</loc></url>
+<url><loc>/reference/compareMSnSets.html</loc></url>
+<url><loc>/reference/compareSpectra-methods.html</loc></url>
+<url><loc>/reference/consensusSpectrum.html</loc></url>
+<url><loc>/reference/defunct.html</loc></url>
+<url><loc>/reference/estimateMzResolution.html</loc></url>
+<url><loc>/reference/estimateMzScattering.html</loc></url>
+<url><loc>/reference/estimateNoise-method.html</loc></url>
+<url><loc>/reference/extractPrecSpectra-methods.html</loc></url>
+<url><loc>/reference/extractSpectraData.html</loc></url>
+<url><loc>/reference/fData-utils.html</loc></url>
+<url><loc>/reference/factorsAsStrings.html</loc></url>
+<url><loc>/reference/featureCV.html</loc></url>
+<url><loc>/reference/fillUp.html</loc></url>
+<url><loc>/reference/filterIdentificationDataFrame.html</loc></url>
+<url><loc>/reference/formatRt.html</loc></url>
+<url><loc>/reference/getVariableName.html</loc></url>
+<url><loc>/reference/grepEcols.html</loc></url>
+<url><loc>/reference/hasSpectraOrChromatograms.html</loc></url>
+<url><loc>/reference/iPQF.html</loc></url>
+<url><loc>/reference/iTRAQ4.html</loc></url>
+<url><loc>/reference/imageNA2.html</loc></url>
+<url><loc>/reference/impute.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/isCentroidedFromFile.html</loc></url>
+<url><loc>/reference/itraqdata.html</loc></url>
+<url><loc>/reference/listOf.html</loc></url>
+<url><loc>/reference/makeCamelCase.html</loc></url>
+<url><loc>/reference/makeNaData.html</loc></url>
+<url><loc>/reference/meanMzInts.html</loc></url>
+<url><loc>/reference/missing-data.html</loc></url>
+<url><loc>/reference/mzRident2dfr.html</loc></url>
+<url><loc>/reference/nFeatures.html</loc></url>
+<url><loc>/reference/nQuants.html</loc></url>
+<url><loc>/reference/naplot.html</loc></url>
+<url><loc>/reference/navMS.html</loc></url>
+<url><loc>/reference/normToReference.html</loc></url>
+<url><loc>/reference/normalise-methods.html</loc></url>
+<url><loc>/reference/npcv.html</loc></url>
+<url><loc>/reference/pSet-class.html</loc></url>
+<url><loc>/reference/pickPeaks-method.html</loc></url>
+<url><loc>/reference/plot-methods.html</loc></url>
+<url><loc>/reference/plot2d-methods.html</loc></url>
+<url><loc>/reference/plotDensity-methods.html</loc></url>
+<url><loc>/reference/plotMzDelta-methods.html</loc></url>
+<url><loc>/reference/plotNA-methods.html</loc></url>
+<url><loc>/reference/plotSpectrumSpectrum-methods.html</loc></url>
+<url><loc>/reference/precSelection.html</loc></url>
+<url><loc>/reference/purityCorrect-methods.html</loc></url>
+<url><loc>/reference/quantify-methods.html</loc></url>
+<url><loc>/reference/readMSData.html</loc></url>
+<url><loc>/reference/readMSnSet.html</loc></url>
+<url><loc>/reference/readMgfData.html</loc></url>
+<url><loc>/reference/readMzIdData.html</loc></url>
+<url><loc>/reference/readMzTabData.html</loc></url>
+<url><loc>/reference/readMzTabData_v0.9.html</loc></url>
+<url><loc>/reference/readSRMData.html</loc></url>
+<url><loc>/reference/reduce-data.frame-method.html</loc></url>
+<url><loc>/reference/removeNoId-methods.html</loc></url>
+<url><loc>/reference/removePeaks-methods.html</loc></url>
+<url><loc>/reference/removeReporters-methods.html</loc></url>
+<url><loc>/reference/selectFeatureData.html</loc></url>
+<url><loc>/reference/smooth-methods.html</loc></url>
+<url><loc>/reference/trimMz-methods.html</loc></url>
+<url><loc>/reference/updateObject-methods.html</loc></url>
+<url><loc>/reference/writeMSData.html</loc></url>
+<url><loc>/reference/writeMgfData-methods.html</loc></url>
+<url><loc>/reference/writeMzTabData.html</loc></url>
 </urlset>
+

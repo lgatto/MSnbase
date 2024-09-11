@@ -7,6 +7,8 @@ The methods make use the ggplot2 system. An object of class
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
+
+
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -22,6 +24,7 @@ The methods make use the ggplot2 system. An object of class
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.31.1</span>
       </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li>
   <a href="../reference/index.html">Reference</a>
@@ -29,6 +32,7 @@ The methods make use the ggplot2 system. An object of class
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -53,17 +57,23 @@ The methods make use the ggplot2 system. An object of class
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/lgatto/MSnbase/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
+
+
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>The 'plotDensity' method for 'MSnExp' quality assessment</h1>
+
     <div class="hidden name"><code>plotDensity-methods.Rd</code></div>
     </div>
+
     <div class="ref-description">
     <p>These methods plot the distribution of several parameters of interest
   for the different precursor charges for <code>"<a href="MSnExp-class.html">MSnExp</a>"</code>
@@ -71,33 +81,43 @@ The methods make use the ggplot2 system. An object of class
 <p>The methods make use the <code>ggplot2</code> system. An object of class
   'ggplot' is returned invisibly.</p>
     </div>
+
+
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
+    <p></p>
+<dl><dt id="arg-object">object<a class="anchor" aria-label="anchor" href="#arg-object"></a></dt>
 <dd><p>An object of class <code>"<a href="MSnExp-class.html">MSnExp</a>"</code> or and
     'data.frame'. In the latter case, the data frame must have numerical
     columns named 'charge' and one of 'precursor.mz', 'peaks.count' or 'ionCount',
     depending on the <code>z</code> parameter.
     Such a data frame is typically generated using the
     <code>header</code> method on <code>"<a href="MSnExp-class.html">MSnExp</a>"</code> object.</p></dd>
+
   <dt id="arg-z">z<a class="anchor" aria-label="anchor" href="#arg-z"></a></dt>
 <dd><p>A character indicating which parameter's densitiy to plot.
     One of, possibly abreviated, "ionCount" (total ion count),
     "peaks.count" (peaks count) or "precursor.mz" (precursor MZ).</p></dd>
+
   <dt id="arg-log">log<a class="anchor" aria-label="anchor" href="#arg-log"></a></dt>
 <dd><p>Logical, whether to log transform the data (default is
     'FALSE').</p></dd>
+
   <dt id="arg-plot">plot<a class="anchor" aria-label="anchor" href="#arg-plot"></a></dt>
 <dd><p>A logical indicating whether the plot should be printed
     (default is 'TRUE').</p></dd>
+
 </dl></div>
     <div id="methods">
     <h2>Methods</h2>
     <p></p><dl><dt><code>signature(object = "MSnExp", ...)</code></dt>
 <dd><p>Plots a 'MSnExp' summary.</p></dd>
+
     <dt><code>signature(object = "data.frame", ...)</code></dt>
 <dd><p>Plots a summary of the 'MSnExp' experiment described by the data
       frame.</p></dd>
+
+
 </dl></div>
     <div id="see-also">
     <h2>See also</h2>
@@ -108,6 +128,7 @@ The methods make use the ggplot2 system. An object of class
     <h2>Author</h2>
     <p>Laurent Gatto &lt;lg390@cam.ac.uk&gt;</p>
     </div>
+
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">itraqdata</span></span></span>
@@ -151,12 +172,22 @@ The methods make use the ggplot2 system. An object of class
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
     </nav></div>
 </div>
+
+
       <footer><div class="copyright">
   <p></p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
 </div>
+
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.9000.</p>
 </div>
+
       </footer></div>
+
+
+
+
+
+
   </body></html>
 

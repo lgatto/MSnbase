@@ -9,6 +9,8 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
+
+
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -24,6 +26,7 @@
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.31.1</span>
       </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav"><li>
   <a href="../reference/index.html">Reference</a>
@@ -31,6 +34,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -55,17 +59,23 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/lgatto/MSnbase/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
+
+
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>The <code>OnDiskMSnExp</code> Class for MS Data And Meta-Data</h1>
+
     <div class="hidden name"><code>OnDiskMSnExp-class.Rd</code></div>
     </div>
+
     <div class="ref-description">
     <p>Like the <code><a href="MSnExp-class.html">MSnExp</a></code> class, the <code>OnDiskMSnExp</code> class
   encapsulates data and meta-data for mass spectrometry
@@ -75,6 +85,8 @@
   reduced performance, has however the advantage of a much smaller
   memory footprint.</p>
     </div>
+
+
     <div id="details">
     <h2>Details</h2>
     <p>The <code>OnDiskMSnExp</code> object stores many spectrum related
@@ -106,14 +118,17 @@
     <h2>Slots</h2>
     <p></p><dl><dt><code>backend</code>:</dt>
 <dd><p>Character string specifying the used backend.</p></dd>
+
     <dt><code>spectraProcessingQueue</code>:</dt>
 <dd><p><code>list</code> of <code><a href="ProcessingStep-class.html">ProcessingStep</a></code> objects
       defining the functions to be applied <em>on-the-fly</em> to the
       spectra data (M/Z and intensity duplets).</p></dd>
+
     <dt><code>assayData</code>:</dt>
 <dd><p>Object of class <code>"environment"</code> that
       is however empty, as no spectrum data is stored.
       Slot is inherited from <code>"<a href="pSet-class.html">pSet</a>"</code>.</p></dd>
+
     <dt><code>phenoData</code>:</dt>
 <dd><p>Object of class
       <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.AnnotatedDataFrame.html" class="external-link">AnnotatedDataFrame</a>"</code> containing
@@ -121,17 +136,20 @@
       individual tags for an labelled MS experiment)
       See <code><a href="https://rdrr.io/pkg/Biobase/man/phenoData.html" class="external-link">phenoData</a></code> for more details.
       Slot is inherited from <code>"<a href="pSet-class.html">pSet</a>"</code>.</p></dd>
+
     <dt><code>featureData</code>:</dt>
 <dd><p>Object of class
       <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.AnnotatedDataFrame.html" class="external-link">AnnotatedDataFrame</a>"</code> containing variables
       describing features (spectra in our case). See
       <code><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">featureData</a></code> for more details.
       Slot is inherited from <code>"<a href="pSet-class.html">pSet</a>"</code>.</p></dd>
+
     <dt><code>experimentData</code>:</dt>
 <dd><p>Object of class
       <code>"<a href="MIAPE-class.html">MIAPE</a>"</code>, containing details of experimental
       methods. See <code><a href="https://rdrr.io/pkg/Biobase/man/abstract.html" class="external-link">experimentData</a></code> for more details.
       Slot is inherited from <code>"<a href="pSet-class.html">pSet</a>"</code>.</p></dd>
+
     <dt><code>protocolData</code>:</dt>
 <dd><p>Object of class
       <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.AnnotatedDataFrame.html" class="external-link">AnnotatedDataFrame</a>"</code> containing
@@ -139,10 +157,12 @@
       <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.eSet.html" class="external-link">eSet</a>"</code>). See <code><a href="https://rdrr.io/pkg/Biobase/man/protocolData.html" class="external-link">protocolData</a></code> for
       more details.
       Slot is inherited from <code>"<a href="pSet-class.html">pSet</a>"</code>.</p></dd>
+
     <dt><code>processingData</code>:</dt>
 <dd><p>Object of class
       <code>"<a href="MSnProcess-class.html">MSnProcess</a>"</code> that records all processing.
       Slot is inherited from <code>"<a href="pSet-class.html">pSet</a>"</code>.</p></dd>
+
     <dt><code>.__classVersion__</code>:</dt>
 <dd><p>Object of class
       <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versions.html" class="external-link">Versions</a>"</code> describing the versions of R,
@@ -151,6 +171,8 @@
       Slot is inherited from <code>"<a href="pSet-class.html">pSet</a>"</code>.
       Intended for developer use and debugging (inherited from
       <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.eSet.html" class="external-link">eSet</a>"</code>).</p></dd>
+
+
 </dl></div>
     <div id="extends">
     <h2>Extends</h2>
@@ -172,6 +194,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
       <code>featureData</code>).</p>
 <p>The method returns a <code>OnDiskMSnExp</code> object with the data
     sub-set.</p></dd>
+
+
     <dt>[[</dt>
 <dd><p><code>object[[i]]</code>: extract s single spectrum from the
       <code>OnDiskMSnExp</code> object <code>object</code>. Argument <code>i</code> can be
@@ -180,6 +204,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
       relevant information will be extracted from the corresponding raw
       data file.</p>
 <p>The method returns a <code>Spectrum1</code> object.</p></dd>
+
+
     <dt>acquisitionNum</dt>
 <dd><p><code>acquisitionNum(signature(object="OnDiskMSnExp"))</code>: get the
       acquisition number of each spectrum in each individual file. The
@@ -187,6 +213,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
       <code>featureData</code> slot.</p>
 <p>Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
+
+
     <dt>assayData</dt>
 <dd><p><code>assayData(signature(object = "OnDiskMSnExp"))</code>:
       Extract the full data, i.e. read all spectra from the original files,
@@ -194,6 +222,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
       slot and return the data. Due to the required processing time
       accessing the full data should be avoided wherever possible.</p>
 <p>Returns an <code>environment</code>.</p></dd>
+
+
     <dt>centroided,centroided&lt;-</dt>
 <dd><p><code>centroided(signature(object="OnDiskMSnExp", msLevel, =
       "numeric"))</code>: whether individual spectra are centroided or
@@ -203,6 +233,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
       <code>centroided(object) &lt;- value</code> to update the information, with
       value being a logical vector of length equal to the number of
       spectra in the experiment.</p></dd>
+
+
     <dt><code>isCentroided(object, k = 0.025, qtl = 0.9, verbose =
       TRUE)</code></dt>
 <dd><p>A heuristic assessing if the spectra in the <code>object</code>
@@ -223,6 +255,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 <p>See also <code><a href="isCentroidedFromFile.html">isCentroidedFromFile</a></code> that accessed the mode
       directly from the raw data file.</p>
 <p></p></dd>
+
+
     <dt>fromFile</dt>
 <dd><p><code>fromFile(signature(object = "OnDiskMSnExp"))</code>: get the
       index of the file (in <code>fileNames(object)</code>) from which the
@@ -230,6 +264,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
       object's <code>featureData</code> slot.</p>
 <p>Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
+
+
     <dt>intensity</dt>
 <dd><p><code>intensity(signature(object="OnDiskMSnExp"))</code>:
       return the intensities from each spectrum in the data
@@ -243,6 +279,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
       original file).</p>
 <p>The method returns a <code>list</code> of numeric intensity values. Each
       list element represents the intensities from one spectrum.</p></dd>
+
+
     <dt>ionCount</dt>
 <dd><p><code>ionCount(signature(object="OnDiskMSnExp",
 	BPPARAM=bpparam()))</code>:
@@ -255,27 +293,37 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
       original file).</p>
 <p>Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
+
+
     <dt>isolationWindowLowerMz</dt>
 <dd><p><code>isolationWindowLowerMz(object = "OnDiskMSnExp")</code>: return the
       lower m/z boundary for the isolation window.</p>
 <p>Returns a numeric vector of length equal to the number of spectra
       with the lower m/z value of the isolation window or <code>NA</code> if
       not specified in the original file.</p></dd>
+
+
     <dt>isolationWindowUpperMz</dt>
 <dd><p><code>isolationWindowUpperMz(object = "OnDiskMSnExp")</code>: return the
       upper m/z boundary for the isolation window.</p>
 <p>Returns a numeric vector of length equal to the number of spectra
       with the upper m/z value of the isolation window or <code>NA</code> if
       not specified in the original file.</p></dd>
+
+
     <dt>length</dt>
 <dd><p><code>length(signature(object="OnDiskMSnExp"))</code>:
       Returns the number of spectra of the current experiment.</p></dd>
+
+
     <dt>msLevel</dt>
 <dd><p><code>msLevel(signature(object = "OnDiskMSnExp"))</code>: extract the
       MS level from the spectra. The relevant information is extracted
       from the object's <code>featureData</code> slot.</p>
 <p>Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
+
+
     <dt>mz</dt>
 <dd><p><code>mz(signature(object="OnDiskMSnExp"))</code>:
       return the M/Z values from each spectrum in the data
@@ -289,6 +337,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
       original file).</p>
 <p>The method returns a <code>list</code> of numeric M/Z values. Each
       list element represents the values from one spectrum.</p></dd>
+
+
     <dt>peaksCount</dt>
 <dd><p><code>peaksCount(signature(object="OnDiskMSnExp",
 	scans="numeric"), BPPARAM=bpparam())</code>:
@@ -304,23 +354,31 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
       original file).</p>
 <p>Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
+
+
     <dt>polarity</dt>
 <dd><p><code>polarity(signature(object="OnDiskMSnExp"))</code>:
       returns a numeric vector with the polarity of the individual
       spectra in the data set. The relevant information is extracted
       from the <code>featureData</code>.</p></dd>
+
+
     <dt>rtime</dt>
 <dd><p><code>rtime(signature(object="OnDiskMSnExp"))</code>:
       extrac the retention time of the individual spectra in the data
       set (from the <code>featureData</code>).</p>
 <p>Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
+
+
     <dt>scanIndex</dt>
 <dd><p><code>scanIndex(signature(object="OnDiskMSnExp"))</code>:
       get the spectra scan indices within the respective file. The
       relevant information is extracted from the object's <code>featureData</code> slot.
       Returns a numeric vector of indices with names corresponding to the
       spectrum names.</p></dd>
+
+
     <dt>smoothed,smoothed&lt;-</dt>
 <dd><p><code>smoothed(signature(object="OnDiskMSnExp", msLevel. =
       "numeric"))</code>: whether individual spectra are smoothed or
@@ -330,6 +388,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
       <code>smoothed(object) &lt;- value</code> to update the information, with
       value being a logical vector of length equal to the number of
       spectra in the experiment.</p></dd>
+
+
     <dt>spectra</dt>
 <dd><p><code>spectra(signature(object="OnDiskMSnExp"), BPPARAM=bpparam())</code>:
       extract spectrum data from the individual files. This causes the
@@ -345,6 +405,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
       extraction.</p>
 <p>Returns a <code>list</code> of <code><a href="Spectrum1-class.html">Spectrum1</a></code> objects
       with names corresponding to the spectrum names.</p></dd>
+
+
     <dt>tic</dt>
 <dd><p><code>tic(signature(object="OnDiskMSnExp"), initial = TRUE,
       BPPARAM = bpparam())</code>:
@@ -360,6 +422,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 <p><code>BPPARAM</code> parameter: see <code>spectra</code> method above.</p>
 <p>Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
+
+
     <dt>bpi</dt>
 <dd><p><code>bpi(signature(object="OnDiskMSnExp"), initial = TRUE,
       BPPARAM = bpparam())</code>:
@@ -375,10 +439,14 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 <p><code>BPPARAM</code> parameter: see <code>spectra</code> method above.</p>
 <p>Returns a numeric vector with names corresponding to the spectrum
       names.</p></dd>
+
+
     <dt>featureNames</dt>
 <dd><p><code>tic(signature(object="OnDiskMSnExp"))</code>: return a
       <code>character</code> of length <code>length(object)</code> containing the
       feature names. A replacement method is also available.</p></dd>
+
+
     <dt>spectrapply</dt>
 <dd><p><code>spectrapply(signature(object = "OnDiskMSnExp"), FUN = NULL,
 	BPPARAM = bpparam(), ...)</code>: applies the function <code>FUN</code> to each
@@ -388,6 +456,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
       <code>BPPARAM</code> allows to specify how and if parallel processing
       should be enabled.</p>
 <p>Returns a list with the result for each of spectrum.</p></dd>
+
+
 </dl></div>
     <div id="data-manipulation-methods">
     <h2>Data manipulation methods</h2>
@@ -408,6 +478,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 <p>The method returns an <code>OnDiskMSnExp</code> object.</p>
 <p>For more details see documentation of the <code><a href="clean-methods.html">clean</a></code>
       method.</p></dd>
+
+
     <dt>normalize</dt>
 <dd><p><code>normalize(signature(object="OnDiskMSnExp"), method=c("max",
 	"sum"), ...)</code>:
@@ -416,6 +488,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 <p>The method returns an <code>OnDiskMSnExp</code> object.</p>
 <p>For more details see documentation of the
     <code><a href="normalise-methods.html">normalize</a></code> method.</p></dd>
+
+
     <dt>removePeaks</dt>
 <dd><p><code>removePeaks(signature(object="OnDiskMSnExp"), t="min", verbose=TRUE)</code>:
       add a <code>removePeaks</code> processing step to the lazy processing
@@ -423,6 +497,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 <p>The method returns an <code>OnDiskMSnExp</code> object.</p>
 <p>For more details see documentation of the <code><a href="removePeaks-methods.html">removePeaks</a></code>
       method.</p></dd>
+
+
     <dt>trimMz</dt>
 <dd><p><code>trimMz(signature(object="OnDiskMSnExp", mzlim="numeric"),...)</code>:
       add a <code>trimMz</code> processing step to the lazy processing queue
@@ -430,6 +506,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 <p>The method returns an <code>OnDiskMSnExp</code> object.</p>
 <p>For more details see documentation of the <code><a href="trimMz-methods.html">trimMz</a></code>
       method.</p></dd>
+
+
 </dl></div>
     <div id="other-methods-and-functions">
     <h2>Other methods and functions</h2>
@@ -439,10 +517,15 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
       addition to the <em>standard</em> <code>validObject</code> method, this
       method reads also all spectra from the original files, applies
       eventual processing steps and evaluates their validity.</p></dd>
+
+
     <dt><code>as(from, "MSnExp")</code></dt>
 <dd><p>Converts the <code>OnDiskMSnExp</code>
       object <code>from</code>, to an in-memory <code>MSnExp</code>. Also available
       as an S3 method <code>as.MSnExp()</code>.</p></dd>
+
+
+
 </dl></div>
     <div id="author">
     <h2>Author</h2>
@@ -454,6 +537,7 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
   <code><a href="MSnExp-class.html">MSnExp</a></code>,
   <code><a href="readMSData.html">readMSData</a></code></p></div>
     </div>
+
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Get some example mzML files</span></span></span>
@@ -1033,8 +1117,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Number of spectra: 35 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MSn retention times: 45:27 - 45:30 minutes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded [Wed May 15 16:29:30 2024] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Filter: select parent/children scans for 21945 [Wed May 15 16:29:31 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded [Wed Sep 11 07:29:40 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Filter: select parent/children scans for 21945 [Wed Sep 11 07:29:41 2024] </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.31.1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Meta data  - - -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> phenoData</span>
@@ -1065,8 +1149,8 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Number of spectra: 3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MSn retention times: 45:27 - 45:27 minutes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded [Wed May 15 16:29:30 2024] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Filter: select parent/children scans for 21946 [Wed May 15 16:29:31 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded [Wed Sep 11 07:29:40 2024] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Filter: select parent/children scans for 21946 [Wed Sep 11 07:29:41 2024] </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.31.1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Meta data  - - -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> phenoData</span>
@@ -1093,12 +1177,22 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
     </nav></div>
 </div>
+
+
       <footer><div class="copyright">
   <p></p><p>Developed by Laurent Gatto, Johannes Rainer, Sebastian Gibb.</p>
 </div>
+
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.9000.</p>
 </div>
+
       </footer></div>
+
+
+
+
+
+
   </body></html>
 
