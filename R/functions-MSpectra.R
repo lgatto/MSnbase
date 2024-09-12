@@ -96,6 +96,8 @@ MSpectra <- function(..., elementMetadata = NULL) {
 #'
 #' @name extractSpectraData
 #'
+#' @aliases coerce,Spectra,MSpectra-method
+#'
 #' @description
 #'
 #' The [Spectra](https://bioconductor.org/packages/Spectra) package
@@ -120,8 +122,6 @@ MSpectra <- function(..., elementMetadata = NULL) {
 #' Coercion from `Spectra` to a `MSpectra` will only assign values to the
 #' contained `Spectrum1` and `Spectrum2` objects, but will not add all
 #' eventually spectra variables present in `Spectra`.
-#'
-#' @param from An instance of a `Spectra` class from the *Spectra* package.
 #'
 #' @param x a `list` of [Spectrum-class] objects or an object extending
 #'     [MSnExp-class] or a [MSpectra-class] object.

@@ -2,6 +2,7 @@
 % Please edit documentation in R/functions-MSpectra.R
 \name{extractSpectraData}
 \alias{extractSpectraData}
+\alias{coerce,Spectra,MSpectra-method}
 \title{Conversion between objects from the Spectra and MSnbase packages}
 \usage{
 extractSpectraData(x)
@@ -9,8 +10,6 @@ extractSpectraData(x)
 \arguments{
 \item{x}{a \code{list} of \linkS4class{Spectrum} objects or an object extending
 \linkS4class{MSnExp} or a \linkS4class{MSpectra} object.}
-
-\item{from}{An instance of a \code{Spectra} class from the \emph{Spectra} package.}
 }
 \value{
 \itemize{
