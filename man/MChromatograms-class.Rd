@@ -8,14 +8,12 @@
 \alias{show,MChromatograms-method}
 \alias{[,MChromatograms,ANY,ANY,ANY-method}
 \alias{[<-,MChromatograms,ANY,ANY,ANY-method}
-\alias{[<-,MChromatograms-method}
 \alias{plot,MChromatograms,ANY-method}
 \alias{phenoData,MChromatograms-method}
 \alias{pData,MChromatograms-method}
 \alias{pData<-,MChromatograms,data.frame-method}
 \alias{$,MChromatograms-method}
 \alias{$<-,MChromatograms-method}
-\alias{colnames<-,MChromatograms-method}
 \alias{colnames<-,MChromatograms,ANY-method}
 \alias{sampleNames,MChromatograms-method}
 \alias{sampleNames<-,MChromatograms,ANY-method}
@@ -49,7 +47,7 @@ MChromatograms(data, phenoData, featureData, ...)
 
 \S4method{[}{MChromatograms,ANY,ANY,ANY}(x, i, j, drop = FALSE)
 
-\S4method{[}{MChromatograms}(x, i, j) <- value
+\S4method{[}{MChromatograms,ANY,ANY,ANY}(x, i, j) <- value
 
 \S4method{plot}{MChromatograms,ANY}(
   x,
@@ -72,7 +70,7 @@ MChromatograms(data, phenoData, featureData, ...)
 
 \S4method{$}{MChromatograms}(x, name) <- value
 
-\S4method{colnames}{MChromatograms}(x) <- value
+\S4method{colnames}{MChromatograms,ANY}(x) <- value
 
 \S4method{sampleNames}{MChromatograms}(object)
 

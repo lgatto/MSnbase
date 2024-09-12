@@ -1,11 +1,15 @@
 # MSnbase 2.31
 
+## MSnbase 2.31.2
+
+- Add functionality to convert a `Spectra` object to a `MSpectra`.
+
 ## MSnbase 2.31.1
 
 - Disable nested parallel processing for `chromatogram()` method.
 - Fix Rd notes.
 
-# MSnbase 2.31.0
+## MSnbase 2.31.0
 
 - New Bioconductor devel.
 

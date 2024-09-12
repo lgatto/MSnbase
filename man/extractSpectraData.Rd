@@ -2,7 +2,8 @@
 % Please edit documentation in R/functions-MSpectra.R
 \name{extractSpectraData}
 \alias{extractSpectraData}
-\title{Extract data from MSnbase objects for use in Spectra}
+\alias{coerce,Spectra,MSpectra-method}
+\title{Conversion between objects from the Spectra and MSnbase packages}
 \usage{
 extractSpectraData(x)
 }
@@ -11,10 +12,21 @@ extractSpectraData(x)
 \linkS4class{MSnExp} or a \linkS4class{MSpectra} object.}
 }
 \value{
-\code{\link[=DataFrame]{DataFrame()}} with the full spectrum data that can be passed to the
-\code{\link[Spectra:Spectra]{Spectra::Spectra()}} function to create a \code{Spectra} object.
+\itemize{
+\item \code{extracSpectraData()} returns a \code{\link[=DataFrame]{DataFrame()}} with the full spectrum data
+that can be passed to the \code{\link[Spectra:Spectra]{Spectra::Spectra()}} function to create a
+\code{Spectra} object.
+\item \code{as(x, "MSpectra")} returns a \code{MSpectra} object with the content of the
+\code{Spectra} object \code{x}.
+}
 }
 \description{
+The \href{https://bioconductor.org/packages/Spectra}{Spectra} package
+provides a more robust and efficient infrastructure for mass spectrometry
+data handling and analysis. So, wherever possible, the newer \emph{Spectra}
+package should be used instead of the \emph{MSnbase}. The functions listed here
+allow to convert between objects from the \emph{MSnbase} and \emph{Spectra} packages.
+
 \code{extractSpectraData} extracts the spectra data (m/z and intensity values
 including metadata) from \linkS4class{MSnExp}, \linkS4class{OnDiskMSnExp},
 \linkS4class{Spectrum1}, \linkS4class{Spectrum2} objects (or \code{list} of such objects) and
@@ -22,6 +34,14 @@ returns these as a \code{DataFrame} that can be used to create a
 \link[Spectra:Spectra]{Spectra::Spectra} object.This function enables thus
 to convert data from the \emph{old} \code{MSnbase} package to the newer \code{Spectra}
 package.
+
+To convert a \code{Spectra} object to a \code{MSpectra} object use
+\code{as(sps, "MSpectra")} where \code{sps} is a \code{Spectra} object.
+}
+\note{
+Coercion from \code{Spectra} to a \code{MSpectra} will only assign values to the
+contained \code{Spectrum1} and \code{Spectrum2} objects, but will not add all
+eventually spectra variables present in \code{Spectra}.
 }
 \examples{
 
@@ -34,10 +54,14 @@ data <- filterRt(readMSData(fl, mode = "onDisk"), rt = c(1, 6))
 res <- extractSpectraData(data)
 res
 
+library(Spectra)
 ## This can be used as an input for the Spectra constructor of the
 ## Spectra package:
-## sps <- Spectra::Spectra(res)
-## sps
+sps <- Spectra::Spectra(res)
+sps
+
+## A Spectra object can be coerced to a MSnbase MSpectra object using
+msps <- as(sps, "MSpectra")
 }
 \author{
 Johannes Rainer

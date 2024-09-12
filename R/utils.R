@@ -1,8 +1,10 @@
+##' @title Format Retention Time
+##'
+##' @description
+##'
 ##'  This function is used to convert retention times. Conversion is
 ##'  seconds to/from the more human friendly format "mm:sec". The
 ##'  implementation is from [MsCoreUtils::formatRt()].
-##'
-##' @title Format Retention Time
 ##'
 ##' @param rt retention time in seconds (`numeric`) or "mm:sec"
 ##'     (`character`).
@@ -272,9 +274,13 @@ fillUp <- function(x) {
   return(x)
 }
 
+
+##' @title Return a variable name
+##'
+##' @description
+##'
 ##' Return the name of variable \code{varname} in call \code{match_call}.
 ##'
-##' @title Return a variable name
 ##' @param match_call An object of class \code{call}, as returned by \code{match.call}.
 ##' @param varname An \code{character} of length 1 which is looked up in \code{match_call}.
 ##' @return A \code{character} with the name of the variable passed as parameter
@@ -598,6 +604,10 @@ logging <- function(object, msg, date. = TRUE) {
     return(object)
 }
 
+##' @title Returns the matching column names of indices.
+##'
+##' @description
+##'
 ##' Given a text spread sheet \code{f} and a \code{pattern} to
 ##' be matched to its header (first line in the file), the function
 ##' returns the matching columns names or indices of the
@@ -616,7 +626,6 @@ logging <- function(object, msg, date. = TRUE) {
 ##' These functions are useful to check the parameters to be provided to
 ##' \code{\link{readMSnSet2}}.
 ##'
-##' @title Returns the matching column names of indices.
 ##' @param f A connection object or a \code{character} string to be
 ##'     read in with \code{readLines(f, n = 1)}.
 ##' @param pattern A \code{character} string containing a regular
@@ -884,10 +893,13 @@ utils.removeNoIdAndMultipleAssignments <-
         return(object)
     }
 
+##' @title Tests equality of list elements class
+##'
+##' @description
+##'
 ##' Compares equality of all members of a list.
 ##'
-##' @title Tests equality of list elements class
-##' @param x A code{list}.
+##' @param x A \code{list}.
 ##' @param class A \code{character} defining the expected class.
 ##' @param valid A \code{logical} defining if all elements should be
 ##' tested for validity. Default is \code{TRUE}.
@@ -905,6 +917,11 @@ listOf <- function(x, class, valid = TRUE) {
     cla & val
 }
 
+
+##' @title Non-parametric coefficient of variation
+##'
+##' @description
+##'
 ##' Calculates a non-parametric version of the coefficient of
 ##' variation where the standard deviation is replaced by the median
 ##' absolute deviations (see \code{\link{mad}} for details) and
@@ -913,8 +930,6 @@ listOf <- function(x, class, valid = TRUE) {
 ##' Note that the \code{mad} of a single value is 0 (as opposed to
 ##' \code{NA} for the standard deviation, see example below).
 ##'
-##'
-##' @title Non-parametric coefficient of variation
 ##' @param x A \code{numeric}.
 ##' @param na.rm A \code{logical} (default is \code{TRUE} indicating
 ##' whether \code{NA} values should be stripped before the computation
@@ -933,10 +948,13 @@ npcv <- function(x, na.rm = TRUE) {
     mdx/abs(mean(x, na.rm = na.rm))
 }
 
+##' @title Compare two MSnSets
+##'
+##' @description
+##'
 ##' Compares two \code{\linkS4class{MSnSet}} instances. The
 ##' \code{qual} and \code{processingData} slots are generally omitted.
 ##'
-##' @title Compare two MSnSets
 ##' @param x First MSnSet
 ##' @param y Second MSnSet
 ##' @param qual Should the \code{qual} slots be compared? Default is
@@ -1115,11 +1133,14 @@ countAndPrint <- function(x) {
 }
 
 
+##' @title Converts factors to strings
+##'
+##' @description
+##'
 ##' This function produces the opposite as the \code{stringsAsFactors}
 ##' argument in the \code{data.frame} or \code{read.table} functions;
 ##' it converts \code{factors} columns to \code{characters}.
 ##'
-##' @title Converts factors to strings
 ##' @param x A \code{data.frame}
 ##' @return A \code{data.frame} where \code{factors} are converted to
 ##'     \code{characters}.
@@ -1137,10 +1158,13 @@ factorsAsStrings <- function(x) {
     data.frame(x, stringsAsFactors = FALSE)
 }
 
+##' @title Convert to camel case by replacing dots by captial letters
+##'
+##' @description
+##'
 ##' Convert a \code{vector} of characters to camel case by replacing
 ##' dots by captial letters.
 ##'
-##' @title Convert to camel case by replacing dots by captial letters
 ##' @param x A \code{vector} to be transformed to camel case.
 ##' @param prefix An optional \code{character} of length one. Any
 ##'     additional elements are ignores.
@@ -1157,6 +1181,10 @@ makeCamelCase <- function(x, prefix) {
 }
 
 
+##' @title Reduce a data.frame
+##'
+##' @description
+##'
 ##' Reduce a data.frame so that the (primary) key column contains only
 ##' unique entries and other columns pertaining to that entry are
 ##' combined into semicolon-separated values into a single
@@ -1167,7 +1195,6 @@ makeCamelCase <- function(x, prefix) {
 ##' are collapsed to a semi-column separated value (even if only one
 ##' value is present) as soon as one observation of transformed.
 ##'
-##' @title Reduce a data.frame
 ##' @param x A \code{data.frame}.
 ##' @param key The column name (currenly only one is supported) to be
 ##'     used as primary key.
@@ -1325,10 +1352,13 @@ windowIndices <- function(i, hws, n) {
     brks
 }
 
+##' @title Checks if raw data files have any spectra or chromatograms
+##'
+##' @description
+##'
 ##' Helper functions to check whether raw files contain spectra or
 ##' chromatograms.
 ##'
-##' @title Checks if raw data files have any spectra or chromatograms
 ##' @param files A `character()` with raw data filenames.
 ##' @return A `logical(n)` where `n == length(x)` with `TRUE` if that
 ##'     files contains at least one spectrum, `FALSE` otherwise.
@@ -1349,6 +1379,8 @@ hasChromatograms <- function(files) {
 }
 
 #' @title Get the index of the particular element for each level
+#'
+#' @description
 #'
 #' `levelIndex` returns the index of the first, middle or last element for
 #' each level of a factor within the factor.

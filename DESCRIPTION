@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.31.1
+Version: 2.31.2
 Description: MSnbase provides infrastructure for manipulation,
              processing and visualisation of mass spectrometry and
              proteomics data, ranging from raw to quantitative and
@@ -121,7 +121,8 @@ Suggests:
     XML,
     shiny,
     magrittr,
-    SummarizedExperiment
+    SummarizedExperiment,
+    Spectra
 LinkingTo: Rcpp
 License: Artistic-2.0
 LazyData: yes
@@ -132,7 +133,6 @@ URL: https://lgatto.github.io/MSnbase
 biocViews: ImmunoOncology, Infrastructure, Proteomics, MassSpectrometry,
     QualityControl, DataImport
 Roxygen: list(markdown=TRUE)
-RoxygenNote: 7.3.1
 Collate:
     'AllClassUnions.R'
     'AllGenerics.R'
@@ -222,3 +222,4 @@ Collate:
     'utils.R'
     'writeMSData.R'
     'zzz.R'
+RoxygenNote: 7.2.3

@@ -107,3 +107,18 @@ test_that("extractSpectraData works", {
     res <- extractSpectraData(sps)
     expect_true(all(res$new_col == "a"))
 })
+
+test_that(".spectra_to_spectrum_list and as,Spectra,MSpectra works", {
+    library(Spectra)
+    fl <- system.file("TripleTOF-SWATH", "PestMix1_DDA.mzML",
+                      package = "msdata")
+    sps_dda <- Spectra(fl)
+    a <- MSnbase:::.spectra_to_spectrum_list(sps_dda, chunkSize = 5000)
+    expect_true(is.list(a))
+    expect_equal(length(a), length(sps_dda))
+    expect_true(all(vapply(a, function(z) inherits(z, "Spectrum"), logical(1))))
+
+    a <- as(sps_dda, "MSpectra")
+    expect_s4_class(a, "MSpectra")
+    expect_equal(unname(msLevel(a)), unname(Spectra::msLevel(sps_dda)))
+})
