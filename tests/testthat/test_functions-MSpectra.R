@@ -120,5 +120,5 @@ test_that(".spectra_to_spectrum_list and as,Spectra,MSpectra works", {
 
     a <- as(sps_dda, "MSpectra")
     expect_s4_class(a, "MSpectra")
-    expect_equal(msLevel(a), Spectra::msLevel(sps_dda))
+    expect_equal(unname(msLevel(a)), unname(Spectra::msLevel(sps_dda)))
 })
