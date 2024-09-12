@@ -118,5 +118,7 @@ test_that(".spectra_to_spectrum_list and as,Spectra,MSpectra works", {
     expect_equal(length(a), length(sps_dda))
     expect_true(all(vapply(a, function(z) inherits(z, "Spectrum"), logical(1))))
 
-
+    a <- as(sps_dda, "MSpectra")
+    expect_s4_class(a, "MSpectra")
+    expect_equal(all(msLevel(a)), Spectra::msLevel(sps_dda))
 })
