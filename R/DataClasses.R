@@ -503,6 +503,22 @@ setClass("MChromatograms",
 #' `S4Vectors` package. This includes `lapply` and other data manipulation
 #' and subsetting operations.
 #'
+#' @note
+#'
+#' Note that the [Spectra](https://bioconductor.org/packages/Spectra) package
+#' provides a more robust and efficient infrastructure for mass spectrometry
+#' data handling and analysis. So, wherever possible, the newer *Spectra*
+#' package should be used instead of the *MSnbase*.
+#'
+#' For backward compatibility, it is however possible to convert between the
+#' `MSpectra` and the newer `Spectra` objects:
+#'
+#' - A `Spectra` object can be coerced to a `MSpectra` using
+#'   `as(sps, "MSpectra")` where `sps` is a `Spectra` object.
+#' - The [extractSpectraData()] function can be used to extract the data from
+#'   a `MSpectra` as a `DataFrame`, which can then be used to create a
+#'   `Spectra` object.
+#'
 #' @param object For all functions: a `MSpectra` object.
 #'
 #' @param x For all functions: a `MSpectra` object.

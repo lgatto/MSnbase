@@ -92,9 +92,17 @@ MSpectra <- function(..., elementMetadata = NULL) {
     res
 }
 
-#' @title Extract data from MSnbase objects for use in Spectra
+#' @title Conversion between objects from the Spectra and MSnbase packages
+#'
+#' @name extractSpectraData
 #'
 #' @description
+#'
+#' The [Spectra](https://bioconductor.org/packages/Spectra) package
+#' provides a more robust and efficient infrastructure for mass spectrometry
+#' data handling and analysis. So, wherever possible, the newer *Spectra*
+#' package should be used instead of the *MSnbase*. The functions listed here
+#' allow to convert between objects from the *MSnbase* and *Spectra* packages.
 #'
 #' `extractSpectraData` extracts the spectra data (m/z and intensity values
 #' including metadata) from [MSnExp-class], [OnDiskMSnExp-class],
@@ -104,11 +112,27 @@ MSpectra <- function(..., elementMetadata = NULL) {
 #' to convert data from the *old* `MSnbase` package to the newer `Spectra`
 #' package.
 #'
+#' To convert a `Spectra` object to a `MSpectra` object use
+#' `as(sps, "MSpectra")` where `sps` is a `Spectra` object.
+#'
+#' @note
+#'
+#' Coercion from `Spectra` to a `MSpectra` will only assign values to the
+#' contained `Spectrum1` and `Spectrum2` objects, but will not add all
+#' eventually spectra variables present in `Spectra`.
+#'
+#' @param from An instance of a `Spectra` class from the *Spectra* package.
+#'
 #' @param x a `list` of [Spectrum-class] objects or an object extending
 #'     [MSnExp-class] or a [MSpectra-class] object.
 #'
-#' @return [DataFrame()] with the full spectrum data that can be passed to the
-#'     [Spectra::Spectra()] function to create a `Spectra` object.
+#' @return
+#'
+#' - `extracSpectraData()` returns a [DataFrame()] with the full spectrum data
+#'   that can be passed to the [Spectra::Spectra()] function to create a
+#'   `Spectra` object.
+#' - `as(x, "MSpectra")` returns a `MSpectra` object with the content of the
+#'   `Spectra` object `x`.
 #'
 #' @author Johannes Rainer
 #'
@@ -125,10 +149,14 @@ MSpectra <- function(..., elementMetadata = NULL) {
 #' res <- extractSpectraData(data)
 #' res
 #'
+#' library(Spectra)
 #' ## This can be used as an input for the Spectra constructor of the
 #' ## Spectra package:
-#' ## sps <- Spectra::Spectra(res)
-#' ## sps
+#' sps <- Spectra::Spectra(res)
+#' sps
+#'
+#' ## A Spectra object can be coerced to a MSnbase MSpectra object using
+#' msps <- as(sps, "MSpectra")
 extractSpectraData <- function(x) {
     if (inherits(x, "MSpectra")) {
         df <- DataFrame(do.call(rbind, lapply(x, .spectrum_header)))
@@ -149,4 +177,63 @@ extractSpectraData <- function(x) {
     colnames(df)[colnames(df) == "fileIdx"] <- "fromFile"
     colnames(df)[colnames(df) == "seqNum"] <- "scanIndex"
     df
+}
+
+#' Coercion method from `Spectra` to `MSnbase::MSpectra`.
+#'
+#' @noRd
+.spectra_to_spectrum_list <- function(x, chunkSize = 100) {
+    requireNamespace("Spectra", quietly = TRUE)
+    Spectra::spectrapply(x, function(z) {
+        msl <- Spectra::msLevel(z)
+        r <- vector("list", length = length(msl))
+        i <- which(msl == 1L)
+        j <- which(msl > 1L)
+        if (length(i)) {
+            z_1 <- z[i]
+            mzs <- Spectra::mz(z_1)
+            ints <- Spectra::intensity(z_1)
+            l <- lengths(mzs)
+            r[i] <- Spectra1_mz_sorted(
+                peaksCount = l,
+                rt = Spectra::rtime(z_1),
+                acquisitionNum = Spectra::acquisitionNum(z_1),
+                scanIndex = Spectra::scanIndex(z_1),
+                tic = sum(ints),
+                mz = unlist(mzs),
+                intensity = unlist(ints),
+                fromFile = rep(NA_integer_, length(i)),
+                centroided = Spectra::centroided(z_1),
+                smoothed = Spectra::smoothed(z_1),
+                polarity = Spectra::polarity(z_1),
+                nvalues = l)
+        }
+        if (length(j)) {
+            z_2 <- z[j]
+            mzs <- Spectra::mz(z_2)
+            ints <- Spectra::intensity(z_2)
+            l <- lengths(mzs)
+            r[j] <- Spectra2_mz_sorted(
+                msLevel = msl[j],
+                peaksCount = l,
+                rt = Spectra::rtime(z_2),
+                acquisitionNum = Spectra::acquisitionNum(z_2),
+                scanIndex = Spectra::scanIndex(z_2),
+                tic = sum(ints),
+                mz = unlist(mzs),
+                intensity = unlist(ints),
+                fromFile = rep(NA_integer_, length(j)),
+                centroided = Spectra::centroided(z_2),
+                smoothed = Spectra::smoothed(z_2),
+                polarity = Spectra::polarity(z_2),
+                merged = rep(1, length(j)),
+                precScanNum = Spectra::precScanNum(z_2),
+                precursorMz = Spectra::precursorMz(z_2),
+                precursorIntensity = Spectra::precursorIntensity(z_2),
+                precursorCharge = Spectra::precursorCharge(z_2),
+                collisionEnergy = Spectra::collisionEnergy(z_2),
+                nvalues = l)
+        }
+        r
+    }, chunkSize = chunkSize)
 }

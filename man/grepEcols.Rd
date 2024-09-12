@@ -33,8 +33,7 @@ Given a text spread sheet \code{f} and a \code{pattern} to
 be matched to its header (first line in the file), the function
 returns the matching columns names or indices of the
 corresponding \code{data.frame}.
-}
-\details{
+
 The function starts by reading the first line of the file (or connection)
 \code{f} with \code{\link{readLines}}, then splits it
 according to the optional \code{...} arguments (it is important to

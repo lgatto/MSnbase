@@ -174,6 +174,22 @@ the capitalized column names used as field names (see examples below).
 \code{S4Vectors} package. This includes \code{lapply} and other data manipulation
 and subsetting operations.
 }
+\note{
+Note that the \href{https://bioconductor.org/packages/Spectra}{Spectra} package
+provides a more robust and efficient infrastructure for mass spectrometry
+data handling and analysis. So, wherever possible, the newer \emph{Spectra}
+package should be used instead of the \emph{MSnbase}.
+
+For backward compatibility, it is however possible to convert between the
+\code{MSpectra} and the newer \code{Spectra} objects:
+\itemize{
+\item A \code{Spectra} object can be coerced to a \code{MSpectra} using
+\code{as(sps, "MSpectra")} where \code{sps} is a \code{Spectra} object.
+\item The \code{\link[=extractSpectraData]{extractSpectraData()}} function can be used to extract the data from
+a \code{MSpectra} as a \code{DataFrame}, which can then be used to create a
+\code{Spectra} object.
+}
+}
 \section{Constructor}{
 
 
