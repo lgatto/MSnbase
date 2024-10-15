@@ -107,7 +107,7 @@ Suggests:
     rols,
     Rdisop,
     pRoloc,
-    pRolocdata (>= 1.43.2.1),
+    pRolocdata (>= 1.43.3),
     magick,
     msdata (>= 0.19.3),
     roxygen2,
