@@ -1,5 +1,10 @@
 # MSnbase 2.31
 
+## MSnbase 2.31.2
+
+- Suggest pRolocdata (>= 1.43.2.1) (that has some extdata, needed to
+  other packages' vignettes).
+
 ## MSnbase 2.31.1
 
 - Disable nested parallel processing for `chromatogram()` method.

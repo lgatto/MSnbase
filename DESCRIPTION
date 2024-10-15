@@ -1,6 +1,6 @@
 Package: MSnbase
 Title: Base Functions and Classes for Mass Spectrometry and Proteomics
-Version: 2.31.1
+Version: 2.31.2
 Description: MSnbase provides infrastructure for manipulation,
              processing and visualisation of mass spectrometry and
              proteomics data, ranging from raw to quantitative and
@@ -107,7 +107,7 @@ Suggests:
     rols,
     Rdisop,
     pRoloc,
-    pRolocdata (>= 1.7.1),
+    pRolocdata (>= 1.43.2.1),
     msdata (>= 0.19.3),
     roxygen2,
     rgl,
