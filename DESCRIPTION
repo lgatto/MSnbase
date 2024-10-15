@@ -108,6 +108,7 @@ Suggests:
     Rdisop,
     pRoloc,
     pRolocdata (>= 1.43.2.1),
+    magick,
     msdata (>= 0.19.3),
     roxygen2,
     rgl,
