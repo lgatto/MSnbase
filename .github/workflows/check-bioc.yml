@@ -187,6 +187,12 @@ jobs:
           cd preprocessCore
           R CMD INSTALL --configure-args="--disable-threading"  .
 
+      - name: Install latest pRolocdata (1.43.2) from github
+        run: |
+          BiocManager::install("lgatto/pRolocdata", ask = FALSE, force = TRUE)
+        continue-on-error: true
+        shell: Rscript {0}
+
       - name: Install dependencies pass 2
         run: |
           ## Pass #2 at installing dependencies
