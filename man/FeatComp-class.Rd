@@ -60,7 +60,7 @@
     \item{\code{all}:}{Object of class \code{"logical"} defining if all
       features of only a subset were compared. One expects that
       \code{name == "all"} when \code{all} is \code{TRUE}. }
-    
+
   }
 }
 
@@ -73,8 +73,8 @@
   \describe{
 
     \item{compfnames}{\code{signature(x = "MSnSet", y = "MSnSet", fcol1
-	= "character", fcol2 = "character", simplify = "logical",
-	verbose = "logical")}: creates the \code{FeatComp} comparison
+        = "character", fcol2 = "character", simplify = "logical",
+        verbose = "logical")}: creates the \code{FeatComp} comparison
       object for instances \code{x} and \code{y}. The feature
       variables to be considered to details feature comparison can be
       defined by \code{fcol1} (default is \code{"markers"} and
@@ -91,7 +91,7 @@
       \code{x}. Additional parameters \code{fcol1}, \code{fcol2},
       \code{simplify} and \code{verbose} are passed to the pairwise
       comparison method. }
-    
+
     \item{show}{\code{signature(object = "FeatComp")}: prints a summary
       of the \code{object}. }
 
@@ -99,7 +99,7 @@
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk> and Thomas Naake
+  Laurent Gatto and Thomas Naake
 }
 
 \seealso{

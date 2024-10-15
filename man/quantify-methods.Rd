@@ -21,7 +21,7 @@
   Since version 1.13.5, parallel quantitation is supported by the
   \code{BiocParallel} package and controlled by the \code{BPPARAM}
   argument.
-  
+
 }
 
 \arguments{
@@ -45,7 +45,7 @@
     Finally, the simple \code{"count"} method counts the occurrence of
     the respective spectra (at this stage all 1s) that can then be used
     as input to \code{\link{combineFeatures}} to implement spectra
-    counting. 
+    counting.
 
   }
 
@@ -63,7 +63,7 @@
 
   }
 
-  \item{BPPARAM}{    
+  \item{BPPARAM}{
     Support for parallel processing using the \code{BiocParallel}
     infrastructure. When missing (default), the default registered
     \code{BiocParallelParam} parameters are applied using
@@ -72,9 +72,9 @@
     \code{MulticoreParam}, \code{DoparParam}, \ldots see the
     \code{BiocParallel} package for details.
   }
-  
+
   \item{parallel}{
-    Deprecated. Please see \code{BPPARAM}.   
+    Deprecated. Please see \code{BPPARAM}.
   }
 
   \item{qual}{
@@ -86,7 +86,7 @@
     data. Default is \code{"sequence"}.
   }
 
-  
+
   \item{verbose}{
     Verbose of the output (only for \code{MSnExp} objects).
   }
@@ -128,7 +128,7 @@
   \describe{
     \item{
       \code{signature(object = "MSnExp", method = "character", reporters
-	= "ReporterIons", verbose = "logical", ...)}}{
+        = "ReporterIons", verbose = "logical", ...)}}{
 
       For isobaric tagging, quantifies peaks defined in \code{reporters}
       using \code{method} in all spectra of the \code{MSnExp} object. If
@@ -150,7 +150,7 @@
     }
 
     \item{\code{signature(object = "Spectrum", method = "character",
-	reporters = "ReporterIons")}}{
+        reporters = "ReporterIons")}}{
 
       Quantifies peaks defined in \code{reporters} using \code{method}
       in the \code{Spectrum} object (isobaric tagging only).
@@ -191,8 +191,7 @@
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk> and
-  Sebastian Gibb <mail@sebastiangibb.de>
+  Laurent Gatto and Sebastian Gibb
 }
 
 \examples{

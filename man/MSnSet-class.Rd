@@ -249,7 +249,7 @@
       ion peaks description. }
 
     \item{purityCorrect}{\code{signature(object = "MSnSet", impurities =
-	"matrix")}: performs reporter ions purity correction. See
+        "matrix")}: performs reporter ions purity correction. See
       \code{\link{purityCorrect}} documentation for more details. }
 
     \item{normalise}{\code{signature(object = "MSnSet")}: Performs
@@ -297,7 +297,7 @@
       silently dropped. }
 
     \item{topN}{\code{signature(object = "MSnSet", groupBy, n = 3, fun,
-	..., verbose = isMSnbaseVerbose())}:
+        ..., verbose = isMSnbaseVerbose())}:
       Selects the \code{n} most intense features (typically peptides or
       spectra) out of all available for each set defined by
       \code{groupBy} (typically proteins) and creates a new instance of
@@ -384,45 +384,45 @@
     }
 
     \item{image}{\code{signature(x = "MSnSet", facetBy = "character",
-	sOrderBy = "character", legend = "character", low = "character",
-	high = "character", fnames = "logical", nmax =
-	"numeric")} Produces an heatmap of expression values in the
-	\code{x} object. Simple horizontal facetting is enabled by
-	passing a single character as \code{facetBy}. Arbitrary
-	facetting can be performed manually by saving the return value
-	of the method (see example below). Re-ordering of the samples is
-	possible by providing the name of a phenotypic variable to
-	\code{sOrderBy}. The title of the legend can be set with
-	\code{legend} and the colours with the \code{low} and
-	\code{high} arguments. If any negative value is detected in the
-	data, the values are considered as log fold-changes and a
-	divergent colour scale is used. Otherwise, a gradient from low
-	to high is used. To scale the quantitative data in \code{x}
-	prior to plotting, please see the \code{scale} method.
+        sOrderBy = "character", legend = "character", low = "character",
+        high = "character", fnames = "logical", nmax =
+        "numeric")} Produces an heatmap of expression values in the
+        \code{x} object. Simple horizontal facetting is enabled by
+        passing a single character as \code{facetBy}. Arbitrary
+        facetting can be performed manually by saving the return value
+        of the method (see example below). Re-ordering of the samples is
+        possible by providing the name of a phenotypic variable to
+        \code{sOrderBy}. The title of the legend can be set with
+        \code{legend} and the colours with the \code{low} and
+        \code{high} arguments. If any negative value is detected in the
+        data, the values are considered as log fold-changes and a
+        divergent colour scale is used. Otherwise, a gradient from low
+        to high is used. To scale the quantitative data in \code{x}
+        prior to plotting, please see the \code{scale} method.
 
-	When there are more than \code{nmax} (default is 50)
-	features/rows, these are not printed. This behaviour can be
-	controlled by setting \code{fnames} to \code{TRUE} (always
-	print) or \code{FALSE} (never print). See examples below.
+        When there are more than \code{nmax} (default is 50)
+        features/rows, these are not printed. This behaviour can be
+        controlled by setting \code{fnames} to \code{TRUE} (always
+        print) or \code{FALSE} (never print). See examples below.
 
-	The code is based on Vlad Petyuk's
-	\code{vp.misc::image_msnset}. The previous version of this
-	method is still available through the \code{image2} function.
+        The code is based on Vlad Petyuk's
+        \code{vp.misc::image_msnset}. The previous version of this
+        method is still available through the \code{image2} function.
       }
 
     \item{plotNA}{\code{signature(object = "MSnSet", pNA =
-	"numeric")}
-	Plots missing data for an \code{MSnSet} instance. \code{pNA} is a
-	\code{numeric} of length 1 that specifies the percentage
-	of accepted missing data values per features. This value will be
-	highlighted with a point on the figure, illustrating the overall
-	percentage of NA values in the full data set and the number of
-	proteins retained. Default is 1/2. See also
-	\code{\link{plotNA}}.
+        "numeric")}
+        Plots missing data for an \code{MSnSet} instance. \code{pNA} is a
+        \code{numeric} of length 1 that specifies the percentage
+        of accepted missing data values per features. This value will be
+        highlighted with a point on the figure, illustrating the overall
+        percentage of NA values in the full data set and the number of
+        proteins retained. Default is 1/2. See also
+        \code{\link{plotNA}}.
       }
 
     \item{MAplot}{\code{signature(object = "MSnSet", log.it = "logical",
-	base = "numeric", ...)}
+        base = "numeric", ...)}
       Produces MA plots (Ratio as a function
       of average intensity) for the samples in \code{object}. If
       \code{ncol(object) == 2}, then one MA plot is produced using the
@@ -441,16 +441,16 @@
     }
 
     \item{removeNoId}{\code{signature(object = "MSnSet", fcol =
-	"pepseq", keep = NULL)}: Removes non-identified features. See
+        "pepseq", keep = NULL)}: Removes non-identified features. See
       \code{\link{removeNoId}} documentation for more details and
       examples.
     }
 
     \item{removeMultipleAssignment}{\code{signature(object = "MSnSet",
-	fcol = "nprot")}: Removes protein groups (or feature belong to
-	protein groups) with more than one member. The latter is defined
-	by extracting a feature variable (default is
-	\code{"nprot"}). Also removes non-identified features.
+        fcol = "nprot")}: Removes protein groups (or feature belong to
+        protein groups) with more than one member. The latter is defined
+        by extracting a feature variable (default is
+        \code{"nprot"}). Also removes non-identified features.
       }
 
     \item{idSummary}{\code{signature(object = "MSnSet", ...)}: Prints a
@@ -502,7 +502,7 @@
 
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 \seealso{

@@ -32,13 +32,12 @@ precSelection(object,n)
 
 \value{
   A named integer in case of \code{precSelection} and a \code{table} for
-  \code{precSelectionTable}. 
+  \code{precSelectionTable}.
 }
 
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
-}
+  Laurent Gatto }
 
 \examples{
 precSelection(itraqdata)

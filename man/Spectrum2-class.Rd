@@ -23,7 +23,7 @@
 \title{The "Spectrum2" Class for MSn Spectra}
 
 \description{
-  
+
   \code{Spectrum2} extends the \code{"\linkS4class{Spectrum}"} class and
   introduces several MS2 specific attributes in addition to the slots in
   \code{"\linkS4class{Spectrum}"}. Since version 1.99.2, this class is
@@ -37,7 +37,7 @@
   created prior to this change will not be valid anymore, since they
   will miss the \code{polarity} slots. Object can be appropriately
   updated using the \code{updateObject} method.
-  
+
 }
 
 
@@ -95,7 +95,7 @@
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 \seealso{

@@ -6,7 +6,7 @@
 \title{ Read 'MSnSet' }
 
 \description{
-  
+
   This function reads data files to generate an
   \code{\linkS4class{MSnSet}} instance. It is a wrapper around
   \code{Biobase}'s \code{\link{readExpressionSet}} function with an
@@ -19,7 +19,7 @@
   Note that when using \code{readMSnSet2}, one should not set
   \code{rownames} as additional argument to defined feature names. It is
   ignored and used to set \code{fnames} if not provided otherwise.
-  
+
 }
 
 
@@ -49,26 +49,26 @@ readMSnSet2(file, ecol, fnames, ...)
 
   Arguments direclty passed to \code{readExpressionSet}. The description
   is from the \code{readExpressionSet} documentation page.
-  
+
   \item{exprsFile}{(character) File or connection from which to read
     expression values. The file should contain a matrix with rows as
     features and columns as samples. \code{\link{read.table}} is called
     with this as its \code{file} argument and further arguments given by
-    \code{exprsArgs}.}  
+    \code{exprsArgs}.}
   \item{phenoDataFile}{(character) File or connection from which to read
     phenotypic data. \code{\link{read.AnnotatedDataFrame}} is called
     with this as its \code{file} argument and further arguments given by
-    \code{phenoDataArgs}.} 
+    \code{phenoDataArgs}.}
   \item{experimentDataFile}{(character) File or connection from which to
     read experiment data. \code{\link{read.MIAME}} is called with this
     as its \code{file} argument and further arguments given by
-    \code{experimentDataArgs}.} 
+    \code{experimentDataArgs}.}
   \item{notesFile}{(character) File or connection from which to read
     notes; \code{\link{readLines}} is used to input the file.}
   \item{path}{(optional) directory in which to find all the above
     files.}
   \item{annotation}{(character) A single character string indicating the
-    annotation associated with this ExpressionSet.} 
+    annotation associated with this ExpressionSet.}
   \item{exprsArgs}{A list of arguments to be used with
     \code{\link{read.table}} when reading in the expression matrix.}
   \item{phenoDataArgs}{A list of arguments to be used (with
@@ -83,18 +83,18 @@ readMSnSet2(file, ecol, fnames, ...)
     \code{read.AnnotatedDataFrame}.}
   \item{\dots}{Further arguments that can be passed on to the
     \code{\link{read.table}}-like functions. }
-  
+
   Additional argument, specific to \code{readMSnSet}:
   \item{featureDataFile}{(character) File or connection from which to read
     feature data. \code{\link{read.AnnotatedDataFrame}} is called
     with this as its \code{file} argument and further arguments given by
-    \code{phenoDataArgs}.} 
+    \code{phenoDataArgs}.}
   \item{featureDataArgs}{A list of arguments to be used (with
     \code{\link{read.AnnotatedDataFrame}}) when reading the phenotypic
     data. }
 
   Arguments for \code{readMSnSet2}:
-  
+
   \item{file}{A \code{character} indicating the spreadsheet file or a
     \code{data.frame} (new in version 1.19.8). Default, when \code{file}
     is a \code{character}, is to read the file as a comma-separated
@@ -117,26 +117,26 @@ readMSnSet2(file, ecol, fnames, ...)
     not match, the error message will dislpay the column names are see
     by \code{R}.  }
 
-  
+
   \item{fnames}{An optional \code{character} or \code{numeric} of length
     1 indicating the column to be used as feature names. }
-  
+
 }
 
 
 \value{ An instance of the \code{\linkS4class{MSnSet}} class. }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto <laurent.gatto@uclouvain.be>
 }
 
 \seealso{
-  
+
   The \code{\link{grepEcols}} and \code{\link{getEcols}} helper
   functions to identify the \code{ecol} values.  The \code{MSnbase-io}
   vignette illustrates these functions in detail. It can be accessed
   with \code{vignette("MSnbase-io")}.
-  
+
 }
 
 \examples{

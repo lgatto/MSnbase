@@ -58,9 +58,9 @@
     one of these dimensions (features/rows or samples/columns) are
     conserved (i.e. all feature or samples names are identical). See
     \code{split}/\code{unsplit} below.
-    
+
   }
-  
+
 }
 
 \section{Objects from the Class}{
@@ -96,13 +96,13 @@
     \item{\code{as(x, "MSnSetList")}}{Where \code{x} is an instance of
       class \linkS4class{MzTab}. See the class documentation for
       details.}
-    
+
   }
 }
 
 \section{Slots}{
   \describe{
-    
+
     \item{\code{x}:}{Object of class \code{list} containing valid
       \code{MSnSet} instances. Can be extracted with the
       \code{msnsets()} accessor. }
@@ -116,21 +116,21 @@
     rows of this \code{data.frame} must be equal to the number of items
     in the \code{x} slot and their respective (row)names must be
     identical. }
-    
+
     \item{\code{.__classVersion__}:}{The version of the instance. For
       development purposes only. }
   }
 }
-  
+
 \section{Methods}{
   \describe{
     \item{\code{"[["}}{Extracts a single \code{MSnSet} at position. }
-    
+
     \item{\code{"["}}{Extracts one of more \code{MSnSets} as
       \code{MSnSetList}. }
-    
+
     \item{\code{length}}{Returns the number of \code{MSnSets}. }
-    
+
     \item{\code{names}}{Returns the names of \code{MSnSets}, if
       available. The replacement method is also available. }
     \item{\code{show}}{ Display the object by printing a short
@@ -142,10 +142,10 @@
       \code{MSnSetList}, otherwise a \code{list}}.
 
     \item{\code{sapply(x, FUN, ..., simplify = TRUE, USE.NAMES =
-	TRUE)}}{ A \code{lapply} wrapper that simplifies the ouptut to a
-	vector, matric or array is possible. See \code{?base::sapply}
-	for details. }.
-    
+        TRUE)}}{ A \code{lapply} wrapper that simplifies the ouptut to a
+        vector, matric or array is possible. See \code{?base::sapply}
+        for details. }.
+
     \item{\code{fData}}{Returns the features metadata \code{featureData}
       slot. }
 
@@ -160,7 +160,7 @@
   features among \code{MSnSet} instances. }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 \examples{

@@ -227,7 +227,7 @@
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 \note{
   This is a virtual class and can not be instanciated directly.

@@ -114,8 +114,8 @@ updateFeatureNames <- function(object, label, sep = ".") {
 ##' @return A \code{matrix} of dimensions
 ##'     \code{length(levels(factor(fData(object)[, fcol])))} by
 ##'     \code{ncol(object)} of integers.
-##' @author Laurent Gatto <lg390@@cam.ac.uk>, Sebastian Gibb
-##'     <mail@@sebastiangibb.de>
+##' @author Laurent Gatto and Sebastian Gibb
+##'
 ##' @examples
 ##' data(msnset)
 ##' n <- 2

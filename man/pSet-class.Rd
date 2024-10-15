@@ -249,7 +249,7 @@
     \item{peaksCount}{\code{signature(object = "pSet")}: Accessor for
       spectra preak counts. }
     \item{peaksCount}{\code{signature(object = "pSet", scans =
-	"numeric")}: Accessor to \code{scans} spectra preak counts. }
+        "numeric")}: Accessor to \code{scans} spectra preak counts. }
     \item{polarity}{\code{signature(object = "pSet")}: Accessor for MS1
       spectra polarities. }
     \item{precursorCharge}{\code{signature(object = "pSet")}: Accessor
@@ -274,7 +274,7 @@
       (MSn only). }
     \item{spectrapply}{
       \code{spectrapply(signature(object = "pSet"), FUN = NULL,
-	BPPARAM = bpparam(), ...)}: applies the function \code{FUN} to each
+        BPPARAM = bpparam(), ...)}: applies the function \code{FUN} to each
       spectrum passing additional parameters in \code{...} to that
       function and return its results. For \code{FUN = NULL} it returns
       the list of spectra (same as a call to \code{spectra}). Parameter
@@ -311,7 +311,7 @@
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 \seealso{

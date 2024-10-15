@@ -31,7 +31,7 @@
 
   The existing \code{\link{plotNA}} function illustrates the
   completeness/missingness of the data.
-  
+
 }
 
 \examples{
@@ -82,7 +82,7 @@ lines((fData(nax)$nNA1 - fData(nax)$nNA2)[o2], type = "l",
 
 \seealso{\code{\link{plotNA}}, \code{\link{imageNA2}}.}
 
-\author{Laurent Gatto <lg390@cam.ac.uk>, Samuel Wieczorek and Thomas
+\author{Laurent Gatto Samuel Wieczorek and Thomas
 Burger}
 
 \keyword{documentation, internal}

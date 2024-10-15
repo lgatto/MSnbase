@@ -14,19 +14,19 @@
 \section{Methods}{
   \describe{
     \item{\code{signature(object = "MSnExp", fcol = "pepseq", keep =
-	NULL)}}{ Removes the feature from \code{object} that have a
-	feature \code{fcol} (default is \code{"pepseq"}) equal to
-	\code{NA}. Alternatively, one can also manually define
-	\code{keep}, a vector of logical, defining the feature to be
-	retained.
+        NULL)}}{ Removes the feature from \code{object} that have a
+        feature \code{fcol} (default is \code{"pepseq"}) equal to
+        \code{NA}. Alternatively, one can also manually define
+        \code{keep}, a vector of logical, defining the feature to be
+        retained.
     }
     \item{\code{signature(object = "MSnSet", fcol = "pepseq", keep =
-	NULL)}}{ As above of \code{MSnSet} instances. }
+        NULL)}}{ As above of \code{MSnSet} instances. }
   }
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 \seealso{

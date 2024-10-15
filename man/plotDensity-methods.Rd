@@ -12,9 +12,9 @@
   These methods plot the distribution of several parameters of interest
   for the different precursor charges for \code{"\linkS4class{MSnExp}"}
   experiment.
-  
+
   The methods make use the \code{ggplot2} system. An object of class
-  'ggplot' is returned invisibly. 
+  'ggplot' is returned invisibly.
 }
 
 \arguments{
@@ -28,10 +28,10 @@
   }
   \item{z}{ A character indicating which parameter's densitiy to plot.
     One of, possibly abreviated, "ionCount" (total ion count),
-    "peaks.count" (peaks count) or "precursor.mz" (precursor MZ). 
+    "peaks.count" (peaks count) or "precursor.mz" (precursor MZ).
   }
   \item{log}{ Logical, whether to log transform the data (default is
-    'FALSE'). } 
+    'FALSE'). }
   \item{plot}{ A logical indicating whether the plot should be printed
     (default is 'TRUE'). }
 }
@@ -43,7 +43,7 @@
     }
     \item{\code{signature(object = "data.frame", ...)}}{
       Plots a summary of the 'MSnExp' experiment described by the data
-      frame. 
+      frame.
     }
   }
 }
@@ -55,7 +55,7 @@
 
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 \examples{

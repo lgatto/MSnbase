@@ -11,7 +11,7 @@
   spectrum or all the MS2 spectra of an experiment to 0. Reporter data
   is specified using an \code{"\linkS4class{ReporterIons}"}
   instance. The peaks are selected around the expected reporter ion
-  m/z value +/- the reporter width. 
+  m/z value +/- the reporter width.
   Optionally, the spectrum/spectra can be \code{cleaned} to
   remove successive 0 intensity data points (see the \code{\link{clean}}
   function for details).
@@ -23,7 +23,7 @@
 \section{Methods}{
   \describe{
     \item{\code{signature(object = "MSnExp", reporters = "ReporterIons",
-	clean = "logical", verbose = "logical" )}}{ The reporter ion
+        clean = "logical", verbose = "logical" )}}{ The reporter ion
       peaks defined in the \code{reporters} instance of all the MS2
       spectra of the \code{"\linkS4class{MSnExp}"} instance are set to 0
       and, if \code{clean} is set to \code{TRUE}, cleaned. The default
@@ -32,7 +32,7 @@
       \code{TRUE}) defines whether a progress bar should be showed.
     }
     \item{\code{signature(object = "Spectrum", reporters = "ReporterIons",
-	clean = "FALSE")}}{ The reporter ion peaks defined in the
+        clean = "FALSE")}}{ The reporter ion peaks defined in the
       \code{reporters} instance of MS2 \code{"\linkS4class{Spectrum}"}
       instance are set to 0 and, if \code{clean} is set to \code{TRUE},
       cleaned. The default value of \code{reporters} is \code{NULL},
@@ -42,7 +42,7 @@
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 \seealso{

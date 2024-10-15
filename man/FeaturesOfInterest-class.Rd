@@ -61,9 +61,9 @@
 
 
 \section{Objects from the Class}{
-  
+
   Objects can be created with the respective \code{FeaturesOfInterest}
-  and \code{FoICollection} constructors. 
+  and \code{FoICollection} constructors.
 
   \code{FeaturesOfInterest} instances can be generated in two different
   ways: the constructor takes either (1) a set of features names (a
@@ -86,8 +86,8 @@
   \code{FoICollection} instances can be constructed by creating an empty
   collection and serial additions of \code{FeaturesOfInterest} using
   \code{addFeaturesOfInterest} or by passing a list of
-  \code{FeaturesOfInterest} instance. 
-  
+  \code{FeaturesOfInterest} instance.
+
 }
 
 \section{Slots}{
@@ -141,10 +141,10 @@
 
     \item{description}{\code{signature(object = "FeaturesOfInterest")}:
       returns the description of \code{object}. }
-    
+
     \item{foi}{\code{signature(object = "FeaturesOfInterest")}: returns
       the features of interests. }
-    
+
     \item{length}{\code{signature(x = "FeaturesOfInterest")}: returns
       the number of features of interest in \code{x}. }
 
@@ -152,18 +152,18 @@
       displays \code{object}. }
 
     \item{fnamesIn}{\code{signature(x = "FeaturesOfInterst", y =
-	"MSnSet", count = "logical")}: if \code{count} is \code{FALSE}
-	(default), return a logical indicating whether there is at least
-	one feautre of interest present in \code{x}? Otherwise, returns
-	the number of such features. Works also with matrices and
-	data.frames. }
+        "MSnSet", count = "logical")}: if \code{count} is \code{FALSE}
+        (default), return a logical indicating whether there is at least
+        one feautre of interest present in \code{x}? Otherwise, returns
+        the number of such features. Works also with matrices and
+        data.frames. }
 
     \item{[}{Subsetting works like lists. Returns a new
       \code{FoICollection}.}
-    
+
     \item{[[}{Subsetting works like lists. Returns a new
-      \code{FeatureOfInterest}.}         
-    
+      \code{FeatureOfInterest}.}
+
   }
 
   \code{FoICollection} class:
@@ -184,13 +184,13 @@
       in the collection \code{x}. }
 
     \item{addFeaturesOfInterest}{\code{signature(x =
-	"FeaturesOfInterest", y = "FoICollection")}: add the
-	\code{FeaturesOfInterest} instance \code{x} to
-	\code{FoICollection} \code{y}. If \code{x} is already present, a
-	message is printed and \code{y} is returned unchanged. }
+        "FeaturesOfInterest", y = "FoICollection")}: add the
+        \code{FeaturesOfInterest} instance \code{x} to
+        \code{FoICollection} \code{y}. If \code{x} is already present, a
+        message is printed and \code{y} is returned unchanged. }
 
     \item{rmFeaturesOfInterest}{\code{signature(object =
-	"FoICollection", i = "numeric")}: removes the \code{i}th
+        "FoICollection", i = "numeric")}: removes the \code{i}th
       \code{FeatureOfInterest} in the collection \code{object}. }
 
     \item{show}{\code{signature(object = "FoICollection")}: displays
@@ -198,11 +198,11 @@
 
   }
 }
-  
+
 
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 
@@ -257,4 +257,3 @@ rmFeaturesOfInterest(xx, 1)
 }
 
 \keyword{classes}
-
