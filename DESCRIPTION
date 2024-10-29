@@ -122,7 +122,8 @@ Suggests:
     XML,
     shiny,
     magrittr,
-    SummarizedExperiment
+    SummarizedExperiment,
+    Spectra
 LinkingTo: Rcpp
 License: Artistic-2.0
 LazyData: yes
@@ -133,7 +134,6 @@ URL: https://lgatto.github.io/MSnbase
 biocViews: ImmunoOncology, Infrastructure, Proteomics, MassSpectrometry,
     QualityControl, DataImport
 Roxygen: list(markdown=TRUE)
-RoxygenNote: 7.3.1
 Collate:
     'AllClassUnions.R'
     'AllGenerics.R'
@@ -223,3 +223,4 @@ Collate:
     'utils.R'
     'writeMSData.R'
     'zzz.R'
+RoxygenNote: 7.2.3

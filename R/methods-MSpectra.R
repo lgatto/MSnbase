@@ -601,6 +601,10 @@ setAs("MSpectra", "MSnExp", function(from) {
         processingData = process)
 })
 
+setAs("Spectra", "MSpectra", function(from) {
+    MSpectra(.spectra_to_spectrum_list(from, chunkSize = 1000))
+})
+
 #' @rdname MSpectra
 #'
 #' @examples
