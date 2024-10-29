@@ -37,16 +37,16 @@ verbose = isMSnbaseVerbose(), cache = 1)
     Numeric indicating caching level. Default is 1. Under development.
   }
   \item{verbose}{
-    verbosity flag. 
+    verbosity flag.
   }
 }
 
 \value{
-  An instance of 
+  An instance of
 }
 
 \author{
-  Guangchuang Yu <guangchuangyu@gmail.com> and Laurent Gatto <lg390@cam.ac.uk>
+  Guangchuang Yu and Laurent Gatto
 }
 
 \details{
@@ -63,7 +63,7 @@ verbose = isMSnbaseVerbose(), cache = 1)
   objects to mgf files. Raw data files can also be read with the
   \code{\link{readMSData}} function.
 }
-  
+
 \examples{
   data(itraqdata)
   writeMgfData(itraqdata, con="itraqdata.mgf", COM="MSnbase itraqdata")

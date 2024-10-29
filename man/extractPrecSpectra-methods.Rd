@@ -19,13 +19,13 @@
   \describe{
     \item{\code{signature(object = "MSnExp", prec = "numeric")}}{
       Returns an \code{"\linkS4class{MSnExp}"} containing MSMS spectra
-      whose precursor MZ values are in \code{prec}. 
+      whose precursor MZ values are in \code{prec}.
     }
   }
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 % \seealso{
@@ -45,4 +45,3 @@ processingData(bb)
 
 
 \keyword{methods}
-

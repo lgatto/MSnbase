@@ -124,7 +124,7 @@
 
 \author{
 
-  Laurent Gatto <lg390@cam.ac.uk> with contributions from Martina
+  Laurent Gatto with contributions from Martina
   Fischer for iPQF and Ludger Goeminne, Adriaan Sticker and Lieven
   Clement for robust.
 
@@ -185,12 +185,12 @@ exprs(combineFeatures(msnset, grp, "sum", na.rm = TRUE))
 data(msnset2)
 anyNA(msnset2)
 res <- combineFeatures(msnset2,
-		       groupBy = fData(msnset2)$accession,
-		       redundancy.handler = "unique",
-		       method = "iPQF",
-		       low.support.filter = FALSE,
-		       ratio.calc = "sum",
-		       method.combine = FALSE)
+                       groupBy = fData(msnset2)$accession,
+                       redundancy.handler = "unique",
+                       method = "iPQF",
+                       low.support.filter = FALSE,
+                       ratio.calc = "sum",
+                       method.combine = FALSE)
 head(exprs(res))
 
 ## using robust summarisation
@@ -202,14 +202,14 @@ which(is.na(msnset), arr.ind = TRUE)
 exprs(msnset["X46", ])
 ## Only the missing value in X46 and iTRAQ4.116 will be ignored
 res <- combineFeatures(msnset,
-		       fcol = "ProteinAccession",
-		       method = "robust")
+                       fcol = "ProteinAccession",
+                       method = "robust")
 tail(exprs(res))
 
 msnset2 <- filterNA(msnset) ## remove features with missing value(s)
 res2 <- combineFeatures(msnset2,
-			fcol = "ProteinAccession",
-			method = "robust")
+                        fcol = "ProteinAccession",
+                        method = "robust")
 ## Here, the values for ENO are different because the whole feature
 ## X46 that contained the missing value was removed prior to fitting.
 tail(exprs(res2))

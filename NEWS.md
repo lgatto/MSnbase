@@ -3,6 +3,8 @@
 ## MSnbase 2.31.2
 
 - Add functionality to convert a `Spectra` object to a `MSpectra`.
+- Suggest pRolocdata (>= 1.43.2.1) (that has some extdata, needed to
+  other packages' vignettes).
 
 ## MSnbase 2.31.1
 

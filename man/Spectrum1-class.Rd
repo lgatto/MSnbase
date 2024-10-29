@@ -11,7 +11,7 @@
   introduces an MS1 specific attribute in addition to the slots in
   \code{"\linkS4class{Spectrum}"}. \code{Spectrum1} instances are not
   created directly but are contained in the \code{assayData} slot of an
-  \code{"\linkS4class{MSnExp}"}. 
+  \code{"\linkS4class{MSnExp}"}.
 }
 
 \section{Slots}{
@@ -33,13 +33,13 @@
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 \seealso{
   Virtual super-class \code{"\linkS4class{Spectrum}"},
   \code{"\linkS4class{Spectrum2}"} for MS2 spectra and
-  \code{"\linkS4class{MSnExp}"} for a full experiment container. 
+  \code{"\linkS4class{MSnExp}"} for a full experiment container.
 }
 
 \keyword{classes}

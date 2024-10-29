@@ -48,7 +48,7 @@
 
 \description{
   The Minimum Information About a Proteomics Experiment.
-  The current implementation is based on the MIAPE-MS 2.4 document. 
+  The current implementation is based on the MIAPE-MS 2.4 document.
 }
 
 \section{Slots}{
@@ -73,14 +73,14 @@
       standard 'YYYY-MM-DD' format (with hyphens). }
     \item{\code{name}:}{Object of class \code{character} containing the
       name of the (stable) primary contact person for this data set;
-      this could be the experimenter, lab head, line manager, \ldots}  
+      this could be the experimenter, lab head, line manager, \ldots}
     \item{\code{lab}:}{Object of class \code{character} containing the
       laboratory where the experiment was conducted. }
     \item{\code{contact}:}{Object of class \code{character} containing
       contact information for lab and/or experimenter. }
     \item{\code{email}:}{Object of class \code{character} containing
       tmail contact information for the primary contact person (see
-      \code{name} above). } 
+      \code{name} above). }
     \item{\code{instrumentModel}:}{Object of class \code{character}
       indicating the model of the mass spectrometer used to generate the
       data. }
@@ -135,7 +135,7 @@
       way of accessing this data. }
     \item{\code{detectorType}:}{Object of class \code{character}
       describing the type of detector used in the machine (microchannel
-      plate, channeltron, \ldots). }  
+      plate, channeltron, \ldots). }
     \item{\code{detectorSensitivity}:}{Object of class \code{character}
       giving and appropriate measure of the sensitivity of the described
       detector (e.g. applied voltage). }
@@ -149,18 +149,18 @@
     \item{\code{abstract(MIAPE)}:}{An accessor function for
       \code{abstract}. }
     \item{\code{expinfo(MIAPE)}:}{An accessor function for \code{name},
-      \code{lab}, \code{contact}, \code{title}, and \code{url}.} 
+      \code{lab}, \code{contact}, \code{title}, and \code{url}.}
     \item{\code{notes(MIAPE), notes(MIAPE) <- value}:}{Accessor
-      functions for \code{other}. \code{notes(MIAME) <- character} 
+      functions for \code{other}. \code{notes(MIAME) <- character}
       \emph{appends} character to notes; use \code{notes(MIAPE) <- list}
-      to replace the notes entirely.} 
+      to replace the notes entirely.}
     \item{\code{otherInfo(MIAPE)}:}{An accessor function for
-      \code{other}.} 
+      \code{other}.}
     \item{\code{preproc(MIAPE)}:}{An accessor function for
-      \code{preprocessing}.} 
+      \code{preprocessing}.}
     \item{\code{pubMedIds(MIAPE), pubMedIds(MIAME) <- value}:}{Accessor
-      function for \code{pubMedIds}.} 
-    \item{\code{expemail(MIAPE)}:}{An accessor function for 
+      function for \code{pubMedIds}.}
+    \item{\code{expemail(MIAPE)}:}{An accessor function for
       \code{email} slot.}
     \item{\code{exptitle(MIAPE)}:}{An accessor function for
       \code{title} slot.}
@@ -185,14 +185,14 @@
       \code{MIAME} class. Used when converting an \code{MSnSet} into an
       \code{ExpressionSet}. }
   }
-  
+
   MIAPE-specific methods, including MIAPE-MS meta-data:
   \describe{
     \item{\code{show(MIAPE)}:}{Displays the experiment data.}
     \item{\code{msInfo(MIAPE)}:}{Displays 'MIAPE-MS' information.}
   }
 }
-  
+
 \section{Extends}{
   Class \code{"\linkS4class{MIAxE}"}, directly.
   Class \code{"\linkS4class{Versioned}"}, by class "MIAxE", distance 2.
@@ -201,10 +201,10 @@
 \references{
   About MIAPE: \url{http://www.psidev.info/index.php?q=node/91}, and
   references therein, especially 'Guidelines for reporting the use of mass
-  spectrometry in proteomics', Nature Biotechnology 26, 860-861 (2008).  
+  spectrometry in proteomics', Nature Biotechnology 26, 860-861 (2008).
 }
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 % \note{

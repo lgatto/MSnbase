@@ -39,14 +39,14 @@
 \section{Objects from the Class}{
   Objects can be created with the \code{MSmap} constructor. The
   constructor has the following arguments:
-  
+
   \describe{
 
     \item{object}{An object created by \code{mzR::openMSfile} or an
       instance of class \code{\linkS4class{OnDiskMSnExp}}. If the latter
       contains data from multiple files, a warning will be issued and
       the first one will be used. }
-      
+
     \item{lowMz}{A \code{numeric} of length 1 defining the lower bound
       of the M/Z range of the MS map.}
 
@@ -54,19 +54,19 @@
       of the M/Z range of the MS map. }
 
     \item{resMz}{The resolution along the M/Z range. }
-    
+
     \item{hd}{An optional \code{data.frame} as produced by
       \code{mzR::header(object)}. If missing, will be computer within
       the function. Ignored when \code{object} is an
       \code{OnDiskMSnExp}.}
-    
+
     \item{zeroIsNA}{Set 0 intensities to \code{NA}. This can be used
       to clarify the 3 dimensional plot produce by \code{plot3D}.}
   }
 }
 
 
-\section{Slots}{  
+\section{Slots}{
   \describe{
     \item{\code{call}:}{Object of class \code{"call"} - the call used to
       generate the instance. }
@@ -79,7 +79,7 @@
     \item{\code{rt}:}{Object of class \code{"numeric"} with the
       retention times of the map spectra. }
     \item{\code{ms}:}{Object of class \code{"numeric"} with the MS
-      levels of the spectra. }    
+      levels of the spectra. }
     \item{\code{t}:}{Object of class \code{"logical"} indicating if the
     instance has been transposed. }
     \item{\code{filename}:}{Object of class \code{"character"}
@@ -93,7 +93,7 @@
       convert the \code{MSmap} instance in a \code{data.frame}. Useful
       for plotting with \code{lattice} or \code{ggplot2}. }
     \item{fileName}{\code{signature(object = "MSmap")}: returns the raw
-      data filename. } 
+      data filename. }
     \item{msLevel}{\code{signature(object = "MSmap")}: returns the MS
       level of the map spectra. }
     \item{msMap}{\code{signature(object = "MSmap")}: returns the actual
@@ -101,7 +101,7 @@
     \item{mz}{\code{signature(object = "MSmap", ...)}: returns the M/Z values
       of the map. Additional arguments are currently ignored. }
     \item{rtime}{\code{signature(object = "MSmap", ...)}: returns retention
-      time values of the map. Additional arguments are currently ignored.}	
+      time values of the map. Additional arguments are currently ignored.}
     \item{mzRes}{\code{signature(object = "MSmap")}: returns the
       resolution with which the sample along the M/Z range was done. }
     \item{dim}{\code{signature(x = "MSmap")}: returns the dimensions of
@@ -124,7 +124,7 @@
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 \examples{
@@ -137,7 +137,7 @@
     mzf <- pxget(px1, i)
 
     ## Using an mzRpwiz object
-    ## reads the data 
+    ## reads the data
     ms <- openMSfile(mzf)
     hd <- header(ms)
 
@@ -163,7 +163,7 @@
 
     ## Using an OnDiskMSnExp object and accessors
     msn <- readMSData(mzf, mode = "onDisk")
-    
+
     ## a set of spectra of interest: MS1 spectra eluted
     ## between 30 and 35 minutes retention time
     ms1 <- which(msLevel(msn) == 1)
@@ -178,7 +178,7 @@
     i <- ms1[which(rtsel)][1]
     j <- ms1[which(rtsel)][2]
     M4 <- MSmap(msn, i:j, 100, 1000, 1)
-    plot3D(M4)    
+    plot3D(M4)
 }
 }
 

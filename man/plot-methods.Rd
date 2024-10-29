@@ -36,7 +36,7 @@
   representing a valid peptide sequence are passed as argument, the
   expected fragement ions are calculated and matched/annotated on the
   spectum plot.
-  
+
 }
 
 \arguments{
@@ -47,10 +47,10 @@
 
   \item{y}{ Missing, \code{"\linkS4class{Spectrum}"} or
   \code{"character"}. }
-  
+
   \item{reporters}{ An object of class
     \code{"\linkS4class{ReporterIons}"} that defines the peaks to be
-    plotted. If not specified, \code{full} must be set to 'TRUE'.} 
+    plotted. If not specified, \code{full} must be set to 'TRUE'.}
 
   \item{full}{Logical indicating whether full spectrum (respectively
     spectra) of  only reporter ions of interest should be
@@ -71,14 +71,14 @@
     plots. Default is 0.01. }
 
   See below for more details.
-  
+
 }
 
 \section{Methods}{
   \describe{
     \item{\code{plot(signature(x = "MSnExp", y = "missing"),
-	type = c("spectra", "XIC"), reporters = "ReporterIons",
-	full = "logical", plot = "logical", ...)}}{
+        type = c("spectra", "XIC"), reporters = "ReporterIons",
+        full = "logical", plot = "logical", ...)}}{
 
       For \code{type = "spectra"}: Plots all the spectra in the
       \code{MSnExp} object vertically. One of \code{reporters} must be
@@ -99,33 +99,33 @@
       interest. See examples below. This plot uses base R
       plotting. Additional arguments to the \code{plot} function can be
       passed with \code{...}.
-      
+
       Additional arguments for \code{type = "XIC"} are:
       \describe{
-	\item{\code{col}}{color for the border of the points. Defaults to
-	  \code{col = "grey"}.}
+        \item{\code{col}}{color for the border of the points. Defaults to
+          \code{col = "grey"}.}
 
-	\item{\code{colramp}}{color function/ramp to be used for the
-	  intensity-dependent background color of data points. Defaults
-	  to \code{colramp = topo.colors}.}
+        \item{\code{colramp}}{color function/ramp to be used for the
+          intensity-dependent background color of data points. Defaults
+          to \code{colramp = topo.colors}.}
 
-	\item{\code{grid.color}}{color for the grid lines. Defaults to
-	  \code{grid.color = "lightgrey"}; use \code{grid.color = NA} to
-	  disable grid lines altogether.}
+        \item{\code{grid.color}}{color for the grid lines. Defaults to
+          \code{grid.color = "lightgrey"}; use \code{grid.color = NA} to
+          disable grid lines altogether.}
 
-	\item{\code{pch}}{point character. Defaults to \code{pch = 21}}.
+        \item{\code{pch}}{point character. Defaults to \code{pch = 21}}.
 
-	\item{\code{...}}{additional parameters for the low-level
-	  \code{plot} function.}
-	
+        \item{\code{...}}{additional parameters for the low-level
+          \code{plot} function.}
+
       }
     }
     \item{\code{plot(signature(x = "Spectrum", y = "missing"), reporters =
-	"ReporterIons", full = "logical", centroided. = "logical", plot =
-	"logical", w1, w2)}}{ Displays the MZs against intensities of
-      the \code{Spectrum} object as a line plot.  
+        "ReporterIons", full = "logical", centroided. = "logical", plot =
+        "logical", w1, w2)}}{ Displays the MZs against intensities of
+      the \code{Spectrum} object as a line plot.
       At least one of \code{reporters} being defined or \code{full}
-      set to 'TRUE' is required. 
+      set to 'TRUE' is required.
       \code{reporters} and \code{full} are used only for
       \code{"\linkS4class{Spectrum2}"}
       objects. Full \code{"\linkS4class{Spectrum1}"} spectra are plotted
@@ -133,24 +133,24 @@
     }
 
     \item{\code{plot(signature(x = "Spectrum2", y = "character"), orientation
-	= "numeric", add = "logical", col = "character", pch, xlab =
-	"character", ylab = "character", xlim = "numeric", ylim =
-	"numeric", tolerance = "numeric", relative = "logical", type =
-	"character", modifications = "numeric", x = "numeric", fragments
-	= "data.frame", fragments.cex = "numeric", ... )}}{Plots a single
-	MS2 spectrum and annotates the fragment ions based on the
-	matching between the peaks in \code{x} and the fragment peaks
-	calculated from the peptide sequence \code{y}. The default
-	values are \code{orientation=1}, \code{add=FALSE},
-	\code{col="#74ADD1"}, \code{pch=NA}, \code{xlab="m/z"},
-	\code{ylab="intensity"}, \code{ylim=c(0, 1)},
-	\code{tolerance=25e-6}, relative=TRUE, type=c("b", "y"),
-	\code{modifications=c(C=160.030649)}, \code{z=1},
-	fragments=\code{MSnbase:::calculateFragments_Spectrum2} and
-	\code{fragments.cex=0.75}. Additional arguments \code{...} are
-	passed to \code{plot.default}.  }
+        = "numeric", add = "logical", col = "character", pch, xlab =
+        "character", ylab = "character", xlim = "numeric", ylim =
+        "numeric", tolerance = "numeric", relative = "logical", type =
+        "character", modifications = "numeric", x = "numeric", fragments
+        = "data.frame", fragments.cex = "numeric", ... )}}{Plots a single
+        MS2 spectrum and annotates the fragment ions based on the
+        matching between the peaks in \code{x} and the fragment peaks
+        calculated from the peptide sequence \code{y}. The default
+        values are \code{orientation=1}, \code{add=FALSE},
+        \code{col="#74ADD1"}, \code{pch=NA}, \code{xlab="m/z"},
+        \code{ylab="intensity"}, \code{ylim=c(0, 1)},
+        \code{tolerance=25e-6}, relative=TRUE, type=c("b", "y"),
+        \code{modifications=c(C=160.030649)}, \code{z=1},
+        fragments=\code{MSnbase:::calculateFragments_Spectrum2} and
+        \code{fragments.cex=0.75}. Additional arguments \code{...} are
+        passed to \code{plot.default}.  }
 
-  }  
+  }
 }
 
 
@@ -163,7 +163,7 @@
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>, Johannes Rainer and Sebastian Gibb
+  Laurent Gatto, Johannes Rainer and Sebastian Gibb
 }
 
 \examples{

@@ -17,28 +17,28 @@
   separating two peaks, only the first and last ones, those directly
   adjacent to the peak ranges are kept. If two peaks are separated by
   only one 0-intensity value, it is retained. An illustrative example is
-  shown below.  
+  shown below.
 }
 
 \section{Methods}{
   \describe{
     \item{\code{signature(object = "MSnExp", all = "logical", verbose =
-	"logical")}}{ Cleans all spectra in \code{MSnExp}
+        "logical")}}{ Cleans all spectra in \code{MSnExp}
       object. Displays a control bar if verbose set to \code{TRUE}
       (default). Returns a cleaned \code{MSnExp} instance.
     }
 
     \item{\code{signature(object = "Spectrum", all = "logical",
-	msLevel. = "numeric")}}{ Cleans the \code{Spectrum}
+        msLevel. = "numeric")}}{ Cleans the \code{Spectrum}
       object. Returns a cleaned \code{Spectrum} instance. If \code{all
-	= TRUE}, then all zeros are removed. \code{msLevel.} defines the
+        = TRUE}, then all zeros are removed. \code{msLevel.} defines the
       level of the spectrum, and if \code{msLevel(object) !=
-	msLevel.}, cleaning is ignored. Only relevant when called from
+        msLevel.}, cleaning is ignored. Only relevant when called from
       \code{OnDiskMSnExp} and is only relevant for developers.
     }
 
     \item{\code{signature(object = "Chromatogram", all = "logical",
-	na.rm = "logical")}}{
+        na.rm = "logical")}}{
       Cleans the \code{\linkS4class{Chromatogram}} instance and returns
       a cleaned \code{\linkS4class{Chromatogram}} object. If
       \code{na.rm} is \code{TRUE} (default is \code{FALSE}) all
@@ -48,7 +48,7 @@
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 \seealso{

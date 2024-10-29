@@ -16,7 +16,7 @@
   count, precursor charge (MS2 only) or file of origin.
 
   The methods make use the \code{ggplot2} system. An object of class
-  'ggplot' is returned invisibly. 
+  'ggplot' is returned invisibly.
 }
 
 \arguments{
@@ -31,9 +31,9 @@
   \item{z}{ A character indicating according to what variable to colour
     the dots. One of, possibly abreviated, "ionCount" (total ion count),
     "file" (raw data file), "peaks.count"
-    (peaks count) or "charge" (precursor charge). 
+    (peaks count) or "charge" (precursor charge).
   }
-  \item{alpha}{ Numeric [0,1] indicating transparence level of points. } 
+  \item{alpha}{ Numeric [0,1] indicating transparence level of points. }
   \item{plot}{ A logical indicating whether the plot should be printed
     (default is 'TRUE'). }
 }
@@ -45,7 +45,7 @@
     }
     \item{\code{signature(object = "data.frame", ...)}}{
       Plots a summary of the 'MSnExp' experiment described by the data
-      frame. 
+      frame.
     }
   }
 }
@@ -57,7 +57,7 @@
 
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 \examples{

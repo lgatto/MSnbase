@@ -349,15 +349,15 @@
     }
 
     \item{filterPrecursorMz}{\code{signature(object = "MSnExp", mz, ppm
-	= 10)}: retain spectra with a precursor m/z equal or similar to
-	the one defined with parameter \code{mz}. Parameter \code{ppm}
-	allows to define an accepted difference between the provided m/z
-	and the spectrum's m/z.
+        = 10)}: retain spectra with a precursor m/z equal or similar to
+        the one defined with parameter \code{mz}. Parameter \code{ppm}
+        allows to define an accepted difference between the provided m/z
+        and the spectrum's m/z.
     }
 
     \item{filterIsolationWindow}{\code{signature(object = "MSnExp",
-	mz)}: retain spectra with isolation windows that contain
-	(which m/z range contain) the specified m/z.
+        mz)}: retain spectra with isolation windows that contain
+        (which m/z range contain) the specified m/z.
     }
   }
 }
@@ -369,7 +369,7 @@
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 \seealso{

@@ -16,7 +16,7 @@
   \code{MSnProcess} is a container for MSnExp and MSnSet processing
   information. It records data files, processing steps, thresholds,
   analysis methods and times that have been applied to MSnExp or MSnSet
-  instances. 
+  instances.
 }
 
 \section{Slots}{
@@ -30,7 +30,7 @@
       whether spectra have been merged. }
     \item{\code{cleaned}:}{Object of class \code{"logical"} indicating
       whether spectra have been cleaned. See \code{\link{clean}} for
-      more details and examples. } 
+      more details and examples. }
     \item{\code{removedPeaks}:}{Object of class \code{"character"}
       describing whether peaks have been removed and which threshold was
       used. See \code{\link{removePeaks}} for more details and examples. }
@@ -45,7 +45,7 @@
     \item{\code{.__classVersion__}:}{Object of class \code{"Versions"}
       indicating the version of the \code{MSnProcess} instance. Intended for
       developer use and debugging. }
-      
+
   }
 }
 \section{Extends}{
@@ -56,7 +56,7 @@
   \describe{
     \item{fileNames}{\code{signature(object = "MSnProcess")}: Returns the
       file names used in experiment described by the \code{"MSnProcess"}
-      instance. } 
+      instance. }
     \item{show}{\code{signature(object = "MSnProcess")}: Displays object
       content as text. }
     \item{combine}{\code{signature(x = "MSnProcess", y = "MSnProcess")}:
@@ -65,7 +65,7 @@
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 \note{
@@ -75,7 +75,7 @@
 
 \seealso{
   See the \code{"\linkS4class{MSnExp}"} and \code{"\linkS4class{MSnSet}"}
-  classes that actually use \code{MSnProcess} as a slot. 
+  classes that actually use \code{MSnProcess} as a slot.
 }
 
 \examples{

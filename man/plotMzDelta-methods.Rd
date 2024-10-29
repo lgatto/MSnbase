@@ -32,30 +32,30 @@
   optimised for centroided data. Application of the plot as is for data
   in profile mode has not been tested thoroughly, although the example
   below suggest that it might work.
-  
+
   The methods make use the \code{ggplot2} system. An object of class
   \code{ggplot} is returned invisibly.
 
   Most of the code for plotMzDelta has kindly been contributed by
-  Guangchuang Yu. 
+  Guangchuang Yu.
 }
 
 \arguments{
   \item{object}{ An object of class \code{MSnExp} or \code{mzRramp}
-    (from the \code{mzR} package) containing MS2 spectra. } 
+    (from the \code{mzR} package) containing MS2 spectra. }
   \item{reporters}{ An object of class class
     \code{"\linkS4class{ReporterIons}"} that defines which reporter ion
     peaks to set to 0. The default value \code{NULL} leaves the spectra
     as they are. }
-  \item{subset}{ A numeric between 0 and 1 to use a subset of 
-    \code{object}'s MS2 spectra. } 
+  \item{subset}{ A numeric between 0 and 1 to use a subset of
+    \code{object}'s MS2 spectra. }
   \item{percentage}{ The percentage of most intense peaks to be used for
     the plot. Default is 0.1.}
   \item{precMz}{ A \code{numeric} of length one or \code{NULL}
     default. In the latter (and preferred) case, the precursor m/z
     values are extracted from the individual MS2 spectra using the
     \code{\link{precursorMz}} method. }
-  \item{precMzWidth}{ A \code{numeric} of length 1 that specifies the 
+  \item{precMzWidth}{ A \code{numeric} of length 1 that specifies the
     width around the precursor m/z where peaks are set to 0. Default is
     2. }
   \item{bw}{ A \code{numeric} specifying the bandwith to be used to bin
@@ -86,7 +86,7 @@
 
 \seealso{
   The \code{\link{plotDensity}} and \code{\link{plot2d}} methods for
-  other QC plots. 
+  other QC plots.
 }
 
 \references{
@@ -94,11 +94,11 @@
   Martens L. "A posteriori quality control for the curation and reuse of
   public proteomics data." \emph{Proteomics}, 2011
   Jun;11(11):2182-94. doi:10.1002/pmic.201000602. Epub 2011 May 2.
-  PMID: 21538885 
+  PMID: 21538885
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk> and Guangchuang Yu
+  Laurent Gatto and Guangchuang Yu
 }
 
 \examples{

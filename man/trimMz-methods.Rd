@@ -12,24 +12,24 @@
 
 
 \description{
-  
+
   This method selects a range of MZ values in a single spectrum
   (\code{Spectrum} instances) or all the spectra of an experiment
   (\code{MSnExp} instances). The regions to trim are defined by the
   range of \code{mz} argument, such that MZ values <= \code{min(mz)} and
   MZ values >= \code{max(mz)} are trimmed away.
-  
+
 }
 \section{Methods}{
   \describe{
-    
+
     \item{\code{signature(object = "MSnExp", mz = "numeric", msLevel. =
-	"numeric")}}{ Trims all spectra in \code{MSnExp} object according
+        "numeric")}}{ Trims all spectra in \code{MSnExp} object according
       to \code{mz}. If \code{msLevel.} is defined, then only spectra of
       that level are trimmer. }
 
     \item{\code{signature(object = "Spectrum", mz = "numeric",
-	msLevel. = "numeric")}}{Trims the \code{Spectrum} object and
+        msLevel. = "numeric")}}{Trims the \code{Spectrum} object and
       retruns a new trimmed object. \code{msLevel.} defines the level
       of the spectrum, and if \code{msLevel(object) != msLevel.},
       cleaning is ignored. Only relevant when called from
@@ -39,7 +39,7 @@
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 \seealso{
@@ -66,4 +66,3 @@ processingData(itraqdata2)
 
 
 \keyword{methods}
-

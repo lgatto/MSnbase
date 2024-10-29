@@ -22,10 +22,10 @@
   <= \code{t} are set to 0. If the spectrum is centroided, then
   individual peaks <= \code{t} are set to 0. See the example below for
   an illustration.
-  
+
   Note that the number of peaks is not changed; the peaks below the
   threshold are set to 0 and the object is not cleanded out (see
-  \code{\link{clean}}). An illustrative example is shown below. 
+  \code{\link{clean}}). An illustrative example is shown below.
 }
 
 \section{Methods}{
@@ -36,7 +36,7 @@
       "min", i.e the smallest intensity in each spectrum. Other
       \code{numeric} values are valid.
       Displays a control bar if verbose set to \code{TRUE}
-      (default). Returns a new \code{MSnExp} instance. 
+      (default). Returns a new \code{MSnExp} instance.
     }
 
     \item{\code{signature(object = "Spectrum", t, msLevel. =
@@ -49,12 +49,12 @@
       \code{OnDiskMSnExp} and is only relevant for developers.
 
       Returns a new \code{Spectrum} instance.  }
-    
+
   }
 }
 
 \author{
-  Laurent Gatto <lg390@cam.ac.uk>
+  Laurent Gatto
 }
 
 \seealso{
