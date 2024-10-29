@@ -2,6 +2,7 @@
 
 ## MSnbase 2.31.2
 
+- Add functionality to convert a `Spectra` object to a `MSpectra`.
 - Suggest pRolocdata (>= 1.43.2.1) (that has some extdata, needed to
   other packages' vignettes).
 
@@ -10,7 +11,7 @@
 - Disable nested parallel processing for `chromatogram()` method.
 - Fix Rd notes.
 
-# MSnbase 2.31.0
+## MSnbase 2.31.0
 
 - New Bioconductor devel.
 

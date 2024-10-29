@@ -22,8 +22,7 @@ Reduce a data.frame so that the (primary) key column contains only
 unique entries and other columns pertaining to that entry are
 combined into semicolon-separated values into a single
 row/observation.
-}
-\details{
+
 An important side-effect of reducing a \code{data.frame} is that all
 columns other than the key are converted to characters when they
 are collapsed to a semi-column separated value (even if only one
