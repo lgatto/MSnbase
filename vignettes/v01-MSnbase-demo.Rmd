@@ -1062,7 +1062,7 @@ library(Rdisop)
 Fim <- getMolecule("C8H10N")
 getMass(Fim)
 isotopes <- getIsotope(Fim)
-F1 <- isotopes[2, 2]
+F1 <- isotopes[[1]][2, 2]
 F1
 ```
 

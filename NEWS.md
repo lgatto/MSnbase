@@ -1,5 +1,10 @@
 # MSnbase 2.33
 
+## MSnbase 2.33.2
+
+- Fix the `pheplus1` code chunk in MSnbase-demo vignette to handle the
+  new `Rdispo::getIsotope()` list return value.
+
 ## MSnbase 2.33.1
 
 - Add functionality to convert a `Spectra` object to a `MSpectra`.
