@@ -1,5 +1,9 @@
 # MSnbase 2.33
 
+## MSnbase 2.33.3
+
+- Fix faililing unit test.
+
 ## MSnbase 2.33.2
 
 - Fix the `pheplus1` code chunk in MSnbase-demo vignette to handle the

@@ -242,7 +242,7 @@ test_that("bin_Spectrum - bug fix #ecaaa324505b17ee8c4855806f7e37f14f1b27b8", {
 })
 
 test_that("bin_Spectra", {
-    # issue 190
+    ## issue 190
     s1 <- new("Spectrum2", mz = 1:4, intensity = 1:4)
     s2 <- new("Spectrum2", mz = 1:5, intensity = 1:5)
     r1 <- new("Spectrum2", mz = 1:5 + 0.5, intensity = c(1:4, 0))
@@ -304,20 +304,21 @@ test_that(".spectrum_header works", {
     mzR::close(mzf)
     sp_1 <- tmt_erwinia_on_disk[[1]]
     sp_2 <- tmt_erwinia_on_disk[[2]]
-
     hdr_1 <- MSnbase:::.spectrum_header(sp_1)
     hdr_1$seqNum <- 1L
-    expect_true(all(colnames(hdr) %in% colnames(hdr_1)))
+    ## added electronBeamEnergy missing in hdr_1 2025/03/05
+    expect_true(all(colnames(hdr) %in%
+                    c("electronBeamEnergy", colnames(hdr_1))))
     cns <- colnames(hdr)
     cns <- cns[!(cns %in% c("basePeakMZ", "basePeakIntensity", "injectionTime",
-                            "filterString", "spectrumId",
+                            "filterString", "spectrumId", "electronBeamEnergy",
                             "scanWindowLowerLimit", "scanWindowUpperLimit"))]
     for (cn in cns)
         expect_equal(hdr[1, cn], hdr_1[1, cn])
-
     hdr_2 <- .spectrum_header(sp_2)
     hdr_2$seqNum <- 1L
-    expect_true(all(colnames(hdr) %in% colnames(hdr_2)))
+    expect_true(all(colnames(hdr) %in%
+                    c("electronBeamEnergy", colnames(hdr_2))))
     for (cn in cns)
         expect_equal(hdr[1, cn], hdr_1[1, cn])
 })
