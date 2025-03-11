@@ -2,7 +2,7 @@
 
 ## MSnbase 2.33.3
 
-- Fix faililing unit test.
+- Fix flailing unit test.
 
 ## MSnbase 2.33.2
 
