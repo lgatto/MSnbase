@@ -55,7 +55,7 @@ comments <- function(x) x@Comments
 MzTab <- function(file) {
     file <- file[1]
     lines <- readLines(file)
-    lines <- lines[-grep("^\\s*$", lines)]
+    lines <- lines[!grepl("^\\s*$", lines)]
     lines <- lines[nzchar(lines)]
 
     ## Split on the first characters, make sure headers stay in
@@ -106,7 +106,7 @@ MzTab <- function(file) {
             }),
         c("Metadata", "Proteins", "Peptides", "PSMs", "SmallMolecules",
           "MoleculeFeatures", "MoleculeEvidence"))
-    
+
     res[["Metadata"]] <- reshapeMetadata(res[["Metadata"]])
 
     .MzTab(Metadata = res[["Metadata"]],
@@ -127,7 +127,7 @@ MzTab <- function(file) {
 reshapeMetadata <- function(mtd) {
     stopifnot(ncol(mtd) >= 2)
     metadata <- setNames(vector("list", nrow(mtd)), mtd[[1]])
-    metadata[1:length(metadata)] <- mtd[[2]]    
+    metadata[1:length(metadata)] <- mtd[[2]]
     metadata
 }
 
@@ -146,7 +146,7 @@ setAs("MzTab", "MSnSetList",
 ##' @noRd
 addMzTabMetadata <- function(x, y) {
     experimentData(x)@other$mzTab <- metadata(y)
-    if (any(i <- grepl("publication", names(metadata(y))))) 
+    if (any(i <- grepl("publication", names(metadata(y)))))
         pubMedIds(x) <- unlist(metadata(y)[i], use.names = FALSE)
     x@processingData@files <- fileName(y)
     ## This would need www access, if to use rols
@@ -160,7 +160,7 @@ makeProtMSnSet <- function(object,
     if (nrow(x) == 0) {
         ans <- new("MSnSet")
     } else {
-        ecols <- grep(protabundance, names(x))        
+        ecols <- grep(protabundance, names(x))
         e <- as.matrix(x[, ecols])
         if (length(ecols) > 0) fd <- x[, -ecols]
         else fd <- x
@@ -200,7 +200,7 @@ makePsmMSnSet <- function(object) {
         rownames(e) <- rownames(fd) <-
             make.names(fd[, "PSM_ID"], unique = TRUE)
         pd <- data.frame(row.names = colnames(e))
-        ans <- MSnSet(exprs = e, fData = fd, pData = pd)        
+        ans <- MSnSet(exprs = e, fData = fd, pData = pd)
     }
     addMzTabMetadata(ans, object)
 }

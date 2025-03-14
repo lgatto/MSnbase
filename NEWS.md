@@ -1,8 +1,12 @@
 # MSnbase 2.33
 
+## MSnbase 2.33.4
+
+- Fix bug in `MzTab()` (see issue #608).
+
 ## MSnbase 2.33.3
 
-- Fix flailing unit test.
+- Fix failing unit test.
 
 ## MSnbase 2.33.2
 
