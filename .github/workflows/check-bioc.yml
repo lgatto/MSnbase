@@ -253,7 +253,7 @@ jobs:
           BiocGenerics:::testPackage()
         shell: Rscript {0}
 
-      - name: Test coverage
+      ## - name: Test coverage
         ## if: github.ref == 'refs/heads/devel' && env.run_covr == 'true' && runner.os == 'Linux'
         ## if: env.run_covr == 'true' && runner.os == 'Linux'
         ## run: |
