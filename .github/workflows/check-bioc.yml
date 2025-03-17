@@ -255,10 +255,10 @@ jobs:
 
       - name: Test coverage
         ## if: github.ref == 'refs/heads/devel' && env.run_covr == 'true' && runner.os == 'Linux'
-        if: env.run_covr == 'true' && runner.os == 'Linux'
-        run: |
-          covr::codecov()
-        shell: Rscript {0}
+        ## if: env.run_covr == 'true' && runner.os == 'Linux'
+        ## run: |
+        ##  covr::codecov()
+        ## shell: Rscript {0}
 
       - name: Install package
         # if: github.ref == 'refs/heads/devel' && env.run_pkgdown == 'true' && runner.os == 'Linux'
