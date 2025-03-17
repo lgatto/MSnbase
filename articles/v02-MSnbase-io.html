@@ -8,8 +8,8 @@
 <title>MSnbase IO capabilities • MSnbase</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="MSnbase IO capabilities">
 </head>
 <body>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">MSnbase</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.31.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.33.4</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -107,7 +107,7 @@ may want to use the Bioconductor support site: <a href="https://support.biocondu
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p><em><a href="https://bioconductor.org/packages/3.19/MSnbase" class="external-link">MSnbase</a></em>’s
+<p><em><a href="https://bioconductor.org/packages/3.21/MSnbase" class="external-link">MSnbase</a></em>’s
 aims are to facilitate the reproducible analysis of mass spectrometry
 data within the R environment, from raw data import and processing,
 feature quantification, quantification and statistical analysis of the
@@ -127,7 +127,7 @@ i.e. <code>mzXML</code> <span class="citation">(Pedrioli et al.
 2004)</span>, <code>mzData</code> <span class="citation">(Orchard et al.
 2007)</span> or <code>mzML</code> <span class="citation">(Martens et al.
 2010)</span>, can be imported with the <code>readMSData</code> method,
-which makes use of the <em><a href="https://bioconductor.org/packages/3.19/mzR" class="external-link">mzR</a></em> package
+which makes use of the <em><a href="https://bioconductor.org/packages/3.21/mzR" class="external-link">mzR</a></em> package
 to create <code>MSnExp</code> objects. The files can be in profile or
 centroided mode. See <code><a href="../reference/readMSData.html">?readMSData</a></code> for details.</p>
 <p>Data from <code>mzML</code> files containing chromatographic data
@@ -152,14 +152,14 @@ exported as a spreadsheet (generally comma or tab separated format).
 This data as well as any additional meta-data can be imported with the
 <code>readMSnSet</code> function. See <code><a href="../reference/readMSnSet.html">?readMSnSet</a></code> for
 details.</p>
-<p><em><a href="https://bioconductor.org/packages/3.19/MSnbase" class="external-link">MSnbase</a></em>
+<p><em><a href="https://bioconductor.org/packages/3.21/MSnbase" class="external-link">MSnbase</a></em>
 also supports the <code>mzTab</code> format<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content='&lt;p&gt;&lt;a href="https://github.com/HUPO-PSI/mzTab" class="external-link uri"&gt;https://github.com/HUPO-PSI/mzTab&lt;/a&gt;&lt;/p&gt;'><sup>2</sup></a>, a light-weight,
 tab-delimited file format for proteomics data developed within the
 Proteomics Standards Initiative (PSI). <code>mzTab</code> files can be
 read into R with <code>readMzTabData</code> to create and
 <code>MSnSet</code> instance.</p>
 <div class="float">
-<img src="Figures%2FMSnbase-io-in.png" alt="MSnbase input capabilities. The white and red boxes represent R functions/methods and objects respectively. The blue boxes represent different disk storage formats."><div class="figcaption">
+<img src="Figures/MSnbase-io-in.png" alt="MSnbase input capabilities. The white and red boxes represent R functions/methods and objects respectively. The blue boxes represent different disk storage formats."><div class="figcaption">
 <em>MSnbase</em> input capabilities. The white
 and red boxes represent R functions/methods and objects respectively.
 The blue boxes represent different disk storage formats.</div>
@@ -204,7 +204,7 @@ details.</p>
 exported to <code>mzTab</code> files using the
 <code>writeMzTabData</code> function.</p>
 <div class="float">
-<img src="Figures%2FMSnbase-io-out.png" alt="MSnbase output capabilities. The white and red boxes represent R functions/methods and objects respectively. The blue boxes represent different disk storage formats."><div class="figcaption">
+<img src="Figures/MSnbase-io-out.png" alt="MSnbase output capabilities. The white and red boxes represent R functions/methods and objects respectively. The blue boxes represent different disk storage formats."><div class="figcaption">
 <em>MSnbase</em> output capabilities. The white
 and red boxes represent R functions/methods and objects respectively.
 The blue boxes represent different disk storage formats.</div>
@@ -216,7 +216,7 @@ The blue boxes represent different disk storage formats.</div>
 </h2>
 <p>This section describes the generation of <code>MSnSet</code> objects
 using data available in a text-based spreadsheet. This entry point into
-R and <em><a href="https://bioconductor.org/packages/3.19/MSnbase" class="external-link">MSnbase</a></em>
+R and <em><a href="https://bioconductor.org/packages/3.21/MSnbase" class="external-link">MSnbase</a></em>
 allows to import data processed by any of the third party
 mass-spectrometry processing software available and proceed with data
 exploration, normalisation and statistical analysis using functions
@@ -227,8 +227,8 @@ available in and the numerous Bioconductor packages.</p>
 <p>The following section describes a work flow that uses three input
 files to create the <code>MSnSet</code>. These files respectively
 describe the quantitative expression data, the sample meta-data and the
-feature meta-data. It is taken from the <em><a href="https://bioconductor.org/packages/3.19/pRoloc" class="external-link">pRoloc</a></em>
-tutorial and uses example files from the <em><a href="https://bioconductor.org/packages/3.19/pRolocdat" class="external-link">pRolocdat</a></em>
+feature meta-data. It is taken from the <em><a href="https://bioconductor.org/packages/3.21/pRoloc" class="external-link">pRoloc</a></em>
+tutorial and uses example files from the <em><a href="https://bioconductor.org/packages/3.21/pRolocdat" class="external-link">pRolocdat</a></em>
 package.</p>
 <p>We start by describing the <code>csv</code> to be used as input using
 the <code>read.csv</code> function.</p>
@@ -336,8 +336,8 @@ object <code>res</code> and display its content.</p>
 <span><span class="co">## experimentData: use 'experimentData(object)'</span></span>
 <span><span class="co">## Annotation:  </span></span>
 <span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">## Quantitation data loaded: Tue Oct 15 15:28:20 2024  using readMSnSet. </span></span>
-<span><span class="co">##  MSnbase version: 2.31.2</span></span></code></pre>
+<span><span class="co">## Quantitation data loaded: Mon Mar 17 11:32:45 2025  using readMSnSet. </span></span>
+<span><span class="co">##  MSnbase version: 2.33.4</span></span></code></pre>
 <div class="section level4">
 <h4 id="the-msnset-class">The <code>MSnSet</code> class<a class="anchor" aria-label="anchor" href="#the-msnset-class"></a>
 </h4>
@@ -356,7 +356,7 @@ names must match exactly.</p></li>
 <p>A detailed description of the <code>MSnSet</code> class is available
 by typing <code><a href="../reference/MSnSet-class.html">?MSnSet</a></code> in the R console.</p>
 <div class="float">
-<img src="Figures%2Fmsnset.png" alt="Dimension requirements for the respective expression, feature and sample meta-data slots."><div class="figcaption">Dimension requirements for the respective
+<img src="Figures/msnset.png" alt="Dimension requirements for the respective expression, feature and sample meta-data slots."><div class="figcaption">Dimension requirements for the respective
 expression, feature and sample meta-data slots.</div>
 </div>
 <p>The individual parts of this data object can be accessed with their
@@ -401,7 +401,7 @@ guarantee the final object validity.</p>
 <span><span class="co">## experimentData: use 'experimentData(object)'</span></span>
 <span><span class="co">## Annotation:  </span></span>
 <span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">##  MSnbase version: 2.31.2</span></span></code></pre>
+<span><span class="co">##  MSnbase version: 2.33.4</span></span></code></pre>
 <p>The <code>ecol</code> columns can also be queried interactively from
 R using the <code>getEcols</code> and <code>grepEcols</code> function.
 The former return a character with all column names, given a splitting
@@ -437,7 +437,7 @@ interest to obtain the relevant column indices.</p>
 <span><span class="co">## experimentData: use 'experimentData(object)'</span></span>
 <span><span class="co">## Annotation:  </span></span>
 <span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">##  MSnbase version: 2.31.2</span></span></code></pre>
+<span><span class="co">##  MSnbase version: 2.33.4</span></span></code></pre>
 <p>The <code>phenoData</code> slot can now be updated accordingly using
 the replacement functions <code>phenoData&lt;-</code> or
 <code>pData&lt;-</code> (see <code><a href="../reference/MSnSet-class.html">?MSnSet</a></code> for details).</p>
@@ -448,13 +448,13 @@ the replacement functions <code>phenoData&lt;-</code> or
 </h2>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## R version 4.4.1 (2024-06-14)</span></span>
+<pre><code><span><span class="co">## R Under development (unstable) (2025-02-24 r87814)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
-<span><span class="co">## Running under: Ubuntu 22.04.5 LTS</span></span>
+<span><span class="co">## Running under: Ubuntu 24.04.1 LTS</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Matrix products: default</span></span>
 <span><span class="co">## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
-<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so;  LAPACK version 3.10.0</span></span>
+<span><span class="co">## LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## locale:</span></span>
 <span><span class="co">##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              </span></span>
@@ -472,60 +472,59 @@ the replacement functions <code>phenoData&lt;-</code> or
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] pRolocdata_1.43.3   MSnbase_2.31.2      ProtGenerics_1.36.0</span></span>
-<span><span class="co">## [4] S4Vectors_0.42.1    mzR_2.38.0          Rcpp_1.0.13        </span></span>
-<span><span class="co">## [7] Biobase_2.64.0      BiocGenerics_0.50.0 BiocStyle_2.32.1   </span></span>
+<span><span class="co">##  [1] pRolocdata_1.45.1   MSnbase_2.33.4      ProtGenerics_1.39.2</span></span>
+<span><span class="co">##  [4] S4Vectors_0.45.4    mzR_2.41.4          Rcpp_1.0.14        </span></span>
+<span><span class="co">##  [7] Biobase_2.67.0      BiocGenerics_0.53.6 generics_0.1.3     </span></span>
+<span><span class="co">## [10] BiocStyle_2.35.0   </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##  [1] rlang_1.1.4                 magrittr_2.0.3             </span></span>
-<span><span class="co">##  [3] clue_0.3-65                 matrixStats_1.4.1          </span></span>
-<span><span class="co">##  [5] compiler_4.4.1              systemfonts_1.1.0          </span></span>
+<span><span class="co">##  [1] rlang_1.1.5                 magrittr_2.0.3             </span></span>
+<span><span class="co">##  [3] clue_0.3-66                 matrixStats_1.5.0          </span></span>
+<span><span class="co">##  [5] compiler_4.5.0              systemfonts_1.2.1          </span></span>
 <span><span class="co">##  [7] vctrs_0.6.5                 reshape2_1.4.4             </span></span>
 <span><span class="co">##  [9] stringr_1.5.1               pkgconfig_2.0.3            </span></span>
 <span><span class="co">## [11] crayon_1.5.3                fastmap_1.2.0              </span></span>
-<span><span class="co">## [13] XVector_0.44.0              utf8_1.2.4                 </span></span>
-<span><span class="co">## [15] rmarkdown_2.28              UCSC.utils_1.0.0           </span></span>
-<span><span class="co">## [17] preprocessCore_1.67.1       ragg_1.3.3                 </span></span>
-<span><span class="co">## [19] purrr_1.0.2                 xfun_0.48                  </span></span>
-<span><span class="co">## [21] MultiAssayExperiment_1.30.3 zlibbioc_1.50.0            </span></span>
-<span><span class="co">## [23] cachem_1.1.0                GenomeInfoDb_1.40.1        </span></span>
-<span><span class="co">## [25] jsonlite_1.8.9              DelayedArray_0.30.1        </span></span>
-<span><span class="co">## [27] BiocParallel_1.38.0         parallel_4.4.1             </span></span>
-<span><span class="co">## [29] cluster_2.1.6               R6_2.5.1                   </span></span>
-<span><span class="co">## [31] bslib_0.8.0                 stringi_1.8.4              </span></span>
-<span><span class="co">## [33] limma_3.60.6                GenomicRanges_1.56.2       </span></span>
-<span><span class="co">## [35] jquerylib_0.1.4             iterators_1.0.14           </span></span>
-<span><span class="co">## [37] bookdown_0.40               SummarizedExperiment_1.34.0</span></span>
-<span><span class="co">## [39] knitr_1.48                  IRanges_2.38.1             </span></span>
-<span><span class="co">## [41] Matrix_1.7-0                igraph_2.0.3               </span></span>
-<span><span class="co">## [43] tidyselect_1.2.1            abind_1.4-8                </span></span>
-<span><span class="co">## [45] yaml_2.3.10                 doParallel_1.0.17          </span></span>
-<span><span class="co">## [47] codetools_0.2-20            affy_1.82.0                </span></span>
-<span><span class="co">## [49] lattice_0.22-6              tibble_3.2.1               </span></span>
-<span><span class="co">## [51] plyr_1.8.9                  evaluate_1.0.1             </span></span>
-<span><span class="co">## [53] desc_1.4.3                  pillar_1.9.0               </span></span>
-<span><span class="co">## [55] affyio_1.74.0               BiocManager_1.30.25        </span></span>
-<span><span class="co">## [57] MatrixGenerics_1.16.0       foreach_1.5.2              </span></span>
-<span><span class="co">## [59] MALDIquant_1.22.3           ncdf4_1.23                 </span></span>
-<span><span class="co">## [61] generics_0.1.3              ggplot2_3.5.1              </span></span>
-<span><span class="co">## [63] munsell_0.5.1               scales_1.3.0               </span></span>
-<span><span class="co">## [65] glue_1.8.0                  lazyeval_0.2.2             </span></span>
-<span><span class="co">## [67] tools_4.4.1                 mzID_1.42.0                </span></span>
-<span><span class="co">## [69] QFeatures_1.14.2            vsn_3.72.0                 </span></span>
-<span><span class="co">## [71] fs_1.6.4                    XML_3.99-0.17              </span></span>
-<span><span class="co">## [73] grid_4.4.1                  impute_1.78.0              </span></span>
-<span><span class="co">## [75] tidyr_1.3.1                 MsCoreUtils_1.16.1         </span></span>
-<span><span class="co">## [77] colorspace_2.1-1            GenomeInfoDbData_1.2.12    </span></span>
-<span><span class="co">## [79] PSMatch_1.8.0               cli_3.6.3                  </span></span>
-<span><span class="co">## [81] textshaping_0.4.0           fansi_1.0.6                </span></span>
-<span><span class="co">## [83] S4Arrays_1.4.1              dplyr_1.1.4                </span></span>
-<span><span class="co">## [85] AnnotationFilter_1.28.0     pcaMethods_1.96.0          </span></span>
-<span><span class="co">## [87] gtable_0.3.5                sass_0.4.9                 </span></span>
-<span><span class="co">## [89] digest_0.6.37               SparseArray_1.4.8          </span></span>
-<span><span class="co">## [91] htmlwidgets_1.6.4           htmltools_0.5.8.1          </span></span>
-<span><span class="co">## [93] pkgdown_2.1.1.9000          lifecycle_1.0.4            </span></span>
-<span><span class="co">## [95] httr_1.4.7                  statmod_1.5.0              </span></span>
-<span><span class="co">## [97] MASS_7.3-61</span></span></code></pre>
+<span><span class="co">## [13] XVector_0.47.2              rmarkdown_2.29             </span></span>
+<span><span class="co">## [15] UCSC.utils_1.3.1            preprocessCore_1.69.0      </span></span>
+<span><span class="co">## [17] ragg_1.3.3                  purrr_1.0.4                </span></span>
+<span><span class="co">## [19] xfun_0.51                   MultiAssayExperiment_1.33.9</span></span>
+<span><span class="co">## [21] cachem_1.1.0                GenomeInfoDb_1.43.4        </span></span>
+<span><span class="co">## [23] jsonlite_1.9.1              DelayedArray_0.33.6        </span></span>
+<span><span class="co">## [25] BiocParallel_1.41.2         parallel_4.5.0             </span></span>
+<span><span class="co">## [27] cluster_2.1.8.1             R6_2.6.1                   </span></span>
+<span><span class="co">## [29] bslib_0.9.0                 stringi_1.8.4              </span></span>
+<span><span class="co">## [31] limma_3.63.9                GenomicRanges_1.59.1       </span></span>
+<span><span class="co">## [33] jquerylib_0.1.4             iterators_1.0.14           </span></span>
+<span><span class="co">## [35] bookdown_0.42               SummarizedExperiment_1.37.0</span></span>
+<span><span class="co">## [37] knitr_1.50                  IRanges_2.41.3             </span></span>
+<span><span class="co">## [39] BiocBaseUtils_1.9.0         Matrix_1.7-3               </span></span>
+<span><span class="co">## [41] igraph_2.1.4                tidyselect_1.2.1           </span></span>
+<span><span class="co">## [43] abind_1.4-8                 yaml_2.3.10                </span></span>
+<span><span class="co">## [45] doParallel_1.0.17           codetools_0.2-20           </span></span>
+<span><span class="co">## [47] affy_1.85.1                 lattice_0.22-6             </span></span>
+<span><span class="co">## [49] tibble_3.2.1                plyr_1.8.9                 </span></span>
+<span><span class="co">## [51] evaluate_1.0.3              desc_1.4.3                 </span></span>
+<span><span class="co">## [53] pillar_1.10.1               affyio_1.77.3              </span></span>
+<span><span class="co">## [55] BiocManager_1.30.25         MatrixGenerics_1.19.1      </span></span>
+<span><span class="co">## [57] foreach_1.5.2               MALDIquant_1.22.3          </span></span>
+<span><span class="co">## [59] ncdf4_1.23                  ggplot2_3.5.1              </span></span>
+<span><span class="co">## [61] munsell_0.5.1               scales_1.3.0               </span></span>
+<span><span class="co">## [63] glue_1.8.0                  lazyeval_0.2.2             </span></span>
+<span><span class="co">## [65] tools_4.5.0                 mzID_1.45.0                </span></span>
+<span><span class="co">## [67] QFeatures_1.17.4            vsn_3.75.0                 </span></span>
+<span><span class="co">## [69] fs_1.6.5                    XML_3.99-0.18              </span></span>
+<span><span class="co">## [71] grid_4.5.0                  impute_1.81.0              </span></span>
+<span><span class="co">## [73] tidyr_1.3.1                 MsCoreUtils_1.19.1         </span></span>
+<span><span class="co">## [75] colorspace_2.1-1            GenomeInfoDbData_1.2.14    </span></span>
+<span><span class="co">## [77] PSMatch_1.11.0              cli_3.6.4                  </span></span>
+<span><span class="co">## [79] textshaping_1.0.0           S4Arrays_1.7.3             </span></span>
+<span><span class="co">## [81] dplyr_1.1.4                 AnnotationFilter_1.31.0    </span></span>
+<span><span class="co">## [83] pcaMethods_1.99.0           gtable_0.3.6               </span></span>
+<span><span class="co">## [85] sass_0.4.9                  digest_0.6.37              </span></span>
+<span><span class="co">## [87] SparseArray_1.7.6           htmlwidgets_1.6.4          </span></span>
+<span><span class="co">## [89] htmltools_0.5.8.1           pkgdown_2.1.1.9000         </span></span>
+<span><span class="co">## [91] lifecycle_1.0.4             httr_1.4.7                 </span></span>
+<span><span class="co">## [93] statmod_1.5.0               MASS_7.3-65</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
