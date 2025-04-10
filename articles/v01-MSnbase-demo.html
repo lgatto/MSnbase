@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">MSnbase</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.33.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.33.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +69,7 @@ Rainer</h4>
 Gibb</h4>
                         
       
-      <small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/master/vignettes/v01-MSnbase-demo.Rmd" class="external-link"><code>vignettes/v01-MSnbase-demo.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/methods-fragments/vignettes/v01-MSnbase-demo.Rmd" class="external-link"><code>vignettes/v01-MSnbase-demo.Rmd</code></a></small>
       <div class="d-none name"><code>v01-MSnbase-demo.Rmd</code></div>
     </div>
 
@@ -636,7 +636,7 @@ protein.</p>
 <span><span class="co">## - - - Processing information - - -</span></span>
 <span><span class="co">## Data loaded: Wed May 11 18:54:39 2011 </span></span>
 <span><span class="co">## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] </span></span>
-<span><span class="co">## Data [logically] subsetted 3 spectra: Mon Mar 17 11:32:12 2025 </span></span>
+<span><span class="co">## Data [logically] subsetted 3 spectra: Thu Apr 10 21:53:44 2025 </span></span>
 <span><span class="co">##  MSnbase version: 1.1.22 </span></span>
 <span><span class="co">## - - - Meta data  - - -</span></span>
 <span><span class="co">## phenoData</span></span>
@@ -890,6 +890,8 @@ sequence to the <code>plot</code> method.</p>
 <span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">itraqdata2</span><span class="op">)</span><span class="op">[</span><span class="va">i</span>, <span class="st">"PeptideSequence"</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">itraqdata2</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span>, <span class="va">s</span>, main <span class="op">=</span> <span class="va">s</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in FUN(X[[i]], ...): 'modifications' is deprecated, please use</span></span>
+<span><span class="co">## 'fixed_modifications' instead.</span></span></code></pre>
 <div class="figure">
 <img src="v01-MSnbase-demo_files/figure-html/fragplot-1.png" alt="Annotated MS2 spectrum." width="700"><p class="caption">
 Annotated MS2 spectrum.
@@ -907,15 +909,15 @@ Annotated MS2 spectrum.
 <code>pepseq</code> feature variable to search the presence of missing
 data (<code>NA</code> values) and then filter these non-identified
 spectra.</p>
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">msexp</span><span class="op">)</span><span class="op">$</span><span class="va">sequence</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "VESITARHGEVLQLRPK" "IDGQWVTHQWLKK"     NA                 </span></span>
 <span><span class="co">## [4] NA                  "LVILLFR"</span></span></code></pre>
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">msexp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/removeNoId-methods.html">removeNoId</a></span><span class="op">(</span><span class="va">msexp</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">msexp</span><span class="op">)</span><span class="op">$</span><span class="va">sequence</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "VESITARHGEVLQLRPK" "IDGQWVTHQWLKK"     "LVILLFR"</span></span></code></pre>
-<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/MSnSet-class.html">idSummary</a></span><span class="op">(</span><span class="va">msexp</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##       spectrumFile          idFile coverage</span></span>
 <span><span class="co">## 1 dummyiTRAQ.mzXML dummyiTRAQ.mzid        1</span></span></code></pre>
@@ -933,42 +935,46 @@ the <code>nprot</code> feature variable.</p>
 <p><em><a href="https://bioconductor.org/packages/3.21/MSnbase" class="external-link">MSnbase</a></em>
 is able to calculate theoretical peptide fragments via
 <code>calculateFragments</code>.</p>
-<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/calculateFragments-methods.html">calculateFragments</a></span><span class="op">(</span><span class="st">"ACEK"</span>,</span>
 <span>                   type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"z"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##           mz ion type pos z seq</span></span>
-<span><span class="co">## 1   44.04947  a1    a   1 1   A</span></span>
-<span><span class="co">## 2  204.08012  a2    a   2 1  AC</span></span>
-<span><span class="co">## 3  333.12271  a3    a   3 1 ACE</span></span>
-<span><span class="co">## 4   72.04439  b1    b   1 1   A</span></span>
-<span><span class="co">## 5  232.07504  b2    b   2 1  AC</span></span>
-<span><span class="co">## 6  361.11763  b3    b   3 1 ACE</span></span>
-<span><span class="co">## 7   89.07094  c1    c   1 1   A</span></span>
-<span><span class="co">## 8  249.10159  c2    c   2 1  AC</span></span>
-<span><span class="co">## 9  378.14417  c3    c   3 1 ACE</span></span>
-<span><span class="co">## 10 173.09207  x1    x   1 1   K</span></span>
-<span><span class="co">## 11 302.13466  x2    x   2 1  EK</span></span>
-<span><span class="co">## 12 462.16531  x3    x   3 1 CEK</span></span>
-<span><span class="co">## 13 147.11280  y1    y   1 1   K</span></span>
-<span><span class="co">## 14 276.15539  y2    y   2 1  EK</span></span>
-<span><span class="co">## 15 436.18604  y3    y   3 1 CEK</span></span>
-<span><span class="co">## 16 130.08625  z1    z   1 1   K</span></span>
-<span><span class="co">## 17 259.12884  z2    z   2 1  EK</span></span>
-<span><span class="co">## 18 419.15949  z3    z   3 1 CEK</span></span>
-<span><span class="co">## 19 284.12409 x2_   x_   2 1  EK</span></span>
-<span><span class="co">## 20 258.14483 y2_   y_   2 1  EK</span></span>
-<span><span class="co">## 21 241.11828 z2_   z_   2 1  EK</span></span>
-<span><span class="co">## 22 155.08150 x1_   x_   1 1   K</span></span>
-<span><span class="co">## 23 444.15474 x3_   x_   3 1 CEK</span></span>
-<span><span class="co">## 24 129.10224 y1_   y_   1 1   K</span></span>
-<span><span class="co">## 25 418.17548 y3_   y_   3 1 CEK</span></span>
-<span><span class="co">## 26 112.07569 z1_   z_   1 1   K</span></span>
-<span><span class="co">## 27 401.14893 z3_   z_   3 1 CEK</span></span></code></pre>
+<pre><code><span><span class="co">## Fixed modifications used: C=57.02146</span></span>
+<span><span class="co">## Variable modifications used: None</span></span></code></pre>
+<pre><code><span><span class="co">##           mz ion type pos z seq peptide</span></span>
+<span><span class="co">## 1   44.04947  a1    a   1 1   A    ACEK</span></span>
+<span><span class="co">## 2  204.08012  a2    a   2 1  AC    ACEK</span></span>
+<span><span class="co">## 3  333.12271  a3    a   3 1 ACE    ACEK</span></span>
+<span><span class="co">## 4   72.04439  b1    b   1 1   A    ACEK</span></span>
+<span><span class="co">## 5  232.07504  b2    b   2 1  AC    ACEK</span></span>
+<span><span class="co">## 6  361.11763  b3    b   3 1 ACE    ACEK</span></span>
+<span><span class="co">## 7   89.07094  c1    c   1 1   A    ACEK</span></span>
+<span><span class="co">## 8  249.10159  c2    c   2 1  AC    ACEK</span></span>
+<span><span class="co">## 9  378.14417  c3    c   3 1 ACE    ACEK</span></span>
+<span><span class="co">## 10 173.09207  x1    x   1 1   K    ACEK</span></span>
+<span><span class="co">## 11 302.13466  x2    x   2 1  EK    ACEK</span></span>
+<span><span class="co">## 12 462.16531  x3    x   3 1 CEK    ACEK</span></span>
+<span><span class="co">## 13 147.11280  y1    y   1 1   K    ACEK</span></span>
+<span><span class="co">## 14 276.15539  y2    y   2 1  EK    ACEK</span></span>
+<span><span class="co">## 15 436.18604  y3    y   3 1 CEK    ACEK</span></span>
+<span><span class="co">## 16 130.08625  z1    z   1 1   K    ACEK</span></span>
+<span><span class="co">## 17 259.12884  z2    z   2 1  EK    ACEK</span></span>
+<span><span class="co">## 18 419.15949  z3    z   3 1 CEK    ACEK</span></span>
+<span><span class="co">## 19 284.12409 x2_   x_   2 1  EK    ACEK</span></span>
+<span><span class="co">## 20 258.14483 y2_   y_   2 1  EK    ACEK</span></span>
+<span><span class="co">## 21 241.11828 z2_   z_   2 1  EK    ACEK</span></span>
+<span><span class="co">## 22 155.08150 x1_   x_   1 1   K    ACEK</span></span>
+<span><span class="co">## 23 444.15474 x3_   x_   3 1 CEK    ACEK</span></span>
+<span><span class="co">## 24 129.10224 y1_   y_   1 1   K    ACEK</span></span>
+<span><span class="co">## 25 418.17548 y3_   y_   3 1 CEK    ACEK</span></span>
+<span><span class="co">## 26 112.07569 z1_   z_   1 1   K    ACEK</span></span>
+<span><span class="co">## 27 401.14893 z3_   z_   3 1 CEK    ACEK</span></span></code></pre>
 <p>It is also possible to match these fragments against an
 <em>Spectrum2</em> object.</p>
-<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pepseq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">msexp</span><span class="op">)</span><span class="op">$</span><span class="va">sequence</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
 <span><span class="fu"><a href="../reference/calculateFragments-methods.html">calculateFragments</a></span><span class="op">(</span><span class="va">pepseq</span>, <span class="va">msexp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>, type<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"b"</span>, <span class="st">"y"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Fixed modifications used: C=57.02146</span></span>
+<span><span class="co">## Variable modifications used: None</span></span></code></pre>
 <pre><code><span><span class="co">##           mz  intensity  ion type pos z             seq       error</span></span>
 <span><span class="co">## 1   100.0005       0.00   b1    b   1 1               V  0.07522824</span></span>
 <span><span class="co">## 2   429.2563 1972344.00   b4    b   4 1            VESI -0.02189010</span></span>
@@ -1060,11 +1066,11 @@ with the <code>ionCount</code> method before (object
 <code>itraqdata</code>) and after (object <code>experiment</code>) for
 spectrum <code>X55</code>. The respective spectra are shown on figure
 @ref(fig:spectrum-clean-plot).</p>
-<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">experiment</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/removePeaks-methods.html">removePeaks</a></span><span class="op">(</span><span class="va">itraqdata</span>, t <span class="op">=</span> <span class="fl">400</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/Spectrum-class.html">ionCount</a></span><span class="op">(</span><span class="va">itraqdata</span><span class="op">[[</span><span class="st">"X55"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 555408.8</span></span></code></pre>
-<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb85"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Spectrum-class.html">ionCount</a></span><span class="op">(</span><span class="va">experiment</span><span class="op">[[</span><span class="st">"X55"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 499769.6</span></span></code></pre>
 <div class="figure">
@@ -1080,13 +1086,13 @@ To effectively remove 0 intensity peaks from spectra, and reduce the
 size of the data set, one can use the <code>clean</code> method. The
 effect of the <code>removePeaks</code> and <code>clean</code> methods
 are illustrated on figure @ref(fig:preprocPlot).</p>
-<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Spectrum-class.html">peaksCount</a></span><span class="op">(</span><span class="va">itraqdata</span><span class="op">[[</span><span class="st">"X55"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 1726</span></span></code></pre>
-<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Spectrum-class.html">peaksCount</a></span><span class="op">(</span><span class="va">experiment</span><span class="op">[[</span><span class="st">"X55"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 1726</span></span></code></pre>
-<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">experiment</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/clean-methods.html">clean</a></span><span class="op">(</span><span class="va">experiment</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/Spectrum-class.html">peaksCount</a></span><span class="op">(</span><span class="va">experiment</span><span class="op">[[</span><span class="st">"X55"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 440</span></span></code></pre>
@@ -1115,14 +1121,14 @@ particularly useful when one wants to concentrate on a specific MZ
 range, as for reporter ions quantification, and generally results in
 substantial reduction of data size. Compare the size of the full trimmed
 experiment to the original 1.9 Mb.</p>
-<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="fu"><a href="../reference/Spectrum-class.html">mz</a></span><span class="op">(</span><span class="va">itraqdata</span><span class="op">[[</span><span class="st">"X55"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 100.0002 977.6636</span></span></code></pre>
-<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">experiment</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/trimMz-methods.html">filterMz</a></span><span class="op">(</span><span class="va">experiment</span>, mzlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">112</span>,<span class="fl">120</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="fu"><a href="../reference/Spectrum-class.html">mz</a></span><span class="op">(</span><span class="va">experiment</span><span class="op">[[</span><span class="st">"X55"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 102.0612 473.3372</span></span></code></pre>
-<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">experiment</span></span></code></pre></div>
 <pre><code><span><span class="co">## MSn experiment data ("MSnExp")</span></span>
 <span><span class="co">## Object size in memory: 1.18 Mb</span></span>
@@ -1133,8 +1139,8 @@ experiment to the original 1.9 Mb.</p>
 <span><span class="co">## - - - Processing information - - -</span></span>
 <span><span class="co">## Data loaded: Wed May 11 18:54:39 2011 </span></span>
 <span><span class="co">## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] </span></span>
-<span><span class="co">## Curves &lt;= 400 set to '0': Mon Mar 17 11:32:17 2025 </span></span>
-<span><span class="co">## Spectra cleaned: Mon Mar 17 11:32:18 2025 </span></span>
+<span><span class="co">## Curves &lt;= 400 set to '0': Thu Apr 10 21:53:50 2025 </span></span>
+<span><span class="co">## Spectra cleaned: Thu Apr 10 21:53:50 2025 </span></span>
 <span><span class="co">##  MSnbase version: 1.1.22 </span></span>
 <span><span class="co">## - - - Meta data  - - -</span></span>
 <span><span class="co">## phenoData</span></span>
@@ -1177,10 +1183,10 @@ defined by it’s expected <code>mz</code> value and is searched for
 within <code>mz</code>
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>±</mi><annotation encoding="application/x-tex">\pm</annotation></semantics></math><code>width</code>. If no data is found, <code>NA</code> is
 returned.</p>
-<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Spectrum-class.html">mz</a></span><span class="op">(</span><span class="va">iTRAQ4</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 114.1112 115.1083 116.1116 117.1150</span></span></code></pre>
-<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/ReporterIons-class.html">width</a></span><span class="op">(</span><span class="va">iTRAQ4</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.05</span></span></code></pre>
 <p>The <code>quantify</code> method takes the following parameters: an
@@ -1222,7 +1228,7 @@ as parameter in <code>quantify</code> and
 is the number of reporter ions, that can be accessed with the
 <code>exprs</code> method. The meta data is directly inherited from the
 <em>MSnExp</em> instance.</p>
-<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb104"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qnt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">experiment</span>,</span>
 <span>                method <span class="op">=</span> <span class="st">"trap"</span>,</span>
 <span>                reporters <span class="op">=</span> <span class="va">iTRAQ4</span>,</span>
@@ -1246,11 +1252,11 @@ is the number of reporter ions, that can be accessed with the
 <span><span class="co">## - - - Processing information - - -</span></span>
 <span><span class="co">## Data loaded: Wed May 11 18:54:39 2011 </span></span>
 <span><span class="co">## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] </span></span>
-<span><span class="co">## Curves &lt;= 400 set to '0': Mon Mar 17 11:32:17 2025 </span></span>
-<span><span class="co">## Spectra cleaned: Mon Mar 17 11:32:18 2025 </span></span>
-<span><span class="co">## iTRAQ4 quantification by trapezoidation: Mon Mar 17 11:32:20 2025 </span></span>
+<span><span class="co">## Curves &lt;= 400 set to '0': Thu Apr 10 21:53:50 2025 </span></span>
+<span><span class="co">## Spectra cleaned: Thu Apr 10 21:53:50 2025 </span></span>
+<span><span class="co">## iTRAQ4 quantification by trapezoidation: Thu Apr 10 21:53:52 2025 </span></span>
 <span><span class="co">##  MSnbase version: 1.1.22</span></span></code></pre>
-<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">qnt</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span></span>
 <span><span class="co">## X1   1347.6158  2247.3097  3927.6931  7661.1463</span></span>
@@ -1280,12 +1286,12 @@ such case in row 41. We will remove the offending line using the
 percentage of accepted missing values per feature. As we do not expect
 any missing peaks, we set it to be 0 (which is also the detault
 value).</p>
-<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb108"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">qnt</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## FALSE  TRUE </span></span>
 <span><span class="co">##   219     1</span></span></code></pre>
-<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qnt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MSnSet-class.html">filterNA</a></span><span class="op">(</span><span class="va">qnt</span>, pNA <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">qnt</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0</span></span></code></pre>
@@ -1299,7 +1305,7 @@ the behaviour of <code>filterNA(, pNA = 0)</code> by calculating the row
 indices that should be removed, i.e. those that have at least one
 <code>NA</code> value and explicitly remove these rows. This method
 allows one to devise and easily apply any filtering strategy.</p>
-<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">whichRow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="op">(</span><span class="va">qnt</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">%%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">qnt</span><span class="op">)</span></span>
 <span><span class="va">qnt</span> <span class="op">&lt;-</span> <span class="va">qnt</span><span class="op">[</span><span class="op">-</span><span class="va">whichRow</span>, <span class="op">]</span></span></code></pre></div>
 <p>See also the <code>plotNA</code> method to obtain a graphical
@@ -1336,7 +1342,7 @@ two-dimensional array, each column representing the data of one file
 (sample) and each row the chromatographic data for the same polarity,
 precursor and product m/z. In the example code below we load a single
 SRM file using <code>readSRMData</code>.</p>
-<div class="sourceCode" id="cb110"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/msdata/man/proteomics.html" class="external-link">proteomics</a></span><span class="op">(</span>full.names <span class="op">=</span> <span class="cn">TRUE</span>, pattern <span class="op">=</span> <span class="st">"MRM"</span><span class="op">)</span></span>
 <span><span class="va">srm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/readSRMData.html">readSRMData</a></span><span class="op">(</span><span class="va">fl</span><span class="op">)</span></span>
 <span></span>
@@ -1356,7 +1362,7 @@ SRM file using <code>readSRMData</code>.</p>
 functions always return a matrix, each row providing the lower and upper
 m/z value of the isolation window (in most cases minimal and maximal m/z
 will be identical).</p>
-<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/Spectrum2-class.html">precursorMz</a></span><span class="op">(</span><span class="va">srm</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##      mzmin mzmax</span></span>
 <span><span class="co">## [1,]   115   115</span></span>
@@ -1365,7 +1371,7 @@ will be identical).</p>
 <span><span class="co">## [4,]   117   117</span></span>
 <span><span class="co">## [5,]   133   133</span></span>
 <span><span class="co">## [6,]   133   133</span></span></code></pre>
-<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">productMz</a></span><span class="op">(</span><span class="va">srm</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##        mzmin   mzmax</span></span>
 <span><span class="co">## [1,]  26.996  26.996</span></span>
@@ -1388,13 +1394,13 @@ peak of the phenylalanine (F, Phe) immonium ion (with
 the relative intensity of the +1 peaks compared to the main peak using
 the <em><a href="https://bioconductor.org/packages/3.21/Rdisop" class="external-link">Rdisop</a></em>
 package.</p>
-<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sneumann/Rdisop" class="external-link">Rdisop</a></span><span class="op">)</span></span>
 <span><span class="co">## Phenylalanine immonium ion</span></span>
 <span><span class="va">Fim</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Rdisop/man/getMolecule.html" class="external-link">getMolecule</a></span><span class="op">(</span><span class="st">"C8H10N"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Rdisop/man/getMolecule.html" class="external-link">getMass</a></span><span class="op">(</span><span class="va">Fim</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 120.0813</span></span></code></pre>
-<div class="sourceCode" id="cb118"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">isotopes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Rdisop/man/getMolecule.html" class="external-link">getIsotope</a></span><span class="op">(</span><span class="va">Fim</span><span class="op">)</span></span>
 <span><span class="va">F1</span> <span class="op">&lt;-</span> <span class="va">isotopes</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">]</span></span>
 <span><span class="va">F1</span></span></code></pre></div>
@@ -1415,7 +1421,7 @@ to <em>MSnSet</em> instances. It also requires a square matrix as second
 argument, <code>impurities</code>, that defines the relative percentage
 of reporter in the quantified each peak. See <code><a href="../reference/purityCorrect-methods.html">?purityCorrect</a></code>
 for more details.</p>
-<div class="sourceCode" id="cb120"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">impurities</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.929</span>, <span class="fl">0.059</span>, <span class="fl">0.002</span>, <span class="fl">0.000</span>,</span>
 <span>                       <span class="fl">0.020</span>, <span class="fl">0.923</span>, <span class="fl">0.056</span>, <span class="fl">0.001</span>,</span>
 <span>                       <span class="fl">0.000</span>, <span class="fl">0.030</span>, <span class="fl">0.924</span>, <span class="fl">0.045</span>,</span>
@@ -1430,7 +1436,7 @@ for more details.</p>
 <span><span class="co">## X12 31892.8928 33634.6980 37674.7272 37227.7119</span></span>
 <span><span class="co">## X13 26143.7542 29677.4781 29089.0593 27902.5608</span></span>
 <span><span class="co">## X14  6448.0829  6234.1957  6902.8903  6437.2303</span></span></code></pre>
-<div class="sourceCode" id="cb122"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">qnt.crct</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117</span></span>
 <span><span class="co">## X1   1304.7675  2168.1082  3784.2244  8133.9211</span></span>
@@ -1457,26 +1463,26 @@ MinDet, MinProb, min, zero, mixed, nbavg, with, RF, none), possible
 additional parameters and returns an updated for <em>MSnSet</em> without
 any missing values. Below, we apply a deterministic minimum value
 imputation on the <code>naset</code> example data:</p>
-<div class="sourceCode" id="cb124"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## an example MSnSet containing missing values</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">naset</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">naset</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## FALSE  TRUE </span></span>
 <span><span class="co">## 10254   770</span></span></code></pre>
-<div class="sourceCode" id="cb126"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## number of NAs per protein</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">naset</span><span class="op">)</span><span class="op">$</span><span class="va">nNA</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">##   0   1   2   3   4   8   9  10 </span></span>
 <span><span class="co">## 301 247  91  13   2  23  10   2</span></span></code></pre>
-<div class="sourceCode" id="cb128"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">impute</a></span><span class="op">(</span><span class="va">naset</span>, <span class="st">"min"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/pSet-class.html">processingData</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">## Data imputation using min Mon Mar 17 11:32:21 2025 </span></span>
+<span><span class="co">## Data imputation using min Thu Apr 10 21:53:53 2025 </span></span>
 <span><span class="co">##  MSnbase version: 1.15.6</span></span></code></pre>
-<div class="sourceCode" id="cb130"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## FALSE </span></span>
@@ -1524,12 +1530,12 @@ contain randomly distributed missing values (if any) (yellow on figure
 @ref(fig:miximp)) and a deterministic minimum value imputation on the 35
 proteins that display a non-random pattern of missing values (brown on
 figure @ref(fig:miximp)).</p>
-<div class="sourceCode" id="cb132"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">impute</a></span><span class="op">(</span><span class="va">naset</span>, method <span class="op">=</span> <span class="st">"mixed"</span>,</span>
 <span>            randna <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">naset</span><span class="op">)</span><span class="op">$</span><span class="va">randna</span>,</span>
 <span>            mar <span class="op">=</span> <span class="st">"knn"</span>, mnar <span class="op">=</span> <span class="st">"min"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Imputing along margin 1 (features/rows).</span></span></code></pre>
-<div class="sourceCode" id="cb134"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb137"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span></span></code></pre></div>
 <pre><code><span><span class="co">## MSnSet (storageMode: lockedEnvironment)</span></span>
 <span><span class="co">## assayData: 689 features, 16 samples </span></span>
@@ -1546,7 +1552,7 @@ figure @ref(fig:miximp)).</p>
 <span><span class="co">## experimentData: use 'experimentData(object)'</span></span>
 <span><span class="co">## Annotation:  </span></span>
 <span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">## Data imputation using mixed Mon Mar 17 11:32:21 2025 </span></span>
+<span><span class="co">## Data imputation using mixed Thu Apr 10 21:53:54 2025 </span></span>
 <span><span class="co">##  MSnbase version: 1.15.6</span></span></code></pre>
 <p>Please read <code>?MsCoreUtils::impute_matix()</code> for a
 description of the different methods.</p>
@@ -1581,7 +1587,7 @@ the sum of the reporter ions intensities.</p></li>
 <p>See <code><a href="../reference/normalise-methods.html">?normalise</a></code> for more methods. A <code>scale</code>
 method for <em>MSnSet</em> instances, that relies on the
 <code><a href="https://rdrr.io/r/base/scale.html" class="external-link">base::scale</a></code> function.</p>
-<div class="sourceCode" id="cb136"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qnt.max</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/normalise-methods.html">normalise</a></span><span class="op">(</span><span class="va">qnt</span>, <span class="st">"max"</span><span class="op">)</span></span>
 <span><span class="va">qnt.sum</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/normalise-methods.html">normalise</a></span><span class="op">(</span><span class="va">qnt</span>, <span class="st">"sum"</span><span class="op">)</span></span>
 <span><span class="va">qnt.quant</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/normalise-methods.html">normalise</a></span><span class="op">(</span><span class="va">qnt</span>, <span class="st">"quantiles"</span><span class="op">)</span></span>
@@ -1653,7 +1659,7 @@ will be aggregated so that the resulting <em>MSnSet</em> output will
 have <code>length(levels(groupBy))</code> features. Here, we will
 combine individual MS2 spectra based on the protein they originate from.
 As shown below, this will result in 40 new aggregated features.</p>
-<div class="sourceCode" id="cb138"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">qnt</span><span class="op">)</span><span class="op">$</span><span class="va">ProteinAccession</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">gb</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## gb</span></span>
@@ -1665,7 +1671,7 @@ As shown below, this will result in 40 new aggregated features.</p>
 <span><span class="co">##       1       1       1       1       1       2       1       1       2       1 </span></span>
 <span><span class="co">## ECA3929 ECA3969 ECA4013 ECA4026 ECA4030 ECA4037 ECA4512 ECA4513 ECA4514     ENO </span></span>
 <span><span class="co">##       1       1       1       2       1       1       1       1       6       3</span></span></code></pre>
-<div class="sourceCode" id="cb140"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb143"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pSet-class.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">gb</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 40</span></span></code></pre>
 <p>The third argument, <code>method</code>, defined how to combine the
@@ -1678,7 +1684,7 @@ media, sum, weighted mean or median polish of the features to be
 aggregated). Alternatively, is is possible to supply user defined
 functions with <code>method=function(x) { ... }</code>. We will use the
 <code>median</code> here.</p>
-<div class="sourceCode" id="cb142"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb145"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">qnt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combineFeatures.html">combineFeatures</a></span><span class="op">(</span><span class="va">qnt</span>, groupBy <span class="op">=</span> <span class="va">gb</span>, method <span class="op">=</span> <span class="st">"median"</span><span class="op">)</span></span>
 <span><span class="va">qnt2</span></span></code></pre></div>
 <pre><code><span><span class="co">## MSnSet (storageMode: lockedEnvironment)</span></span>
@@ -1698,14 +1704,14 @@ functions with <code>method=function(x) { ... }</code>. We will use the
 <span><span class="co">## - - - Processing information - - -</span></span>
 <span><span class="co">## Data loaded: Wed May 11 18:54:39 2011 </span></span>
 <span><span class="co">## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] </span></span>
-<span><span class="co">## Curves &lt;= 400 set to '0': Mon Mar 17 11:32:17 2025 </span></span>
-<span><span class="co">## Spectra cleaned: Mon Mar 17 11:32:18 2025 </span></span>
-<span><span class="co">## iTRAQ4 quantification by trapezoidation: Mon Mar 17 11:32:20 2025 </span></span>
-<span><span class="co">## Subset [55,4][54,4] Mon Mar 17 11:32:20 2025 </span></span>
-<span><span class="co">## Removed features with more than 0 NAs: Mon Mar 17 11:32:20 2025 </span></span>
-<span><span class="co">## Dropped featureData's levels Mon Mar 17 11:32:20 2025 </span></span>
-<span><span class="co">## Combined 54 features into 40 using median: Mon Mar 17 11:32:23 2025 </span></span>
-<span><span class="co">##  MSnbase version: 2.33.4</span></span></code></pre>
+<span><span class="co">## Curves &lt;= 400 set to '0': Thu Apr 10 21:53:50 2025 </span></span>
+<span><span class="co">## Spectra cleaned: Thu Apr 10 21:53:50 2025 </span></span>
+<span><span class="co">## iTRAQ4 quantification by trapezoidation: Thu Apr 10 21:53:52 2025 </span></span>
+<span><span class="co">## Subset [55,4][54,4] Thu Apr 10 21:53:52 2025 </span></span>
+<span><span class="co">## Removed features with more than 0 NAs: Thu Apr 10 21:53:52 2025 </span></span>
+<span><span class="co">## Dropped featureData's levels Thu Apr 10 21:53:52 2025 </span></span>
+<span><span class="co">## Combined 54 features into 40 using median: Thu Apr 10 21:53:55 2025 </span></span>
+<span><span class="co">##  MSnbase version: 2.33.5</span></span></code></pre>
 <p>Of interest is also the <code>iPQF</code> spectra-to-protein
 summarisation method, which integrates peptide spectra characteristics
 and quantitative values for protein quantitation estimation. See
@@ -1723,13 +1729,13 @@ Once individual spectra have been assigned to peptides and proteins (see
 section @ref(sec:id)), it becomes straightforward to estimate protein
 quantities using the simple peptide counting method, as illustrated in
 section @ref(sec:feataggregation).</p>
-<div class="sourceCode" id="cb144"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb147"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">msexp</span>, method <span class="op">=</span> <span class="st">"count"</span><span class="op">)</span></span>
 <span><span class="co">## lets modify out data for demonstration purposes</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">sc</span><span class="op">)</span><span class="op">$</span><span class="va">DatabaseAccess</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">sc</span><span class="op">)</span><span class="op">$</span><span class="va">DatabaseAccess</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">sc</span><span class="op">)</span><span class="op">$</span><span class="va">DatabaseAccess</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "ECA1028" "ECA1028" "ECA0510"</span></span></code></pre>
-<div class="sourceCode" id="cb146"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb149"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combineFeatures.html">combineFeatures</a></span><span class="op">(</span><span class="va">sc</span>, groupBy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">sc</span><span class="op">)</span><span class="op">$</span><span class="va">DatabaseAccess</span>,</span>
 <span>                      method <span class="op">=</span> <span class="st">"sum"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">sc</span><span class="op">)</span></span></code></pre></div>
@@ -1763,7 +1769,7 @@ removed automatically prior to any label-free quantitation. Once can
 also remove peptide that do not match uniquely to proteins (as defined
 by the <code>nprot</code> feature variable column) with the
 <code>removeMultipleAssignment</code> method.</p>
-<div class="sourceCode" id="cb148"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb151"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">msexp</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"DatabaseAccess"</span>, <span class="st">"nprot"</span><span class="op">)</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##       DatabaseAccess nprot</span></span>
 <span><span class="co">## F1.S1        ECA0984     1</span></span>
@@ -1780,17 +1786,17 @@ specifying the method of interest, <code>SIn</code> (the
 required peptide-protein mapping and protein lengths are extracted
 automatically from the feature meta-data using the default
 <code>accession</code> and <code>length</code> feature variables.</p>
-<div class="sourceCode" id="cb150"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb153"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">siquant</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">msexp</span>, method <span class="op">=</span> <span class="st">"SIn"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/pSet-class.html">processingData</a></span><span class="op">(</span><span class="va">siquant</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">## Data loaded: Mon Mar 17 11:32:16 2025 </span></span>
-<span><span class="co">## Filtered 2 unidentified peptides out [Mon Mar 17 11:32:17 2025] </span></span>
-<span><span class="co">## Quantitation by total ion current [Mon Mar 17 11:32:23 2025] </span></span>
-<span><span class="co">## Combined 3 features into 3 using sum: Mon Mar 17 11:32:23 2025 </span></span>
-<span><span class="co">## Quantification by SIn [Mon Mar 17 11:32:23 2025] </span></span>
-<span><span class="co">##  MSnbase version: 2.33.4</span></span></code></pre>
-<div class="sourceCode" id="cb152"><pre class="downlit sourceCode r">
+<span><span class="co">## Data loaded: Thu Apr 10 21:53:49 2025 </span></span>
+<span><span class="co">## Filtered 2 unidentified peptides out [Thu Apr 10 21:53:49 2025] </span></span>
+<span><span class="co">## Quantitation by total ion current [Thu Apr 10 21:53:56 2025] </span></span>
+<span><span class="co">## Combined 3 features into 3 using sum: Thu Apr 10 21:53:56 2025 </span></span>
+<span><span class="co">## Quantification by SIn [Thu Apr 10 21:53:56 2025] </span></span>
+<span><span class="co">##  MSnbase version: 2.33.5</span></span></code></pre>
+<div class="sourceCode" id="cb155"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">siquant</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##         dummyiTRAQ.mzXML</span></span>
 <span><span class="co">## ECA0510     0.0006553518</span></span>
@@ -1813,17 +1819,17 @@ notable function is <code>plot</code>. If two <em>Spectrum2</em> objects
 are provided <code>plot</code> will draw two plots: the upper and lower
 panel contain respectively the first and second spectrum. Common peaks
 are drawn in a slightly darker colour.</p>
-<div class="sourceCode" id="cb154"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb157"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">centroided</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pickPeaks-method.html">pickPeaks</a></span><span class="op">(</span><span class="va">itraqdata</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="op">(</span><span class="va">k</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">centroided</span><span class="op">)</span><span class="op">[</span>, <span class="st">"PeptideSequence"</span><span class="op">]</span> <span class="op">==</span> <span class="st">"TAGIQIVADDLTVTNPK"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 41 42</span></span></code></pre>
-<div class="sourceCode" id="cb156"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mzk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Spectrum2-class.html">precursorMz</a></span><span class="op">(</span><span class="va">centroided</span><span class="op">)</span><span class="op">[</span><span class="va">k</span><span class="op">]</span></span>
 <span><span class="va">zk</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Spectrum2-class.html">precursorCharge</a></span><span class="op">(</span><span class="va">centroided</span><span class="op">)</span><span class="op">[</span><span class="va">k</span><span class="op">]</span></span>
 <span><span class="va">mzk</span> <span class="op">*</span> <span class="va">zk</span></span></code></pre></div>
 <pre><code><span><span class="co">##      X46      X47 </span></span>
 <span><span class="co">## 2046.175 2045.169</span></span></code></pre>
-<div class="sourceCode" id="cb158"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">centroided</span><span class="op">[[</span><span class="va">k</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">]</span>, <span class="va">centroided</span><span class="op">[[</span><span class="va">k</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
 <img src="v01-MSnbase-demo_files/figure-html/compms2plot-1.png" alt="Comparing two MS2 spectra." width="700"><p class="caption">
@@ -1840,21 +1846,21 @@ supports three different metrics to compare spectra against each other:
 <code>cor</code> to calculate the Pearson correlation and
 <code>dotproduct</code> to calculate the dot product. See
 <code><a href="../reference/compareSpectra-methods.html">?compareSpectra</a></code> to apply other arbitrary metrics.</p>
-<div class="sourceCode" id="cb159"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb162"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/compareSpectra-methods.html">compareSpectra</a></span><span class="op">(</span><span class="va">centroided</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, <span class="va">centroided</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>,</span>
 <span>               fun <span class="op">=</span> <span class="st">"common"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 8</span></span></code></pre>
-<div class="sourceCode" id="cb161"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb164"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/compareSpectra-methods.html">compareSpectra</a></span><span class="op">(</span><span class="va">centroided</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, <span class="va">centroided</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>,</span>
 <span>               fun <span class="op">=</span> <span class="st">"cor"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.1105021</span></span></code></pre>
-<div class="sourceCode" id="cb163"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb166"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/compareSpectra-methods.html">compareSpectra</a></span><span class="op">(</span><span class="va">centroided</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>, <span class="va">centroided</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>,</span>
 <span>               fun <span class="op">=</span> <span class="st">"dotproduct"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.1185025</span></span></code></pre>
 <p><code>compareSpectra</code> supports <em>MSnExp</em> objects as
 well.</p>
-<div class="sourceCode" id="cb165"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">compmat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compareSpectra-methods.html">compareSpectra</a></span><span class="op">(</span><span class="va">centroided</span>, fun<span class="op">=</span><span class="st">"cor"</span><span class="op">)</span></span>
 <span><span class="va">compmat</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##             X1        X10        X11        X12        X13</span></span>
@@ -1870,7 +1876,7 @@ well.</p>
 <span><span class="co">## X18 0.55367861 0.10286983 0.56621755 0.66884285 0.64262061</span></span></code></pre>
 <p>Below, we illustrate how to compare a set of spectra using a
 hierarchical clustering.</p>
-<div class="sourceCode" id="cb167"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/hclust.html" class="external-link">hclust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/dist.html" class="external-link">as.dist</a></span><span class="op">(</span><span class="va">compmat</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="v01-MSnbase-demo_files/figure-html/dendo-1.png" width="700"></p>
 </div>
@@ -1897,7 +1903,7 @@ provides, among others, a <em>ReporterIons</em> object for iTRAQ 4-plex
 that includes the 145 peaks, called <em>iTRAQ5</em>. This can then be
 used to quantify the experiment as show in section @ref(sec:quant) to
 estimate incomplete dissociation for each spectrum.</p>
-<div class="sourceCode" id="cb168"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb171"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">iTRAQ5</span></span></code></pre></div>
 <pre><code><span><span class="co">## Object of class "ReporterIons"</span></span>
 <span><span class="co">## iTRAQ5: '4-plex iTRAQ and reporter + balance group' with 5 reporter ions</span></span>
@@ -1906,7 +1912,7 @@ estimate incomplete dissociation for each spectrum.</p>
 <span><span class="co">##  - [iTRAQ5.116] 116.1116 +/- 0.05 (blue)</span></span>
 <span><span class="co">##  - [iTRAQ5.117] 117.115 +/- 0.05 (yellow)</span></span>
 <span><span class="co">##  - [iTRAQ5.145] 145.1 +/- 0.05 (grey)</span></span></code></pre>
-<div class="sourceCode" id="cb170"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">incompdiss</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">itraqdata</span>,</span>
 <span>                       method <span class="op">=</span> <span class="st">"trap"</span>,</span>
 <span>                       reporters <span class="op">=</span> <span class="va">iTRAQ5</span>,</span>
@@ -1987,12 +1993,12 @@ instance created at the very beginning of this document. Both
 experiments share the <em>same</em> default iTRAQ 4-plex reporter names
 as default sample names, and will thus automatically be combined along
 rows.</p>
-<div class="sourceCode" id="cb173"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb176"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">itraqdata</span>, reporters <span class="op">=</span> <span class="va">iTRAQ4</span>,</span>
 <span>                 verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureNames.html" class="external-link">sampleNames</a></span><span class="op">(</span><span class="va">exp1</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "iTRAQ4.114" "iTRAQ4.115" "iTRAQ4.116" "iTRAQ4.117"</span></span></code></pre>
-<div class="sourceCode" id="cb175"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb178"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/Spectrum-class.html">centroided</a></span><span class="op">(</span><span class="va">rawdata</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
 <span><span class="va">exp2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">rawdata</span>, reporters <span class="op">=</span> <span class="va">iTRAQ4</span>,</span>
 <span>                 verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
@@ -2009,34 +2015,34 @@ feature names to explicitate that they originate from different
 experiment and represent quantitation from different spectra using the
 convenience function <code>updateFeatureNames</code>. Note that updating
 the names of one experiment would suffice here.</p>
-<div class="sourceCode" id="cb177"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb180"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureNames.html" class="external-link">featureNames</a></span><span class="op">(</span><span class="va">exp1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "X1"  "X10" "X11" "X12" "X13" "X14"</span></span></code></pre>
-<div class="sourceCode" id="cb179"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb182"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MSnSet-class.html">updateFeatureNames</a></span><span class="op">(</span><span class="va">exp1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureNames.html" class="external-link">featureNames</a></span><span class="op">(</span><span class="va">exp1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "X1.exp1"  "X10.exp1" "X11.exp1" "X12.exp1" "X13.exp1" "X14.exp1"</span></span></code></pre>
-<div class="sourceCode" id="cb181"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb184"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureNames.html" class="external-link">featureNames</a></span><span class="op">(</span><span class="va">exp2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "F1.S1" "F1.S2" "F1.S3" "F1.S4" "F1.S5"</span></span></code></pre>
-<div class="sourceCode" id="cb183"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb186"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MSnSet-class.html">updateFeatureNames</a></span><span class="op">(</span><span class="va">exp2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureNames.html" class="external-link">featureNames</a></span><span class="op">(</span><span class="va">exp2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "F1.S1.exp2" "F1.S2.exp2" "F1.S3.exp2" "F1.S4.exp2" "F1.S5.exp2"</span></span></code></pre>
 <p>The two experiments now share the same sample names and have
 different feature names and will be combined along the row. Note that
 all meta-data is correctly combined along the quantitation values.</p>
-<div class="sourceCode" id="cb185"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb188"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp12</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/combine.html" class="external-link">combine</a></span><span class="op">(</span><span class="va">exp1</span>, <span class="va">exp2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in combine(experimentData(x), experimentData(y)): </span></span>
 <span><span class="co">##   unknown or conflicting information in MIAPE field 'email'; using information from first object 'x'</span></span></code></pre>
-<div class="sourceCode" id="cb187"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb190"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pSet-class.html">dim</a></span><span class="op">(</span><span class="va">exp1</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 55  4</span></span></code></pre>
-<div class="sourceCode" id="cb189"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb192"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pSet-class.html">dim</a></span><span class="op">(</span><span class="va">exp2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 5 4</span></span></code></pre>
-<div class="sourceCode" id="cb191"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb194"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/pSet-class.html">dim</a></span><span class="op">(</span><span class="va">exp12</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 60  4</span></span></code></pre>
 </div>
@@ -2051,7 +2057,7 @@ to. Features can thus naturally be named using protein accession
 numbers. Alternatively, if peptide sequences would have been used as
 grouping factor in <code>combineFeatures</code>, then these would be
 good feature name candidates.</p>
-<div class="sourceCode" id="cb193"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb196"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="../reference/pSet-class.html">length</a></span><span class="op">(</span><span class="va">itraqdata</span><span class="op">)</span>, <span class="fl">35</span><span class="op">)</span></span>
 <span><span class="va">j</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="../reference/pSet-class.html">length</a></span><span class="op">(</span><span class="va">itraqdata</span><span class="op">)</span>, <span class="fl">35</span><span class="op">)</span></span>
@@ -2065,7 +2071,7 @@ good feature name candidates.</p>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## FALSE  TRUE </span></span>
 <span><span class="co">##    14    21</span></span></code></pre>
-<div class="sourceCode" id="cb195"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb198"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combineFeatures.html">combineFeatures</a></span><span class="op">(</span><span class="va">exp1</span>,</span>
 <span>                        groupBy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">exp1</span><span class="op">)</span><span class="op">$</span><span class="va">ProteinAccession</span><span class="op">)</span></span>
 <span><span class="va">exp2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combineFeatures.html">combineFeatures</a></span><span class="op">(</span><span class="va">exp2</span>,</span>
@@ -2073,10 +2079,10 @@ good feature name candidates.</p>
 <pre><code><span><span class="co">## Your data contains missing values. Please read the relevant section in</span></span>
 <span><span class="co">## the combineFeatures manual page for details on the effects of missing</span></span>
 <span><span class="co">## values on data aggregation.</span></span></code></pre>
-<div class="sourceCode" id="cb197"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb200"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureNames.html" class="external-link">featureNames</a></span><span class="op">(</span><span class="va">exp1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "BSA"     "ECA0172" "ECA0469" "ECA0631" "ECA0691" "ECA0871"</span></span></code></pre>
-<div class="sourceCode" id="cb199"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb202"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureNames.html" class="external-link">featureNames</a></span><span class="op">(</span><span class="va">exp2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "BSA"     "ECA0435" "ECA0469" "ECA0621" "ECA0871" "ECA1032"</span></span></code></pre>
 <p>The <code>droplevels</code> drops the unused <code>featureData</code>
@@ -2096,14 +2102,14 @@ in the <code>phenoData</code> and is not lost. A convenience function
 <code>updateSampleNames</code> is provided to append the
 <em>MSnSet</em>’s variable name to the already defined names, although
 in general, biologically relevant identifiers are preferred.</p>
-<div class="sourceCode" id="cb201"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb204"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureNames.html" class="external-link">sampleNames</a></span><span class="op">(</span><span class="va">exp1</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "iTRAQ4.114" "iTRAQ4.115" "iTRAQ4.116" "iTRAQ4.117"</span></span></code></pre>
-<div class="sourceCode" id="cb203"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MSnSet-class.html">updateSampleNames</a></span><span class="op">(</span><span class="va">exp1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureNames.html" class="external-link">sampleNames</a></span><span class="op">(</span><span class="va">exp1</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "iTRAQ4.114.exp1" "iTRAQ4.115.exp1" "iTRAQ4.116.exp1" "iTRAQ4.117.exp1"</span></span></code></pre>
-<div class="sourceCode" id="cb205"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureNames.html" class="external-link">sampleNames</a></span><span class="op">(</span><span class="va">exp1</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ctrl1"</span>, <span class="st">"Cond1"</span>, <span class="st">"Ctrl2"</span>, <span class="st">"Cond2"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureNames.html" class="external-link">sampleNames</a></span><span class="op">(</span><span class="va">exp2</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ctrl3"</span>, <span class="st">"Cond3"</span>, <span class="st">"Ctrl4"</span>, <span class="st">"Cond4"</span><span class="op">)</span></span></code></pre></div>
 <p>At this stage, it is not yet possible to combine the two experiments,
@@ -2115,12 +2121,12 @@ centric data: identical peptides in different runs will have different
 retention times, precursor intensities, …). Feature data with identical
 labels (columns in the data frame) and names (row in the data frame) are
 expected to have the same data and produce an error if not conform.</p>
-<div class="sourceCode" id="cb206"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb209"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fvarLabels</a></span><span class="op">(</span><span class="va">exp1</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fvarLabels</a></span><span class="op">(</span><span class="va">exp2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">exp1</span><span class="op">)</span><span class="op">[</span><span class="st">"BSA"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##     spectrum ProteinAccession   ProteinDescription PeptideSequence</span></span>
 <span><span class="co">## BSA        1              BSA bovine serum albumin          NYQEAK</span></span></code></pre>
-<div class="sourceCode" id="cb208"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb211"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">exp2</span><span class="op">)</span><span class="op">[</span><span class="st">"BSA"</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##     spectrum ProteinAccession   ProteinDescription PeptideSequence</span></span>
 <span><span class="co">## BSA        1              BSA bovine serum albumin          NYQEAK</span></span></code></pre>
@@ -2128,14 +2134,14 @@ expected to have the same data and produce an error if not conform.</p>
 a second convenience function, <code>updateFvarLabels</code>, to update
 feature labels based on the experiements variable name and maintain all
 the metadata.</p>
-<div class="sourceCode" id="cb210"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb213"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MSnSet-class.html">updateFvarLabels</a></span><span class="op">(</span><span class="va">exp1</span><span class="op">)</span></span>
 <span><span class="va">exp2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MSnSet-class.html">updateFvarLabels</a></span><span class="op">(</span><span class="va">exp2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fvarLabels</a></span><span class="op">(</span><span class="va">exp1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "spectrum.exp1"           "ProteinAccession.exp1"  </span></span>
 <span><span class="co">## [3] "ProteinDescription.exp1" "PeptideSequence.exp1"   </span></span>
 <span><span class="co">## [5] "fileIdx.exp1"            "retention.time.exp1"</span></span></code></pre>
-<div class="sourceCode" id="cb212"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb215"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fvarLabels</a></span><span class="op">(</span><span class="va">exp2</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "spectrum.exp2"           "ProteinAccession.exp2"  </span></span>
 <span><span class="co">## [3] "ProteinDescription.exp2" "PeptideSequence.exp2"   </span></span>
@@ -2145,11 +2151,11 @@ the metadata.</p>
 <code>combine</code> method. The new experiment will contain the union
 of the feature names of the individual experiments with missing values
 inserted appropriately.</p>
-<div class="sourceCode" id="cb214"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb217"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp12</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/combine.html" class="external-link">combine</a></span><span class="op">(</span><span class="va">exp1</span>, <span class="va">exp2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/pSet-class.html">dim</a></span><span class="op">(</span><span class="va">exp12</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 36  8</span></span></code></pre>
-<div class="sourceCode" id="cb216"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb219"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/phenoData.html" class="external-link">pData</a></span><span class="op">(</span><span class="va">exp12</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##             mz reporters</span></span>
 <span><span class="co">## Ctrl1 114.1112    iTRAQ4</span></span>
@@ -2160,7 +2166,7 @@ inserted appropriately.</p>
 <span><span class="co">## Cond3 115.1083    iTRAQ4</span></span>
 <span><span class="co">## Ctrl4 116.1116    iTRAQ4</span></span>
 <span><span class="co">## Cond4 117.1150    iTRAQ4</span></span></code></pre>
-<div class="sourceCode" id="cb218"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb221"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">exp12</span><span class="op">)</span><span class="op">[</span><span class="fl">25</span><span class="op">:</span><span class="fl">28</span>, <span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##             Ctrl1     Cond1     Ctrl2     Cond2     Ctrl3     Cond3     Ctrl4</span></span>
 <span><span class="co">## ECA4513 10154.953 10486.943 11018.191 11289.552        NA        NA        NA</span></span>
@@ -2172,7 +2178,7 @@ inserted appropriately.</p>
 <span><span class="co">## ECA4514 14556.855</span></span>
 <span><span class="co">## ENO      5925.663</span></span>
 <span><span class="co">## ECA0435  5079.295</span></span></code></pre>
-<div class="sourceCode" id="cb220"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb223"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">exp12</span></span></code></pre></div>
 <pre><code><span><span class="co">## MSnSet (storageMode: lockedEnvironment)</span></span>
 <span><span class="co">## assayData: 36 features, 8 samples </span></span>
@@ -2190,8 +2196,8 @@ inserted appropriately.</p>
 <span><span class="co">## experimentData: use 'experimentData(object)'</span></span>
 <span><span class="co">## Annotation:  </span></span>
 <span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">## Combined [27,4] and [24,4] MSnSets Mon Mar 17 11:32:30 2025 </span></span>
-<span><span class="co">##  MSnbase version: 2.33.4</span></span></code></pre>
+<span><span class="co">## Combined [27,4] and [24,4] MSnSets Thu Apr 10 21:54:04 2025 </span></span>
+<span><span class="co">##  MSnbase version: 2.33.5</span></span></code></pre>
 <p>In summary, when experiments with different samples need to be
 combined (along the columns), one needs to (1) clarify the sample names
 using <code>updateSampleNames</code> or better manually, for biological
@@ -2210,7 +2216,7 @@ be combines, one needs to (1) differentiate the feature provenance with
 samples/columns using the <code>split</code> method and a factor
 defining the splitting groups, resulting in an instance of class
 <em>MSnSetList</em>:</p>
-<div class="sourceCode" id="cb222"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb225"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dunkley2006</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/phenoData.html" class="external-link">pData</a></span><span class="op">(</span><span class="va">dunkley2006</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##        membrane.prep fraction replicate</span></span>
@@ -2220,10 +2226,10 @@ defining the splitting groups, resulting in an instance of class
 <span><span class="co">## M1F11A             1       11         A</span></span>
 <span><span class="co">## M1F2B              1        2         B</span></span>
 <span><span class="co">## M1F5B              1        5         B</span></span></code></pre>
-<div class="sourceCode" id="cb224"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/splitAsList.html" class="external-link">split</a></span><span class="op">(</span><span class="va">dunkley2006</span>, <span class="va">dunkley2006</span><span class="op">$</span><span class="va">replicate</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Instance of class 'MSnSetList' containig 2 objects.</span></span></code></pre>
-<div class="sourceCode" id="cb226"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb229"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">## or, defining the appropriate annotation variable name</span></span>
 <span><span class="va">dun</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/splitAsList.html" class="external-link">split</a></span><span class="op">(</span><span class="va">dunkley2006</span>, <span class="st">"replicate"</span><span class="op">)</span></span></code></pre></div>
 <p>Above, we split along the columns/samples, but the function would
@@ -2232,7 +2238,7 @@ equally work with a factor of length equal to the number of rows of the
 rows/features.</p>
 <p>Finally, the effect of <code>split</code> can be reverted by
 <code>unsplit</code>.</p>
-<div class="sourceCode" id="cb227"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb230"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dun2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unsplit.html" class="external-link">unsplit</a></span><span class="op">(</span><span class="va">dun</span>, <span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/phenoData.html" class="external-link">pData</a></span><span class="op">(</span><span class="va">dunkley2006</span><span class="op">)</span><span class="op">$</span><span class="va">replicate</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/compareMSnSets.html">compareMSnSets</a></span><span class="op">(</span><span class="va">dunkley2006</span>, <span class="va">dun2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
@@ -2258,7 +2264,7 @@ details), although this can easily be parametrised, as described in
 replicated experiments from <span class="citation">(Tan et al.
 2009)</span> available in the <em><a href="https://bioconductor.org/packages/3.21/pRolocdata" class="external-link">pRolocdata</a></em>
 package.</p>
-<div class="sourceCode" id="cb229"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb232"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/lgatto/pRolocdata" class="external-link">"pRolocdata"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tan2009r1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">tan2009r2</span><span class="op">)</span></span>
@@ -2273,7 +2279,7 @@ package.</p>
 <span><span class="co">## P04412 0.2567500 0.2210000 0.3015000 0.2205000</span></span>
 <span><span class="co">## Q7KJ73 0.2160000 0.1830000 0.3420000 0.2590000</span></span>
 <span><span class="co">## Q7JZN0 0.0965000 0.2509443 0.4771667 0.1750557</span></span></code></pre>
-<div class="sourceCode" id="cb231"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb234"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">avgtan</span><span class="op">)</span><span class="op">$</span><span class="va">disp</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##               X114      X115        X116       X117</span></span>
 <span><span class="co">## P20353 0.076083495 0.1099127 0.109691169 0.14650198</span></span>
@@ -2282,7 +2288,7 @@ package.</p>
 <span><span class="co">## P04412 0.053414021 0.2146751 0.090972139 0.27903810</span></span>
 <span><span class="co">## Q7KJ73 0.000000000 0.0000000 0.000000000 0.00000000</span></span>
 <span><span class="co">## Q7JZN0 0.007681865 0.1959534 0.097873350 0.06210542</span></span></code></pre>
-<div class="sourceCode" id="cb233"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb236"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">avgtan</span><span class="op">)</span><span class="op">$</span><span class="va">nNA</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##        X114 X115 X116 X117</span></span>
 <span><span class="co">## P20353    1    1    1    1</span></span>
@@ -2300,12 +2306,12 @@ observed dispersion in the 4 samples. Note that in the default
 implementation, dispersions estimated from a single measurement
 (i.e. that had 2 missing values in our example) are set to 0; we will
 set these to the overal maximum observed dispersion.</p>
-<div class="sourceCode" id="cb235"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb238"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">disp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/rowQ.html" class="external-link">rowMax</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">avgtan</span><span class="op">)</span><span class="op">$</span><span class="va">disp</span><span class="op">)</span></span>
 <span><span class="va">disp</span><span class="op">[</span><span class="va">disp</span> <span class="op">==</span> <span class="fl">0</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">disp</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">disp</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 0.01152877 1.20888923</span></span></code></pre>
-<div class="sourceCode" id="cb237"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb240"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://github.com/lgatto/pRoloc" class="external-link">"pRoloc"</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/pRoloc/man/plot2D.html" class="external-link">plot2D</a></span><span class="op">(</span><span class="va">avgtan</span>, cex <span class="op">=</span> <span class="fl">3</span> <span class="op">*</span> <span class="va">disp</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
@@ -2333,7 +2339,7 @@ using the <code>topN</code> method.</p>
 <div class="section level2">
 <h2 class="unnumbered" id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
-<pre><code><span><span class="co">## R Under development (unstable) (2025-02-24 r87814)</span></span>
+<pre><code><span><span class="co">## R Under development (unstable) (2025-03-08 r87910)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
 <span><span class="co">## Running under: Ubuntu 24.04.1 LTS</span></span>
 <span><span class="co">## </span></span>
@@ -2357,96 +2363,96 @@ using the <code>topN</code> method.</p>
 <span><span class="co">## [8] methods   base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">##  [1] gplots_3.2.0         msdata_0.47.0        pRoloc_1.47.2       </span></span>
-<span><span class="co">##  [4] BiocParallel_1.41.2  MLInterfaces_1.87.0  cluster_2.1.8.1     </span></span>
-<span><span class="co">##  [7] annotate_1.85.0      XML_3.99-0.18        AnnotationDbi_1.69.0</span></span>
+<span><span class="co">##  [1] gplots_3.2.0         msdata_0.47.0        pRoloc_1.47.4       </span></span>
+<span><span class="co">##  [4] BiocParallel_1.41.5  MLInterfaces_1.87.0  cluster_2.1.8.1     </span></span>
+<span><span class="co">##  [7] annotate_1.85.0      XML_3.99-0.18        AnnotationDbi_1.69.1</span></span>
 <span><span class="co">## [10] IRanges_2.41.3       pRolocdata_1.45.1    Rdisop_1.67.5       </span></span>
-<span><span class="co">## [13] zoo_1.8-13           MSnbase_2.33.4       ProtGenerics_1.39.2 </span></span>
+<span><span class="co">## [13] zoo_1.8-14           MSnbase_2.33.5       ProtGenerics_1.39.2 </span></span>
 <span><span class="co">## [16] S4Vectors_0.45.4     mzR_2.41.4           Rcpp_1.0.14         </span></span>
 <span><span class="co">## [19] Biobase_2.67.0       BiocGenerics_0.53.6  generics_0.1.3      </span></span>
-<span><span class="co">## [22] ggplot2_3.5.1        BiocStyle_2.35.0    </span></span>
+<span><span class="co">## [22] ggplot2_3.5.2        BiocStyle_2.35.0    </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
-<span><span class="co">##   [1] splines_4.5.0               bitops_1.0-9               </span></span>
-<span><span class="co">##   [3] filelock_1.0.3              tibble_3.2.1               </span></span>
-<span><span class="co">##   [5] hardhat_1.4.1               preprocessCore_1.69.0      </span></span>
-<span><span class="co">##   [7] pROC_1.18.5                 rpart_4.1.24               </span></span>
-<span><span class="co">##   [9] lifecycle_1.0.4             httr2_1.1.1                </span></span>
-<span><span class="co">##  [11] doParallel_1.0.17           globals_0.16.3             </span></span>
-<span><span class="co">##  [13] lattice_0.22-6              MASS_7.3-65                </span></span>
-<span><span class="co">##  [15] MultiAssayExperiment_1.33.9 dendextend_1.19.0          </span></span>
-<span><span class="co">##  [17] magrittr_2.0.3              limma_3.63.9               </span></span>
-<span><span class="co">##  [19] plotly_4.10.4               sass_0.4.9                 </span></span>
-<span><span class="co">##  [21] rmarkdown_2.29              jquerylib_0.1.4            </span></span>
-<span><span class="co">##  [23] yaml_2.3.10                 MsCoreUtils_1.19.1         </span></span>
-<span><span class="co">##  [25] DBI_1.2.3                   RColorBrewer_1.1-3         </span></span>
-<span><span class="co">##  [27] lubridate_1.9.4             abind_1.4-8                </span></span>
-<span><span class="co">##  [29] GenomicRanges_1.59.1        purrr_1.0.4                </span></span>
-<span><span class="co">##  [31] mixtools_2.0.0.1            AnnotationFilter_1.31.0    </span></span>
-<span><span class="co">##  [33] nnet_7.3-20                 rappdirs_0.3.3             </span></span>
-<span><span class="co">##  [35] ipred_0.9-15                lava_1.8.1                 </span></span>
-<span><span class="co">##  [37] GenomeInfoDbData_1.2.14     listenv_0.9.1              </span></span>
-<span><span class="co">##  [39] parallelly_1.42.0           pkgdown_2.1.1.9000         </span></span>
-<span><span class="co">##  [41] ncdf4_1.23                  codetools_0.2-20           </span></span>
-<span><span class="co">##  [43] DelayedArray_0.33.6         xml2_1.3.8                 </span></span>
-<span><span class="co">##  [45] tidyselect_1.2.1            farver_2.1.2               </span></span>
-<span><span class="co">##  [47] UCSC.utils_1.3.1            viridis_0.6.5              </span></span>
-<span><span class="co">##  [49] matrixStats_1.5.0           BiocFileCache_2.15.1       </span></span>
-<span><span class="co">##  [51] jsonlite_1.9.1              caret_7.0-1                </span></span>
-<span><span class="co">##  [53] e1071_1.7-16                survival_3.8-3             </span></span>
-<span><span class="co">##  [55] iterators_1.0.14            systemfonts_1.2.1          </span></span>
-<span><span class="co">##  [57] foreach_1.5.2               segmented_2.1-4            </span></span>
-<span><span class="co">##  [59] tools_4.5.0                 progress_1.2.3             </span></span>
-<span><span class="co">##  [61] ragg_1.3.3                  glue_1.8.0                 </span></span>
-<span><span class="co">##  [63] prodlim_2024.06.25          gridExtra_2.3              </span></span>
-<span><span class="co">##  [65] SparseArray_1.7.6           BiocBaseUtils_1.9.0        </span></span>
-<span><span class="co">##  [67] mgcv_1.9-1                  xfun_0.51                  </span></span>
-<span><span class="co">##  [69] MatrixGenerics_1.19.1       GenomeInfoDb_1.43.4        </span></span>
-<span><span class="co">##  [71] dplyr_1.1.4                 withr_3.0.2                </span></span>
-<span><span class="co">##  [73] BiocManager_1.30.25         fastmap_1.2.0              </span></span>
-<span><span class="co">##  [75] caTools_1.18.3              digest_0.6.37              </span></span>
-<span><span class="co">##  [77] timechange_0.3.0            R6_2.6.1                   </span></span>
-<span><span class="co">##  [79] textshaping_1.0.0           colorspace_2.1-1           </span></span>
-<span><span class="co">##  [81] gtools_3.9.5                lpSolve_5.6.23             </span></span>
-<span><span class="co">##  [83] biomaRt_2.63.1              RSQLite_2.3.9              </span></span>
-<span><span class="co">##  [85] tidyr_1.3.1                 hexbin_1.28.5              </span></span>
-<span><span class="co">##  [87] data.table_1.17.0           recipes_1.1.1              </span></span>
-<span><span class="co">##  [89] FNN_1.1.4.1                 class_7.3-23               </span></span>
-<span><span class="co">##  [91] prettyunits_1.2.0           PSMatch_1.11.0             </span></span>
-<span><span class="co">##  [93] httr_1.4.7                  htmlwidgets_1.6.4          </span></span>
-<span><span class="co">##  [95] S4Arrays_1.7.3              ModelMetrics_1.2.2.2       </span></span>
-<span><span class="co">##  [97] pkgconfig_2.0.3             gtable_0.3.6               </span></span>
-<span><span class="co">##  [99] timeDate_4041.110           blob_1.2.4                 </span></span>
-<span><span class="co">## [101] impute_1.81.0               XVector_0.47.2             </span></span>
-<span><span class="co">## [103] htmltools_0.5.8.1           bookdown_0.42              </span></span>
-<span><span class="co">## [105] MALDIquant_1.22.3           clue_0.3-66                </span></span>
-<span><span class="co">## [107] scales_1.3.0                png_0.1-8                  </span></span>
-<span><span class="co">## [109] gower_1.0.2                 knitr_1.50                 </span></span>
-<span><span class="co">## [111] reshape2_1.4.4              coda_0.19-4.1              </span></span>
-<span><span class="co">## [113] nlme_3.1-167                curl_6.2.1                 </span></span>
-<span><span class="co">## [115] proxy_0.4-27                cachem_1.1.0               </span></span>
-<span><span class="co">## [117] stringr_1.5.1               KernSmooth_2.23-26         </span></span>
-<span><span class="co">## [119] parallel_4.5.0              mzID_1.45.0                </span></span>
-<span><span class="co">## [121] vsn_3.75.0                  desc_1.4.3                 </span></span>
-<span><span class="co">## [123] pillar_1.10.1               vctrs_0.6.5                </span></span>
-<span><span class="co">## [125] pcaMethods_1.99.0           randomForest_4.7-1.2       </span></span>
-<span><span class="co">## [127] dbplyr_2.5.0                xtable_1.8-4               </span></span>
-<span><span class="co">## [129] evaluate_1.0.3              mvtnorm_1.3-3              </span></span>
-<span><span class="co">## [131] cli_3.6.4                   compiler_4.5.0             </span></span>
-<span><span class="co">## [133] rlang_1.1.5                 crayon_1.5.3               </span></span>
-<span><span class="co">## [135] future.apply_1.11.3         labeling_0.4.3             </span></span>
-<span><span class="co">## [137] LaplacesDemon_16.1.6        mclust_6.1.1               </span></span>
-<span><span class="co">## [139] QFeatures_1.17.4            affy_1.85.1                </span></span>
-<span><span class="co">## [141] plyr_1.8.9                  fs_1.6.5                   </span></span>
-<span><span class="co">## [143] stringi_1.8.4               viridisLite_0.4.2          </span></span>
-<span><span class="co">## [145] munsell_0.5.1               Biostrings_2.75.4          </span></span>
-<span><span class="co">## [147] lazyeval_0.2.2              Matrix_1.7-3               </span></span>
-<span><span class="co">## [149] hms_1.1.3                   bit64_4.6.0-1              </span></span>
-<span><span class="co">## [151] future_1.34.0               KEGGREST_1.47.0            </span></span>
-<span><span class="co">## [153] statmod_1.5.0               SummarizedExperiment_1.37.0</span></span>
-<span><span class="co">## [155] kernlab_0.9-33              igraph_2.1.4               </span></span>
-<span><span class="co">## [157] memoise_2.0.1               affyio_1.77.3              </span></span>
-<span><span class="co">## [159] bslib_0.9.0                 sampling_2.10              </span></span>
+<span><span class="co">##   [1] splines_4.5.0                bitops_1.0-9                </span></span>
+<span><span class="co">##   [3] filelock_1.0.3               tibble_3.2.1                </span></span>
+<span><span class="co">##   [5] hardhat_1.4.1                preprocessCore_1.69.0       </span></span>
+<span><span class="co">##   [7] pROC_1.18.5                  rpart_4.1.24                </span></span>
+<span><span class="co">##   [9] lifecycle_1.0.4              httr2_1.1.2                 </span></span>
+<span><span class="co">##  [11] doParallel_1.0.17            globals_0.16.3              </span></span>
+<span><span class="co">##  [13] lattice_0.22-7               MASS_7.3-65                 </span></span>
+<span><span class="co">##  [15] MultiAssayExperiment_1.33.10 dendextend_1.19.0           </span></span>
+<span><span class="co">##  [17] magrittr_2.0.3               limma_3.63.13               </span></span>
+<span><span class="co">##  [19] plotly_4.10.4                sass_0.4.9                  </span></span>
+<span><span class="co">##  [21] rmarkdown_2.29               jquerylib_0.1.4             </span></span>
+<span><span class="co">##  [23] yaml_2.3.10                  MsCoreUtils_1.19.2          </span></span>
+<span><span class="co">##  [25] DBI_1.2.3                    RColorBrewer_1.1-3          </span></span>
+<span><span class="co">##  [27] lubridate_1.9.4              abind_1.4-8                 </span></span>
+<span><span class="co">##  [29] GenomicRanges_1.59.1         purrr_1.0.4                 </span></span>
+<span><span class="co">##  [31] mixtools_2.0.0.1             AnnotationFilter_1.31.0     </span></span>
+<span><span class="co">##  [33] nnet_7.3-20                  rappdirs_0.3.3              </span></span>
+<span><span class="co">##  [35] ipred_0.9-15                 lava_1.8.1                  </span></span>
+<span><span class="co">##  [37] GenomeInfoDbData_1.2.14      listenv_0.9.1               </span></span>
+<span><span class="co">##  [39] parallelly_1.43.0            pkgdown_2.1.1.9000          </span></span>
+<span><span class="co">##  [41] ncdf4_1.24                   codetools_0.2-20            </span></span>
+<span><span class="co">##  [43] DelayedArray_0.33.6          xml2_1.3.8                  </span></span>
+<span><span class="co">##  [45] tidyselect_1.2.1             farver_2.1.2                </span></span>
+<span><span class="co">##  [47] UCSC.utils_1.3.1             viridis_0.6.5               </span></span>
+<span><span class="co">##  [49] matrixStats_1.5.0            BiocFileCache_2.15.1        </span></span>
+<span><span class="co">##  [51] jsonlite_2.0.0               caret_7.0-1                 </span></span>
+<span><span class="co">##  [53] e1071_1.7-16                 survival_3.8-3              </span></span>
+<span><span class="co">##  [55] iterators_1.0.14             systemfonts_1.2.2           </span></span>
+<span><span class="co">##  [57] foreach_1.5.2                segmented_2.1-4             </span></span>
+<span><span class="co">##  [59] tools_4.5.0                  progress_1.2.3              </span></span>
+<span><span class="co">##  [61] ragg_1.4.0                   glue_1.8.0                  </span></span>
+<span><span class="co">##  [63] prodlim_2024.06.25           gridExtra_2.3               </span></span>
+<span><span class="co">##  [65] SparseArray_1.7.7            BiocBaseUtils_1.9.0         </span></span>
+<span><span class="co">##  [67] mgcv_1.9-3                   xfun_0.52                   </span></span>
+<span><span class="co">##  [69] MatrixGenerics_1.19.1        GenomeInfoDb_1.43.4         </span></span>
+<span><span class="co">##  [71] dplyr_1.1.4                  withr_3.0.2                 </span></span>
+<span><span class="co">##  [73] BiocManager_1.30.25          fastmap_1.2.0               </span></span>
+<span><span class="co">##  [75] caTools_1.18.3               digest_0.6.37               </span></span>
+<span><span class="co">##  [77] timechange_0.3.0             R6_2.6.1                    </span></span>
+<span><span class="co">##  [79] textshaping_1.0.0            colorspace_2.1-1            </span></span>
+<span><span class="co">##  [81] gtools_3.9.5                 lpSolve_5.6.23              </span></span>
+<span><span class="co">##  [83] biomaRt_2.63.3               RSQLite_2.3.9               </span></span>
+<span><span class="co">##  [85] tidyr_1.3.1                  hexbin_1.28.5               </span></span>
+<span><span class="co">##  [87] data.table_1.17.0            recipes_1.2.1               </span></span>
+<span><span class="co">##  [89] FNN_1.1.4.1                  class_7.3-23                </span></span>
+<span><span class="co">##  [91] prettyunits_1.2.0            PSMatch_1.11.3              </span></span>
+<span><span class="co">##  [93] httr_1.4.7                   htmlwidgets_1.6.4           </span></span>
+<span><span class="co">##  [95] S4Arrays_1.7.3               ModelMetrics_1.2.2.2        </span></span>
+<span><span class="co">##  [97] pkgconfig_2.0.3              gtable_0.3.6                </span></span>
+<span><span class="co">##  [99] timeDate_4041.110            blob_1.2.4                  </span></span>
+<span><span class="co">## [101] impute_1.81.0                XVector_0.47.2              </span></span>
+<span><span class="co">## [103] htmltools_0.5.8.1            bookdown_0.42               </span></span>
+<span><span class="co">## [105] MALDIquant_1.22.3            clue_0.3-66                 </span></span>
+<span><span class="co">## [107] scales_1.3.0                 png_0.1-8                   </span></span>
+<span><span class="co">## [109] gower_1.0.2                  knitr_1.50                  </span></span>
+<span><span class="co">## [111] reshape2_1.4.4               coda_0.19-4.1               </span></span>
+<span><span class="co">## [113] nlme_3.1-168                 curl_6.2.2                  </span></span>
+<span><span class="co">## [115] proxy_0.4-27                 cachem_1.1.0                </span></span>
+<span><span class="co">## [117] stringr_1.5.1                KernSmooth_2.23-26          </span></span>
+<span><span class="co">## [119] parallel_4.5.0               mzID_1.45.0                 </span></span>
+<span><span class="co">## [121] vsn_3.75.0                   desc_1.4.3                  </span></span>
+<span><span class="co">## [123] pillar_1.10.2                vctrs_0.6.5                 </span></span>
+<span><span class="co">## [125] pcaMethods_1.99.0            randomForest_4.7-1.2        </span></span>
+<span><span class="co">## [127] dbplyr_2.5.0                 xtable_1.8-4                </span></span>
+<span><span class="co">## [129] evaluate_1.0.3               mvtnorm_1.3-3               </span></span>
+<span><span class="co">## [131] cli_3.6.4                    compiler_4.5.0              </span></span>
+<span><span class="co">## [133] rlang_1.1.5                  crayon_1.5.3                </span></span>
+<span><span class="co">## [135] future.apply_1.11.3          labeling_0.4.3              </span></span>
+<span><span class="co">## [137] LaplacesDemon_16.1.6         mclust_6.1.1                </span></span>
+<span><span class="co">## [139] QFeatures_1.17.5             affy_1.85.1                 </span></span>
+<span><span class="co">## [141] plyr_1.8.9                   fs_1.6.5                    </span></span>
+<span><span class="co">## [143] stringi_1.8.7                viridisLite_0.4.2           </span></span>
+<span><span class="co">## [145] munsell_0.5.1                Biostrings_2.75.4           </span></span>
+<span><span class="co">## [147] lazyeval_0.2.2               Matrix_1.7-3                </span></span>
+<span><span class="co">## [149] hms_1.1.3                    bit64_4.6.0-1               </span></span>
+<span><span class="co">## [151] future_1.40.0                KEGGREST_1.47.1             </span></span>
+<span><span class="co">## [153] statmod_1.5.0                SummarizedExperiment_1.37.0 </span></span>
+<span><span class="co">## [155] kernlab_0.9-33               igraph_2.1.4                </span></span>
+<span><span class="co">## [157] memoise_2.0.1                affyio_1.77.3               </span></span>
+<span><span class="co">## [159] bslib_0.9.0                  sampling_2.10               </span></span>
 <span><span class="co">## [161] bit_4.6.0</span></span></code></pre>
 </div>
 <div class="section level2">

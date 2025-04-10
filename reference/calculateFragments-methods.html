@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">MSnbase</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.33.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.33.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -154,538 +154,550 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## calculate fragments for ACE with default modification</span></span></span>
 <span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"ACE"</span>, modifications<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>C<span class="op">=</span><span class="fl">57.02146</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  72.04439  b1    b   1 1   A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 232.07504  b2    b   2 1  AC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 148.06043  y1    y   1 1   E</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 308.09108  y2    y   2 1  CE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 130.04987 y1_   y_   1 1   E</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 290.08052 y2_   y_   2 1  CE</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'modifications' is deprecated, please use 'fixed_modifications' instead.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fixed modifications used: C=57.02146</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Variable modifications used: None</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq peptide</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  72.04439  b1    b   1 1   A     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 232.07504  b2    b   2 1  AC     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 148.06043  y1    y   1 1   E     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 308.09108  y2    y   2 1  CE     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 130.04987 y1_   y_   1 1   E     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 290.08052 y2_   y_   2 1  CE     ACE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## calculate fragments for ACE with an addition N-terminal modification</span></span></span>
 <span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"ACE"</span>, modifications<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>C<span class="op">=</span><span class="fl">57.02146</span>, Nterm<span class="op">=</span><span class="fl">229.1629</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         mz ion type pos z seq</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 301.2073  b1    b   1 1   A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 461.2379  b2    b   2 1  AC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 148.0604  y1    y   1 1   E</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 308.0911  y2    y   2 1  CE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 130.0499 y1_   y_   1 1   E</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 290.0805 y2_   y_   2 1  CE</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'modifications' is deprecated, please use 'fixed_modifications' instead.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fixed modifications used: C=57.02146, Nterm=229.1629</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Variable modifications used: None</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         mz ion type pos z seq peptide</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 301.2073  b1    b   1 1   A     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 461.2379  b2    b   2 1  AC     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 148.0604  y1    y   1 1   E     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 308.0911  y2    y   2 1  CE     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 130.0499 y1_   y_   1 1   E     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 290.0805 y2_   y_   2 1  CE     ACE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## calculate fragments for ACE without any modifications</span></span></span>
 <span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"ACE"</span>, modifications<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  72.04439  b1    b   1 1   A</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 175.05358  b2    b   2 1  AC</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 148.06043  y1    y   1 1   E</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 251.06962  y2    y   2 1  CE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 130.04987 y1_   y_   1 1   E</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 233.05906 y2_   y_   2 1  CE</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fixed modifications used: C=57.02146</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Variable modifications used: None</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq peptide</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  72.04439  b1    b   1 1   A     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 232.07504  b2    b   2 1  AC     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 148.06043  y1    y   1 1   E     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 308.09108  y2    y   2 1  CE     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 130.04987 y1_   y_   1 1   E     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 290.08052 y2_   y_   2 1  CE     ACE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"VESITARHGEVLQLRPK"</span>,</span></span>
 <span class="r-in"><span>                   type<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"z"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                   z<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             mz  ion type pos z              seq</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     72.08077   a1    a   1 1                V</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     36.54402   a1    a   1 2                V</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3    201.12336   a2    a   2 1               VE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4    101.06532   a2    a   2 2               VE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5    288.15539   a3    a   3 1              VES</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6    144.58133   a3    a   3 2              VES</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7    401.23945   a4    a   4 1             VESI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8    201.12336   a4    a   4 2             VESI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9    502.28713   a5    a   5 1            VESIT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10   251.64720   a5    a   5 2            VESIT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11   573.32424   a6    a   6 1           VESITA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12   287.16576   a6    a   6 2           VESITA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13   729.42535   a7    a   7 1          VESITAR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14   365.21631   a7    a   7 2          VESITAR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15   866.48426   a8    a   8 1         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16   433.74577   a8    a   8 2         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17   923.50572   a9    a   9 1        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18   462.25650   a9    a   9 2        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19  1052.54831  a10    a  10 1       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20   526.77779  a10    a  10 2       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21  1151.61672  a11    a  11 1      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22   576.31200  a11    a  11 2      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23  1264.70078  a12    a  12 1     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24   632.85403  a12    a  12 2     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25  1392.75936  a13    a  13 1    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26   696.88332  a13    a  13 2    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27  1505.84342  a14    a  14 1   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28   753.42535  a14    a  14 2   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29  1661.94453  a15    a  15 1  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30   831.47590  a15    a  15 2  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31  1758.99729  a16    a  16 1 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32   880.00228  a16    a  16 2 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33   100.07569   b1    b   1 1                V</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34    50.54148   b1    b   1 2                V</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35   229.11828   b2    b   2 1               VE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36   115.06278   b2    b   2 2               VE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37   316.15031   b3    b   3 1              VES</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38   158.57879   b3    b   3 2              VES</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39   429.23437   b4    b   4 1             VESI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40   215.12082   b4    b   4 2             VESI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41   530.28205   b5    b   5 1            VESIT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42   265.64466   b5    b   5 2            VESIT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43   601.31916   b6    b   6 1           VESITA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44   301.16322   b6    b   6 2           VESITA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45   757.42027   b7    b   7 1          VESITAR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46   379.21377   b7    b   7 2          VESITAR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47   894.47918   b8    b   8 1         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48   447.74323   b8    b   8 2         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49   951.50064   b9    b   9 1        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 50   476.25396   b9    b   9 2        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 51  1080.54323  b10    b  10 1       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52   540.77525  b10    b  10 2       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 53  1179.61164  b11    b  11 1      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 54   590.30946  b11    b  11 2      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 55  1292.69570  b12    b  12 1     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 56   646.85149  b12    b  12 2     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57  1420.75428  b13    b  13 1    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58   710.88078  b13    b  13 2    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 59  1533.83834  b14    b  14 1   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 60   767.42281  b14    b  14 2   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 61  1689.93945  b15    b  15 1  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 62   845.47336  b15    b  15 2  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 63  1786.99221  b16    b  16 1 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 64   893.99974  b16    b  16 2 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 65   117.10224   c1    c   1 1                V</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 66    59.05476   c1    c   1 2                V</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 67   246.14482   c2    c   2 1               VE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 68   123.57605   c2    c   2 2               VE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 69   333.17685   c3    c   3 1              VES</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 70   167.09207   c3    c   3 2              VES</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 71   446.26091   c4    c   4 1             VESI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 72   223.63410   c4    c   4 2             VESI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 73   547.30860   c5    c   5 1            VESIT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 74   274.15794   c5    c   5 2            VESIT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 75   618.34571   c6    c   6 1           VESITA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 76   309.67649   c6    c   6 2           VESITA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 77   774.44682   c7    c   7 1          VESITAR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 78   387.72705   c7    c   7 2          VESITAR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 79   911.50573   c8    c   8 1         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 80   456.25650   c8    c   8 2         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 81   968.52719   c9    c   9 1        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 82   484.76723   c9    c   9 2        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 83  1097.56977  c10    c  10 1       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 84   549.28853  c10    c  10 2       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 85  1196.63819  c11    c  11 1      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 86   598.82273  c11    c  11 2      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 87  1309.72224  c12    c  12 1     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 88   655.36476  c12    c  12 2     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 89  1437.78083  c13    c  13 1    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 90   719.39405  c13    c  13 2    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 91  1550.86488  c14    c  14 1   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 92   775.93608  c14    c  14 2   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 93  1706.96600  c15    c  15 1  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 94   853.98664  c15    c  15 2  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 95  1804.01876  c16    c  16 1 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 96   902.51302  c16    c  16 2 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 97   173.09207   x1    x   1 1                K</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 98    87.04967   x1    x   1 2                K</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 99   270.14483   x2    x   2 1               PK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 100  135.57605   x2    x   2 2               PK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 101  426.24594   x3    x   3 1              RPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 102  213.62661   x3    x   3 2              RPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 103  539.33000   x4    x   4 1             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 104  270.16864   x4    x   4 2             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 105  667.38858   x5    x   5 1            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 106  334.19793   x5    x   5 2            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 107  780.47264   x6    x   6 1           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 108  390.73996   x6    x   6 2           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 109  879.54105   x7    x   7 1          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 110  440.27416   x7    x   7 2          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 111 1008.58364   x8    x   8 1         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 112  504.79546   x8    x   8 2         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 113 1065.60510   x9    x   9 1        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 114  533.30619   x9    x   9 2        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 115 1202.66401  x10    x  10 1       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 116  601.83564  x10    x  10 2       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 117 1358.76512  x11    x  11 1      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 118  679.88620  x11    x  11 2      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 119 1429.80223  x12    x  12 1     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 120  715.40475  x12    x  12 2     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 121 1530.84991  x13    x  13 1    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 122  765.92859  x13    x  13 2    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 123 1643.93397  x14    x  14 1   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 124  822.47062  x14    x  14 2   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 125 1730.96600  x15    x  15 1  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 126  865.98664  x15    x  15 2  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 127 1860.00859  x16    x  16 1 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 128  930.50793  x16    x  16 2 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 129  147.11280   y1    y   1 1                K</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 130   74.06004   y1    y   1 2                K</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 131  244.16556   y2    y   2 1               PK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 132  122.58642   y2    y   2 2               PK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 133  400.26667   y3    y   3 1              RPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 134  200.63697   y3    y   3 2              RPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 135  513.35073   y4    y   4 1             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 136  257.17900   y4    y   4 2             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 137  641.40931   y5    y   5 1            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 138  321.20829   y5    y   5 2            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 139  754.49337   y6    y   6 1           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 140  377.75032   y6    y   6 2           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 141  853.56178   y7    y   7 1          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 142  427.28453   y7    y   7 2          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 143  982.60437   y8    y   8 1         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 144  491.80582   y8    y   8 2         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 145 1039.62583   y9    y   9 1        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 146  520.31655   y9    y   9 2        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 147 1176.68474  y10    y  10 1       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 148  588.84601  y10    y  10 2       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 149 1332.78585  y11    y  11 1      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 150  666.89656  y11    y  11 2      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 151 1403.82296  y12    y  12 1     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 152  702.41512  y12    y  12 2     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 153 1504.87064  y13    y  13 1    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 154  752.93896  y13    y  13 2    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 155 1617.95470  y14    y  14 1   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 156  809.48099  y14    y  14 2   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 157 1704.98673  y15    y  15 1  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 158  852.99700  y15    y  15 2  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 159 1834.02932  y16    y  16 1 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 160  917.51830  y16    y  16 2 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 161  130.08625   z1    z   1 1                K</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 162   65.54676   z1    z   1 2                K</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 163  227.13901   z2    z   2 1               PK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 164  114.07314   z2    z   2 2               PK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 165  383.24012   z3    z   3 1              RPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 166  192.12370   z3    z   3 2              RPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 167  496.32418   z4    z   4 1             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 168  248.66573   z4    z   4 2             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 169  624.38276   z5    z   5 1            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 170  312.69502   z5    z   5 2            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 171  737.46682   z6    z   6 1           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 172  369.23705   z6    z   6 2           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 173  836.53523   z7    z   7 1          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 174  418.77125   z7    z   7 2          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 175  965.57782   z8    z   8 1         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 176  483.29255   z8    z   8 2         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 177 1022.59928   z9    z   9 1        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 178  511.80328   z9    z   9 2        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 179 1159.65819  z10    z  10 1       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 180  580.33273  z10    z  10 2       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 181 1315.75930  z11    z  11 1      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 182  658.38329  z11    z  11 2      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 183 1386.79641  z12    z  12 1     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 184  693.90184  z12    z  12 2     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 185 1487.84409  z13    z  13 1    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 186  744.42568  z13    z  13 2    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 187 1600.92815  z14    z  14 1   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 188  800.96771  z14    z  14 2   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 189 1687.96018  z15    z  15 1  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 190  844.48373  z15    z  15 2  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 191 1817.00277  z16    z  16 1 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 192  909.00502  z16    z  16 2 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 193  383.22889  a4_   a_   4 1             VESI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 194  192.11808  a4_   a_   4 2             VESI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 195  484.27657  a5_   a_   5 1            VESIT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 196  242.64192  a5_   a_   5 2            VESIT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 197  555.31368  a6_   a_   6 1           VESITA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 198  278.16048  a6_   a_   6 2           VESITA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 199  711.41479  a7_   a_   7 1          VESITAR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 200  356.21103  a7_   a_   7 2          VESITAR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 201  848.47370  a8_   a_   8 1         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 202  424.74049  a8_   a_   8 2         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 203  905.49516  a9_   a_   9 1        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 204  453.25122  a9_   a_   9 2        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 205 1034.53775 a10_   a_  10 1       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 206  517.77251 a10_   a_  10 2       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 207 1133.60616 a11_   a_  11 1      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 208  567.30672 a11_   a_  11 2      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 209 1246.69022 a12_   a_  12 1     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 210  623.84875 a12_   a_  12 2     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 211 1374.74880 a13_   a_  13 1    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 212  687.87804 a13_   a_  13 2    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 213 1487.83286 a14_   a_  14 1   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 214  744.42007 a14_   a_  14 2   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 215 1643.93397 a15_   a_  15 1  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 216  822.47062 a15_   a_  15 2  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 217 1740.98673 a16_   a_  16 1 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 218  870.99700 a16_   a_  16 2 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 219  411.22380  b4_   b_   4 1             VESI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 220  206.11554  b4_   b_   4 2             VESI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 221  512.27148  b5_   b_   5 1            VESIT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 222  256.63938  b5_   b_   5 2            VESIT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 223  583.30859  b6_   b_   6 1           VESITA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 224  292.15793  b6_   b_   6 2           VESITA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 225  739.40970  b7_   b_   7 1          VESITAR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 226  370.20849  b7_   b_   7 2          VESITAR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 227  876.46861  b8_   b_   8 1         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 228  438.73794  b8_   b_   8 2         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 229  933.49007  b9_   b_   9 1        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 230  467.24867  b9_   b_   9 2        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 231 1062.53266 b10_   b_  10 1       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 232  531.76997 b10_   b_  10 2       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 233 1161.60107 b11_   b_  11 1      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 234  581.30417 b11_   b_  11 2      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 235 1274.68513 b12_   b_  12 1     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 236  637.84620 b12_   b_  12 2     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 237 1402.74371 b13_   b_  13 1    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 238  701.87549 b13_   b_  13 2    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 239 1515.82777 b14_   b_  14 1   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 240  758.41752 b14_   b_  14 2   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 241 1671.92888 b15_   b_  15 1  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 242  836.46808 b15_   b_  15 2  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 243 1768.98164 b16_   b_  16 1 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 244  884.99446 b16_   b_  16 2 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 245  428.25035  c4_   c_   4 1             VESI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 246  214.62881  c4_   c_   4 2             VESI</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 247  529.29803  c5_   c_   5 1            VESIT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 248  265.15265  c5_   c_   5 2            VESIT</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 249  600.33514  c6_   c_   6 1           VESITA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 250  300.67121  c6_   c_   6 2           VESITA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 251  756.43625  c7_   c_   7 1          VESITAR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 252  378.72176  c7_   c_   7 2          VESITAR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 253  893.49516  c8_   c_   8 1         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 254  447.25122  c8_   c_   8 2         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 255  950.51662  c9_   c_   9 1        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 256  475.76195  c9_   c_   9 2        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 257 1079.55921 c10_   c_  10 1       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 258  540.28324 c10_   c_  10 2       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 259 1178.62762 c11_   c_  11 1      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 260  589.81745 c11_   c_  11 2      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 261 1291.71168 c12_   c_  12 1     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 262  646.35948 c12_   c_  12 2     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 263 1419.77026 c13_   c_  13 1    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 264  710.38877 c13_   c_  13 2    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 265 1532.85432 c14_   c_  14 1   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 266  766.93080 c14_   c_  14 2   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 267 1688.95543 c15_   c_  15 1  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 268  844.98135 c15_   c_  15 2  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 269 1786.00819 c16_   c_  16 1 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 270  893.50773 c16_   c_  16 2 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 271  990.57307  x8_   x_   8 1         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 272  495.79017  x8_   x_   8 2         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 273 1625.92340 x14_   x_  14 1   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 274  813.46534 x14_   x_  14 2   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 275 1712.95543 x15_   x_  15 1  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 276  856.98135 x15_   x_  15 2  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 277 1841.99802 x16_   x_  16 1 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 278  921.50265 x16_   x_  16 2 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 279  964.59381  y8_   y_   8 1         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 280  482.80054  y8_   y_   8 2         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 281 1599.94414 y14_   y_  14 1   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 282  800.47571 y14_   y_  14 2   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 283 1686.97617 y15_   y_  15 1  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 284  843.99172 y15_   y_  15 2  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 285 1816.01876 y16_   y_  16 1 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 286  908.51302 y16_   y_  16 2 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 287  947.56726  z8_   z_   8 1         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 288  474.28727  z8_   z_   8 2         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 289 1582.91759 z14_   z_  14 1   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 290  791.96243 z14_   z_  14 2   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 291 1669.94962 z15_   z_  15 1  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 292  835.47845 z15_   z_  15 2  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 293 1798.99221 z16_   z_  16 1 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 294  899.99974 z16_   z_  16 2 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 295  155.08150  x1_   x_   1 1                K</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 296   78.04439  x1_   x_   1 2                K</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 297  252.13426  x2_   x_   2 1               PK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 298  126.57077  x2_   x_   2 2               PK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 299  408.23537  x3_   x_   3 1              RPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 300  204.62132  x3_   x_   3 2              RPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 301  521.31943  x4_   x_   4 1             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 302  261.16335  x4_   x_   4 2             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 303  649.37801  x5_   x_   5 1            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 304  325.19264  x5_   x_   5 2            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 305  762.46207  x6_   x_   6 1           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 306  381.73467  x6_   x_   6 2           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 307  861.53048  x7_   x_   7 1          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 308  431.26888  x7_   x_   7 2          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 309 1047.59453  x9_   x_   9 1        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 310  524.30090  x9_   x_   9 2        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 311 1184.65344 x10_   x_  10 1       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 312  592.83036 x10_   x_  10 2       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 313 1340.75455 x11_   x_  11 1      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 314  670.88091 x11_   x_  11 2      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 315 1411.79166 x12_   x_  12 1     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 316  706.39947 x12_   x_  12 2     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 317 1512.83934 x13_   x_  13 1    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 318  756.92331 x13_   x_  13 2    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 319  129.10224  y1_   y_   1 1                K</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 320   65.05476  y1_   y_   1 2                K</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 321  226.15500  y2_   y_   2 1               PK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 322  113.58114  y2_   y_   2 2               PK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 323  382.25611  y3_   y_   3 1              RPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 324  191.63169  y3_   y_   3 2              RPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 325  495.34017  y4_   y_   4 1             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 326  248.17372  y4_   y_   4 2             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 327  623.39875  y5_   y_   5 1            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 328  312.20301  y5_   y_   5 2            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 329  736.48281  y6_   y_   6 1           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 330  368.74504  y6_   y_   6 2           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 331  835.55122  y7_   y_   7 1          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 332  418.27925  y7_   y_   7 2          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 333 1021.61527  y9_   y_   9 1        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 334  511.31127  y9_   y_   9 2        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 335 1158.67418 y10_   y_  10 1       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 336  579.84073 y10_   y_  10 2       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 337 1314.77529 y11_   y_  11 1      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 338  657.89128 y11_   y_  11 2      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 339 1385.81240 y12_   y_  12 1     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 340  693.40984 y12_   y_  12 2     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 341 1486.86008 y13_   y_  13 1    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 342  743.93368 y13_   y_  13 2    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 343  112.07569  z1_   z_   1 1                K</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 344   56.54148  z1_   z_   1 2                K</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 345  209.12845  z2_   z_   2 1               PK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 346  105.06786  z2_   z_   2 2               PK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 347  365.22956  z3_   z_   3 1              RPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 348  183.11842  z3_   z_   3 2              RPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 349  478.31362  z4_   z_   4 1             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 350  239.66045  z4_   z_   4 2             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 351  606.37220  z5_   z_   5 1            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 352  303.68974  z5_   z_   5 2            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 353  719.45626  z6_   z_   6 1           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 354  360.23177  z6_   z_   6 2           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 355  818.52467  z7_   z_   7 1          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 356  409.76597  z7_   z_   7 2          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 357 1004.58872  z9_   z_   9 1        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 358  502.79800  z9_   z_   9 2        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 359 1141.64763 z10_   z_  10 1       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 360  571.32745 z10_   z_  10 2       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 361 1297.74874 z11_   z_  11 1      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 362  649.37801 z11_   z_  11 2      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 363 1368.78585 z12_   z_  12 1     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 364  684.89656 z12_   z_  12 2     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 365 1469.83353 z13_   z_  13 1    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 366  735.42040 z13_   z_  13 2    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 367  849.45771  a8*   a*   8 1         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 368  425.23249  a8*   a*   8 2         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 369  906.47917  a9*   a*   9 1        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 370  453.74322  a9*   a*   9 2        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 371 1035.52176 a10*   a*  10 1       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 372  518.26452 a10*   a*  10 2       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 373 1134.59017 a11*   a*  11 1      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 374  567.79872 a11*   a*  11 2      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 375 1247.67423 a12*   a*  12 1     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 376  624.34075 a12*   a*  12 2     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 377 1375.73281 a13*   a*  13 1    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 378  688.37004 a13*   a*  13 2    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 379 1488.81687 a14*   a*  14 1   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 380  744.91207 a14*   a*  14 2   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 381 1644.91798 a15*   a*  15 1  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 382  822.96263 a15*   a*  15 2  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 383 1741.97074 a16*   a*  16 1 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 384  871.48901 a16*   a*  16 2 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 385  877.45263  b8*   b*   8 1         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 386  439.22995  b8*   b*   8 2         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 387  934.47409  b9*   b*   9 1        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 388  467.74068  b9*   b*   9 2        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 389 1063.51668 b10*   b*  10 1       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 390  532.26198 b10*   b*  10 2       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 391 1162.58509 b11*   b*  11 1      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 392  581.79618 b11*   b*  11 2      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 393 1275.66915 b12*   b*  12 1     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 394  638.33821 b12*   b*  12 2     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 395 1403.72773 b13*   b*  13 1    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 396  702.36750 b13*   b*  13 2    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 397 1516.81179 b14*   b*  14 1   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 398  758.90953 b14*   b*  14 2   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 399 1672.91290 b15*   b*  15 1  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 400  836.96009 b15*   b*  15 2  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 401 1769.96566 b16*   b*  16 1 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 402  885.48647 b16*   b*  16 2 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 403  894.47918  c8*   c*   8 1         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 404  447.74323  c8*   c*   8 2         VESITARH</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 405  951.50064  c9*   c*   9 1        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 406  476.25396  c9*   c*   9 2        VESITARHG</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 407 1080.54323 c10*   c*  10 1       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 408  540.77525 c10*   c*  10 2       VESITARHGE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 409 1179.61164 c11*   c*  11 1      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 410  590.30946 c11*   c*  11 2      VESITARHGEV</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 411 1292.69570 c12*   c*  12 1     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 412  646.85149 c12*   c*  12 2     VESITARHGEVL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 413 1420.75428 c13*   c*  13 1    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 414  710.88078 c13*   c*  13 2    VESITARHGEVLQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 415 1533.83834 c14*   c*  14 1   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 416  767.42281 c14*   c*  14 2   VESITARHGEVLQL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 417 1689.93945 c15*   c*  15 1  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 418  845.47336 c15*   c*  15 2  VESITARHGEVLQLR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 419 1786.99221 c16*   c*  16 1 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 420  893.99974 c16*   c*  16 2 VESITARHGEVLQLRP</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 421  522.30345  x4*   x*   4 1             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 422  261.65536  x4*   x*   4 2             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 423  650.36203  x5*   x*   5 1            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 424  325.68465  x5*   x*   5 2            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 425  763.44609  x6*   x*   6 1           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 426  382.22668  x6*   x*   6 2           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 427  862.51450  x7*   x*   7 1          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 428  431.76089  x7*   x*   7 2          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 429  991.55709  x8*   x*   8 1         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 430  496.28218  x8*   x*   8 2         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 431 1048.57855  x9*   x*   9 1        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 432  524.79291  x9*   x*   9 2        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 433 1185.63746 x10*   x*  10 1       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 434  593.32237 x10*   x*  10 2       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 435 1341.73857 x11*   x*  11 1      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 436  671.37292 x11*   x*  11 2      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 437 1412.77568 x12*   x*  12 1     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 438  706.89148 x12*   x*  12 2     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 439 1513.82336 x13*   x*  13 1    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 440  757.41532 x13*   x*  13 2    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 441 1626.90742 x14*   x*  14 1   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 442  813.95735 x14*   x*  14 2   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 443 1713.93945 x15*   x*  15 1  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 444  857.47336 x15*   x*  15 2  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 445 1842.98204 x16*   x*  16 1 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 446  921.99466 x16*   x*  16 2 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 447  496.32418  y4*   y*   4 1             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 448  248.66573  y4*   y*   4 2             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 449  624.38276  y5*   y*   5 1            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 450  312.69502  y5*   y*   5 2            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 451  737.46682  y6*   y*   6 1           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 452  369.23705  y6*   y*   6 2           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 453  836.53523  y7*   y*   7 1          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 454  418.77125  y7*   y*   7 2          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 455  965.57782  y8*   y*   8 1         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 456  483.29255  y8*   y*   8 2         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 457 1022.59928  y9*   y*   9 1        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 458  511.80328  y9*   y*   9 2        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 459 1159.65819 y10*   y*  10 1       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 460  580.33273 y10*   y*  10 2       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 461 1315.75930 y11*   y*  11 1      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 462  658.38329 y11*   y*  11 2      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 463 1386.79641 y12*   y*  12 1     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 464  693.90184 y12*   y*  12 2     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 465 1487.84409 y13*   y*  13 1    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 466  744.42568 y13*   y*  13 2    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 467 1600.92815 y14*   y*  14 1   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 468  800.96771 y14*   y*  14 2   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 469 1687.96018 y15*   y*  15 1  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 470  844.48373 y15*   y*  15 2  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 471 1817.00277 y16*   y*  16 1 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 472  909.00502 y16*   y*  16 2 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 473  479.29763  z4*   z*   4 1             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 474  240.15245  z4*   z*   4 2             LRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 475  607.35621  z5*   z*   5 1            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 476  304.18174  z5*   z*   5 2            QLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 477  720.44027  z6*   z*   6 1           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 478  360.72377  z6*   z*   6 2           LQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 479  819.50868  z7*   z*   7 1          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 480  410.25798  z7*   z*   7 2          VLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 481  948.55127  z8*   z*   8 1         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 482  474.77927  z8*   z*   8 2         EVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 483 1005.57273  z9*   z*   9 1        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 484  503.29000  z9*   z*   9 2        GEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 485 1142.63164 z10*   z*  10 1       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 486  571.81946 z10*   z*  10 2       HGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 487 1298.73275 z11*   z*  11 1      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 488  649.87001 z11*   z*  11 2      RHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 489 1369.76986 z12*   z*  12 1     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 490  685.38857 z12*   z*  12 2     ARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 491 1470.81754 z13*   z*  13 1    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 492  735.91241 z13*   z*  13 2    TARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 493 1583.90160 z14*   z*  14 1   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 494  792.45444 z14*   z*  14 2   ITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 495 1670.93363 z15*   z*  15 1  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 496  835.97045 z15*   z*  15 2  SITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 497 1799.97622 z16*   z*  16 1 ESITARHGEVLQLRPK</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 498  900.49175 z16*   z*  16 2 ESITARHGEVLQLRPK</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fixed modifications used: C=57.02146</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Variable modifications used: None</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             mz  ion type pos z              seq           peptide</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     72.08077   a1    a   1 1                V VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     36.54402   a1    a   1 2                V VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    201.12336   a2    a   2 1               VE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4    101.06532   a2    a   2 2               VE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5    288.15539   a3    a   3 1              VES VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    144.58133   a3    a   3 2              VES VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    401.23945   a4    a   4 1             VESI VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8    201.12336   a4    a   4 2             VESI VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    502.28713   a5    a   5 1            VESIT VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10   251.64720   a5    a   5 2            VESIT VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11   573.32424   a6    a   6 1           VESITA VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12   287.16576   a6    a   6 2           VESITA VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13   729.42535   a7    a   7 1          VESITAR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14   365.21631   a7    a   7 2          VESITAR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15   866.48426   a8    a   8 1         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16   433.74577   a8    a   8 2         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17   923.50572   a9    a   9 1        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18   462.25650   a9    a   9 2        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19  1052.54831  a10    a  10 1       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20   526.77779  a10    a  10 2       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21  1151.61672  a11    a  11 1      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22   576.31200  a11    a  11 2      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23  1264.70078  a12    a  12 1     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24   632.85403  a12    a  12 2     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25  1392.75936  a13    a  13 1    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26   696.88332  a13    a  13 2    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27  1505.84342  a14    a  14 1   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28   753.42535  a14    a  14 2   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29  1661.94453  a15    a  15 1  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30   831.47590  a15    a  15 2  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31  1758.99729  a16    a  16 1 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32   880.00228  a16    a  16 2 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33   100.07569   b1    b   1 1                V VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34    50.54148   b1    b   1 2                V VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35   229.11828   b2    b   2 1               VE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36   115.06278   b2    b   2 2               VE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37   316.15031   b3    b   3 1              VES VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38   158.57879   b3    b   3 2              VES VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39   429.23437   b4    b   4 1             VESI VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40   215.12082   b4    b   4 2             VESI VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41   530.28205   b5    b   5 1            VESIT VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42   265.64466   b5    b   5 2            VESIT VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43   601.31916   b6    b   6 1           VESITA VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44   301.16322   b6    b   6 2           VESITA VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45   757.42027   b7    b   7 1          VESITAR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46   379.21377   b7    b   7 2          VESITAR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47   894.47918   b8    b   8 1         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48   447.74323   b8    b   8 2         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49   951.50064   b9    b   9 1        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50   476.25396   b9    b   9 2        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51  1080.54323  b10    b  10 1       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52   540.77525  b10    b  10 2       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53  1179.61164  b11    b  11 1      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54   590.30946  b11    b  11 2      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55  1292.69570  b12    b  12 1     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56   646.85149  b12    b  12 2     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57  1420.75428  b13    b  13 1    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58   710.88078  b13    b  13 2    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59  1533.83834  b14    b  14 1   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60   767.42281  b14    b  14 2   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61  1689.93945  b15    b  15 1  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62   845.47336  b15    b  15 2  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63  1786.99221  b16    b  16 1 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64   893.99974  b16    b  16 2 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65   117.10224   c1    c   1 1                V VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66    59.05476   c1    c   1 2                V VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67   246.14482   c2    c   2 1               VE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68   123.57605   c2    c   2 2               VE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69   333.17685   c3    c   3 1              VES VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70   167.09207   c3    c   3 2              VES VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 71   446.26091   c4    c   4 1             VESI VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 72   223.63410   c4    c   4 2             VESI VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 73   547.30860   c5    c   5 1            VESIT VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 74   274.15794   c5    c   5 2            VESIT VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 75   618.34571   c6    c   6 1           VESITA VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 76   309.67649   c6    c   6 2           VESITA VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 77   774.44682   c7    c   7 1          VESITAR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 78   387.72705   c7    c   7 2          VESITAR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 79   911.50573   c8    c   8 1         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 80   456.25650   c8    c   8 2         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 81   968.52719   c9    c   9 1        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 82   484.76723   c9    c   9 2        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 83  1097.56977  c10    c  10 1       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 84   549.28853  c10    c  10 2       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 85  1196.63819  c11    c  11 1      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 86   598.82273  c11    c  11 2      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 87  1309.72224  c12    c  12 1     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 88   655.36476  c12    c  12 2     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 89  1437.78083  c13    c  13 1    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 90   719.39405  c13    c  13 2    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 91  1550.86488  c14    c  14 1   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 92   775.93608  c14    c  14 2   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 93  1706.96600  c15    c  15 1  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 94   853.98664  c15    c  15 2  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95  1804.01876  c16    c  16 1 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 96   902.51302  c16    c  16 2 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 97   173.09207   x1    x   1 1                K VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 98    87.04967   x1    x   1 2                K VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 99   270.14483   x2    x   2 1               PK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 100  135.57605   x2    x   2 2               PK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 101  426.24594   x3    x   3 1              RPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 102  213.62661   x3    x   3 2              RPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 103  539.33000   x4    x   4 1             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 104  270.16864   x4    x   4 2             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 105  667.38858   x5    x   5 1            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 106  334.19793   x5    x   5 2            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 107  780.47264   x6    x   6 1           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 108  390.73996   x6    x   6 2           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 109  879.54105   x7    x   7 1          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 110  440.27416   x7    x   7 2          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 111 1008.58364   x8    x   8 1         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 112  504.79546   x8    x   8 2         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 113 1065.60510   x9    x   9 1        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 114  533.30619   x9    x   9 2        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 115 1202.66401  x10    x  10 1       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 116  601.83564  x10    x  10 2       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 117 1358.76512  x11    x  11 1      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 118  679.88620  x11    x  11 2      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 119 1429.80223  x12    x  12 1     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 120  715.40475  x12    x  12 2     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 121 1530.84991  x13    x  13 1    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 122  765.92859  x13    x  13 2    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 123 1643.93397  x14    x  14 1   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 124  822.47062  x14    x  14 2   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 125 1730.96600  x15    x  15 1  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 126  865.98664  x15    x  15 2  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 127 1860.00859  x16    x  16 1 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 128  930.50793  x16    x  16 2 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 129  147.11280   y1    y   1 1                K VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 130   74.06004   y1    y   1 2                K VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 131  244.16556   y2    y   2 1               PK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 132  122.58642   y2    y   2 2               PK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 133  400.26667   y3    y   3 1              RPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 134  200.63697   y3    y   3 2              RPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 135  513.35073   y4    y   4 1             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 136  257.17900   y4    y   4 2             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 137  641.40931   y5    y   5 1            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 138  321.20829   y5    y   5 2            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 139  754.49337   y6    y   6 1           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 140  377.75032   y6    y   6 2           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 141  853.56178   y7    y   7 1          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 142  427.28453   y7    y   7 2          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 143  982.60437   y8    y   8 1         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 144  491.80582   y8    y   8 2         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 145 1039.62583   y9    y   9 1        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 146  520.31655   y9    y   9 2        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 147 1176.68474  y10    y  10 1       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 148  588.84601  y10    y  10 2       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 149 1332.78585  y11    y  11 1      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 150  666.89656  y11    y  11 2      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 151 1403.82296  y12    y  12 1     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 152  702.41512  y12    y  12 2     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 153 1504.87064  y13    y  13 1    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 154  752.93896  y13    y  13 2    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 155 1617.95470  y14    y  14 1   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 156  809.48099  y14    y  14 2   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 157 1704.98673  y15    y  15 1  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 158  852.99700  y15    y  15 2  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 159 1834.02932  y16    y  16 1 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 160  917.51830  y16    y  16 2 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 161  130.08625   z1    z   1 1                K VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 162   65.54676   z1    z   1 2                K VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 163  227.13901   z2    z   2 1               PK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 164  114.07314   z2    z   2 2               PK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 165  383.24012   z3    z   3 1              RPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 166  192.12370   z3    z   3 2              RPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 167  496.32418   z4    z   4 1             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 168  248.66573   z4    z   4 2             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 169  624.38276   z5    z   5 1            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 170  312.69502   z5    z   5 2            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 171  737.46682   z6    z   6 1           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 172  369.23705   z6    z   6 2           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 173  836.53523   z7    z   7 1          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 174  418.77125   z7    z   7 2          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 175  965.57782   z8    z   8 1         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 176  483.29255   z8    z   8 2         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 177 1022.59928   z9    z   9 1        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 178  511.80328   z9    z   9 2        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 179 1159.65819  z10    z  10 1       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 180  580.33273  z10    z  10 2       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 181 1315.75930  z11    z  11 1      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 182  658.38329  z11    z  11 2      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 183 1386.79641  z12    z  12 1     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 184  693.90184  z12    z  12 2     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 185 1487.84409  z13    z  13 1    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 186  744.42568  z13    z  13 2    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 187 1600.92815  z14    z  14 1   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 188  800.96771  z14    z  14 2   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 189 1687.96018  z15    z  15 1  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 190  844.48373  z15    z  15 2  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 191 1817.00277  z16    z  16 1 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 192  909.00502  z16    z  16 2 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 193  383.22889  a4_   a_   4 1             VESI VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 194  192.11808  a4_   a_   4 2             VESI VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 195  484.27657  a5_   a_   5 1            VESIT VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 196  242.64192  a5_   a_   5 2            VESIT VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 197  555.31368  a6_   a_   6 1           VESITA VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 198  278.16048  a6_   a_   6 2           VESITA VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 199  711.41479  a7_   a_   7 1          VESITAR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 200  356.21103  a7_   a_   7 2          VESITAR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 201  848.47370  a8_   a_   8 1         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 202  424.74049  a8_   a_   8 2         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 203  905.49516  a9_   a_   9 1        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 204  453.25122  a9_   a_   9 2        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 205 1034.53775 a10_   a_  10 1       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 206  517.77251 a10_   a_  10 2       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 207 1133.60616 a11_   a_  11 1      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 208  567.30672 a11_   a_  11 2      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 209 1246.69022 a12_   a_  12 1     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 210  623.84875 a12_   a_  12 2     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 211 1374.74880 a13_   a_  13 1    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 212  687.87804 a13_   a_  13 2    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 213 1487.83286 a14_   a_  14 1   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 214  744.42007 a14_   a_  14 2   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 215 1643.93397 a15_   a_  15 1  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 216  822.47062 a15_   a_  15 2  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 217 1740.98673 a16_   a_  16 1 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 218  870.99700 a16_   a_  16 2 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 219  411.22380  b4_   b_   4 1             VESI VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 220  206.11554  b4_   b_   4 2             VESI VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 221  512.27148  b5_   b_   5 1            VESIT VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 222  256.63938  b5_   b_   5 2            VESIT VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 223  583.30859  b6_   b_   6 1           VESITA VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 224  292.15793  b6_   b_   6 2           VESITA VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 225  739.40970  b7_   b_   7 1          VESITAR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 226  370.20849  b7_   b_   7 2          VESITAR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 227  876.46861  b8_   b_   8 1         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 228  438.73794  b8_   b_   8 2         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 229  933.49007  b9_   b_   9 1        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 230  467.24867  b9_   b_   9 2        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 231 1062.53266 b10_   b_  10 1       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 232  531.76997 b10_   b_  10 2       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 233 1161.60107 b11_   b_  11 1      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 234  581.30417 b11_   b_  11 2      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 235 1274.68513 b12_   b_  12 1     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 236  637.84620 b12_   b_  12 2     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 237 1402.74371 b13_   b_  13 1    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 238  701.87549 b13_   b_  13 2    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 239 1515.82777 b14_   b_  14 1   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 240  758.41752 b14_   b_  14 2   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 241 1671.92888 b15_   b_  15 1  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 242  836.46808 b15_   b_  15 2  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 243 1768.98164 b16_   b_  16 1 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 244  884.99446 b16_   b_  16 2 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 245  428.25035  c4_   c_   4 1             VESI VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 246  214.62881  c4_   c_   4 2             VESI VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 247  529.29803  c5_   c_   5 1            VESIT VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 248  265.15265  c5_   c_   5 2            VESIT VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 249  600.33514  c6_   c_   6 1           VESITA VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 250  300.67121  c6_   c_   6 2           VESITA VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 251  756.43625  c7_   c_   7 1          VESITAR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 252  378.72176  c7_   c_   7 2          VESITAR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 253  893.49516  c8_   c_   8 1         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 254  447.25122  c8_   c_   8 2         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 255  950.51662  c9_   c_   9 1        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 256  475.76195  c9_   c_   9 2        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 257 1079.55921 c10_   c_  10 1       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 258  540.28324 c10_   c_  10 2       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 259 1178.62762 c11_   c_  11 1      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 260  589.81745 c11_   c_  11 2      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 261 1291.71168 c12_   c_  12 1     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 262  646.35948 c12_   c_  12 2     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 263 1419.77026 c13_   c_  13 1    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 264  710.38877 c13_   c_  13 2    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 265 1532.85432 c14_   c_  14 1   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 266  766.93080 c14_   c_  14 2   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 267 1688.95543 c15_   c_  15 1  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 268  844.98135 c15_   c_  15 2  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 269 1786.00819 c16_   c_  16 1 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 270  893.50773 c16_   c_  16 2 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 271  990.57307  x8_   x_   8 1         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 272  495.79017  x8_   x_   8 2         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 273 1625.92340 x14_   x_  14 1   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 274  813.46534 x14_   x_  14 2   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 275 1712.95543 x15_   x_  15 1  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 276  856.98135 x15_   x_  15 2  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 277 1841.99802 x16_   x_  16 1 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 278  921.50265 x16_   x_  16 2 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 279  964.59381  y8_   y_   8 1         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 280  482.80054  y8_   y_   8 2         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 281 1599.94414 y14_   y_  14 1   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 282  800.47571 y14_   y_  14 2   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 283 1686.97617 y15_   y_  15 1  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 284  843.99172 y15_   y_  15 2  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 285 1816.01876 y16_   y_  16 1 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 286  908.51302 y16_   y_  16 2 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 287  947.56726  z8_   z_   8 1         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 288  474.28727  z8_   z_   8 2         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 289 1582.91759 z14_   z_  14 1   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 290  791.96243 z14_   z_  14 2   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 291 1669.94962 z15_   z_  15 1  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 292  835.47845 z15_   z_  15 2  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 293 1798.99221 z16_   z_  16 1 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 294  899.99974 z16_   z_  16 2 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 295  155.08150  x1_   x_   1 1                K VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 296   78.04439  x1_   x_   1 2                K VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 297  252.13426  x2_   x_   2 1               PK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 298  126.57077  x2_   x_   2 2               PK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 299  408.23537  x3_   x_   3 1              RPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 300  204.62132  x3_   x_   3 2              RPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 301  521.31943  x4_   x_   4 1             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 302  261.16335  x4_   x_   4 2             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 303  649.37801  x5_   x_   5 1            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 304  325.19264  x5_   x_   5 2            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 305  762.46207  x6_   x_   6 1           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 306  381.73467  x6_   x_   6 2           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 307  861.53048  x7_   x_   7 1          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 308  431.26888  x7_   x_   7 2          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 309 1047.59453  x9_   x_   9 1        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 310  524.30090  x9_   x_   9 2        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 311 1184.65344 x10_   x_  10 1       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 312  592.83036 x10_   x_  10 2       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 313 1340.75455 x11_   x_  11 1      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 314  670.88091 x11_   x_  11 2      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 315 1411.79166 x12_   x_  12 1     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 316  706.39947 x12_   x_  12 2     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 317 1512.83934 x13_   x_  13 1    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 318  756.92331 x13_   x_  13 2    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 319  129.10224  y1_   y_   1 1                K VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 320   65.05476  y1_   y_   1 2                K VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 321  226.15500  y2_   y_   2 1               PK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 322  113.58114  y2_   y_   2 2               PK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 323  382.25611  y3_   y_   3 1              RPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 324  191.63169  y3_   y_   3 2              RPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 325  495.34017  y4_   y_   4 1             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 326  248.17372  y4_   y_   4 2             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 327  623.39875  y5_   y_   5 1            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 328  312.20301  y5_   y_   5 2            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 329  736.48281  y6_   y_   6 1           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 330  368.74504  y6_   y_   6 2           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 331  835.55122  y7_   y_   7 1          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 332  418.27925  y7_   y_   7 2          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 333 1021.61527  y9_   y_   9 1        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 334  511.31127  y9_   y_   9 2        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 335 1158.67418 y10_   y_  10 1       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 336  579.84073 y10_   y_  10 2       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 337 1314.77529 y11_   y_  11 1      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 338  657.89128 y11_   y_  11 2      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 339 1385.81240 y12_   y_  12 1     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 340  693.40984 y12_   y_  12 2     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 341 1486.86008 y13_   y_  13 1    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 342  743.93368 y13_   y_  13 2    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 343  112.07569  z1_   z_   1 1                K VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 344   56.54148  z1_   z_   1 2                K VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 345  209.12845  z2_   z_   2 1               PK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 346  105.06786  z2_   z_   2 2               PK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 347  365.22956  z3_   z_   3 1              RPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 348  183.11842  z3_   z_   3 2              RPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 349  478.31362  z4_   z_   4 1             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 350  239.66045  z4_   z_   4 2             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 351  606.37220  z5_   z_   5 1            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 352  303.68974  z5_   z_   5 2            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 353  719.45626  z6_   z_   6 1           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 354  360.23177  z6_   z_   6 2           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 355  818.52467  z7_   z_   7 1          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 356  409.76597  z7_   z_   7 2          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 357 1004.58872  z9_   z_   9 1        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 358  502.79800  z9_   z_   9 2        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 359 1141.64763 z10_   z_  10 1       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 360  571.32745 z10_   z_  10 2       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 361 1297.74874 z11_   z_  11 1      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 362  649.37801 z11_   z_  11 2      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 363 1368.78585 z12_   z_  12 1     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 364  684.89656 z12_   z_  12 2     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 365 1469.83353 z13_   z_  13 1    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 366  735.42040 z13_   z_  13 2    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 367  849.45771  a8*   a*   8 1         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 368  425.23249  a8*   a*   8 2         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 369  906.47917  a9*   a*   9 1        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 370  453.74322  a9*   a*   9 2        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 371 1035.52176 a10*   a*  10 1       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 372  518.26452 a10*   a*  10 2       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 373 1134.59017 a11*   a*  11 1      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 374  567.79872 a11*   a*  11 2      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 375 1247.67423 a12*   a*  12 1     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 376  624.34075 a12*   a*  12 2     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 377 1375.73281 a13*   a*  13 1    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 378  688.37004 a13*   a*  13 2    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 379 1488.81687 a14*   a*  14 1   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 380  744.91207 a14*   a*  14 2   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 381 1644.91798 a15*   a*  15 1  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 382  822.96263 a15*   a*  15 2  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 383 1741.97074 a16*   a*  16 1 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 384  871.48901 a16*   a*  16 2 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 385  877.45263  b8*   b*   8 1         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 386  439.22995  b8*   b*   8 2         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 387  934.47409  b9*   b*   9 1        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 388  467.74068  b9*   b*   9 2        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 389 1063.51668 b10*   b*  10 1       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 390  532.26198 b10*   b*  10 2       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 391 1162.58509 b11*   b*  11 1      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 392  581.79618 b11*   b*  11 2      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 393 1275.66915 b12*   b*  12 1     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 394  638.33821 b12*   b*  12 2     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 395 1403.72773 b13*   b*  13 1    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 396  702.36750 b13*   b*  13 2    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 397 1516.81179 b14*   b*  14 1   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 398  758.90953 b14*   b*  14 2   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 399 1672.91290 b15*   b*  15 1  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 400  836.96009 b15*   b*  15 2  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 401 1769.96566 b16*   b*  16 1 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 402  885.48647 b16*   b*  16 2 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 403  894.47918  c8*   c*   8 1         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 404  447.74323  c8*   c*   8 2         VESITARH VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 405  951.50064  c9*   c*   9 1        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 406  476.25396  c9*   c*   9 2        VESITARHG VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 407 1080.54323 c10*   c*  10 1       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 408  540.77525 c10*   c*  10 2       VESITARHGE VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 409 1179.61164 c11*   c*  11 1      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 410  590.30946 c11*   c*  11 2      VESITARHGEV VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 411 1292.69570 c12*   c*  12 1     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 412  646.85149 c12*   c*  12 2     VESITARHGEVL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 413 1420.75428 c13*   c*  13 1    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 414  710.88078 c13*   c*  13 2    VESITARHGEVLQ VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 415 1533.83834 c14*   c*  14 1   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 416  767.42281 c14*   c*  14 2   VESITARHGEVLQL VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 417 1689.93945 c15*   c*  15 1  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 418  845.47336 c15*   c*  15 2  VESITARHGEVLQLR VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 419 1786.99221 c16*   c*  16 1 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 420  893.99974 c16*   c*  16 2 VESITARHGEVLQLRP VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 421  522.30345  x4*   x*   4 1             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 422  261.65536  x4*   x*   4 2             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 423  650.36203  x5*   x*   5 1            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 424  325.68465  x5*   x*   5 2            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 425  763.44609  x6*   x*   6 1           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 426  382.22668  x6*   x*   6 2           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 427  862.51450  x7*   x*   7 1          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 428  431.76089  x7*   x*   7 2          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 429  991.55709  x8*   x*   8 1         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 430  496.28218  x8*   x*   8 2         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 431 1048.57855  x9*   x*   9 1        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 432  524.79291  x9*   x*   9 2        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 433 1185.63746 x10*   x*  10 1       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 434  593.32237 x10*   x*  10 2       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 435 1341.73857 x11*   x*  11 1      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 436  671.37292 x11*   x*  11 2      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 437 1412.77568 x12*   x*  12 1     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 438  706.89148 x12*   x*  12 2     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 439 1513.82336 x13*   x*  13 1    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 440  757.41532 x13*   x*  13 2    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 441 1626.90742 x14*   x*  14 1   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 442  813.95735 x14*   x*  14 2   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 443 1713.93945 x15*   x*  15 1  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 444  857.47336 x15*   x*  15 2  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 445 1842.98204 x16*   x*  16 1 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 446  921.99466 x16*   x*  16 2 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 447  496.32418  y4*   y*   4 1             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 448  248.66573  y4*   y*   4 2             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 449  624.38276  y5*   y*   5 1            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 450  312.69502  y5*   y*   5 2            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 451  737.46682  y6*   y*   6 1           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 452  369.23705  y6*   y*   6 2           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 453  836.53523  y7*   y*   7 1          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 454  418.77125  y7*   y*   7 2          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 455  965.57782  y8*   y*   8 1         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 456  483.29255  y8*   y*   8 2         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 457 1022.59928  y9*   y*   9 1        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 458  511.80328  y9*   y*   9 2        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 459 1159.65819 y10*   y*  10 1       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 460  580.33273 y10*   y*  10 2       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 461 1315.75930 y11*   y*  11 1      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 462  658.38329 y11*   y*  11 2      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 463 1386.79641 y12*   y*  12 1     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 464  693.90184 y12*   y*  12 2     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 465 1487.84409 y13*   y*  13 1    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 466  744.42568 y13*   y*  13 2    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 467 1600.92815 y14*   y*  14 1   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 468  800.96771 y14*   y*  14 2   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 469 1687.96018 y15*   y*  15 1  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 470  844.48373 y15*   y*  15 2  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 471 1817.00277 y16*   y*  16 1 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 472  909.00502 y16*   y*  16 2 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 473  479.29763  z4*   z*   4 1             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 474  240.15245  z4*   z*   4 2             LRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 475  607.35621  z5*   z*   5 1            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 476  304.18174  z5*   z*   5 2            QLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 477  720.44027  z6*   z*   6 1           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 478  360.72377  z6*   z*   6 2           LQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 479  819.50868  z7*   z*   7 1          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 480  410.25798  z7*   z*   7 2          VLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 481  948.55127  z8*   z*   8 1         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 482  474.77927  z8*   z*   8 2         EVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 483 1005.57273  z9*   z*   9 1        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 484  503.29000  z9*   z*   9 2        GEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 485 1142.63164 z10*   z*  10 1       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 486  571.81946 z10*   z*  10 2       HGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 487 1298.73275 z11*   z*  11 1      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 488  649.87001 z11*   z*  11 2      RHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 489 1369.76986 z12*   z*  12 1     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 490  685.38857 z12*   z*  12 2     ARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 491 1470.81754 z13*   z*  13 1    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 492  735.91241 z13*   z*  13 2    TARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 493 1583.90160 z14*   z*  14 1   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 494  792.45444 z14*   z*  14 2   ITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 495 1670.93363 z15*   z*  15 1  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 496  835.97045 z15*   z*  15 2  SITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 497 1799.97622 z16*   z*  16 1 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 498  900.49175 z16*   z*  16 2 ESITARHGEVLQLRPK VESITARHGEVLQLRPK</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"VESITARHGEVLQLRPK"</span>, <span class="va">msexp</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fixed modifications used: C=57.02146</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Variable modifications used: None</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          mz intensity  ion type pos z             seq       error</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  429.2563 1972344.0   b4    b   4 1            VESI -0.02189010</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  512.3044  684918.0  b5_   b_   5 1           VESIT -0.03290132</span>
@@ -716,39 +728,47 @@
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## real example</span></span></span>
 <span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"PQR"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  98.06004  b1    b   1 1   P</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 226.11862  b2    b   2 1  PQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 175.11895  y1    y   1 1   R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 303.17753  y2    y   2 1  QR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 157.10839 y1_   y_   1 1   R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 285.16697 y2_   y_   2 1  QR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 286.15098 y2*   y*   2 1  QR</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fixed modifications used: C=57.02146</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Variable modifications used: None</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq peptide</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  98.06004  b1    b   1 1   P     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 226.11862  b2    b   2 1  PQ     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 175.11895  y1    y   1 1   R     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 303.17753  y2    y   2 1  QR     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 157.10839 y1_   y_   1 1   R     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 285.16697 y2_   y_   2 1  QR     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 286.15098 y2*   y*   2 1  QR     PQR</span>
 <span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"PQR"</span>,</span></span>
 <span class="r-in"><span>                   neutralLoss<span class="op">=</span><span class="fu">PSMatch</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/PSMatch/man/calculateFragments.html" class="external-link">defaultNeutralLoss</a></span><span class="op">(</span>disableWaterLoss<span class="op">=</span><span class="st">"Cterm"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  98.06004  b1    b   1 1   P</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 226.11862  b2    b   2 1  PQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 175.11895  y1    y   1 1   R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 303.17753  y2    y   2 1  QR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 286.15098 y2*   y*   2 1  QR</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fixed modifications used: C=57.02146</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Variable modifications used: None</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq peptide</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  98.06004  b1    b   1 1   P     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 226.11862  b2    b   2 1  PQ     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 175.11895  y1    y   1 1   R     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 303.17753  y2    y   2 1  QR     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 286.15098 y2*   y*   2 1  QR     PQR</span>
 <span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"PQR"</span>,</span></span>
 <span class="r-in"><span>                   neutralLoss<span class="op">=</span><span class="fu">PSMatch</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/PSMatch/man/calculateFragments.html" class="external-link">defaultNeutralLoss</a></span><span class="op">(</span>disableAmmoniaLoss<span class="op">=</span><span class="st">"Q"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  98.06004  b1    b   1 1   P</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 226.11862  b2    b   2 1  PQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 175.11895  y1    y   1 1   R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 303.17753  y2    y   2 1  QR</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 157.10839 y1_   y_   1 1   R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 285.16697 y2_   y_   2 1  QR</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fixed modifications used: C=57.02146</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Variable modifications used: None</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq peptide</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  98.06004  b1    b   1 1   P     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 226.11862  b2    b   2 1  PQ     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 175.11895  y1    y   1 1   R     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 303.17753  y2    y   2 1  QR     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 157.10839 y1_   y_   1 1   R     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 285.16697 y2_   y_   2 1  QR     PQR</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## disable neutral loss completely</span></span></span>
 <span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"PQR"</span>, neutralLoss<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  98.06004  b1    b   1 1   P</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 226.11862  b2    b   2 1  PQ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 175.11895  y1    y   1 1   R</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 303.17753  y2    y   2 1  QR</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fixed modifications used: C=57.02146</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Variable modifications used: None</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq peptide</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  98.06004  b1    b   1 1   P     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 226.11862  b2    b   2 1  PQ     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 175.11895  y1    y   1 1   R     PQR</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 303.17753  y2    y   2 1  QR     PQR</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
