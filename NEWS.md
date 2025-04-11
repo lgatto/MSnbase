@@ -1,5 +1,9 @@
 # MSnbase 2.33
 
+## MSnbase 2.33.5
+
+- Remove `methods-fragments.R` (is now part of `PSMatch`).
+
 ## MSnbase 2.33.4
 
 - Fix bug in `MzTab()` (see issue #608).
