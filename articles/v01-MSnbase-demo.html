@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">MSnbase</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.35.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.35.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -636,7 +636,7 @@ protein.</p>
 <span><span class="co">## - - - Processing information - - -</span></span>
 <span><span class="co">## Data loaded: Wed May 11 18:54:39 2011 </span></span>
 <span><span class="co">## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] </span></span>
-<span><span class="co">## Data [logically] subsetted 3 spectra: Mon Aug  4 19:04:38 2025 </span></span>
+<span><span class="co">## Data [logically] subsetted 3 spectra: Mon Aug  4 21:27:27 2025 </span></span>
 <span><span class="co">##  MSnbase version: 1.1.22 </span></span>
 <span><span class="co">## - - - Meta data  - - -</span></span>
 <span><span class="co">## phenoData</span></span>
@@ -1139,8 +1139,8 @@ experiment to the original 1.9 Mb.</p>
 <span><span class="co">## - - - Processing information - - -</span></span>
 <span><span class="co">## Data loaded: Wed May 11 18:54:39 2011 </span></span>
 <span><span class="co">## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] </span></span>
-<span><span class="co">## Curves &lt;= 400 set to '0': Mon Aug  4 19:04:44 2025 </span></span>
-<span><span class="co">## Spectra cleaned: Mon Aug  4 19:04:44 2025 </span></span>
+<span><span class="co">## Curves &lt;= 400 set to '0': Mon Aug  4 21:27:33 2025 </span></span>
+<span><span class="co">## Spectra cleaned: Mon Aug  4 21:27:33 2025 </span></span>
 <span><span class="co">##  MSnbase version: 1.1.22 </span></span>
 <span><span class="co">## - - - Meta data  - - -</span></span>
 <span><span class="co">## phenoData</span></span>
@@ -1252,9 +1252,9 @@ is the number of reporter ions, that can be accessed with the
 <span><span class="co">## - - - Processing information - - -</span></span>
 <span><span class="co">## Data loaded: Wed May 11 18:54:39 2011 </span></span>
 <span><span class="co">## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] </span></span>
-<span><span class="co">## Curves &lt;= 400 set to '0': Mon Aug  4 19:04:44 2025 </span></span>
-<span><span class="co">## Spectra cleaned: Mon Aug  4 19:04:44 2025 </span></span>
-<span><span class="co">## iTRAQ4 quantification by trapezoidation: Mon Aug  4 19:04:46 2025 </span></span>
+<span><span class="co">## Curves &lt;= 400 set to '0': Mon Aug  4 21:27:33 2025 </span></span>
+<span><span class="co">## Spectra cleaned: Mon Aug  4 21:27:33 2025 </span></span>
+<span><span class="co">## iTRAQ4 quantification by trapezoidation: Mon Aug  4 21:27:35 2025 </span></span>
 <span><span class="co">##  MSnbase version: 1.1.22</span></span></code></pre>
 <div class="sourceCode" id="cb106"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">qnt</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -1480,7 +1480,7 @@ imputation on the <code>naset</code> example data:</p>
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ProtGenerics/man/protgenerics.html" class="external-link">impute</a></span><span class="op">(</span><span class="va">naset</span>, <span class="st">"min"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/pSet-class.html">processingData</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">## Data imputation using min Mon Aug  4 19:04:48 2025 </span></span>
+<span><span class="co">## Data imputation using min Mon Aug  4 21:27:37 2025 </span></span>
 <span><span class="co">##  MSnbase version: 1.15.6</span></span></code></pre>
 <div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -1552,7 +1552,7 @@ figure @ref(fig:miximp)).</p>
 <span><span class="co">## experimentData: use 'experimentData(object)'</span></span>
 <span><span class="co">## Annotation:  </span></span>
 <span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">## Data imputation using mixed Mon Aug  4 19:04:48 2025 </span></span>
+<span><span class="co">## Data imputation using mixed Mon Aug  4 21:27:37 2025 </span></span>
 <span><span class="co">##  MSnbase version: 1.15.6</span></span></code></pre>
 <p>Please read <code>?MsCoreUtils::impute_matix()</code> for a
 description of the different methods.</p>
@@ -1704,14 +1704,14 @@ functions with <code>method=function(x) { ... }</code>. We will use the
 <span><span class="co">## - - - Processing information - - -</span></span>
 <span><span class="co">## Data loaded: Wed May 11 18:54:39 2011 </span></span>
 <span><span class="co">## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] </span></span>
-<span><span class="co">## Curves &lt;= 400 set to '0': Mon Aug  4 19:04:44 2025 </span></span>
-<span><span class="co">## Spectra cleaned: Mon Aug  4 19:04:44 2025 </span></span>
-<span><span class="co">## iTRAQ4 quantification by trapezoidation: Mon Aug  4 19:04:46 2025 </span></span>
-<span><span class="co">## Subset [55,4][54,4] Mon Aug  4 19:04:46 2025 </span></span>
-<span><span class="co">## Removed features with more than 0 NAs: Mon Aug  4 19:04:46 2025 </span></span>
-<span><span class="co">## Dropped featureData's levels Mon Aug  4 19:04:46 2025 </span></span>
-<span><span class="co">## Combined 54 features into 40 using median: Mon Aug  4 19:04:50 2025 </span></span>
-<span><span class="co">##  MSnbase version: 2.35.0</span></span></code></pre>
+<span><span class="co">## Curves &lt;= 400 set to '0': Mon Aug  4 21:27:33 2025 </span></span>
+<span><span class="co">## Spectra cleaned: Mon Aug  4 21:27:33 2025 </span></span>
+<span><span class="co">## iTRAQ4 quantification by trapezoidation: Mon Aug  4 21:27:35 2025 </span></span>
+<span><span class="co">## Subset [55,4][54,4] Mon Aug  4 21:27:36 2025 </span></span>
+<span><span class="co">## Removed features with more than 0 NAs: Mon Aug  4 21:27:36 2025 </span></span>
+<span><span class="co">## Dropped featureData's levels Mon Aug  4 21:27:36 2025 </span></span>
+<span><span class="co">## Combined 54 features into 40 using median: Mon Aug  4 21:27:39 2025 </span></span>
+<span><span class="co">##  MSnbase version: 2.35.1</span></span></code></pre>
 <p>Of interest is also the <code>iPQF</code> spectra-to-protein
 summarisation method, which integrates peptide spectra characteristics
 and quantitative values for protein quantitation estimation. See
@@ -1790,12 +1790,12 @@ automatically from the feature meta-data using the default
 <code class="sourceCode R"><span><span class="va">siquant</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">msexp</span>, method <span class="op">=</span> <span class="st">"SIn"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/pSet-class.html">processingData</a></span><span class="op">(</span><span class="va">siquant</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">## Data loaded: Mon Aug  4 19:04:43 2025 </span></span>
-<span><span class="co">## Filtered 2 unidentified peptides out [Mon Aug  4 19:04:44 2025] </span></span>
-<span><span class="co">## Quantitation by total ion current [Mon Aug  4 19:04:50 2025] </span></span>
-<span><span class="co">## Combined 3 features into 3 using sum: Mon Aug  4 19:04:50 2025 </span></span>
-<span><span class="co">## Quantification by SIn [Mon Aug  4 19:04:50 2025] </span></span>
-<span><span class="co">##  MSnbase version: 2.35.0</span></span></code></pre>
+<span><span class="co">## Data loaded: Mon Aug  4 21:27:32 2025 </span></span>
+<span><span class="co">## Filtered 2 unidentified peptides out [Mon Aug  4 21:27:33 2025] </span></span>
+<span><span class="co">## Quantitation by total ion current [Mon Aug  4 21:27:39 2025] </span></span>
+<span><span class="co">## Combined 3 features into 3 using sum: Mon Aug  4 21:27:39 2025 </span></span>
+<span><span class="co">## Quantification by SIn [Mon Aug  4 21:27:39 2025] </span></span>
+<span><span class="co">##  MSnbase version: 2.35.1</span></span></code></pre>
 <div class="sourceCode" id="cb155"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/exprs.html" class="external-link">exprs</a></span><span class="op">(</span><span class="va">siquant</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##         dummyiTRAQ.mzXML</span></span>
@@ -2196,8 +2196,8 @@ inserted appropriately.</p>
 <span><span class="co">## experimentData: use 'experimentData(object)'</span></span>
 <span><span class="co">## Annotation:  </span></span>
 <span><span class="co">## - - - Processing information - - -</span></span>
-<span><span class="co">## Combined [27,4] and [24,4] MSnSets Mon Aug  4 19:04:57 2025 </span></span>
-<span><span class="co">##  MSnbase version: 2.35.0</span></span></code></pre>
+<span><span class="co">## Combined [27,4] and [24,4] MSnSets Mon Aug  4 21:27:46 2025 </span></span>
+<span><span class="co">##  MSnbase version: 2.35.1</span></span></code></pre>
 <p>In summary, when experiments with different samples need to be
 combined (along the columns), one needs to (1) clarify the sample names
 using <code>updateSampleNames</code> or better manually, for biological
@@ -2367,7 +2367,7 @@ using the <code>topN</code> method.</p>
 <span><span class="co">##  [4] BiocParallel_1.42.1  MLInterfaces_1.88.1  cluster_2.1.8.1     </span></span>
 <span><span class="co">##  [7] annotate_1.86.1      XML_3.99-0.18        AnnotationDbi_1.70.0</span></span>
 <span><span class="co">## [10] IRanges_2.42.0       pRolocdata_1.46.0    Rdisop_1.68.0       </span></span>
-<span><span class="co">## [13] zoo_1.8-14           MSnbase_2.35.0       ProtGenerics_1.40.0 </span></span>
+<span><span class="co">## [13] zoo_1.8-14           MSnbase_2.35.1       ProtGenerics_1.40.0 </span></span>
 <span><span class="co">## [16] S4Vectors_0.46.0     mzR_2.42.0           Rcpp_1.1.0          </span></span>
 <span><span class="co">## [19] Biobase_2.68.0       BiocGenerics_0.54.0  generics_0.1.4      </span></span>
 <span><span class="co">## [22] ggplot2_3.5.2        BiocStyle_2.36.0    </span></span>
