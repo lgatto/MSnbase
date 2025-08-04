@@ -101,7 +101,6 @@ plotMzDelta_MSnExp <- function(object,            ## MSnExp object
                     xlab("m/z delta") + ylab("Density") +
                         ggtitle("Histogram of Mass Delta Distribution")
     if (withLabels) {
-        browser()
         y_offset <- x_offset <- rep(0.5, 21)
         ## Ignore Selenocysteine and Pyrrolysine (positions 22 and 23)
         names(y_offset) <- names(x_offset) <- PSMatch::getAminoAcids()$AA[1:21, ]
