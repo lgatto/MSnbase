@@ -19,7 +19,7 @@ used instead (i.e. the chromatogram() method)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">MSnbase</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.33.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.35.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,7 +49,7 @@ used instead (i.e. the chromatogram() method)."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Representation of chromatographic MS data</h1>
-      <small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/methods-fragments/R/functions-Chromatogram.R" class="external-link"><code>R/functions-Chromatogram.R</code></a>, <a href="https://github.com/lgatto/MSnbase/blob/methods-fragments/R/methods-Chromatogram.R" class="external-link"><code>R/methods-Chromatogram.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/master/R/functions-Chromatogram.R" class="external-link"><code>R/functions-Chromatogram.R</code></a>, <a href="https://github.com/lgatto/MSnbase/blob/master/R/methods-Chromatogram.R" class="external-link"><code>R/methods-Chromatogram.R</code></a></small>
       <div class="d-none name"><code>Chromatogram-class.Rd</code></div>
     </div>
 
@@ -480,23 +480,23 @@ a two-dimensional matrix (rows being mz-rt ranges, columns samples).
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Extract intensities</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="Spectrum-class.html">intensity</a></span><span class="op">(</span><span class="va">chr</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 140.0043517  25.5317055 243.7263611   0.5571287  62.1552721 114.8411606</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [7] 182.1817661  24.7325302  24.4199607  28.2705449  55.3699384  62.8982042</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] 206.5024895 163.0989402  51.2426950 186.3011492  52.2012515   5.2601910</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [19]  54.2996343  91.4074827  46.8154420  36.2951256 130.4543545  73.7776321</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] 188.8504929   9.7445104  93.5847354   1.5950311  82.6788954 151.2399651</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [31]  93.5363190  17.6488611  24.3685465 162.3548883  11.2038083  13.3997013</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] 191.0087468  27.9237242  31.3445978 106.7307879   7.0034850  63.9123324</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [43]   4.9964899  25.1483443  44.4797116 275.5417575   4.6531380  57.7709069</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [49]  11.8194874 191.1720491  86.2086482  24.3236740  20.6087195   1.9177592</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [55]   2.9560754  54.9827542 227.4114857 268.2557184  36.1221255  21.3355750</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] 107.4345882  66.5088249 111.3952419  24.5896412 117.7563309  97.5850616</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [67] 106.5057320  13.1670635  48.8628809 169.9450568 147.0736306  28.4150344</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 133.7320413  23.6696283 131.8293384  52.3909788  60.6748047  10.9935672</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [79]  17.2181715   9.0327287 192.4343341 129.8392759  74.8791268  55.6224329</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [85]  54.8257264 111.0534893 261.2334333  15.5693776  43.3889790  38.1951112</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [91]  42.4187575 106.3101996 104.8712620   3.8102895  48.6148920 167.2882611</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [97]  35.4361164  94.6347886 131.6826356  29.6640025</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1]  25.5317055 243.7263611   0.5571287  62.1552721 114.8411606 182.1817661</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [7]  24.7325302  24.4199607  28.2705449  55.3699384  62.8982042 206.5024895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] 163.0989402  51.2426950 186.3011492  52.2012515   5.2601910  54.2996343</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19]  91.4074827  46.8154420  36.2951256 130.4543545  73.7776321 188.8504929</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [25]   9.7445104  93.5847354   1.5950311  82.6788954 151.2399651  93.5363190</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [31]  17.6488611  24.3685465 162.3548883  11.2038083  13.3997013 191.0087468</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37]  27.9237242  31.3445978 106.7307879   7.0034850  63.9123324   4.9964899</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [43]  25.1483443  44.4797116 275.5417575   4.6531380  57.7709069  11.8194874</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [49] 191.1720491  86.2086482  24.3236740  20.6087195   1.9177592   2.9560754</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55]  54.9827542 227.4114857 268.2557184  36.1221255  21.3355750 107.4345882</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [61]  66.5088249 111.3952419  24.5896412 117.7563309  97.5850616 106.5057320</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [67]  13.1670635  48.8628809 169.9450568 147.0736306  28.4150344 133.7320413</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73]  23.6696283 131.8293384  52.3909788  60.6748047  10.9935672  17.2181715</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [79]   9.0327287 192.4343341 129.8392759  74.8791268  55.6224329  54.8257264</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] 111.0534893 261.2334333  15.5693776  43.3889790  38.1951112  42.4187575</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 106.3101996 104.8712620   3.8102895  48.6148920 167.2882611  35.4361164</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [97]  94.6347886 131.6826356  29.6640025  38.7213575</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Extract retention times</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">chr</span><span class="op">)</span></span></span>
@@ -528,7 +528,7 @@ a two-dimensional matrix (rows being mz-rt ranges, columns samples).
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Get the intensities</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="Spectrum-class.html">intensity</a></span><span class="op">(</span><span class="va">chr</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1658.884 1828.917 1971.020 1935.111 1965.487 1752.787</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1828.917 1971.020 1935.111 1965.487 1752.787 1619.539</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Get the retention time</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">chr</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -626,7 +626,7 @@ a two-dimensional matrix (rows being mz-rt ranges, columns samples).
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.9000.</p>
 </div>
 
     </footer></div>
