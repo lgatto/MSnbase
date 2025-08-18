@@ -187,9 +187,9 @@ jobs:
           cd preprocessCore
           R CMD INSTALL --configure-args="--disable-threading"  .
 
-      - name: Install latest pRolocdata (1.43.2) from github
+      - name: Install latest PSMatch from github
         run: |
-          BiocManager::install("lgatto/pRolocdata", ask = FALSE, force = TRUE)
+          BiocManager::install("RforMassSpectrometry/PSMatch", ask = FALSE, force = TRUE)
         continue-on-error: true
         shell: Rscript {0}
 
