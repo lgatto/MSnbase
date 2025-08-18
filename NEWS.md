@@ -1,5 +1,11 @@
 # MSnbase 2.35
 
+## 2.35.2
+
+- Second fix error from adding Selenocysteine and Pyrrolysine to
+  PSMatch AA table.
+- Import PSmatch >= 1.13.3.
+
 ## 2.35.1
 
 - Fix error from adding Selenocysteine and Pyrrolysine to PSMatch AA
