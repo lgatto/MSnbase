@@ -110,7 +110,7 @@ plotMzDelta_MSnExp <- function(object,            ## MSnExp object
         y_offset[c("N", "E")] <- 1
         y_offset[c("K", "Q", "I", "L")] <- 0
         y_offset[c("D", "M")] <- 0
-        aa <- cbind(PSMatch::getAminoAcids()[1:21], x_offset, y_offset)
+        aa <- cbind(PSMatch::getAminoAcids()[1:21,], x_offset, y_offset)
         ## removing Isoleucine, as it has the same residue mass
         ## as leucine, and updating leucine's label to I/L
         aa$AA <- as.character(aa$AA)
