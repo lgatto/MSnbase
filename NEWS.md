@@ -1,5 +1,9 @@
 # MSnbase 2.35
 
+## 2.35.3
+- Remove rols dependency.
+- Remove pryr dependency.
+
 ## 2.35.2
 
 - Second fix error from adding Selenocysteine and Pyrrolysine to
