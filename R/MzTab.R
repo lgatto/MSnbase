@@ -149,8 +149,6 @@ addMzTabMetadata <- function(x, y) {
     if (any(i <- grepl("publication", names(metadata(y)))))
         pubMedIds(x) <- unlist(metadata(y)[i], use.names = FALSE)
     x@processingData@files <- fileName(y)
-    ## This would need www access, if to use rols
-    ## experimentData(x)@samples$species <- 'sample[1-n]-species[1-n]'
     if (validObject(x)) x
 }
 

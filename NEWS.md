@@ -1,3 +1,9 @@
+# MSnbase 2.37
+
+## 2.37.1
+- Remove rols dependency.
+- Remove pryr dependency.
+
 # MSnbase 2.35
 
 ## 2.35.2
