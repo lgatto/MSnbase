@@ -426,9 +426,9 @@ test_that("setAs,MSnExp,data.frame works", {
 })
 
 test_that("pickPeaks,MSnExp works with msLevel", {
-    res <- pickPeaks(tmt_im_ms1_sub, msLevel = 2)
+    res <- pickPeaks(tmt_im_ms1_sub, msLevel. = 2)
     expect_identical(peaksCount(res), peaksCount(tmt_im_ms1_sub))
-    res <- pickPeaks(tmt_im_ms1_sub, msLevel = 1:3)
+    res <- pickPeaks(tmt_im_ms1_sub, msLevel. = 1:3)
     expect_true(all(peaksCount(res) < peaksCount(tmt_im_ms1_sub)))
 })
 
