@@ -588,7 +588,7 @@ setMethod("combineSpectra", "MSnExp", function(object, fcol = "fileIdx",
     BPPARAM <- getBpParam(object, BPPARAM = BPPARAM)
     fns <- fileNames(object)
     if (is(object, "MSnExp") && fcol == "fileIdx")
-        fData(object)$fileIdx <- fromFile(object)
+        fData(object)[, "fileIdx"] <- fromFile(object)
     objs <- split(object, fromFile(object))
     dots <- list(...)
     res <- bplapply(objs, function(z, fcol, fns, dots) {

@@ -34,11 +34,11 @@ test_that("makeNAdata", {
 test_that("makeNAdata2", {
     expect_error(makeNaData2(1))
     expect_error(makeNaData2(dunkley2006))
-    expect_error(makeNaData2(dunkley2006, nRows = 1:10, nNA = 1:2))
+    expect_error(makeNaData2(dunkley2006, nRows = 1:10, nNAs = 1:2))
 
 
     tmp <- makeNaData2(dunkley2006[1:56],
-                       nRows = 1:10, nNA = 1:10,
+                       nRows = 1:10, nNAs = 1:10,
                        exclude = 1)
     expect_true(!anyNA(tmp[1, ]))
     expect_true(all(apply(exprs(tmp[-1, ]), 1, function(x) any(is.na(x)))))
@@ -48,7 +48,7 @@ test_that("makeNAdata2", {
     k <- logical(56)
     k[1] <- TRUE
     tmp <- makeNaData2(dunkley2006[1:56],
-                       nRows = 1:10, nNA = 1:10,
+                       nRows = 1:10, nNAs = 1:10,
                        exclude = k)
     expect_true(!anyNA(tmp[1, ]))
     expect_true(all(apply(exprs(tmp[-1, ]), 1, function(x) any(is.na(x)))))
@@ -57,14 +57,14 @@ test_that("makeNAdata2", {
 
     k <- featureNames(dunkley2006)[1]
     tmp <- makeNaData2(dunkley2006[1:56],
-                       nRows = 1:10, nNA = 1:10,
+                       nRows = 1:10, nNAs = 1:10,
                        exclude = k)
     expect_true(!anyNA(tmp[1, ]))
     expect_true(all(apply(exprs(tmp[-1, ]), 1, function(x) any(is.na(x)))))
     nna <- table(apply(exprs(tmp[-1, ]), 1, function(x) sum(is.na(x))))
     expect_identical(as.vector(nna), 1:10)
 
-    tmp <- makeNaData2(dunkley2006, nRows = 1:10, nNA = 1:10)
+    tmp <- makeNaData2(dunkley2006, nRows = 1:10, nNAs = 1:10)
     expect_identical(sum(is.na(exprs(tmp))), sum(1:10 * 1:10))
 })
 

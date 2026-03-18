@@ -587,7 +587,7 @@ nologging <- function(object, n = 1) {
   ## removes the last n entries from
   ## object@processingData@processing
   l <- length(object@processingData@processing)
-  x <- seq(l, length = n, by = -1)
+  x <- seq(l, length.out = n, by = -1)
   object@processingData@processing <-
     object@processingData@processing[-x]
   stopifnot(length(object@processingData@processing) == (l - n))
