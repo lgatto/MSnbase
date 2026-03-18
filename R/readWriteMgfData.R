@@ -59,7 +59,7 @@ writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
   if (verbose)
     pb <- txtProgressBar(min = 0, max = length(splist), style = 3)
 
-  for (i in seq(along=splist)) {
+  for (i in seq(along.with=splist)) {
     if (verbose)
       setTxtProgressBar(pb, i)
 
@@ -146,7 +146,7 @@ readMgfData <- function(filename,
   spectra <- vector("list", length = n)
   fdata <- vector("list", length = n)
 
-  for (i in seq(along = spectra)) {
+  for (i in seq(along.with = spectra)) {
     if (verbose) {
       setTxtProgressBar(pb, cnt)
       cnt <- cnt + 1L

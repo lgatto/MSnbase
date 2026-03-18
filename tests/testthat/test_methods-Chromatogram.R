@@ -162,7 +162,6 @@ test_that("normalize,Chromatogram works", {
     res <- normalize(chr)
     expect_true(max(intensity(res), na.rm = TRUE) == 1)
     expect_true(is.na(intensity(res)[1]))
-
 })
 
 test_that("filterIntensity,Chromatogram works", {

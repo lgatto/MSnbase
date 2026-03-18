@@ -96,7 +96,7 @@ MChromatograms <- function(data, phenoData, featureData, ...) {
     maxLens <- max(lens)
 
     ints <- rts <- matrix(NA_real_, nrow = maxLens, ncol = length(x))
-    for (i in seq(along = x)) {
+    for (i in seq(along.with = x)) {
         if (lens[i]) {
             rows <- seq_len(lens[i])
             rts[rows, i] <- rtime(x[[i]])

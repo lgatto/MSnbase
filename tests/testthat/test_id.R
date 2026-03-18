@@ -1,6 +1,5 @@
 test_that("mzRident to data.frame", {
-    idf <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"
-    f <- msdata::ident(full.names = TRUE, pattern = idf)
+    f <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzid()
     x <- openIDfile(f)
     iddf <- as(x, "data.frame")
     expect_true(inherits(iddf, "data.frame"))
@@ -14,9 +13,9 @@ test_that("mzRident to data.frame", {
 
 test_that("adding compatible ident with mzID and mzR", {
      quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                      full.name = TRUE, pattern = "mzXML$")
+                      full.names = TRUE, pattern = "mzXML$")
      identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                      full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+                      full.names = TRUE, pattern = "dummyiTRAQ.mzid")
      msexp0 <- readMSData(quantFile)
      id1 <- mzR::openIDfile(identFile)
      msexp1 <- addIdentificationData(msexp0, id1)
@@ -52,9 +51,9 @@ test_that("adding compatible ident with mzID and mzR", {
 
 test_that("adding compatible ident to MSnExp and MSnSet", {
      quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                      full.name = TRUE, pattern = "mzXML$")
+                      full.names = TRUE, pattern = "mzXML$")
      identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                      full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+                      full.names = TRUE, pattern = "dummyiTRAQ.mzid")
      msexp <- readMSData(quantFile, mode = "onDisk")
      msset <- quantify(msexp, method = "max", reporters = iTRAQ4)
      msexp <- addIdentificationData(msexp, identFile)
@@ -65,8 +64,7 @@ test_that("adding compatible ident to MSnExp and MSnSet", {
 
 
 test_that("filterIdenticicationDataFrame function", {
-    idf <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"
-    f <- msdata::ident(full.names = TRUE, pattern = idf)
+    f <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzid()
     x <- readMzIdData(f)
     n <- nrow(x)
     ## need verbose for testing, as reported here

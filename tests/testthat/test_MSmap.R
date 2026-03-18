@@ -2,9 +2,7 @@ context("MSmap class")
 
 skip_on_travis()
 
-library("rpx")
-px1 <- PXDataset("PXD000001")
-f <- pxget(px1, "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML")
+f <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz()
 ms <- mzR::openMSfile(f)
 hd <- header(ms)
 
