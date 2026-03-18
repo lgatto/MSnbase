@@ -13,7 +13,7 @@ names in the fData data.frame) for the specified object."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">MSnbase</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.35.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.37.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -127,18 +127,18 @@ variable names.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "polarity"                   "originalPeaksCount"        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "totIonCurrent"              "retentionTime"             </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11] "basePeakMZ"                 "basePeakIntensity"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "collisionEnergy"            "ionisationEnergy"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "lowMZ"                      "highMZ"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "precursorScanNum"           "precursorMZ"               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "precursorCharge"            "precursorIntensity"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21] "mergedScan"                 "mergedResultScanNum"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [23] "mergedResultStartScanNum"   "mergedResultEndScanNum"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25] "injectionTime"              "filterString"              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [27] "spectrumId"                 "centroided"                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [29] "ionMobilityDriftTime"       "isolationWindowTargetMZ"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31] "isolationWindowLowerOffset" "isolationWindowUpperOffset"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [33] "scanWindowLowerLimit"       "scanWindowUpperLimit"      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [35] "electronBeamEnergy"         "spectrum"                  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "collisionEnergy"            "electronBeamEnergy"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "ionisationEnergy"           "lowMZ"                     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "highMZ"                     "precursorScanNum"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "precursorMZ"                "precursorCharge"           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21] "precursorIntensity"         "mergedScan"                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23] "mergedResultScanNum"        "mergedResultStartScanNum"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25] "mergedResultEndScanNum"     "injectionTime"             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27] "filterString"               "spectrumId"                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29] "centroided"                 "ionMobilityDriftTime"      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31] "isolationWindowTargetMZ"    "isolationWindowLowerOffset"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [33] "isolationWindowUpperOffset" "scanWindowLowerLimit"      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [35] "scanWindowUpperLimit"       "spectrum"                  </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Reduce the feature data data.frame to the required columns only</span></span></span>
 <span class="r-in"><span><span class="va">od</span> <span class="op">&lt;-</span> <span class="fu">selectFeatureData</span><span class="op">(</span><span class="va">od</span>, fcol <span class="op">=</span> <span class="fu">requiredFvarLabels</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">od</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -156,7 +156,7 @@ variable names.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.9000.</p>
 </div>
 
     </footer></div>

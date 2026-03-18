@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">MSnbase</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.35.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.37.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,7 +99,7 @@ settings of the instrument. Profile mode data can be processed into
 typically the local maximum of the distribution of data points. This
 <em>centroiding</em> substantially reduces the amount of data without
 much loss of information. Certain algorithms, such as the
-<em>centWave</em> method in the <em><a href="https://bioconductor.org/packages/3.21/xcms" class="external-link">xcms</a></em> package
+<em>centWave</em> method in the <em><a href="https://bioconductor.org/packages/3.23/xcms" class="external-link">xcms</a></em> package
 for chromatographic peak detection in LC-MS experiments or proteomics
 search engines that match MS2 spectra to peptides, require the data to
 be in centroid mode. In this vignette, we will focus on metabolomics
@@ -158,7 +158,7 @@ corresponding to the time when the analyte elutes from the LC.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">serine</span>, type <span class="op">=</span> <span class="st">"XIC"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">serine_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="v03-MSnbase-centroiding_files/figure-html/serine-plot-1.png" alt="MS profile data for serine. Upper panel shows the base peak chromatogram (BPC), lower panel the individual signals in the retention time - m/z space. The horizontal dashed red line indicates the theoretical m/z of the [M+H]+ adduct of serine." width="700"><p class="caption">
+<img src="v03-MSnbase-centroiding_files/figure-html/serine-plot-1.png" class="r-plt" alt="MS profile data for serine. Upper panel shows the base peak chromatogram (BPC), lower panel the individual signals in the retention time - m/z space. The horizontal dashed red line indicates the theoretical m/z of the [M+H]+ adduct of serine." width="700"><p class="caption">
 MS profile data for serine. Upper panel shows the base peak chromatogram
 (BPC), lower panel the individual signals in the retention time - m/z
 space. The horizontal dashed red line indicates the theoretical m/z of
@@ -179,7 +179,7 @@ signal for serine, the one at retention time 181.07</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">serine</span><span class="op">[[</span><span class="fl">22</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="v03-MSnbase-centroiding_files/figure-html/serine-spectrum24-1.png" alt="On of the spectra for serine in profile mode." width="700"><p class="caption">
+<img src="v03-MSnbase-centroiding_files/figure-html/serine-spectrum24-1.png" class="r-plt" alt="On of the spectra for serine in profile mode." width="700"><p class="caption">
 On of the spectra for serine in profile mode.
 </p>
 </div>
@@ -206,7 +206,7 @@ default parameters as shown below.</p>
 <span><span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">serine_cent</span>, type <span class="op">=</span> <span class="st">"XIC"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">serine_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="v03-MSnbase-centroiding_files/figure-html/simple-pickPeaks-1.png" alt="Centroided data for serine." width="700"><p class="caption">
+<img src="v03-MSnbase-centroiding_files/figure-html/simple-pickPeaks-1.png" class="r-plt" alt="Centroided data for serine." width="700"><p class="caption">
 Centroided data for serine.
 </p>
 </div>
@@ -230,7 +230,7 @@ the [M+H]+ ion of proline.</p>
 <span><span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">proline</span>, type <span class="op">=</span> <span class="st">"XIC"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">prol_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="v03-MSnbase-centroiding_files/figure-html/proline-1.png" alt="Centroided data for proline." width="700"><p class="caption">
+<img src="v03-MSnbase-centroiding_files/figure-html/proline-1.png" class="r-plt" alt="Centroided data for proline." width="700"><p class="caption">
 Centroided data for proline.
 </p>
 </div>
@@ -274,7 +274,7 @@ such centroided data for serine.</p>
 <span><span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">data_sg_cent</span>, type <span class="op">=</span> <span class="st">"XIC"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">serine_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="v03-MSnbase-centroiding_files/figure-html/smoothSG-pp-serine-1.png" alt="Centroided data for serine after smoothing with a Savitzky-Golay filter." width="700"><p class="caption">
+<img src="v03-MSnbase-centroiding_files/figure-html/smoothSG-pp-serine-1.png" class="r-plt" alt="Centroided data for serine after smoothing with a Savitzky-Golay filter." width="700"><p class="caption">
 Centroided data for serine after smoothing with a Savitzky-Golay filter.
 </p>
 </div>
@@ -290,7 +290,7 @@ below.</p>
 <span><span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">prol_sg_cent</span>, type <span class="op">=</span> <span class="st">"XIC"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">prol_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="v03-MSnbase-centroiding_files/figure-html/smoothSG-pp-proline-1.png" alt="Centroided data for proline after smoothing with a Savitzky-Golay filter." width="700"><p class="caption">
+<img src="v03-MSnbase-centroiding_files/figure-html/smoothSG-pp-proline-1.png" class="r-plt" alt="Centroided data for proline after smoothing with a Savitzky-Golay filter." width="700"><p class="caption">
 Centroided data for proline after smoothing with a Savitzky-Golay
 filter.
 </p>
@@ -319,7 +319,7 @@ real data analysis this should be performed on the full data).</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot-methods.html">plot</a></span><span class="op">(</span><span class="va">proline_c_cent</span>, type <span class="op">=</span> <span class="st">"XIC"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">prol_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="v03-MSnbase-centroiding_files/figure-html/proline-rtsmooth-1.png" alt="Centroided data for proline after smoothing in retention time dimension." width="700"><p class="caption">
+<img src="v03-MSnbase-centroiding_files/figure-html/proline-rtsmooth-1.png" class="r-plt" alt="Centroided data for proline after smoothing in retention time dimension." width="700"><p class="caption">
 Centroided data for proline after smoothing in retention time dimension.
 </p>
 </div>
@@ -382,7 +382,7 @@ and centroided data without and with m/z refinement.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">serine_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="../reference/Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">serine_sg_cent_mz</span><span class="op">)</span><span class="op">[</span><span class="fl">22</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="v03-MSnbase-centroiding_files/figure-html/refineMz-serine-1.png" alt="Smoothed and centroided data for serine without (left) and with m/z refinement (right). The horizontal red dashed line indicates the theoretical m/z for the [M+H]+ ion and the vertical red dotted line the position of the largest signal for serine." width="700"><p class="caption">
+<img src="v03-MSnbase-centroiding_files/figure-html/refineMz-serine-1.png" class="r-plt" alt="Smoothed and centroided data for serine without (left) and with m/z refinement (right). The horizontal red dashed line indicates the theoretical m/z for the [M+H]+ ion and the vertical red dotted line the position of the largest signal for serine." width="700"><p class="caption">
 Smoothed and centroided data for serine without (left) and with m/z
 refinement (right). The horizontal red dashed line indicates the
 theoretical m/z for the [M+H]+ ion and the vertical red dotted line the
@@ -433,7 +433,7 @@ proline.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">prol_mz</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="fu"><a href="../reference/Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">proline_sg_cent_mz</span><span class="op">)</span><span class="op">[</span><span class="fl">16</span><span class="op">]</span>, col <span class="op">=</span> <span class="st">"red"</span>, lty <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <div class="figure" style="text-align: center">
-<img src="v03-MSnbase-centroiding_files/figure-html/refineMz-proline-1.png" alt="Smoothed and centroided data for proline without (left) and with m/z refinement (right). The horizontal red dashed line indicates the theoretical m/z for the [M+H]+ ion and the vertical red dotted line the position of the maximum signal." width="700"><p class="caption">
+<img src="v03-MSnbase-centroiding_files/figure-html/refineMz-proline-1.png" class="r-plt" alt="Smoothed and centroided data for proline without (left) and with m/z refinement (right). The horizontal red dashed line indicates the theoretical m/z for the [M+H]+ ion and the vertical red dotted line the position of the maximum signal." width="700"><p class="caption">
 Smoothed and centroided data for proline without (left) and with m/z
 refinement (right). The horizontal red dashed line indicates the
 theoretical m/z for the [M+H]+ ion and the vertical red dotted line the
@@ -466,12 +466,11 @@ identified centroids.</p>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Chambers:2012" class="csl-entry">
-Chambers, M C, B Maclean, R Burke, D Amodei, D L Ruderman, S Neumann, L
-Gatto, et al. 2012. <span>“A Cross-Platform Toolkit for Mass
-Spectrometry and Proteomics.”</span> <em>Nat Biotechnol</em> 30 (10):
-918–20. <a href="https://doi.org/10.1038/nbt.2377" class="external-link">https://doi.org/10.1038/nbt.2377</a>.
+Chambers, M C, B Maclean, R Burke, et al. 2012. <span>“A Cross-Platform
+Toolkit for Mass Spectrometry and Proteomics.”</span> <em>Nat
+Biotechnol</em> 30 (10): 918–20. <a href="https://doi.org/10.1038/nbt.2377" class="external-link">https://doi.org/10.1038/nbt.2377</a>.
 </div>
 <div id="ref-Savitzky:1964bn" class="csl-entry">
 Savitzky, Abraham, and M J E Golay. 1964. <span>“<span class="nocase">Smoothing and Differentiation of Data by Simplified Least
@@ -498,7 +497,7 @@ S9.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.9000.</p>
 </div>
 
     </footer>

@@ -33,7 +33,7 @@ as(sps, "MSpectra") where sps is a Spectra object.'></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">MSnbase</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.35.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.37.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -156,110 +156,123 @@ eventually spectra variables present in <code>Spectra</code>.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057         1                301         30835     5.795    217.106</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058         1                256         23034     5.892    279.098</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059         1                310         27343     5.989    281.051</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          basePeakIntensity collisionEnergy ionisationEnergy     lowMZ    highMZ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  &lt;numeric&gt;       &lt;numeric&gt;        &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010              6580               0                0         0         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011              1429               0                0         0         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012               501               0                0         0         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013               413               0                0         0         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014               714               0                0         0         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ...                    ...             ...              ...       ...       ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055              7477               0                0         0         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056              1400               0                0         0         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057               432               0                0         0         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058               186               0                0         0         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059               496               0                0         0         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          precursorScanNum precursorMZ precursorCharge precursorIntensity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 &lt;integer&gt;   &lt;numeric&gt;       &lt;integer&gt;          &lt;numeric&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010               NA      163.75               0                  0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011               NA      208.95               0                  0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012               NA      244.05               0                  0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013               NA      270.85               0                  0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014               NA      299.10               0                  0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ...                   ...         ...             ...                ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055               NA      163.75               0                  0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056               NA      208.95               0                  0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057               NA      244.05               0                  0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058               NA      270.85               0                  0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059               NA      299.10               0                  0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          mergedScan mergedResultScanNum mergedResultStartScanNum</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;integer&gt;           &lt;integer&gt;                &lt;integer&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010         NA                  NA                       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011         NA                  NA                       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012         NA                  NA                       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013         NA                  NA                       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014         NA                  NA                       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ...             ...                 ...                      ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055         NA                  NA                       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056         NA                  NA                       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057         NA                  NA                       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058         NA                  NA                       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059         NA                  NA                       NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          mergedResultEndScanNum injectionTime filterString    spectrumId</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                       &lt;integer&gt;     &lt;numeric&gt;  &lt;character&gt;   &lt;character&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010                     NA             0           NA sample=1 p...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011                     NA             0           NA sample=1 p...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012                     NA             0           NA sample=1 p...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013                     NA             0           NA sample=1 p...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014                     NA             0           NA sample=1 p...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ...                         ...           ...          ...           ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055                     NA             0           NA sample=1 p...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056                     NA             0           NA sample=1 p...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057                     NA             0           NA sample=1 p...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058                     NA             0           NA sample=1 p...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059                     NA             0           NA sample=1 p...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          centroided ionMobilityDriftTime isolationWindowTargetMZ</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;logical&gt;            &lt;numeric&gt;               &lt;numeric&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010       TRUE                   NA                  163.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011       TRUE                   NA                  208.95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012       TRUE                   NA                  244.05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013       TRUE                   NA                  270.85</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014       TRUE                   NA                  299.10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ...             ...                  ...                     ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055       TRUE                   NA                  163.75</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056       TRUE                   NA                  208.95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057       TRUE                   NA                  244.05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058       TRUE                   NA                  270.85</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059       TRUE                   NA                  299.10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          isolationWindowLowerOffset isolationWindowUpperOffset</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                           &lt;numeric&gt;                  &lt;numeric&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010                      24.25                      24.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011                      21.95                      21.95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012                      14.15                      14.15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013                      13.65                      13.65</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014                      15.60                      15.60</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ...                             ...                        ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055                      24.25                      24.25</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056                      21.95                      21.95</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057                      14.15                      14.15</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058                      13.65                      13.65</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059                      15.60                      15.60</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          scanWindowLowerLimit scanWindowUpperLimit electronBeamEnergy  spectrum</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                     &lt;numeric&gt;            &lt;numeric&gt;          &lt;numeric&gt; &lt;integer&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010                  140                  900                 NA        10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011                  140                  900                 NA        11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012                  140                  900                 NA        12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013                  140                  900                 NA        13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014                  140                  900                 NA        14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ...                       ...                  ...                ...       ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055                  140                  900                 NA        55</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056                  140                  900                 NA        56</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057                  140                  900                 NA        57</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058                  140                  900                 NA        58</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059                  140                  900                 NA        59</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                   mz                         intensity</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                        &lt;NumericList&gt;                     &lt;NumericList&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010 140.888,140.949,140.974,... 0.0999316,2.6204529,0.5139834,...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011 140.901,140.913,140.958,... 0.0999386,0.1832319,0.5464582,...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012 140.992,141.090,141.104,... 0.0599841,0.2358523,0.0800102,...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013 140.872,141.957,143.089,... 0.0199862,0.0200630,0.0604285,...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014 140.872,140.960,141.970,... 0.0799445,0.0199924,0.0200639,...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ...                              ...                               ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055 140.949,140.967,140.983,...    1.384358,0.183261,0.337385,...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056 140.045,140.912,140.955,... 0.0597824,0.1823982,0.2357384,...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057 141.094,141.963,141.981,...    0.288360,0.120379,0.100323,...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058 140.876,141.955,141.972,... 0.0999327,0.1237221,0.0200640,...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059 141.098,141.957,141.972,...    0.180017,0.020063,0.140449,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          basePeakIntensity collisionEnergy electronBeamEnergy ionisationEnergy</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  &lt;numeric&gt;       &lt;numeric&gt;          &lt;numeric&gt;        &lt;numeric&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010              6580               0                 NA                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011              1429               0                 NA                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012               501               0                 NA                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013               413               0                 NA                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014               714               0                 NA                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ...                    ...             ...                ...              ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055              7477               0                 NA                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056              1400               0                 NA                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057               432               0                 NA                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058               186               0                 NA                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059               496               0                 NA                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              lowMZ    highMZ precursorScanNum precursorMZ precursorCharge</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          &lt;numeric&gt; &lt;numeric&gt;        &lt;integer&gt;   &lt;numeric&gt;       &lt;integer&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010         0         0               NA      163.75               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011         0         0               NA      208.95               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012         0         0               NA      244.05               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013         0         0               NA      270.85               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014         0         0               NA      299.10               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ...            ...       ...              ...         ...             ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055         0         0               NA      163.75               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056         0         0               NA      208.95               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057         0         0               NA      244.05               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058         0         0               NA      270.85               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059         0         0               NA      299.10               0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          precursorIntensity mergedScan mergedResultScanNum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   &lt;numeric&gt;  &lt;integer&gt;           &lt;integer&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010                  0         NA                  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011                  0         NA                  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012                  0         NA                  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013                  0         NA                  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014                  0         NA                  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ...                     ...        ...                 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055                  0         NA                  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056                  0         NA                  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057                  0         NA                  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058                  0         NA                  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059                  0         NA                  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          mergedResultStartScanNum mergedResultEndScanNum injectionTime</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         &lt;integer&gt;              &lt;integer&gt;     &lt;numeric&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010                       NA                     NA             0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011                       NA                     NA             0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012                       NA                     NA             0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013                       NA                     NA             0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014                       NA                     NA             0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ...                           ...                    ...           ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055                       NA                     NA             0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056                       NA                     NA             0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057                       NA                     NA             0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058                       NA                     NA             0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059                       NA                     NA             0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          filterString    spectrumId centroided ionMobilityDriftTime</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           &lt;character&gt;   &lt;character&gt;  &lt;logical&gt;            &lt;numeric&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010           NA sample=1 p...       TRUE                   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011           NA sample=1 p...       TRUE                   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012           NA sample=1 p...       TRUE                   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013           NA sample=1 p...       TRUE                   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014           NA sample=1 p...       TRUE                   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ...               ...           ...        ...                  ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055           NA sample=1 p...       TRUE                   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056           NA sample=1 p...       TRUE                   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057           NA sample=1 p...       TRUE                   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058           NA sample=1 p...       TRUE                   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059           NA sample=1 p...       TRUE                   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          isolationWindowTargetMZ isolationWindowLowerOffset</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                        &lt;numeric&gt;                  &lt;numeric&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010                  163.75                      24.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011                  208.95                      21.95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012                  244.05                      14.15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013                  270.85                      13.65</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014                  299.10                      15.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ...                          ...                        ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055                  163.75                      24.25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056                  208.95                      21.95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057                  244.05                      14.15</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058                  270.85                      13.65</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059                  299.10                      15.60</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          isolationWindowUpperOffset scanWindowLowerLimit scanWindowUpperLimit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                           &lt;numeric&gt;            &lt;numeric&gt;            &lt;numeric&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010                      24.25                  140                  900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011                      21.95                  140                  900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012                      14.15                  140                  900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013                      13.65                  140                  900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014                      15.60                  140                  900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ...                             ...                  ...                  ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055                      24.25                  140                  900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056                      21.95                  140                  900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057                      14.15                  140                  900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058                      13.65                  140                  900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059                      15.60                  140                  900</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           spectrum                          mz</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          &lt;integer&gt;               &lt;NumericList&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010        10 140.888,140.949,140.974,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011        11 140.901,140.913,140.958,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012        12 140.992,141.090,141.104,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013        13 140.872,141.957,143.089,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014        14 140.872,140.960,141.970,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ...            ...                         ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055        55 140.949,140.967,140.983,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056        56 140.045,140.912,140.955,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057        57 141.094,141.963,141.981,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058        58 140.876,141.955,141.972,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059        59 141.098,141.957,141.972,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                  intensity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                              &lt;NumericList&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0010 0.0999316,2.6204529,0.5139834,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0011 0.0999386,0.1832319,0.5464582,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0012 0.0599841,0.2358523,0.0800102,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0013 0.0199862,0.0200630,0.0604285,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0014 0.0799445,0.0199924,0.0200639,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ...                                    ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0055    1.384358,0.183261,0.337385,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0056 0.0597824,0.1823982,0.2357384,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0057    0.288360,0.120379,0.100323,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0058 0.0999327,0.1237221,0.0200640,...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> F1.S0059    0.180017,0.020063,0.140449,...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/RforMassSpectrometry/Spectra" class="external-link">Spectra</a></span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
@@ -300,7 +313,7 @@ eventually spectra variables present in <code>Spectra</code>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.9000.</p>
 </div>
 
     </footer></div>

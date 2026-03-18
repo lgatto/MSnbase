@@ -1,0 +1,1029 @@
+# Package index
+
+## All functions
+
+- [`Chromatogram()`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`aggregationFun()`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`show(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`rtime(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`intensity(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`mz(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`precursorMz(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`fromFile(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`length(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`as.data.frame(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`filterRt(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`clean(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`plot(`*`<Chromatogram>`*`,`*`<ANY>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`msLevel(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`isEmpty(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`productMz(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`bin(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`normalize(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`filterIntensity(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`alignRt(`*`<Chromatogram>`*`,`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`compareChromatograms(`*`<Chromatogram>`*`,`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  [`transformIntensity(`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/Chromatogram-class.md)
+  : Representation of chromatographic MS data
+
+- [`FeatComp-class`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  [`compfnames-methods`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  [`compfnames,MSnSet,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  [`compfnames,list,missing-method`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  [`compfnames`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  [`show,FeatComp-method`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  [`names,FeatComp-method`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  [`common,FeatComp-method`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  [`common,methods`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  [`common`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  [`unique1,FeatComp-method`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  [`unique1,methods`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  [`unique1`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  [`unique2,FeatComp-method`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  [`unique2,methods`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  [`unique2`](https://lgatto.github.io/MSnbase/reference/FeatComp-class.md)
+  :
+
+  Class `"FeatComp"`
+
+- [`FeaturesOfInterest-class`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`FeaturesOfInterest`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`FeaturesOfInterest-methods`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`FeaturesOfInterest,character,character,missing-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`FeaturesOfInterest,character,character,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`description,FeaturesOfInterest-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`foi,FeaturesOfInterest-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`foi`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`foi-methods`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`length,FeaturesOfInterest-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`show,FeaturesOfInterest-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`fnamesIn`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`fnamesIn-methods`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`fnamesIn,FeaturesOfInterest,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`fnamesIn,FeaturesOfInterest,matrix-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`fnamesIn,FeaturesOfInterest,data.frame-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`FoICollection-class`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`FoICollection-methods`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`FoICollection,list-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`FoICollection,missing-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`FoICollection`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`as.matrix.FoICollection`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`coerce,FoICollection,matrix-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`addFeaturesOfInterest`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`addFeaturesOfInterest-methods`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`addFeaturesOfInterest,FeaturesOfInterest,FoICollection-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`description,FoICollection-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`foi,FoICollection-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`length,FoICollection-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`lengths,FoICollection-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`rmFeaturesOfInterest`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`rmFeaturesOfInterest-methods`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`rmFeaturesOfInterest,FoICollection,numeric-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`show,FoICollection-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`names,FoICollection-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`names<-,FoICollection,character-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`[,FoICollection-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`[,FoICollection,ANY,ANY-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`[,FoICollection,ANY,ANY,ANY-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`[[,FoICollection-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  [`[[,FoICollection,ANY,ANY-method`](https://lgatto.github.io/MSnbase/reference/FeaturesOfInterest-class.md)
+  : Features of Interest
+
+- [`MChromatograms()`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`show(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`` `[`( ``*`<MChromatograms>`*`,`*`<ANY>`*`,`*`<ANY>`*`,`*`<ANY>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`` `[<-`( ``*`<MChromatograms>`*`,`*`<ANY>`*`,`*`<ANY>`*`,`*`<ANY>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`plot(`*`<MChromatograms>`*`,`*`<ANY>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`phenoData(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`pData(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`` `pData<-`( ``*`<MChromatograms>`*`,`*`<data.frame>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`` `$`( ``*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`` `$<-`( ``*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`` `colnames<-`( ``*`<MChromatograms>`*`,`*`<ANY>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`sampleNames(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`` `sampleNames<-`( ``*`<MChromatograms>`*`,`*`<ANY>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`isEmpty(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`featureNames(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`` `featureNames<-`( ``*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`featureData(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`` `featureData<-`( ``*`<MChromatograms>`*`,`*`<ANY>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`fData(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`` `fData<-`( ``*`<MChromatograms>`*`,`*`<ANY>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`fvarLabels(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`` `rownames<-`( ``*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`precursorMz(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`productMz(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`mz(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`polarity(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`bin(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`clean(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`normalize(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`filterIntensity(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`alignRt(`*`<MChromatograms>`*`,`*`<Chromatogram>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`c(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`compareChromatograms(`*`<MChromatograms>`*`,`*`<missing>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`compareChromatograms(`*`<MChromatograms>`*`,`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  [`transformIntensity(`*`<MChromatograms>`*`)`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
+  : Container for multiple Chromatogram objects
+
+- [`MIAPE-class`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`class:MIAPE`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`MIAPE`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`show,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`msInfo,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`msInfo`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`expemail,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`expemail`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`exptitle,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`exptitle`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`ionSource,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`ionSource`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`ionSourceDetails,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`ionSourceDetails`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`analyser,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`analyser`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`analyserDetails,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`analyserDetails`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`analyzer,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`analyzer`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`analyzerDetails,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`analyzerDetails`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`detectorType,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`detectorType`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`instrumentModel,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`instrumentModel`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`instrumentManufacturer,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`instrumentManufacturer`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`instrumentCustomisations,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`instrumentCustomisations`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`abstract,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`samples,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`pubMedIds,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`pubMedIds<-,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`otherInfo,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`expinfo,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`notes,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`notes<-,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`combine,MIAPE,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`as.MIAME.MIAPE`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  [`coerce,MIAPE,MIAME-method`](https://lgatto.github.io/MSnbase/reference/MIAPE-class.md)
+  : The "MIAPE" Class for Storing Proteomics Experiment Information
+
+- [`MSmap-class`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`MSmap`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`MSmap-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`MSmap,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`MSmap,mzRpwiz-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`MSmap,mzRramp-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`MSmap,mzRraw-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`coerce,MSmap,data.frame-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`dim,MSmap-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`fileName,MSmap-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`fileNames,MSmap-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`msLevel,MSmap-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`msMap,MSmap-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`msMap`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`mz,MSmap-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`mzRes`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`mzRes,MSmap-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`ncol,MSmap-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`nrow,MSmap-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`plot3D,MSmap-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`plot3D`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`plot,MSmap,missing-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`rtime,MSmap-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`show,MSmap-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  [`t,MSmap-method`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
+  :
+
+  Class `MSmap`
+
+- [`MSnExp-class`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`class:MSnExp`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`MSnExp`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`bin,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`clean,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`compareSpectra,MSnExp,missing-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`extractPrecSpectra,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`extractPrecSpectra,MSnExp,numeric-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`pickPeaks,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`estimateNoise,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`plot,MSnExp`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`plot,MSnExp,missing-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`quantify,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`quantify,OnMSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`quantify,MSnExp,character-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`removePeaks,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`removeReporters,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`removeReporters,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`smooth,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`addIdentificationData,MSnExp,character-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`addIdentificationData,MSnExp,mzRident-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`addIdentificationData,MSnExp,mzIDClasses-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`addIdentificationData,MSnExp,mzID-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`addIdentificationData,MSnExp,mzIDCollection-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`addIdentificationData,MSnExp,data.frame-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`removeNoId,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`removeMultipleAssignment,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`idSummary,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`show,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`spectra,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`trimMz,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`trimMz,MSnExp,numeric-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`isolationWindow,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterMsLevel`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterMsLevel,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterMsLevel,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterPolarity`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterPolarity,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterPolarity,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterMz,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterMz,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterRt`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterRt,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterRt,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterFile`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterFile,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterFile,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterAcquisitionNum`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterAcquisitionNum,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterAcquisitionNum,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterEmptySpectra`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterEmptySpectra,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterEmptySpectra,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterPrecursorScan`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterPrecursorScan,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterPrecursorScan,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterPrecursorMz`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterPrecursorMz,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterIsolationWindow`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`filterIsolationWindow,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`isCentroided,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`all.equal,MSnExp,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`all.equal,MSnExp,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`all.equal,OnDiskMSnExp,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`all.equal,OnDiskMSnExp,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`splitByFile`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`splitByFile,MSnExp,factor-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`splitByFile,OnDiskMSnExp,factor-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`coerce,MSnExp,data.frame-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`as.data.frame.MSnExp`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  [`coerce,MSnExp,MSpectra-method`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
+  : The 'MSnExp' Class for MS Data And Meta-Data
+
+- [`MSnProcess-class`](https://lgatto.github.io/MSnbase/reference/MSnProcess-class.md)
+  [`class:MSnProcess`](https://lgatto.github.io/MSnbase/reference/MSnProcess-class.md)
+  [`MSnProcess`](https://lgatto.github.io/MSnbase/reference/MSnProcess-class.md)
+  [`fileNames,MSnProcess-method`](https://lgatto.github.io/MSnbase/reference/MSnProcess-class.md)
+  [`show,MSnProcess-method`](https://lgatto.github.io/MSnbase/reference/MSnProcess-class.md)
+  [`combine,MSnProcess,MSnProcess-method`](https://lgatto.github.io/MSnbase/reference/MSnProcess-class.md)
+  [`coerce,MSnProcess,list-method`](https://lgatto.github.io/MSnbase/reference/MSnProcess-class.md)
+  : The "MSnProcess" Class
+
+- [`MSnSet-class`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`class:MSnSet`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`MSnSet`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`acquisitionNum,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`exprs,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`dim,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`fileNames,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`msInfo,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`processingData,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`qual,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`qual`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`show,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`purityCorrect,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`purityCorrect,MSnSet,matrix-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`meanSdPlot,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`t.MSnSet`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`[,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`[,MSnSet,ANY,ANY-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`[,MSnSet,ANY,ANY,ANY-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`as.ExpressionSet.MSnSet`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`as.MSnSet.ExpressionSet`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`as.data.frame.MSnSet`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`ms2df`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`coerce,IBSpectra,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`coerce,MSnSet,ExpressionSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`coerce,ExpressionSet,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`coerce,MSnSet,data.frame-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`coerce,MSnSet,SummarizedExperiment-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`coerce,SummarizedExperiment,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`addMSnSetMetadata`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`write.exprs`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`write.exprs,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`experimentData<-,MSnSet,MIAPE-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`pData<-,MSnSet,data.frame-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`fData<-,MSnSet,data.frame-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`combine,MSnSet,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`topN,MSnSet,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`topN,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`topN,matrix-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`topN`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`filterNA,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`filterNA,matrix-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`filterNA`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`filterZero,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`filterZero,matrix-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`filterZero`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`filterMsLevel,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`log,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`image,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`image2`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`MAplot,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`addIdentificationData,MSnSet,character-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`addIdentificationData,MSnSet,mzIDClasses-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`addIdentificationData,MSnSet,mzID-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`addIdentificationData,MSnSet,mzRident-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`addIdentificationData,MSnSet,mzIDCollection-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`addIdentificationData,MSnSet,data.frame-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`removeNoId,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`removeMultipleAssignment-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`removeMultipleAssignment,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`removeMultipleAssignment`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`idSummary,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`idSummary`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`fromFile,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`trimws`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`trimws,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`trimws,data.frame-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`exptitle,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`expemail,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`ionSource,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`analyser,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`analyzer,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`detectorType,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`description,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`updateFvarLabels`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`updateSampleNames`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`updateFeatureNames`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`droplevels.MSnSet`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  : The "MSnSet" Class for MS Proteomics Expression Data and Meta-Data
+
+- [`MSnSetList-class`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`MSnSetList`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`msnsets`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`objlog`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`[,MSnSetList,ANY,ANY,ANY-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`[,MSnSetList,ANY,missing,missing-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`[[,MSnSetList,ANY,ANY-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`[[,MSnSetList,ANY,missing-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`length,MSnSetList-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`show,MSnSetList-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`names,MSnSetList-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`names<-,MSnSetList,ANY-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`split,MSnSet,factor-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`split,MSnSet,character-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`unsplit,MSnSetList,factor-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`lapply,MSnSetList-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`sapply,MSnSetList-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`fData,MSnSetList-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`fData<-,MSnSetList,DataFrame-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  : Storing multiple related MSnSets
+
+- [`MSnbaseOptions()`](https://lgatto.github.io/MSnbase/reference/MSnbaseOptions.md)
+  [`isMSnbaseVerbose()`](https://lgatto.github.io/MSnbase/reference/MSnbaseOptions.md)
+  [`setMSnbaseVerbose()`](https://lgatto.github.io/MSnbase/reference/MSnbaseOptions.md)
+  [`setMSnbaseParallelThresh()`](https://lgatto.github.io/MSnbase/reference/MSnbaseOptions.md)
+  [`setMSnbaseFastLoad()`](https://lgatto.github.io/MSnbase/reference/MSnbaseOptions.md)
+  [`isMSnbaseFastLoad()`](https://lgatto.github.io/MSnbase/reference/MSnbaseOptions.md)
+  : MSnbase options
+
+- [`MSpectra()`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`mz(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`intensity(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`rtime(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`precursorMz(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`precursorCharge(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`precScanNum(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`precursorIntensity(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`acquisitionNum(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`scanIndex(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`peaksCount(`*`<MSpectra>`*`,`*`<ANY>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`msLevel(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`tic(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`ionCount(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`collisionEnergy(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`fromFile(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`polarity(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`smoothed(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`isEmpty(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`centroided(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`isCentroided(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`writeMgfData(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`clean(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`removePeaks(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`filterMz(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`pickPeaks(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`smooth(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  [`filterMsLevel(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/MSpectra.md)
+  : List of Spectrum objects along with annotations
+
+- [`MzTab-class`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`class:MzTab`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`MzTab`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`metadata,MzTab-method`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`fileName,MzTab-method`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`fileNames,MzTab-method`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`peptides,MzTab-method`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`proteins,MzTab-method`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`psms,MzTab-method`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`comments`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`smallMolecules`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`moleculeFeatures`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`moleculeEvidence`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`mzTabMode`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`mzTabType`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`coerce,MzTab,MSnSetList-method`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  [`show,MzTab-method`](https://lgatto.github.io/MSnbase/reference/MzTab-class.md)
+  :
+
+  Parse `MzTab` files
+
+- [`OnDiskMSnExp-class`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`class:OnDiskMSnExp`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`OnDiskMSnExp`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`show,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`[,OnDiskMSnExp,ANY,ANY,ANY-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`[,OnDiskMSnExp,logicalOrNumeric,missing,missing-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`[[,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`[[,OnDiskMSnExp,ANY,ANY-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`[[,OnDiskMSnExp,ANY,ANY,missing-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`[[,OnDiskMSnExp,ANY,missing,missing-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`acquisitionNum,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`assayData,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`isCentroided,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`centroided,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`centroided<-,OnDiskMSnExp,logical-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`smoothed,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`smoothed<-,OnDiskMSnExp,logical-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`fromFile,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`header,OnDiskMSnExp,missing-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`header,OnDiskMSnExp,numeric-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`ionCount,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`intensity,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`length,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`msLevel,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`mz,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`peaksCount,OnDiskMSnExp,missing-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`peaksCount,OnDiskMSnExp,numeric-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`polarity,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`rtime,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`scanIndex,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`spectra,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`tic,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`bpi,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`bpi`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`precScanNum,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`featureNames<-,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`featureNames<-,OnDiskMSnExp,ANY-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`featureNames,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`precScanNum,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`precursorIntensity,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`collisionEnergy,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`isolationWindowLowerMz,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`isolationWindowUpperMz,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`compareSpectra,OnDiskMSnExp,missing-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`estimateNoise,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`extractPrecSpectra,OnDiskMSnExp,numeric-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`pickPeaks,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`precursorCharge,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`precursorMz,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`quantify,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`smooth,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`spectrapply,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`clean,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`removePeaks,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`bin,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`trimMz,OnDiskMSnExp,numeric-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`normalize,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`normalise,OnDiskMSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`validateOnDiskMSnExp`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`coerce,OnDiskMSnExp,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  [`as.MSnExp.OnDiskMSnExp`](https://lgatto.github.io/MSnbase/reference/OnDiskMSnExp-class.md)
+  :
+
+  The `OnDiskMSnExp` Class for MS Data And Meta-Data
+
+- [`ProcessingStep-class`](https://lgatto.github.io/MSnbase/reference/ProcessingStep-class.md)
+  [`ProcessingStep:OnDiskMSnExp`](https://lgatto.github.io/MSnbase/reference/ProcessingStep-class.md)
+  [`ProcessingStep`](https://lgatto.github.io/MSnbase/reference/ProcessingStep-class.md)
+  [`show,ProcessingStep-method`](https://lgatto.github.io/MSnbase/reference/ProcessingStep-class.md)
+  [`executeProcessingStep`](https://lgatto.github.io/MSnbase/reference/ProcessingStep-class.md)
+  : Simple processing step class
+
+- [`ReporterIons-class`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`class:ReporterIons`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`ReporterIons`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`show,ReporterIons-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`[,ReporterIons-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`[,ReporterIons,ANY,ANY-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`[,ReporterIons,ANY,ANY,ANY-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`length-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`length,ReporterIons-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`mz,ReporterIons-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`reporterColours-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`reporterColours,ReporterIons-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`reporterColours`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`reporterColors-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`reporterColors,ReporterIons-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`reporterColors`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`reporterNames-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`reporterNames,ReporterIons-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`reporterNames`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`reporterNames<-,ReporterIons-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`reporterNames<-,ReporterIons,ANY-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`reporterNames<-,ReporterIons,character-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`reporterNames<-`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`width-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`width,ReporterIons-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`width`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`names,ReporterIons-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  [`description,ReporterIons-method`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
+  : The "ReporterIons" Class
+
+- [`Spectrum-class`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`class:Spectrum`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`Spectrum`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`acquisitionNum,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`acquisitionNum`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`scanIndex,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`scanIndex`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`fromFile,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`fromFile`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`intensity,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`intensity`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`msLevel,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`msLevel`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`mz,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`mz`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`peaksCount,Spectrum,missing-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`peaksCount`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`rtime,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`rtime`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`tic,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`tic`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`ionCount,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`ionCount`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`isCentroided,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`isCentroided`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`centroided,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`centroided`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`centroided<-,Spectrum,ANY-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`centroided<-,Spectrum,logical-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`centroided<-`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`polarity,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`polarity`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`smoothed,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`smoothed`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`smoothed<-,Spectrum,ANY-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`smoothed<-,Spectrum,logical-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`smoothed<-`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`bin,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`clean,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`compareSpectra,Spectrum,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`estimateNoise,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`pickPeaks,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`quantify,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`quantify,Spectrum,character-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`removePeaks,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`show,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`smooth,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`trimMz,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`trimMz,Spectrum,numeric-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`filterMz,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`filtermz,Spectrum,numeric-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`isEmpty,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`isEmpty,environment-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`coerce,Spectrum,data.frame-method`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  [`as.data.frame.Spectrum`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
+  : The "Spectrum" Class
+
+- [`Spectrum1-class`](https://lgatto.github.io/MSnbase/reference/Spectrum1-class.md)
+  [`class:Spectrum1`](https://lgatto.github.io/MSnbase/reference/Spectrum1-class.md)
+  [`Spectrum1`](https://lgatto.github.io/MSnbase/reference/Spectrum1-class.md)
+  : The "Spectrum1" Class for MS1 Spectra
+
+- [`Spectrum2-class`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`class:Spectrum2`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`Spectrum2`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`precursorMz,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`precursorMz`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`precScanNum,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`precScanNum`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`precAcquisitionNum,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`precAcquisitionNum`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`precursorIntensity,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`precursorIntensity`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`precursorCharge,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`precursorCharge`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`collisionEnergy,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`collisionEnergy`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`removeReporters,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  [`calculateFragments,character,Spectrum2-method`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)
+  : The "Spectrum2" Class for MSn Spectra
+
+- [`TMT6`](https://lgatto.github.io/MSnbase/reference/TMT6.md)
+  [`TMT6b`](https://lgatto.github.io/MSnbase/reference/TMT6.md)
+  [`TMT7`](https://lgatto.github.io/MSnbase/reference/TMT6.md)
+  [`TMT7b`](https://lgatto.github.io/MSnbase/reference/TMT6.md)
+  [`TMT10`](https://lgatto.github.io/MSnbase/reference/TMT6.md)
+  [`TMT10ETD`](https://lgatto.github.io/MSnbase/reference/TMT6.md)
+  [`TMT10HCD`](https://lgatto.github.io/MSnbase/reference/TMT6.md)
+  [`TMT11`](https://lgatto.github.io/MSnbase/reference/TMT6.md)
+  [`TMT11HCD`](https://lgatto.github.io/MSnbase/reference/TMT6.md) : TMT
+  6/10-plex sets
+
+- [`addIdentificationData-methods`](https://lgatto.github.io/MSnbase/reference/addIdentificationData-methods.md)
+  [`addIdentificationData`](https://lgatto.github.io/MSnbase/reference/addIdentificationData-methods.md)
+  : Adds Identification Data
+
+- [`aggvar()`](https://lgatto.github.io/MSnbase/reference/aggvar.md) :
+  Identify aggregation outliers
+
+- [`averageMSnSet()`](https://lgatto.github.io/MSnbase/reference/averageMSnSet.md)
+  :
+
+  Generate an average `MSnSet`
+
+- [`bin-methods`](https://lgatto.github.io/MSnbase/reference/bin-methods.md)
+  [`bin`](https://lgatto.github.io/MSnbase/reference/bin-methods.md) :
+  Bin 'MSnExp' or 'Spectrum' instances
+
+- [`calculateFragments`](https://lgatto.github.io/MSnbase/reference/calculateFragments-methods.md)
+  [`calculateFragments,character,missing-method`](https://lgatto.github.io/MSnbase/reference/calculateFragments-methods.md)
+  : Calculate ions produced by fragmentation.
+
+- [`chromatogram(`*`<MSnExp>`*`)`](https://lgatto.github.io/MSnbase/reference/chromatogram-MSnExp-method.md)
+  : Extract chromatogram object(s)
+
+- [`clean-methods`](https://lgatto.github.io/MSnbase/reference/clean-methods.md)
+  [`clean`](https://lgatto.github.io/MSnbase/reference/clean-methods.md)
+  : Clean 'MSnExp', 'Spectrum' or 'Chromatogram' instances
+
+- [`combineFeatures`](https://lgatto.github.io/MSnbase/reference/combineFeatures.md)
+  [`combineFeatures,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/combineFeatures.md)
+  :
+
+  Combines features in an `MSnSet` object
+
+- [`combineSpectra(`*`<MSnExp>`*`)`](https://lgatto.github.io/MSnbase/reference/combineSpectra.md)
+  [`combineSpectra(`*`<MSpectra>`*`)`](https://lgatto.github.io/MSnbase/reference/combineSpectra.md)
+  : Combine Spectra
+
+- [`combineSpectraMovingWindow()`](https://lgatto.github.io/MSnbase/reference/combineSpectraMovingWindow.md)
+  : Combine signal from consecutive spectra of LCMS experiments
+
+- [`commonFeatureNames()`](https://lgatto.github.io/MSnbase/reference/commonFeatureNames.md)
+  : Keep only common feature names
+
+- [`compareMSnSets()`](https://lgatto.github.io/MSnbase/reference/compareMSnSets.md)
+  : Compare two MSnSets
+
+- [`compareSpectra-methods`](https://lgatto.github.io/MSnbase/reference/compareSpectra-methods.md)
+  [`compareSpectra`](https://lgatto.github.io/MSnbase/reference/compareSpectra-methods.md)
+  : Compare Spectra of an 'MSnExp' or 'Spectrum' instances
+
+- [`consensusSpectrum()`](https://lgatto.github.io/MSnbase/reference/consensusSpectrum.md)
+  : Combine spectra to a consensus spectrum
+
+- [`estimateMzResolution(`*`<MSnExp>`*`)`](https://lgatto.github.io/MSnbase/reference/estimateMzResolution.md)
+  [`estimateMzResolution(`*`<Spectrum>`*`)`](https://lgatto.github.io/MSnbase/reference/estimateMzResolution.md)
+  : Estimate the m/z resolution of a spectrum
+
+- [`estimateMzScattering()`](https://lgatto.github.io/MSnbase/reference/estimateMzScattering.md)
+  : Estimate m/z scattering in consecutive scans
+
+- [`estimateNoise-methods`](https://lgatto.github.io/MSnbase/reference/estimateNoise-method.md)
+  [`estimateNoise`](https://lgatto.github.io/MSnbase/reference/estimateNoise-method.md)
+  : Noise Estimation for 'Spectrum' instances
+
+- [`extractPrecSpectra-methods`](https://lgatto.github.io/MSnbase/reference/extractPrecSpectra-methods.md)
+  [`extractPrecSpectra`](https://lgatto.github.io/MSnbase/reference/extractPrecSpectra-methods.md)
+  : Extracts precursor-specific spectra from an 'MSnExp' object
+
+- [`extractSpectraData()`](https://lgatto.github.io/MSnbase/reference/extractSpectraData.md)
+  : Conversion between objects from the Spectra and MSnbase packages
+
+- [`expandFeatureVars()`](https://lgatto.github.io/MSnbase/reference/fData-utils.md)
+  [`mergeFeatureVars()`](https://lgatto.github.io/MSnbase/reference/fData-utils.md)
+  : Expand or merge feature variables
+
+- [`factorsAsStrings()`](https://lgatto.github.io/MSnbase/reference/factorsAsStrings.md)
+  : Converts factors to strings
+
+- [`featureCV()`](https://lgatto.github.io/MSnbase/reference/featureCV.md)
+  : Calculates coeffivient of variation for features
+
+- [`fillUp()`](https://lgatto.github.io/MSnbase/reference/fillUp.md) :
+  Fills up a vector
+
+- [`filterIdentificationDataFrame()`](https://lgatto.github.io/MSnbase/reference/filterIdentificationDataFrame.md)
+  : Filter out unreliable PSMs.
+
+- [`formatRt()`](https://lgatto.github.io/MSnbase/reference/formatRt.md)
+  : Format Retention Time
+
+- [`getVariableName()`](https://lgatto.github.io/MSnbase/reference/getVariableName.md)
+  : Return a variable name
+
+- [`grepEcols()`](https://lgatto.github.io/MSnbase/reference/grepEcols.md)
+  [`getEcols()`](https://lgatto.github.io/MSnbase/reference/grepEcols.md)
+  : Returns the matching column names of indices.
+
+- [`hasSpectra()`](https://lgatto.github.io/MSnbase/reference/hasSpectraOrChromatograms.md)
+  [`hasChromatograms()`](https://lgatto.github.io/MSnbase/reference/hasSpectraOrChromatograms.md)
+  : Checks if raw data files have any spectra or chromatograms
+
+- [`iPQF()`](https://lgatto.github.io/MSnbase/reference/iPQF.md) : iPQF:
+  iTRAQ (and TMT) Protein Quantification based on Features
+
+- [`iTRAQ4`](https://lgatto.github.io/MSnbase/reference/iTRAQ4.md)
+  [`iTRAQ5`](https://lgatto.github.io/MSnbase/reference/iTRAQ4.md)
+  [`iTRAQ8`](https://lgatto.github.io/MSnbase/reference/iTRAQ4.md)
+  [`iTRAQ9`](https://lgatto.github.io/MSnbase/reference/iTRAQ4.md) :
+  iTRAQ 4-plex set
+
+- [`imageNA2()`](https://lgatto.github.io/MSnbase/reference/imageNA2.md)
+  : NA heatmap visualisation for 2 groups
+
+- [`impute(`*`<MSnSet>`*`)`](https://lgatto.github.io/MSnbase/reference/impute.md)
+  : Quantitative proteomics data imputation
+
+- [`isCentroidedFromFile()`](https://lgatto.github.io/MSnbase/reference/isCentroidedFromFile.md)
+  : Get mode from mzML data file
+
+- [`itraqdata`](https://lgatto.github.io/MSnbase/reference/itraqdata.md)
+  :
+
+  Example `MSnExp` and `MSnSet` data sets
+
+- [`listOf()`](https://lgatto.github.io/MSnbase/reference/listOf.md) :
+  Tests equality of list elements class
+
+- [`makeCamelCase()`](https://lgatto.github.io/MSnbase/reference/makeCamelCase.md)
+  : Convert to camel case by replacing dots by captial letters
+
+- [`makeNaData()`](https://lgatto.github.io/MSnbase/reference/makeNaData.md)
+  [`makeNaData2()`](https://lgatto.github.io/MSnbase/reference/makeNaData.md)
+  [`whichNA()`](https://lgatto.github.io/MSnbase/reference/makeNaData.md)
+  : Create a data with missing values
+
+- [`meanMzInts()`](https://lgatto.github.io/MSnbase/reference/meanMzInts.md)
+  : Combine a list of spectra to a single spectrum
+
+- [`missing-data`](https://lgatto.github.io/MSnbase/reference/missing-data.md)
+  [`missingdata`](https://lgatto.github.io/MSnbase/reference/missing-data.md)
+  : Documenting missing data visualisation
+
+- [`as`](https://lgatto.github.io/MSnbase/reference/mzRident2dfr.md)
+  [`as.data.frame.mzRident`](https://lgatto.github.io/MSnbase/reference/mzRident2dfr.md)
+  :
+
+  Coerce identification data to a `data.frame`
+
+- [`nFeatures()`](https://lgatto.github.io/MSnbase/reference/nFeatures.md)
+  : How many features in a group?
+
+- [`nQuants()`](https://lgatto.github.io/MSnbase/reference/nQuants.md) :
+  Count the number of quantitfied features.
+
+- [`naplot()`](https://lgatto.github.io/MSnbase/reference/naplot.md) :
+  Overview of missing value
+
+- [`normToReference()`](https://lgatto.github.io/MSnbase/reference/normToReference.md)
+  : Combine peptides into proteins.
+
+- [`normalise-methods`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)
+  [`normalise,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)
+  [`normalise,Spectrum2-method`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)
+  [`normalise,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)
+  [`normalise,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)
+  [`normalize-methods`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)
+  [`normalize,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)
+  [`normalize,Spectrum2-method`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)
+  [`normalize,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)
+  [`normalize,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)
+  [`scale,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)
+  [`normalise`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)
+  [`normalize`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)
+  :
+
+  Normalisation of `MSnExp`, `MSnSet` and `Spectrum` objects
+
+- [`npcv()`](https://lgatto.github.io/MSnbase/reference/npcv.md) :
+  Non-parametric coefficient of variation
+
+- [`pSet-class`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`pSet`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`class:pSet`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`[,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`[,pSet,ANY,ANY-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`[,pSet,ANY,ANY,ANY-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`[[,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`[[,pSet,ANY,ANY-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`$,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`$<-,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`abstract,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`acquisitionNum,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`scanIndex,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`assayData,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`collisionEnergy,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`dim,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`dim`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`experimentData,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`fData,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`fData<-,pSet,data.frame-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`featureData,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`featureNames,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`fileNames,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`fileNames`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`fromFile,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`centroided,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`centroided<-,pSet,ANY-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`centroided<-,pSet,logical-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`smoothed,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`smoothed<-,pSet,ANY-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`smoothed<-,pSet,logical-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`fvarLabels,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`fvarMetadata,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`header,pSet,missing-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`header,pSet,numeric-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`header`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`intensity,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`length,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`length`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`msInfo,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`msLevel,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`mz,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`notes,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`pData,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`pData<-,pSet,ANY-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`peaksCount,pSet,missing-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`peaksCount,pSet,numeric-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`phenoData,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`phenoData<-,pSet,ANY-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`polarity,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`precursorCharge,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`precursorIntensity,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`precursorMz,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`precScanNum,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`precAcquisitionNum,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`processingData,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`processingData`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`protocolData,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`pubMedIds,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`rtime,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`sampleNames,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`sampleNames<-,pSet,character-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`spectra,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`spectra`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`tic,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`ionCount,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`varLabels,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`varMetadata,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`exptitle,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`expemail,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`ionSource,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`ionSourceDetails,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`analyser,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`analyzer,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`analyserDetails,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`analyzerDetails,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`instrumentModel,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`instrumentManufacturer,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`instrumentCustomisations,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`detectorType,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`description,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`isolationWindowLowerMz`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`isolationWindowUpperMz`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`isolationWindowLowerMz,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`isolationWindowUpperMz,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`spectrapply`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`spectrapply,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`coerce,AnnotatedDataFrame,list-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`coerce,MIAxE,list-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  : Class to Contain Raw Mass-Spectrometry Assays and Experimental
+  Metadata
+
+- [`pickPeaks-methods`](https://lgatto.github.io/MSnbase/reference/pickPeaks-method.md)
+  [`pickPeaks`](https://lgatto.github.io/MSnbase/reference/pickPeaks-method.md)
+  : Peak Detection for 'MSnExp' or 'Spectrum' instances
+
+- [`plot,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)
+  [`plot,Spectrum,missing-method`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)
+  [`plot,Spectrum2,character-method`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)
+  [`plot-methods`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)
+  [`plot.MSnExp`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)
+  [`plot.Spectrum`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)
+  [`plot.Spectrum.character`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)
+  [`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md) :
+  Plotting 'MSnExp' and 'Spectrum' object(s)
+
+- [`plot2d-methods`](https://lgatto.github.io/MSnbase/reference/plot2d-methods.md)
+  [`plot2d,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/plot2d-methods.md)
+  [`plot2d,data.frame-method`](https://lgatto.github.io/MSnbase/reference/plot2d-methods.md)
+  [`plot2d`](https://lgatto.github.io/MSnbase/reference/plot2d-methods.md)
+  : The 'plot2d' method for 'MSnExp' quality assessment
+
+- [`plotDensity-methods`](https://lgatto.github.io/MSnbase/reference/plotDensity-methods.md)
+  [`plotDensity,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/plotDensity-methods.md)
+  [`plotDensity,data.frame-method`](https://lgatto.github.io/MSnbase/reference/plotDensity-methods.md)
+  [`plotDensity`](https://lgatto.github.io/MSnbase/reference/plotDensity-methods.md)
+  : The 'plotDensity' method for 'MSnExp' quality assessment
+
+- [`plotMzDelta-methods`](https://lgatto.github.io/MSnbase/reference/plotMzDelta-methods.md)
+  [`plotMzDelta,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/plotMzDelta-methods.md)
+  [`plotMzDelta,mzRramp-method`](https://lgatto.github.io/MSnbase/reference/plotMzDelta-methods.md)
+  [`plotMzDelta`](https://lgatto.github.io/MSnbase/reference/plotMzDelta-methods.md)
+  : The delta m/z plot
+
+- [`plotNA-methods`](https://lgatto.github.io/MSnbase/reference/plotNA-methods.md)
+  [`plotNA,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/plotNA-methods.md)
+  [`plotNA,matrix-method`](https://lgatto.github.io/MSnbase/reference/plotNA-methods.md)
+  [`plotNA`](https://lgatto.github.io/MSnbase/reference/plotNA-methods.md)
+  [`is.na.MSnSet`](https://lgatto.github.io/MSnbase/reference/plotNA-methods.md)
+  : Exploring missing data in 'MSnSet' instances
+
+- [`plot.Spectrum.Spectrum`](https://lgatto.github.io/MSnbase/reference/plotSpectrumSpectrum-methods.md)
+  [`plot,Spectrum,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/plotSpectrumSpectrum-methods.md)
+  : Plotting a 'Spectrum' vs another 'Spectrum' object.
+
+- [`precSelection()`](https://lgatto.github.io/MSnbase/reference/precSelection.md)
+  : Number of precursor selection events
+
+- [`purityCorrect-methods`](https://lgatto.github.io/MSnbase/reference/purityCorrect-methods.md)
+  [`purityCorrect`](https://lgatto.github.io/MSnbase/reference/purityCorrect-methods.md)
+  [`makeImpuritiesMatrix`](https://lgatto.github.io/MSnbase/reference/purityCorrect-methods.md)
+  : Performs reporter ions purity correction
+
+- [`quantify-methods`](https://lgatto.github.io/MSnbase/reference/quantify-methods.md)
+  [`quantify`](https://lgatto.github.io/MSnbase/reference/quantify-methods.md)
+  : Quantifies 'MSnExp' and 'Spectrum' objects
+
+- [`readMSData()`](https://lgatto.github.io/MSnbase/reference/readMSData.md)
+  : Imports mass-spectrometry raw data files as 'MSnExp' instances.
+
+- [`readMSnSet()`](https://lgatto.github.io/MSnbase/reference/readMSnSet.md)
+  [`readMSnSet2()`](https://lgatto.github.io/MSnbase/reference/readMSnSet.md)
+  : Read 'MSnSet'
+
+- [`readMgfData()`](https://lgatto.github.io/MSnbase/reference/readMgfData.md)
+  : Import mgf files as 'MSnExp' instances.
+
+- [`readMzIdData()`](https://lgatto.github.io/MSnbase/reference/readMzIdData.md)
+  : Import peptide-spectrum matches
+
+- [`readMzTabData()`](https://lgatto.github.io/MSnbase/reference/readMzTabData.md)
+  : Read an 'mzTab' file
+
+- [`readMzTabData_v0.9()`](https://lgatto.github.io/MSnbase/reference/readMzTabData_v0.9.md)
+  : Read an 'mzTab' file
+
+- [`readSRMData()`](https://lgatto.github.io/MSnbase/reference/readSRMData.md)
+  : Read SRM/MRM chromatographic data
+
+- [`reduce(`*`<data.frame>`*`)`](https://lgatto.github.io/MSnbase/reference/reduce-data.frame-method.md)
+  : Reduce a data.frame
+
+- [`removeNoId-methods`](https://lgatto.github.io/MSnbase/reference/removeNoId-methods.md)
+  [`removeNoId`](https://lgatto.github.io/MSnbase/reference/removeNoId-methods.md)
+  : Removes non-identified features
+
+- [`removePeaks-methods`](https://lgatto.github.io/MSnbase/reference/removePeaks-methods.md)
+  [`removePeaks`](https://lgatto.github.io/MSnbase/reference/removePeaks-methods.md)
+  : Removes low intensity peaks
+
+- [`removeReporters-methods`](https://lgatto.github.io/MSnbase/reference/removeReporters-methods.md)
+  [`removeReporters`](https://lgatto.github.io/MSnbase/reference/removeReporters-methods.md)
+  : Removes reporter ion tag peaks
+
+- [`selectFeatureData()`](https://lgatto.github.io/MSnbase/reference/selectFeatureData.md)
+  [`requiredFvarLabels()`](https://lgatto.github.io/MSnbase/reference/selectFeatureData.md)
+  : Select feature variables of interest
+
+- [`smooth-methods`](https://lgatto.github.io/MSnbase/reference/smooth-methods.md)
+  [`smooth`](https://lgatto.github.io/MSnbase/reference/smooth-methods.md)
+  : Smooths 'MSnExp' or 'Spectrum' instances
+
+- [`trimMz-methods`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)
+  [`trimMz`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)
+  [`filterMz`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)
+  [`filterMz-methods`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)
+  : Trims 'MSnExp' or 'Spectrum' instances
+
+- [`updateObject,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/updateObject-methods.md)
+  [`updateObject,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/updateObject-methods.md)
+  : Update MSnbase objects
+
+- [`writeMSData(`*`<MSnExp>`*`,`*`<character>`*`)`](https://lgatto.github.io/MSnbase/reference/writeMSData.md)
+  : Write MS data to mzML or mzXML files
+
+- [`writeMgfData`](https://lgatto.github.io/MSnbase/reference/writeMgfData-methods.md)
+  [`writeMgfData-methods`](https://lgatto.github.io/MSnbase/reference/writeMgfData-methods.md)
+  [`writeMgfData,MSnExp-method`](https://lgatto.github.io/MSnbase/reference/writeMgfData-methods.md)
+  [`writeMgfData,Spectrum-method`](https://lgatto.github.io/MSnbase/reference/writeMgfData-methods.md)
+  : Write an experiment or spectrum to an mgf file
+
+- [`writeMzTabData()`](https://lgatto.github.io/MSnbase/reference/writeMzTabData.md)
+  : Export an MzTab object as mzTab file.

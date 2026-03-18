@@ -19,7 +19,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">MSnbase</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.35.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.37.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -519,6 +519,11 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Get some example mzML files</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">msdata</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  IMPORTANT: msdata will be deprecated and replaced by the new</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  MsDataHub package -- see https://bioconductor.org/packages/MsDataHub.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  Please open an issue at https://github.com/rformassspectrometry/MsDataHub/issues</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>  to inform us of any data from msdata that would need to be moved to MsDataHub.</span>
 <span class="r-in"><span><span class="va">mzfiles</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"microtofq/MM14.mzML"</span>, package<span class="op">=</span><span class="st">"msdata"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>       <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"microtofq/MM8.mzML"</span>, package<span class="op">=</span><span class="st">"msdata"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co">## Read the data as an OnDiskMSnExp</span></span></span>
@@ -1094,9 +1099,9 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Number of spectra: 35 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MSn retention times: 45:27 - 45:30 minutes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded [Tue Aug 26 11:37:51 2025] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Filter: select parent/children scans for 21945 [Tue Aug 26 11:37:52 2025] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.35.2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded [Wed Mar 18 16:56:19 2026] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Filter: select parent/children scans for 21945 [Wed Mar 18 16:56:20 2026] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.37.1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Meta data  - - -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> phenoData</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   rowNames: MS3TMT11.mzML</span>
@@ -1126,9 +1131,9 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Number of spectra: 3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  MSn retention times: 45:27 - 45:27 minutes</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Processing information - - -</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded [Tue Aug 26 11:37:51 2025] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Filter: select parent/children scans for 21946 [Tue Aug 26 11:37:52 2025] </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.35.2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Data loaded [Wed Mar 18 16:56:19 2026] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Filter: select parent/children scans for 21946 [Wed Mar 18 16:56:20 2026] </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  MSnbase version: 2.37.1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - - - Meta data  - - -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> phenoData</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   rowNames: MS3TMT11.mzML</span>
@@ -1158,7 +1163,7 @@ Class <code>"<a href="https://rdrr.io/pkg/Biobase/man/class.Versioned.html" clas
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.9000.</p>
 </div>
 
     </footer></div>
