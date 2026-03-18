@@ -6,8 +6,8 @@ test_that("centroided accessor with/without na.fail", {
     ## in-mem, experiment
     expect_true(all(centroided(x)))
     ## on-disk, single spectrum
-    expect_true(!centroided(x2[[1]]))
-    expect_true(centroided(x2[[2]]))
+    expect_true(!centroided(x2[[1]])) ## MS1
+    expect_true(centroided(x2[[227]])) ## MS2
     ## on-disk, experiment
     expect_true(all(!centroided(filterMsLevel(x2, 1))))
     expect_true(all(centroided(filterMsLevel(x2, 2))))

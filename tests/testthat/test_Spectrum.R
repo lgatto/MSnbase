@@ -90,14 +90,14 @@ test_that("Noise estimation", {
 test_that("Peak picking", {
     s1 <- new("Spectrum2", mz = 1:5, intensity = c(1:3, 2:1))
     s2 <- new("Spectrum2", mz = 3, intensity = 3, centroided = TRUE)
-    expect_warning(pickPeaks(new("Spectrum2")), "spectrum is empty")
-    expect_equal(suppressWarnings(pickPeaks(new("Spectrum2"))),
+    expect_warning(MSnbase::pickPeaks(new("Spectrum2")), "spectrum is empty")
+    expect_equal(suppressWarnings(MSnbase::pickPeaks(new("Spectrum2"))),
                  new("Spectrum2"))
-    expect_equal(suppressWarnings(pickPeaks(s2)), s2)
+    expect_equal(suppressWarnings(MSnbase::pickPeaks(s2)), s2)
     centroided(s1) <- FALSE
-    expect_equal(pickPeaks(s1), s2)
-    expect_equal(pickPeaks(s1, msLevel = 1), s1)
-    expect_equal(pickPeaks(s1, msLevel = c(2, 3)), s2)
+    expect_equal(MSnbase::pickPeaks(s1), s2)
+    expect_equal(MSnbase::pickPeaks(s1, msLevel. = 1), s1)
+    expect_equal(MSnbase::pickPeaks(s1, msLevel. = c(2, 3)), s2)
 })
 
 test_that("Spectrum smoothing", {
@@ -105,7 +105,7 @@ test_that("Spectrum smoothing", {
     s2 <- new("Spectrum2", mz = 1:5, intensity = c(2, 2, 2+1/3, 2, 2))
     expect_warning(smooth(new("Spectrum2")), "spectrum is empty")
     expect_equal(smooth(s1, method = "MovingAverag", halfWindowSize = 1), s2)
-    expect_equal(smooth(s1, msLevel = 1), s1)
+    expect_equal(smooth(s1, msLevel. = 1), s1)
 })
 
 test_that("Spectrum quantification", {
@@ -121,7 +121,7 @@ test_that("Spectrum quantification", {
               mz = mz,
               centroided = FALSE)
     expect_true(validObject(sp))
-    expect_equal(getCurveWidth(sp, iTRAQ4[1]),
+    expect_equal(MSnbase:::getCurveWidth(sp, iTRAQ4[1]),
                  list(lwr = 1, upr = 5))
     expect_equal(as.numeric(quantify(sp, "sum", iTRAQ4[1])$peakQuant), 6)
     expect_equal(as.numeric(quantify(sp, "max", iTRAQ4[1])$peakQuant), 3)
@@ -189,27 +189,27 @@ test_that(".fix_breaks works as breaks_Spectra", {
     brks <- seq(floor(min(c(mz(s1), mz(s1)))),
                 ceiling(max(c(mz(s1), mz(s1)))), by = 1)
     expect_equal(brks, 1:4)
-    expect_equal(.fix_breaks(brks, c(1, 4)), 1:5)
+    expect_equal(MSnbase:::.fix_breaks(brks, c(1, 4)), 1:5)
     brks <- seq(floor(min(c(mz(s1), mz(s2)))),
                 ceiling(max(c(mz(s1), mz(s2)))), by = 1)
     expect_equal(brks, 1:5)
     ## issue 190
-    expect_equal(.fix_breaks(brks, c(1, 5)), 1:6)
+    expect_equal(MSnbase:::.fix_breaks(brks, c(1, 5)), 1:6)
     brks <- seq(floor(min(c(mz(s1), mz(s2)))),
                 ceiling(max(c(mz(s1), mz(s2)))), by = 2)
     expect_equal(brks, c(1, 3, 5))
-    expect_equal(.fix_breaks(brks, c(1, 6)), c(1, 3, 5, 7))
-
+    expect_equal(MSnbase:::.fix_breaks(brks, c(1, 6)), c(1, 3, 5, 7))
+    ##
     s3 <- new("Spectrum2", mz = 1:4, intensity = 1:4)
     s4 <- new("Spectrum2", mz = 11:15, intensity = 1:5)
     brks <- seq(floor(min(c(mz(s3), mz(s4)))),
                 ceiling(max(c(mz(s3), mz(s4)))), by = 1)
     expect_equal(brks, 1:15)
-    expect_equal(.fix_breaks(brks, c(1, 15)), 1:16)
+    expect_equal(MSnbase:::.fix_breaks(brks, c(1, 15)), 1:16)
     brks <- seq(floor(min(c(mz(s3), mz(s4)))),
                 ceiling(max(c(mz(s3), mz(s4)))), by = 2)
     expect_equal(brks, seq(1, 15, 2))
-    expect_equal(.fix_breaks(brks, c(1, 15)), seq(1, 17, by=2))
+    expect_equal(MSnbase:::.fix_breaks(brks, c(1, 15)), seq(1, 17, by=2))
 })
 
 test_that("bin_Spectrum", {
@@ -294,7 +294,7 @@ test_that("empty spectrum", {
 test_that("show MS1 spectrum", {
     f <- dir(system.file("threonine", package = "msdata"),
              full.names = TRUE)
-    x <- readMSData(f, msLevel = 1)
+    x <- readMSData(f, msLevel. = 1)
     expect_null(show(x[[1]]))
 })
 
@@ -315,7 +315,7 @@ test_that(".spectrum_header works", {
                             "scanWindowLowerLimit", "scanWindowUpperLimit"))]
     for (cn in cns)
         expect_equal(hdr[1, cn], hdr_1[1, cn])
-    hdr_2 <- .spectrum_header(sp_2)
+    hdr_2 <- MSnbase:::.spectrum_header(sp_2)
     hdr_2$seqNum <- 1L
     expect_true(all(colnames(hdr) %in%
                     c("electronBeamEnergy", colnames(hdr_2))))
@@ -329,19 +329,19 @@ test_that("kNeighbors works", {
     mzs <- 1:length(ints) + rnorm(length(ints), mean = 0, sd = 0.1)
     plot(mzs, ints, type = "h")
     pk_pos <- c(4, 8, 12)
-
+    ##
     res <- kNeighbors(mzs, ints, peakIdx = pk_pos, k = 1)
     points(res[, 1], res[, 2], type = "h", col = "blue")
     expect_equal(unname(res[1, 1]), weighted.mean(mzs[3:5], ints[3:5]))
     expect_equal(unname(res[2, 1]), weighted.mean(mzs[7:9], ints[7:9]))
     expect_equal(unname(res[3, 1]), weighted.mean(mzs[11:13], ints[11:13]))
-
+    ##
     res <- kNeighbors(mzs, ints, peakIdx = pk_pos, k = 2)
     points(res[, 1], res[, 2], type = "h", col = "green")
     expect_equal(unname(res[1, 1]), weighted.mean(mzs[2:6], ints[2:6]))
     expect_equal(unname(res[2, 1]), weighted.mean(mzs[6:10], ints[6:10]))
     expect_equal(unname(res[3, 1]), weighted.mean(mzs[10:14], ints[10:14]))
-
+    ##
     expect_error(kNeighbors(mz = 3, ints))
 })
 
@@ -470,7 +470,7 @@ test_that(".estimate_mz_scattering works", {
     expect_true(length(res) == 1)
     expect_true(res < 0.051)
     expect_error(.estimate_mz_scattering(mzs))
-
+    ##
     all_mz <- c(mzs + rnorm(length(mzs), sd = 0.01),
                 mzs + rnorm(length(mzs), sd = 0.005),
                 mzs + rnorm(length(mzs), sd = 0.06))
