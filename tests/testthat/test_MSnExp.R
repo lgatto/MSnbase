@@ -5,17 +5,17 @@ test_that("MSnExp validity", {
     data(itraqdata, package = "MSnbase")
     expect_true(validObject(itraqdata))
     f <- dir(system.file(package = "MSnbase", dir = "extdata"),
-             full.name = TRUE, pattern = "msx.rda")
+             full.names = TRUE, pattern = "msx.rda")
     load(f) ## msx
     expect_true(validObject(msx))
 })
 
 test_that("readMSData", {
     f <- dir(system.file(package = "MSnbase", dir = "extdata"),
-             full.name = TRUE, pattern = "msx.rda")
+             full.names = TRUE, pattern = "msx.rda")
     load(f) ## msx
     file <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                full.name = TRUE,pattern = "mzXML$")
+                full.names = TRUE,pattern = "mzXML$")
     aa <- readMSData(file, verbose = FALSE, centroided. = FALSE)
     expect_identical(as.list(assayData(aa)), as.list(assayData(msx)))
     ## ## removing below due to spurious error on windows
@@ -30,7 +30,7 @@ test_that("readMSData", {
 
 test_that("readMSData with pdata", {
     file <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                full.name = TRUE, pattern = "mzXML$")
+                full.names = TRUE, pattern = "mzXML$")
     pd <- new("AnnotatedDataFrame",
               data = data.frame(pvarA = "A", pvarB = "B"))
     aa <- readMSData(file, pdata = pd, verbose = FALSE)
@@ -41,7 +41,7 @@ test_that("readMSData with pdata", {
 
 test_that("readMSData and dummy MSnExp msLevel 2 instance", {
     file <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                full.name = TRUE, pattern = "mzXML$")
+                full.names = TRUE, pattern = "mzXML$")
     aa <- readMSData(file, verbose = FALSE, centroided. = FALSE)
     expect_true(class(aa) == "MSnExp")
     ## centroided get and set
@@ -128,29 +128,6 @@ test_that("readMSData and dummy MSnExp msLevel 2 instance", {
     expect_that(precMzNames, equals(ffNames))
 })
 
-context("MSnExp processing")
-
-## ! Issues with edited dummy data for MS1 uploading, although
-## ! things work fine for original data set. Commented these
-## ! tests for the moment
-## test_that("readMSLData and dummy MSnExp msLevel 1 instance", {
-##   file <- dir(system.file(package="MSnbase",dir="extdata"),full.name=TRUE,pattern="mzXML$")
-##   aa <- readMSData(file,msLevel=1,verbose=FALSE)
-##   expect_that(class(aa)=="MSnExp",is_true())
-##   expect_equal(length(aa),equals(5))
-##   ## MS levels
-##   expect_that(length(msLevel(aa)),equals(5))
-##   expect_that(unique(msLevel(aa)),equals(1))
-##   ## Retention time
-##   expect_that(length(rtime(aa)),equals(5))
-##   expect_that(rtime(aa)[1],is_a("numeric"))
-##   expect_that(range(rtime(aa)),
-##               equals(c(1982.08,3015.47)))
-##   expect_that(as.numeric(polarity(aa)),equals(rep(-1,length(aa)))) ## [*]
-##   expect_that(as.numeric(rtime(aa)[1]),equals(1982.08)) ## [*]
-##   ## [*] using as.numeric because rtime and precursorMz return named numerics
-## })
-
 context("MSnExp data")
 
 test_that("spectra order and integrity", {
@@ -190,9 +167,9 @@ context("MSnExp identification data")
 
 test_that("addIdentificationData", {
     quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                     full.name = TRUE, pattern = "mzXML$")
+                     full.names = TRUE, pattern = "mzXML$")
     identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                     full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+                     full.names = TRUE, pattern = "dummyiTRAQ.mzid")
     expect_error(addIdentificationData(new("MSnExp"), identFile),
                  "No feature data found.")
     aa <- extdata_mzXML_in_mem_ms2
@@ -216,9 +193,9 @@ test_that("addIdentificationData", {
 
 test_that("addIdentificationData to OnDiskMSnExp", {
     quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                     full.name = TRUE, pattern = "mzXML$")
+                     full.names = TRUE, pattern = "mzXML$")
     identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                     full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+                     full.names = TRUE, pattern = "dummyiTRAQ.mzid")
     rw1 <- extdata_mzXML_in_mem_ms2
     rw2 <- extdata_mzXML_on_disk_ms2
     expect_true(all.equal(rw1, rw2))
@@ -229,21 +206,9 @@ test_that("addIdentificationData to OnDiskMSnExp", {
     expect_identical(fData(rw1)[ k], fData(rw2)[ k])
 })
 
-## test_that("addIdentificationData from MSGF+ and X!TANDEM", {
-##     rawFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-##                    full.name = TRUE, pattern = "mzXML$")
-##     msgfFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-##                     full.name = TRUE, pattern = "dummyiTRAQ.mzid")
-##     xtFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-##                   full.name = TRUE, pattern = "dummyiTRAQxt.mzid")
-##     x <- addIdentificationData(aa, msgfFile)
-##     y <- addIdentificationData(aa, xtFile)
-## })
-
-
 test_that("idSummary", {
     identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                     full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+                     full.names = TRUE, pattern = "dummyiTRAQ.mzid")
     aa <- extdata_mzXML_in_mem_ms2
     bb <- addIdentificationData(aa, identFile)
     expect_error(idSummary(aa), "No quantification/identification data found")
@@ -300,11 +265,10 @@ test_that("Noise estimation MSnExp", {
 })
 
 test_that("isolation window", {
-    f <- msdata::proteomics(full.names = TRUE,
-                            pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
-    i1 <- isolationWindow(f, unique = FALSE)
-    i2 <- isolationWindow(tmt_erwinia_on_disk, unique = FALSE)
-    i3 <- isolationWindow(tmt_erwinia_in_mem_ms2, unique = FALSE)
+    f <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz()
+    i1 <- isolationWindow(f, unique. = FALSE)
+    i2 <- isolationWindow(tmt_erwinia_on_disk, unique. = FALSE)
+    i3 <- isolationWindow(tmt_erwinia_in_mem_ms2, unique. = FALSE)
     expect_identical(i1, i2)
     expect_identical(i1, i3)
 })
@@ -312,7 +276,6 @@ test_that("isolation window", {
 test_that("spectrapply,MSnExp", {
     library(msdata)
     inMem <- microtofq_in_mem_ms1
-
     sps <- spectra(inMem)
     sps_2 <- spectrapply(inMem)
     expect_identical(sps, sps_2)
@@ -335,7 +298,7 @@ test_that("splitByFile,MSnExp", {
 
 test_that("$ operator on MSnExp works", {
     f <- dir(system.file(package = "MSnbase", dir = "extdata"),
-             full.name = TRUE, pattern = "msx.rda")
+             full.names = TRUE, pattern = "msx.rda")
     load(f) ## msx
     expect_equal(pData(msx)$sampleNames, msx$sampleNames)
     ## replace.
@@ -349,7 +312,7 @@ test_that("$ operator on MSnExp works", {
 
 test_that("pData<- on MSnExp works", {
     f <- dir(system.file(package = "MSnbase", dir = "extdata"),
-             full.name = TRUE, pattern = "msx.rda")
+             full.names = TRUE, pattern = "msx.rda")
     load(f) ## msx
 
     newDf <- data.frame(sampleName = "b", otherCol = 3)
