@@ -1,12 +1,12 @@
 test_that("writeMSData works", {
     mzML_xsd_idx <- XML::xmlTreeParse(system.file("extdata", "mzML1.1.2_idx.xsd",
                                                   package = "mzR"),
-                                      isSchema = TRUE, useInternal = TRUE)
+                                      isSchema = TRUE, useInternalNodes = TRUE)
 
     ## using the onDisk data.
     odf <- tmt_erwinia_on_disk
     ## 1) Filter MS level 1, write, read and compare with tmt_erwinia_in_mem_ms1
-    odf_out <- filterMsLevel(odf, msLevel = 1)
+    odf_out <- filterMsLevel(odf, msLevel. = 1)
     out_file <- paste0(tempfile(), ".mzML")
     MSnbase:::.writeSingleMSData(odf_out, file = out_file,
                                  outformat = "mzml", copy = TRUE)
@@ -35,7 +35,7 @@ test_that("writeMSData works", {
     expect_equal(fd_in$filterString, fd_out$filterString)
     ## 2) MS level 2, mzXML
     out_file <- paste0(tempfile(), ".mzXML")
-    odf_out <- filterMsLevel(odf, msLevel = 2)
+    odf_out <- filterMsLevel(odf, msLevel. = 2)
     expect_warning(
         MSnbase:::.writeSingleMSData(odf_out, file = out_file,
                                      outformat = "mzxml", copy = TRUE)
@@ -109,7 +109,7 @@ test_that(".pattern_to_cv works", {
 
 test_that(".guessSoftwareProcessing works", {
     ## filterMsLevel: Filter: select MS level(s)
-    odf_proc <- filterMsLevel(tmt_erwinia_on_disk, msLevel = 1)
+    odf_proc <- filterMsLevel(tmt_erwinia_on_disk, msLevel. = 1)
     res <- .guessSoftwareProcessing(odf_proc)
     expect_equal(res[[1]][1], "MSnbase")
     expect_equal(res[[1]][2], paste0(packageVersion("MSnbase"), collapse = "."))
@@ -166,7 +166,7 @@ test_that("writeMSData,OnDiskMSnExp works", {
     odf_in <- readMSData(out_file, mode = "onDisk")
     expect_equal(unname(rtime(odf_in)), unname(rtime(microtofq_in_mem_ms1)))
     expect_equal(spectra(odf_in), spectra(microtofq_in_mem_ms1))
-
+    ##
     ## Write MS1 and MS2
     out_file <- paste0(tempfile(), ".mzML")
     out_data <- tmt_erwinia_on_disk
@@ -189,7 +189,7 @@ test_that("writeMSData,OnDiskMSnExp works", {
                       as.numeric(factor(fData(in_data)$precursorScanNum))
     expect_equal(fData(out_data)[, check_cols], fData(in_data)[, check_cols])
     expect_equal(fData(out_data)$filterString, fData(in_data)$filterString)
-
+    ##
     ## With copy = TRUE
     out_file <- paste0(tempfile(), ".mzML")
     out_data <- tmt_erwinia_on_disk
@@ -229,10 +229,10 @@ test_that("writeMSData,MSnExp works", {
 
     in_file <- system.file(package = "msdata",
                            "proteomics/MS3TMT10_01022016_32917-33481.mzML.gz")
-    data_out <- readMSData(in_file, msLevel = 3, mode = "inMem")
+    data_out <- readMSData(in_file, msLevel. = 3, mode = "inMem")
     out_file <- paste0(tempfile(), ".mzML")
     writeMSData(data_out, file = out_file, outformat = "mzml", copy = TRUE)
-    data_in <- readMSData(out_file, mode = "inMem", msLevel = 3)
+    data_in <- readMSData(out_file, mode = "inMem", msLevel. = 3)
     expect_equal(rtime(data_in), rtime(data_out))
     expect_equal(mz(data_in), mz(data_out))
     expect_equal(intensity(data_in), intensity(data_out))
@@ -259,12 +259,12 @@ test_that("writeMSData works on CDF files", {
     ## in mem
     ## NOTE: reading a CDF file inMem is much slower than converting an
     ## OnDiskMSnExp into a MSnExp.
-    ## data_out <- readMSData(in_file, mode = "inMem", msLevel = 1)
+    ## data_out <- readMSData(in_file, mode = "inMem", msLevel. = 1)
     data_out <- as(data_out, "MSnExp")
     out_file <- paste0(tempfile(), ".mzML")
     writeMSData(data_out, file = out_file, outformat = "mzml", copy = FALSE)
     ## Reading the data as onDisk in, since we just compare the data anyway.
-    data_in <- readMSData(out_file, mode = "onDisk", msLevel = 1)
+    data_in <- readMSData(out_file, mode = "onDisk", msLevel. = 1)
     expect_equal(rtime(data_out), rtime(data_in))
     expect_equal(mz(data_out), mz(data_in))
     expect_equal(intensity(data_out), intensity(data_in))
