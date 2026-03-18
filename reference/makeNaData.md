@@ -82,7 +82,7 @@ processingData(dunkleyNA)
 #> Loaded on Thu Jul 16 22:53:08 2015. 
 #> Normalised to sum of intensities. 
 #> Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#> Set 150 values to NA Wed Mar 18 16:57:07 2026 
+#> Set 150 values to NA Wed Mar 18 17:49:18 2026 
 #>  MSnbase version: 1.17.12 
 sum(is.na(dunkleyNA))
 #> [1] 150
@@ -103,7 +103,7 @@ head(naIdx)
 dunkleyNA <- makeNaData(dunkley2006, nNA = 150, exclude = 1:10)
 processingData(dunkleyNA)
 #> - - - Processing information - - -
-#> Set 150 values to NA Wed Mar 18 16:57:07 2026
+#> Set 150 values to NA Wed Mar 18 17:49:18 2026
 #>   (excluding 10 features) 
 #>  MSnbase version: 1.17.12 
 table(fData(dunkleyNA)$nNA[1:10])
@@ -125,9 +125,9 @@ processingData(x)
 #> Loaded on Thu Jul 16 22:53:08 2015. 
 #> Normalised to sum of intensities. 
 #> Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#> Subset [689,16][100,5] Wed Mar 18 16:57:07 2026 
+#> Subset [689,16][100,5] Wed Mar 18 17:49:18 2026 
 #> Set (1,2,3,4,5) NAs in (10,10,10,10,10) rows,
-#>   respectively Wed Mar 18 16:57:07 2026 
+#>   respectively Wed Mar 18 17:49:18 2026 
 #>  MSnbase version: 1.17.12 
 (res <- table(fData(x)$nNA))
 #> 
@@ -146,9 +146,9 @@ processingData(x2)
 #> Loaded on Thu Jul 16 22:53:08 2015. 
 #> Normalised to sum of intensities. 
 #> Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#> Subset [689,16][100,10] Wed Mar 18 16:57:07 2026 
+#> Subset [689,16][100,10] Wed Mar 18 17:49:18 2026 
 #> Set (3,8,1,4) NAs in (5,12,11,8) rows,
-#>   respectively Wed Mar 18 16:57:07 2026 
+#>   respectively Wed Mar 18 17:49:18 2026 
 #>  MSnbase version: 1.17.12 
 (res2 <- table(fData(x2)$nNA))
 #> 
@@ -167,9 +167,9 @@ processingData(x3)
 #> Loaded on Thu Jul 16 22:53:08 2015. 
 #> Normalised to sum of intensities. 
 #> Added markers from  'mrk' marker vector. Thu Jul 16 22:53:08 2015 
-#> Subset [689,16][100,10] Wed Mar 18 16:57:07 2026 
+#> Subset [689,16][100,10] Wed Mar 18 17:49:18 2026 
 #> Set (3,8,1,3) NAs in (5,12,11,8) rows,
-#>   respectively Wed Mar 18 16:57:07 2026 
+#>   respectively Wed Mar 18 17:49:18 2026 
 #>  MSnbase version: 1.17.12 
 (res3 <- table(fData(x3)$nNA))
 #> 

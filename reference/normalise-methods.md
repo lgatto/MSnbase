@@ -111,6 +111,6 @@ msnset.nrm
 #> - - - Processing information - - -
 #> Data loaded: Wed May 11 18:54:39 2011 
 #> iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#> Normalised (quantiles): Wed Mar 18 16:57:12 2026 
+#> Normalised (quantiles): Wed Mar 18 17:49:23 2026 
 #>  MSnbase version: 1.1.22 
 ```

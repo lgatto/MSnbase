@@ -63,7 +63,7 @@ system.time(inmem <- readMSData(f, msLevel. = 2,
 ```
 
     ##    user  system elapsed 
-    ##  45.326   0.738  45.596
+    ##  42.742   0.734  43.011
 
 Next, we use the `readMSData` function to generate an on-disk
 representation of the same data by setting `mode = "onDisk"`.
@@ -76,7 +76,7 @@ system.time(ondisk <- readMSData(f, msLevel. = 2,
 ```
 
     ##    user  system elapsed 
-    ##   9.079   0.499   9.128
+    ##   8.881   0.504   8.932
 
 Creating the on-disk experiment is considerable faster and scales to
 much bigger, multi-file data, both in terms of object creation time, but
@@ -147,16 +147,16 @@ mb
 ```
 
     ## Unit: microseconds
-    ##             expr         min          lq        mean      median          uq
-    ##   spectra(inmem)    2343.680    2632.717    3325.582    3524.035    3666.544
-    ##     inmem[[200]]      25.938      27.782      78.894      89.757     103.904
-    ##  spectra(ondisk) 3889150.542 3893187.738 4771523.125 3950058.790 5754876.233
-    ##    ondisk[[200]] 1468226.197 1469537.581 1481522.639 1485003.056 1488965.985
+    ##             expr         min          lq         mean      median          uq
+    ##   spectra(inmem)    1089.585    1314.865    2436.7329    2792.699    3175.118
+    ##     inmem[[200]]      24.897      26.380      70.1502      75.406     104.595
+    ##  spectra(ondisk) 3827662.695 3855243.965 4703240.8731 3939344.255 5648236.757
+    ##    ondisk[[200]] 1457927.203 1460082.357 1469420.5563 1472979.672 1474746.619
     ##          max neval
-    ##     4179.922    10
-    ##      177.571    10
-    ##  6964536.989    10
-    ##  1491866.750    10
+    ##     3237.906    10
+    ##      143.839    10
+    ##  6801170.483    10
+    ##  1481629.040    10
 
 While it takes order or magnitudes more time to access the data
 on-the-fly rather than a pre-generated spectrum, accessing all spectra
@@ -184,7 +184,7 @@ system.time(inmem[i])
 ```
 
     ##    user  system elapsed 
-    ##   0.153   0.000   0.153
+    ##   0.140   0.000   0.139
 
 ``` r
 
@@ -192,7 +192,7 @@ system.time(ondisk[i])
 ```
 
     ##    user  system elapsed 
-    ##   0.012   0.000   0.013
+    ##   0.011   0.000   0.011
 
 Operations on the spectra data, such as peak picking, smoothing,
 cleaning, … are cleverly cached and only applied when the data is
@@ -213,7 +213,7 @@ system.time(eim <- quantify(inmem[1:100], reporters = TMT6,
 ```
 
     ##    user  system elapsed 
-    ##   2.999   1.315   1.854
+    ##   3.653   1.677   1.549
 
 ``` r
 
@@ -222,7 +222,7 @@ system.time(eod <- quantify(ondisk[1:100], reporters = TMT6,
 ```
 
     ##    user  system elapsed 
-    ##   1.547   0.342   1.688
+    ##   1.532   0.346   1.672
 
 ``` r
 

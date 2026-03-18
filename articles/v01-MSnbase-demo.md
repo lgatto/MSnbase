@@ -633,7 +633,7 @@ bsa
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Data [logically] subsetted 3 spectra: Wed Mar 18 16:58:03 2026 
+    ## Data [logically] subsetted 3 spectra: Wed Mar 18 17:50:11 2026 
     ##  MSnbase version: 1.1.22 
     ## - - - Meta data  - - -
     ## phenoData
@@ -1252,8 +1252,8 @@ experiment
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Wed Mar 18 16:58:09 2026 
-    ## Spectra cleaned: Wed Mar 18 16:58:09 2026 
+    ## Curves <= 400 set to '0': Wed Mar 18 17:50:17 2026 
+    ## Spectra cleaned: Wed Mar 18 17:50:18 2026 
     ##  MSnbase version: 1.1.22 
     ## - - - Meta data  - - -
     ## phenoData
@@ -1368,9 +1368,9 @@ qnt
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Wed Mar 18 16:58:09 2026 
-    ## Spectra cleaned: Wed Mar 18 16:58:09 2026 
-    ## iTRAQ4 quantification by trapezoidation: Wed Mar 18 16:58:12 2026 
+    ## Curves <= 400 set to '0': Wed Mar 18 17:50:17 2026 
+    ## Spectra cleaned: Wed Mar 18 17:50:18 2026 
+    ## iTRAQ4 quantification by trapezoidation: Wed Mar 18 17:50:20 2026 
     ##  MSnbase version: 1.1.22
 
 ``` r
@@ -1650,7 +1650,7 @@ processingData(x)
 ```
 
     ## - - - Processing information - - -
-    ## Data imputation using min Wed Mar 18 16:58:13 2026 
+    ## Data imputation using min Wed Mar 18 17:50:22 2026 
     ##  MSnbase version: 1.15.6
 
 ``` r
@@ -1741,7 +1741,7 @@ x
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Data imputation using mixed Wed Mar 18 16:58:14 2026 
+    ## Data imputation using mixed Wed Mar 18 17:50:22 2026 
     ##  MSnbase version: 1.15.6
 
 Please read `?MsCoreUtils::impute_matix()` for a description of the
@@ -1916,14 +1916,14 @@ qnt2
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Wed Mar 18 16:58:09 2026 
-    ## Spectra cleaned: Wed Mar 18 16:58:09 2026 
-    ## iTRAQ4 quantification by trapezoidation: Wed Mar 18 16:58:12 2026 
-    ## Subset [55,4][54,4] Wed Mar 18 16:58:12 2026 
-    ## Removed features with more than 0 NAs: Wed Mar 18 16:58:12 2026 
-    ## Dropped featureData's levels Wed Mar 18 16:58:12 2026 
-    ## Combined 54 features into 40 using median: Wed Mar 18 16:58:16 2026 
-    ##  MSnbase version: 2.37.1
+    ## Curves <= 400 set to '0': Wed Mar 18 17:50:17 2026 
+    ## Spectra cleaned: Wed Mar 18 17:50:18 2026 
+    ## iTRAQ4 quantification by trapezoidation: Wed Mar 18 17:50:20 2026 
+    ## Subset [55,4][54,4] Wed Mar 18 17:50:20 2026 
+    ## Removed features with more than 0 NAs: Wed Mar 18 17:50:20 2026 
+    ## Dropped featureData's levels Wed Mar 18 17:50:20 2026 
+    ## Combined 54 features into 40 using median: Wed Mar 18 17:50:24 2026 
+    ##  MSnbase version: 2.37.2
 
 Of interest is also the `iPQF` spectra-to-protein summarisation method,
 which integrates peptide spectra characteristics and quantitative values
@@ -2018,12 +2018,12 @@ processingData(siquant)
 ```
 
     ## - - - Processing information - - -
-    ## Data loaded: Wed Mar 18 16:58:08 2026 
-    ## Filtered 2 unidentified peptides out [Wed Mar 18 16:58:09 2026] 
-    ## Quantitation by total ion current [Wed Mar 18 16:58:16 2026] 
-    ## Combined 3 features into 3 using sum: Wed Mar 18 16:58:16 2026 
-    ## Quantification by SIn [Wed Mar 18 16:58:16 2026] 
-    ##  MSnbase version: 2.37.1
+    ## Data loaded: Wed Mar 18 17:50:16 2026 
+    ## Filtered 2 unidentified peptides out [Wed Mar 18 17:50:17 2026] 
+    ## Quantitation by total ion current [Wed Mar 18 17:50:24 2026] 
+    ## Combined 3 features into 3 using sum: Wed Mar 18 17:50:24 2026 
+    ## Quantification by SIn [Wed Mar 18 17:50:24 2026] 
+    ##  MSnbase version: 2.37.2
 
 ``` r
 
@@ -2555,8 +2555,8 @@ exp12
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Combined [27,4] and [24,4] MSnSets Wed Mar 18 16:58:24 2026 
-    ##  MSnbase version: 2.37.1
+    ## Combined [27,4] and [24,4] MSnSets Wed Mar 18 17:50:32 2026 
+    ##  MSnbase version: 2.37.2
 
 In summary, when experiments with different samples need to be combined
 (along the columns), one needs to (1) clarify the sample names using
@@ -2760,7 +2760,7 @@ the `topN` method.
     ##  [4] BiocParallel_1.45.0  MLInterfaces_1.91.0  cluster_2.1.8.2     
     ##  [7] annotate_1.89.0      XML_3.99-0.22        AnnotationDbi_1.73.0
     ## [10] IRanges_2.45.0       pRolocdata_1.49.0    Rdisop_1.71.1       
-    ## [13] zoo_1.8-15           MSnbase_2.37.1       ProtGenerics_1.43.0 
+    ## [13] zoo_1.8-15           MSnbase_2.37.2       ProtGenerics_1.43.0 
     ## [16] S4Vectors_0.49.0     mzR_2.45.0           Rcpp_1.1.1          
     ## [19] Biobase_2.71.0       BiocGenerics_0.57.0  generics_0.1.4      
     ## [22] ggplot2_4.0.2        BiocStyle_2.39.0    
