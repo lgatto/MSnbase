@@ -1,5 +1,9 @@
 # MSnbase 2.37
 
+## 2.37.2
+- Fixing vignette (see #613)
+- use `MsDataHub` for TMT mzid data.
+
 ## 2.37.1
 - Fixing tests
 

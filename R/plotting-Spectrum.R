@@ -34,7 +34,7 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=25e-6,
                                     xlim, ylim,
                                     legend.cex = 1,
                                     peaks.pch = 19, ...) {
-  if (norm) 
+  if (norm)
     spectra <- lapply(spectra, normalize)
 
   if (missing(xlim)) {
@@ -48,10 +48,10 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=25e-6,
     ylim <- c(-maxInten, maxInten)
   }
 
-  if (missing(common)) 
+  if (missing(common))
     common <- lapply(spectra, function(x)logical(peaksCount(x)))
 
-  if (missing(sequences)) 
+  if (missing(sequences))
     sequences <- character(2)
 
   orientation <- c(1, -1)
@@ -71,7 +71,7 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=25e-6,
     if (msLevel(spectra[[i]]) == 1) {
         label <- paste0("Retention time: ", formatRt(rtime(spectra[[i]])),
                         ", # common: ", sum(common[[i]]))
-        
+
     } else {
         label <- paste0("prec scan: ", precScanNum(spectra[[i]]))
         if (peaksCount(spectra[[i]])) {
@@ -124,9 +124,10 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=25e-6,
                                 fragments = calculateFragments_Spectrum2(object,
                                   sequence = sequence, tolerance = tolerance,
                                   relative = relative, type = type, z = z,
-                                  modifications = modifications,
+                                  fixed_modifications = modifications,
                                   neutralLoss = neutralLoss,
-                                  verbose = isMSnbaseVerbose()),
+                                  verbose = isMSnbaseVerbose()) |>
+                               suppressWarnings(),
                                fragments.cex = 0.75, peaks.lwd = 1, peaks.cex = 0.5, ...) {
   if (peaksCount(object) > 0 && !centroided(object)) {
     message("Your spectrum is not centroided.")
@@ -159,4 +160,3 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=25e-6,
          cex=fragments.cex, col="#808080")
   }
 }
-

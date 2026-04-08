@@ -37,6 +37,7 @@ suppressPackageStartupMessages(require("Rdisop"))
 suppressPackageStartupMessages(require("pRolocdata"))
 suppressPackageStartupMessages(require("pRoloc"))
 suppressPackageStartupMessages(require("msdata"))
+suppressPackageStartupMessages(require("MsDataHub"))
 library("grid")
 suppressPackageStartupMessages(library("BiocParallel"))
 ```
@@ -140,7 +141,7 @@ more details). To make use of the new *on-disk* implementation, set
 ```{r readdata, echo=TRUE, cache=FALSE, tidy=FALSE}
 file <- dir(system.file(package = "MSnbase", dir = "extdata"),
             full.names = TRUE, pattern = "mzXML$")
-rawdata <- readMSData(file, msLevel = 2, verbose = FALSE)
+rawdata <- readMSData(file, msLevel. = 2, verbose = FALSE)
 ```
 
 Only spectra of a given MS level can be loaded at a time by setting
@@ -514,9 +515,8 @@ interface by converting the dedicated identification data objects into
 `data.frames`.
 
 ```{r iddf0}
-library("msdata")
-f <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"
-idf <- msdata::ident(full.names = TRUE, pattern = f)
+library("MsDataHub")
+idf <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzid()
 iddf <- readMzIdData(idf)
 str(iddf)
 ```
@@ -608,10 +608,10 @@ details.
 ```{r msnexpIdentification, echo=TRUE, cache=FALSE, tidy=FALSE}
 ## find path to a mzXML file
 quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                 full.name = TRUE, pattern = "mzXML$")
+                 full.names = TRUE, pattern = "mzXML$")
 ## find path to a mzIdentML file
 identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                 full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+                 full.names = TRUE, pattern = "dummyiTRAQ.mzid")
 ## create basic MSnExp
 msexp <- readMSData(quantFile, verbose = FALSE)
 head(fData(msexp), n = 2)
