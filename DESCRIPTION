@@ -79,7 +79,7 @@ Depends:
     ProtGenerics (>= 1.29.1)
 Imports:
     MsCoreUtils,
-    PSMatch (>= 1.13.2),
+    PSMatch (>= 1.15.3),
     BiocParallel,
     IRanges (>= 2.13.28),
     plyr,
