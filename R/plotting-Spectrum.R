@@ -121,13 +121,13 @@ plotSpectrumVsSpectrum <- function(spectra, tolerance=25e-6,
                                 modifications = c(C = 57.02146),
                                 neutralLoss = defaultNeutralLoss(),
                                 z = 1,
-                                fragments = calculateFragments_Spectrum2(object,
-                                  sequence = sequence, tolerance = tolerance,
-                                  relative = relative, type = type, z = z,
-                                  fixed_modifications = modifications,
-                                  neutralLoss = neutralLoss,
-                                  verbose = isMSnbaseVerbose()) |>
-                               suppressWarnings(),
+                                fragments = suppressWarnings(
+                                    calculateFragments_Spectrum2(object,
+                                    sequence = sequence, tolerance = tolerance,
+                                    relative = relative, type = type, z = z,
+                                    fixed_modifications = modifications,
+                                    neutralLoss = neutralLoss,
+                                    verbose = isMSnbaseVerbose())),
                                fragments.cex = 0.75, peaks.lwd = 1, peaks.cex = 0.5, ...) {
   if (peaksCount(object) > 0 && !centroided(object)) {
     message("Your spectrum is not centroided.")

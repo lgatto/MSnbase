@@ -86,7 +86,7 @@
 \examples{
 ## find path to a mzXML file
 file <- dir(system.file(package = "MSnbase", dir = "extdata"),
-            full.name = TRUE, pattern = "mzXML$")
+            full.names = TRUE, pattern = "mzXML$")
 
 ## create basic MSnExp
 msexp <- readMSData(file, centroided = FALSE)
@@ -95,13 +95,7 @@ msexp <- readMSData(file, centroided = FALSE)
 msexp <- pickPeaks(msexp)
 
 ## calculate fragments for ACE with default modification
-calculateFragments("ACE", modifications=c(C=57.02146))
-
-## calculate fragments for ACE with an addition N-terminal modification
-calculateFragments("ACE", modifications=c(C=57.02146, Nterm=229.1629))
-
-## calculate fragments for ACE without any modifications
-calculateFragments("ACE", modifications=NULL)
+calculateFragments("ACE")
 
 calculateFragments("VESITARHGEVLQLRPK",
                    type=c("a", "b", "c", "x", "y", "z"),

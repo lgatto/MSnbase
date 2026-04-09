@@ -187,9 +187,10 @@ jobs:
           cd preprocessCore
           R CMD INSTALL --configure-args="--disable-threading"  .
 
-      - name: Install latest PSMatch from github
+      - name: Install latest PSMatch and PTMods from github
         run: |
           BiocManager::install("RforMassSpectrometry/PSMatch", ask = FALSE, force = TRUE)
+          BiocManager::install("RforMassSpectrometry/PTMods", ask = FALSE, force = TRUE)
         continue-on-error: true
         shell: Rscript {0}
 

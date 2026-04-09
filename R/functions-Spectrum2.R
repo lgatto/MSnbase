@@ -12,7 +12,6 @@
 calculateFragments_Spectrum2 <- function(sequence, object, tolerance=0.1,
                                          method=c("highest", "closest", "all"),
                                          relative=FALSE, ...) {
-
   isValidSequence <- !missing(sequence) && !is.na(sequence) &&
                      nchar(sequence)
   isValidSpectrum <- is(object, "Spectrum2") && peaksCount(object)

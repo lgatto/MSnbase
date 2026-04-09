@@ -80,6 +80,7 @@ Depends:
 Imports:
     MsCoreUtils,
     PSMatch (>= 1.15.3),
+    PTMods (>= 0.99.5),
     BiocParallel,
     IRanges (>= 2.13.28),
     plyr,

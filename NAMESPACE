@@ -21,6 +21,8 @@ importFrom(PSMatch,
            getAminoAcids,
            defaultNeutralLoss)
 
+importFrom(PTMods, convertAnnotation)
+
 importFrom(MsCoreUtils, closest, rbindFill,
            impute_matrix, normalize_matrix,
            robustSummary, medianPolish,
