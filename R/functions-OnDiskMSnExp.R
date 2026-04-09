@@ -683,9 +683,7 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
 ##' @md
 ##' @author Laurent Gatto
 ##' @examples
-##' library("msdata")
-##' f <- proteomics(full.names = TRUE,
-##'                 pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+##' f <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz()
 ##' x <- readMSData(f, mode = "onDisk")
 ##' table(isCentroidedFromFile(x), msLevel(x))
 isCentroidedFromFile <- function(x) {
