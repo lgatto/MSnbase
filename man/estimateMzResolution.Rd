@@ -39,9 +39,8 @@ certain threshold.
 ## Load a profile mode example file
 library(BiocParallel)
 register(SerialParam())
-library(msdata)
-f <- proteomics(full.names = TRUE,
-    pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+library(MsDataHub)
+f <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz()
 
 od <- readMSData(f, mode = "onDisk")
 
