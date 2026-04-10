@@ -363,7 +363,7 @@ which takes arguments `rtime`, `intensity`, `mz`, `filterMz`,
   [`MChromatograms()`](https://lgatto.github.io/MSnbase/reference/MChromatograms-class.md)
   object, each `Chromatogram` in it is aligned against `y`. Additional
   parameters (`...`) are passed along to the alignment functions (e.g.
-  `closest()`).
+  [`MsCoreUtils::closest()`](https://rdrr.io/pkg/MsCoreUtils/man/matching.html)).
 
   Parameter `method` allows to specify which alignment method should be
   used. Currently there are the following options:
@@ -374,10 +374,11 @@ which takes arguments `rtime`, `intensity`, `mz`, `filterMz`,
     assigned to the data point in `y` with the smallest difference in
     their retention times if their difference is smaller than the
     minimum average difference between retention times in `x` or `y`
-    (parameter `tolerance` for the call to the `closest()` function). By
-    setting `tolerance = 0` only exact retention times are matched
-    against each other (i.e. only values are kept with exactly the same
-    retention times between both chromatograms).
+    (parameter `tolerance` for the call to the
+    [`MsCoreUtils::closest()`](https://rdrr.io/pkg/MsCoreUtils/man/matching.html)
+    function). By setting `tolerance = 0` only exact retention times are
+    matched against each other (i.e. only values are kept with exactly
+    the same retention times between both chromatograms).
 
   - `method = "approx"`: uses the base R `approx` function to
     approximate intensities in `x` to the retention times in `y` (using

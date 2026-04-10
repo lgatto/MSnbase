@@ -169,7 +169,7 @@ x <- FeaturesOfInterest(description = "A traceable test set of features of inter
                         object = tan2009r1)
 x
 #> Traceable object of class "FeaturesOfInterest"
-#>  Created on Wed Mar 18 17:48:09 2026 
+#>  Created on Fri Apr 10 14:42:24 2026 
 #>  Description:
 #>   A traceable test set of features of interest
 #>  10 features of interest:
@@ -185,7 +185,7 @@ y <- FeaturesOfInterest(description = "Non-traceable features of interest",
                         fnames = featureNames(tan2009r1)[111:113])
 y
 #> Object of class "FeaturesOfInterest"
-#>  Created on Wed Mar 18 17:48:09 2026 
+#>  Created on Fri Apr 10 14:42:24 2026 
 #>  Description:
 #>   Non-traceable features of interest
 #>  3 features of interest:
@@ -203,7 +203,7 @@ try(FeaturesOfInterest(description = "Won't work",
 FeaturesOfInterest(description = "This work, but not traceable",
                        fnames = c("A", "Z", featureNames(tan2009r1)))
 #> Object of class "FeaturesOfInterest"
-#>  Created on Wed Mar 18 17:48:09 2026 
+#>  Created on Fri Apr 10 14:42:24 2026 
 #>  Description:
 #>   This work, but not traceable
 #>  890 features of interest:
@@ -226,14 +226,14 @@ xx[1]
 #> A collection of 1 features of interest.
 xx[[1]]
 #> Traceable object of class "FeaturesOfInterest"
-#>  Created on Wed Mar 18 17:48:09 2026 
+#>  Created on Fri Apr 10 14:42:24 2026 
 #>  Description:
 #>   A traceable test set of features of interest
 #>  10 features of interest:
 #>    P20353, P53501  ...  Q9VCK0, Q9VIU7
 xx[["A"]]
 #> Traceable object of class "FeaturesOfInterest"
-#>  Created on Wed Mar 18 17:48:09 2026 
+#>  Created on Fri Apr 10 14:42:24 2026 
 #>  Description:
 #>   A traceable test set of features of interest
 #>  10 features of interest:
@@ -247,7 +247,7 @@ description(xx)
 foi(xx)
 #> $A
 #> Traceable object of class "FeaturesOfInterest"
-#>  Created on Wed Mar 18 17:48:09 2026 
+#>  Created on Fri Apr 10 14:42:24 2026 
 #>  Description:
 #>   A traceable test set of features of interest
 #>  10 features of interest:
@@ -255,7 +255,7 @@ foi(xx)
 #> 
 #> $B
 #> Object of class "FeaturesOfInterest"
-#>  Created on Wed Mar 18 17:48:09 2026 
+#>  Created on Fri Apr 10 14:42:24 2026 
 #>  Description:
 #>   Non-traceable features of interest
 #>  3 features of interest:

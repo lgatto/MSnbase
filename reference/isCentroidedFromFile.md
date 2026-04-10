@@ -36,13 +36,10 @@ Laurent Gatto
 ## Examples
 
 ``` r
-library("msdata")
-f <- proteomics(full.names = TRUE,
-                pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
+f <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz()
+#> see ?MsDataHub and browseVignettes('MsDataHub') for documentation
+#> loading from cache
 x <- readMSData(f, mode = "onDisk")
 table(isCentroidedFromFile(x), msLevel(x))
-#>        
-#>           1   2
-#>   FALSE  58   0
-#>   TRUE    0 451
+#> < table of extent 0 x 2 >
 ```

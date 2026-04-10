@@ -49,7 +49,7 @@ effectively summed.
 
 ## Author
 
-Laurent Gatto <lg390@cam.ac.uk>, Sebastian Gibb <mail@sebastiangibb.de>
+Laurent Gatto and Sebastian Gibb
 
 ## Examples
 

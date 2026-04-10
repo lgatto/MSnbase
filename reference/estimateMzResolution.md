@@ -53,15 +53,15 @@ Johannes Rainer
 ## Load a profile mode example file
 library(BiocParallel)
 register(SerialParam())
-library(msdata)
-f <- proteomics(full.names = TRUE,
-    pattern = "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz")
 
+f <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz()
+#> see ?MsDataHub and browseVignettes('MsDataHub') for documentation
+#> loading from cache
 od <- readMSData(f, mode = "onDisk")
 
 ## Estimate the m/z resolution on the 3rd spectrum.
 estimateMzResolution(od[[3]])
-#> [1] -0.03353908
+#> [1] 0.001524628
 
 ## Estimate the m/z resolution for each spectrum
 mzr <- estimateMzResolution(od)

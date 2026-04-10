@@ -104,7 +104,7 @@ Sebastian Gibb \<mail@sebastiangibb.de\>
 ``` r
 ## find path to a mzXML file
 file <- dir(system.file(package = "MSnbase", dir = "extdata"),
-            full.name = TRUE, pattern = "mzXML$")
+            full.names = TRUE, pattern = "mzXML$")
 
 ## create basic MSnExp
 msexp <- readMSData(file, centroided = FALSE)
@@ -113,42 +113,16 @@ msexp <- readMSData(file, centroided = FALSE)
 msexp <- pickPeaks(msexp)
 
 ## calculate fragments for ACE with default modification
-calculateFragments("ACE", modifications=c(C=57.02146))
-#> Warning: 'modifications' is deprecated, please use 'fixed_modifications' instead.
+calculateFragments("ACE")
 #> Fixed modifications used: C=57.02146
 #> Variable modifications used: None
-#>          mz ion type pos z seq peptide
-#> 1  72.04439  b1    b   1 1   A     ACE
-#> 2 232.07504  b2    b   2 1  AC     ACE
-#> 3 148.06043  y1    y   1 1   E     ACE
-#> 4 308.09108  y2    y   2 1  CE     ACE
-#> 5 130.04987 y1_   y_   1 1   E     ACE
-#> 6 290.08052 y2_   y_   2 1  CE     ACE
-
-## calculate fragments for ACE with an addition N-terminal modification
-calculateFragments("ACE", modifications=c(C=57.02146, Nterm=229.1629))
-#> Warning: 'modifications' is deprecated, please use 'fixed_modifications' instead.
-#> Fixed modifications used: C=57.02146, Nterm=229.1629
-#> Variable modifications used: None
-#>         mz ion type pos z seq peptide
-#> 1 301.2073  b1    b   1 1   A     ACE
-#> 2 461.2379  b2    b   2 1  AC     ACE
-#> 3 148.0604  y1    y   1 1   E     ACE
-#> 4 308.0911  y2    y   2 1  CE     ACE
-#> 5 130.0499 y1_   y_   1 1   E     ACE
-#> 6 290.0805 y2_   y_   2 1  CE     ACE
-
-## calculate fragments for ACE without any modifications
-calculateFragments("ACE", modifications=NULL)
-#> Fixed modifications used: C=57.02146
-#> Variable modifications used: None
-#>          mz ion type pos z seq peptide
-#> 1  72.04439  b1    b   1 1   A     ACE
-#> 2 232.07504  b2    b   2 1  AC     ACE
-#> 3 148.06043  y1    y   1 1   E     ACE
-#> 4 308.09108  y2    y   2 1  CE     ACE
-#> 5 130.04987 y1_   y_   1 1   E     ACE
-#> 6 290.08052 y2_   y_   2 1  CE     ACE
+#>          mz ion type pos z seq        peptide
+#> 1  72.04439  b1    b   1 1   A AC[+57.02146]E
+#> 2 232.07504  b2    b   2 1  AC AC[+57.02146]E
+#> 3 148.06043  y1    y   1 1   E AC[+57.02146]E
+#> 4 308.09108  y2    y   2 1  CE AC[+57.02146]E
+#> 5 130.04987 y1_   y_   1 1   E AC[+57.02146]E
+#> 6 290.08052 y2_   y_   2 1  CE AC[+57.02146]E
 
 calculateFragments("VESITARHGEVLQLRPK",
                    type=c("a", "b", "c", "x", "y", "z"),

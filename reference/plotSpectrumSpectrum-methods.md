@@ -96,9 +96,7 @@ plot(msexp[[1]], msexp[[2]])
 plot(msexp[[1]], msexp[[2]], sequences=c("VESITARHGEVLQLRPK",
                                          "IDGQWVTHQWLKK"))
 #> Your spectrum is not centroided.
-#> Warning: 'modifications' is deprecated, please use 'fixed_modifications' instead.
 #> Your spectrum is not centroided.
-#> Warning: 'modifications' is deprecated, please use 'fixed_modifications' instead.
 
 
 

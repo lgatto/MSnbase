@@ -144,7 +144,7 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## find path to a mzXML file</span></span></span>
 <span class="r-in"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"MSnbase"</span>, dir <span class="op">=</span> <span class="st">"extdata"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>            full.name <span class="op">=</span> <span class="cn">TRUE</span>, pattern <span class="op">=</span> <span class="st">"mzXML$"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>            full.names <span class="op">=</span> <span class="cn">TRUE</span>, pattern <span class="op">=</span> <span class="st">"mzXML$"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## create basic MSnExp</span></span></span>
 <span class="r-in"><span><span class="va">msexp</span> <span class="op">&lt;-</span> <span class="fu"><a href="readMSData.html">readMSData</a></span><span class="op">(</span><span class="va">file</span>, centroided <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
@@ -153,42 +153,16 @@
 <span class="r-in"><span><span class="va">msexp</span> <span class="op">&lt;-</span> <span class="fu"><a href="pickPeaks-method.html">pickPeaks</a></span><span class="op">(</span><span class="va">msexp</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## calculate fragments for ACE with default modification</span></span></span>
-<span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"ACE"</span>, modifications<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>C<span class="op">=</span><span class="fl">57.02146</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'modifications' is deprecated, please use 'fixed_modifications' instead.</span>
+<span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"ACE"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Fixed modifications used: C=57.02146</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Variable modifications used: None</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq peptide</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  72.04439  b1    b   1 1   A     ACE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 232.07504  b2    b   2 1  AC     ACE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 148.06043  y1    y   1 1   E     ACE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 308.09108  y2    y   2 1  CE     ACE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 130.04987 y1_   y_   1 1   E     ACE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 290.08052 y2_   y_   2 1  CE     ACE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## calculate fragments for ACE with an addition N-terminal modification</span></span></span>
-<span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"ACE"</span>, modifications<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>C<span class="op">=</span><span class="fl">57.02146</span>, Nterm<span class="op">=</span><span class="fl">229.1629</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'modifications' is deprecated, please use 'fixed_modifications' instead.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Fixed modifications used: C=57.02146, Nterm=229.1629</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Variable modifications used: None</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         mz ion type pos z seq peptide</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 301.2073  b1    b   1 1   A     ACE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 461.2379  b2    b   2 1  AC     ACE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 148.0604  y1    y   1 1   E     ACE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 308.0911  y2    y   2 1  CE     ACE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 130.0499 y1_   y_   1 1   E     ACE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 290.0805 y2_   y_   2 1  CE     ACE</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## calculate fragments for ACE without any modifications</span></span></span>
-<span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"ACE"</span>, modifications<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Fixed modifications used: C=57.02146</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Variable modifications used: None</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq peptide</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  72.04439  b1    b   1 1   A     ACE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 232.07504  b2    b   2 1  AC     ACE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 148.06043  y1    y   1 1   E     ACE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 308.09108  y2    y   2 1  CE     ACE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 130.04987 y1_   y_   1 1   E     ACE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 290.08052 y2_   y_   2 1  CE     ACE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          mz ion type pos z seq        peptide</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  72.04439  b1    b   1 1   A AC[+57.02146]E</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 232.07504  b2    b   2 1  AC AC[+57.02146]E</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 148.06043  y1    y   1 1   E AC[+57.02146]E</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 308.09108  y2    y   2 1  CE AC[+57.02146]E</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 130.04987 y1_   y_   1 1   E AC[+57.02146]E</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 290.08052 y2_   y_   2 1  CE AC[+57.02146]E</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">calculateFragments</span><span class="op">(</span><span class="st">"VESITARHGEVLQLRPK"</span>,</span></span>
 <span class="r-in"><span>                   type<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>, <span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"z"</span><span class="op">)</span>,</span></span>

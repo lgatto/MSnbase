@@ -80,6 +80,6 @@ processingData(itraqdata2)
 #> - - - Processing information - - -
 #> Data loaded: Wed May 11 18:54:39 2011 
 #> Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#> Spectra smoothed (MovingAverage): Wed Mar 18 17:49:48 2026 
+#> Spectra smoothed (MovingAverage): Fri Apr 10 14:45:16 2026 
 #>  MSnbase version: 1.1.22 
 ```

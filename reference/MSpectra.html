@@ -3,7 +3,7 @@
 Spectrum object(s) (Spectrum1 or Spectrum2) in
 a list-like structure with the possibility to add arbitrary annotations
 to each individual Spectrum object. These can be accessed/set with
-the mcols() method.
+the S4Vectors::mcols() method.
 MSpectra objects can be created with the MSpectra function.
 Functions to access the individual spectra's attributes are available
 (listed below).
@@ -13,7 +13,7 @@ the capitalized column names used as field names (see examples below)."><meta pr
 Spectrum object(s) (Spectrum1 or Spectrum2) in
 a list-like structure with the possibility to add arbitrary annotations
 to each individual Spectrum object. These can be accessed/set with
-the mcols() method.
+the S4Vectors::mcols() method.
 MSpectra objects can be created with the MSpectra function.
 Functions to access the individual spectra's attributes are available
 (listed below).
@@ -66,7 +66,7 @@ the capitalized column names used as field names (see examples below)."></head><
 <a href="Spectrum-class.html">Spectrum</a> object(s) (<a href="Spectrum1-class.html">Spectrum1</a> or <a href="Spectrum2-class.html">Spectrum2</a>) in
 a <code>list</code>-like structure with the possibility to add arbitrary annotations
 to each individual <code>Spectrum</code> object. These can be accessed/set with
-the <code>mcols()</code> method.</p>
+the <code><a href="https://rdrr.io/pkg/S4Vectors/man/Vector-class.html" class="external-link">S4Vectors::mcols()</a></code> method.</p>
 <p><code>MSpectra</code> objects can be created with the <code>MSpectra</code> function.</p>
 <p>Functions to access the individual spectra's attributes are available
 (listed below).</p>
@@ -185,7 +185,7 @@ For all other methods optional arguments passed along.</p></dd>
 
 
 <dt id="arg-elementmetadata">elementMetadata<a class="anchor" aria-label="anchor" href="#arg-elementmetadata"></a></dt>
-<dd><p>For <code>MSpectra</code>: DataFrame with optional information
+<dd><p>For <code>MSpectra</code>: <a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html" class="external-link">S4Vectors::DataFrame</a> with optional information
 that should be added as metadata information (<code>mcols</code>) to the object.
 The number of rows has to match the number of <a href="Spectrum-class.html">Spectrum</a> objects,
 each row is expected to represent additional metadata information for
@@ -257,7 +257,7 @@ for details.</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><code>MSpectra</code> inherits all methods from the SimpleList class of the
+    <p><code>MSpectra</code> inherits all methods from the <a href="https://rdrr.io/pkg/S4Vectors/man/SimpleList-class.html" class="external-link">S4Vectors::SimpleList</a> class of the
 <code>S4Vectors</code> package. This includes <code>lapply</code> and other data manipulation
 and subsetting operations.</p>
     </div>
@@ -508,7 +508,7 @@ level(s).</p></li>
 <span class="r-in"><span><span class="co">## Evaluate the written output. The ID of each spectrum (defined in the</span></span></span>
 <span class="r-in"><span><span class="co">## "id" metadata column) is exported as field "ID".</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">tmpf</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "COM=Experimentexported by MSnbase on Wed Mar 18 17:48:22 2026"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "COM=Experimentexported by MSnbase on Fri Apr 10 14:42:39 2026"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2] "BEGIN IONS"                                                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "SCANS=NA"                                                        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     </span>
@@ -538,7 +538,7 @@ level(s).</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="writeMgfData-methods.html">writeMgfData</a></span><span class="op">(</span><span class="va">spl</span>, <span class="va">tmpf</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">tmpf</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "COM=Experimentexported by MSnbase on Wed Mar 18 17:48:22 2026"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "COM=Experimentexported by MSnbase on Fri Apr 10 14:42:39 2026"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2] "BEGIN IONS"                                                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "SCANS=NA"                                                        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     </span>

@@ -405,7 +405,7 @@ chromatogram has the same length (number of data points) than <code>y</code> and
 same retention times thus allowing to perform any pair-wise comparisons
 between the chromatograms. If <code>x</code> is a <code><a href="MChromatograms-class.html">MChromatograms()</a></code> object, each
 <code>Chromatogram</code> in it is aligned against <code>y</code>. Additional parameters (<code>...</code>)
-are passed along to the alignment functions (e.g. <code>closest()</code>).</p>
+are passed along to the alignment functions (e.g. <code><a href="https://rdrr.io/pkg/MsCoreUtils/man/matching.html" class="external-link">MsCoreUtils::closest()</a></code>).</p>
 <p>Parameter <code>method</code> allows to specify which alignment method
 should be used. Currently there are the following options:</p><ul><li><p><code>method = "closest"</code> (the default): match data points in the first
 chromatogram (<code>x</code>) to those of the second (<code>y</code>) based on the difference
@@ -413,7 +413,7 @@ between their retention times: each data point in <code>x</code> is assigned to 
 data point in <code>y</code> with the smallest difference in their retention times
 if their difference is smaller than the minimum average difference
 between retention times in <code>x</code> or <code>y</code> (parameter <code>tolerance</code> for the
-call to the <code>closest()</code> function).
+call to the <code><a href="https://rdrr.io/pkg/MsCoreUtils/man/matching.html" class="external-link">MsCoreUtils::closest()</a></code> function).
 By setting <code>tolerance = 0</code> only exact retention times are matched against
 each other (i.e. only values are kept with exactly the same retention
 times between both chromatograms).</p></li>

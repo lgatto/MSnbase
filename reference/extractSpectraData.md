@@ -43,7 +43,7 @@ extractSpectraData(x)
 ## Value
 
 - `extracSpectraData()` returns a
-  [`DataFrame()`](https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html)
+  [`S4Vectors::DataFrame()`](https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html)
   with the full spectrum data that can be passed to the
   [`Spectra::Spectra()`](https://rdrr.io/pkg/Spectra/man/Spectra.html)
   function to create a `Spectra` object.
@@ -66,8 +66,9 @@ Johannes Rainer
 ``` r
 
 ## Read an mzML file with MSnbase
-fl <- system.file("TripleTOF-SWATH", "PestMix1_SWATH.mzML",
-    package = "msdata")
+fl <- MsDataHub::PestMix1_SWATH.mzML()
+#> see ?MsDataHub and browseVignettes('MsDataHub') for documentation
+#> loading from cache
 data <- filterRt(readMSData(fl, mode = "onDisk"), rt = c(1, 6))
 
 ## Extract the data as a DataFrame

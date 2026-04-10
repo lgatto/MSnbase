@@ -198,7 +198,7 @@ msnset
 #> - - - Processing information - - -
 #> Data loaded: Wed May 11 18:54:39 2011 
 #> Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#> iTRAQ4 quantification by trapezoidation: Wed Mar 18 17:49:33 2026 
+#> iTRAQ4 quantification by trapezoidation: Fri Apr 10 14:44:59 2026 
 #>  MSnbase version: 1.1.22 
 
 ## specifying a custom parallel framework
@@ -235,11 +235,11 @@ fData(msexp)$DatabaseAccess
 si <- quantify(msexp, method = "SIn")
 processingData(si)
 #> - - - Processing information - - -
-#> Data loaded: Wed Mar 18 17:49:34 2026 
-#> Filtered 2 unidentified peptides out [Wed Mar 18 17:49:35 2026] 
-#> Quantitation by total ion current [Wed Mar 18 17:49:35 2026] 
-#> Combined 3 features into 3 using sum: Wed Mar 18 17:49:35 2026 
-#> Quantification by SIn [Wed Mar 18 17:49:35 2026] 
+#> Data loaded: Fri Apr 10 14:45:01 2026 
+#> Filtered 2 unidentified peptides out [Fri Apr 10 14:45:01 2026] 
+#> Quantitation by total ion current [Fri Apr 10 14:45:01 2026] 
+#> Combined 3 features into 3 using sum: Fri Apr 10 14:45:01 2026 
+#> Quantification by SIn [Fri Apr 10 14:45:01 2026] 
 #>  MSnbase version: 2.37.2 
 exprs(si)
 #>         dummyiTRAQ.mzXML
@@ -250,12 +250,12 @@ exprs(si)
 saf <- quantify(msexp, method = "NSAF")
 processingData(saf)
 #> - - - Processing information - - -
-#> Data loaded: Wed Mar 18 17:49:34 2026 
-#> Filtered 2 unidentified peptides out [Wed Mar 18 17:49:35 2026] 
-#> Filtered 0 unidentified peptides out [Wed Mar 18 17:49:35 2026] 
-#> Quantitation by count [Wed Mar 18 17:49:35 2026] 
-#> Combined 3 features into 3 using user-defined function: Wed Mar 18 17:49:35 2026 
-#> Quantification by NSAF [Wed Mar 18 17:49:35 2026] 
+#> Data loaded: Fri Apr 10 14:45:01 2026 
+#> Filtered 2 unidentified peptides out [Fri Apr 10 14:45:01 2026] 
+#> Filtered 0 unidentified peptides out [Fri Apr 10 14:45:01 2026] 
+#> Quantitation by count [Fri Apr 10 14:45:01 2026] 
+#> Combined 3 features into 3 using user-defined function: Fri Apr 10 14:45:01 2026 
+#> Quantification by NSAF [Fri Apr 10 14:45:01 2026] 
 #>  MSnbase version: 2.37.2 
 exprs(saf)
 #>         dummyiTRAQ.mzXML

@@ -64,8 +64,8 @@ combineSpectra(object, fcol, method = meanMzInts, fun, ...)
 
   For `MSnExp`/`OnDiskMSnExp` objects: parallel processing setup to
   perform per-file parallel spectra combining. See
-  [`bpparam()`](https://rdrr.io/pkg/BiocParallel/man/register.html) for
-  more details.
+  [`BiocParallel::bpparam()`](https://rdrr.io/pkg/BiocParallel/man/register.html)
+  for more details.
 
 - fun:
 
