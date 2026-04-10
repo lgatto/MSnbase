@@ -83,8 +83,7 @@ test_that("show,MSpectra works", {
 })
 
 test_that("extractSpectraData works", {
-    fl <- system.file("TripleTOF-SWATH", "PestMix1_SWATH.mzML",
-                      package = "msdata")
+    fl <- MsDataHub::PestMix1_DDA.mzML()
     data <- filterRt(readMSData(fl, mode = "onDisk"), rt = c(1, 6))
     sps <- spectra(data)
 
@@ -110,8 +109,7 @@ test_that("extractSpectraData works", {
 
 test_that(".spectra_to_spectrum_list and as,Spectra,MSpectra works", {
     library(Spectra)
-    fl <- system.file("TripleTOF-SWATH", "PestMix1_DDA.mzML",
-                      package = "msdata")
+    fl <- MsDataHub::PestMix1_DDA.mzML()
     sps_dda <- Spectra(fl)
     a <- MSnbase:::.spectra_to_spectrum_list(sps_dda, chunkSize = 5000)
     expect_true(is.list(a))

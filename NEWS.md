@@ -2,7 +2,7 @@
 
 ## 2.37.2
 - Fixing vignette (see #613)
-- use `MsDataHub` for TMT mzid data.
+- use `MsDataHub` for TMT and PestMix1_DDA data.
 
 ## 2.37.1
 - Fixing tests
