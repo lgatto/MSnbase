@@ -211,7 +211,7 @@ res
 #> experimentData: use 'experimentData(object)'
 #> Annotation:  
 #> - - - Processing information - - -
-#>  MSnbase version: 2.37.2 
+#>  MSnbase version: 2.37.3 
 head(exprs(res)) ## columns 5 to 20
 #>      M1F1A    M1F4A    M1F7A   M1F11A    M1F2B    M1F5B    M1F8B   M1F11B
 #> 1 0.323250 0.275500 0.216000 0.185250 0.465667 0.199667 0.174333 0.160333

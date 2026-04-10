@@ -2,6 +2,10 @@
 
 ## MSnbase 2.37
 
+### 2.37.3
+
+- Bump version to make sure the latest updates get published on Bioc.
+
 ### 2.37.2
 
 - Fixing vignette (see

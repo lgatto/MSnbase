@@ -680,7 +680,7 @@ sessionInfo()
     ## [8] base     
     ## 
     ## other attached packages:
-    ## [1] MSnbase_2.37.2      ProtGenerics_1.43.0 S4Vectors_0.49.1   
+    ## [1] MSnbase_2.37.3      ProtGenerics_1.43.0 S4Vectors_0.49.1   
     ## [4] mzR_2.45.1          Rcpp_1.1.1          Biobase_2.71.0     
     ## [7] BiocGenerics_0.57.0 generics_0.1.4      BiocStyle_2.39.0   
     ## 
