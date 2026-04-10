@@ -46,8 +46,7 @@ eventually spectra variables present in \code{Spectra}.
 \examples{
 
 ## Read an mzML file with MSnbase
-fl <- system.file("TripleTOF-SWATH", "PestMix1_SWATH.mzML",
-    package = "msdata")
+fl <- MsDataHub::PestMix1_SWATH.mzML()
 data <- filterRt(readMSData(fl, mode = "onDisk"), rt = c(1, 6))
 
 ## Extract the data as a DataFrame
