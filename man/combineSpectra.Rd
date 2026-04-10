@@ -32,7 +32,7 @@ be a function that takes a list of spectra as input and returns a single
 \item{...}{additional arguments for \code{fun}.}
 
 \item{BPPARAM}{For \code{MSnExp}/\code{OnDiskMSnExp} objects: parallel processing setup
-to perform per-file parallel spectra combining. See \code{\link[=bpparam]{bpparam()}} for more
+to perform per-file parallel spectra combining. See \code{\link[BiocParallel:register]{BiocParallel::bpparam()}} for more
 details.}
 
 \item{fun}{\emph{Deprecated} use \code{method} instead.}

@@ -24,8 +24,7 @@ to access data in the \code{mzId} files. An object of class \code{mzRident}
 can also be coerced to a \code{data.frame} using \code{as(, "data.frame")}.
 }
 \examples{
-library(MsDataHub)
-idf <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzid()
+f <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzid()
 readMzIdData(f)
 }
 \seealso{

@@ -20,7 +20,7 @@ readMSData(
 \arguments{
 \item{files}{A \code{character} with file names to be read and parsed.}
 
-\item{pdata}{An object of class \linkS4class{AnnotatedDataFrame} or
+\item{pdata}{An object of class \link[Biobase:class.AnnotatedDataFrame]{Biobase::AnnotatedDataFrame} or
 \code{NULL} (default).}
 
 \item{msLevel.}{MS level spectra to be read. In \code{inMemory} mode,

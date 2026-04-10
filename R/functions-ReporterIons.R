@@ -9,7 +9,7 @@ show_ReporterIons <- function(object) {
   }
 }
 
-
+##' @exportS3Method
 "[.ReporterIons" <- function(x,i) {
   msg <- validMsg(NULL, NULL)
   if (max(i)>length(x@mz) | min(i)<1)

@@ -13,7 +13,7 @@ extractSpectraData(x)
 }
 \value{
 \itemize{
-\item \code{extracSpectraData()} returns a \code{\link[=DataFrame]{DataFrame()}} with the full spectrum data
+\item \code{extracSpectraData()} returns a \code{\link[S4Vectors:DataFrame-class]{S4Vectors::DataFrame()}} with the full spectrum data
 that can be passed to the \code{\link[Spectra:Spectra]{Spectra::Spectra()}} function to create a
 \code{Spectra} object.
 \item \code{as(x, "MSpectra")} returns a \code{MSpectra} object with the content of the

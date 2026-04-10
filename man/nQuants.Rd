@@ -53,6 +53,5 @@ head(exprs(msnset2))
 head(exprs(msnset2) * (n/m))
 }
 \author{
-Laurent Gatto \href{mailto:lg390@cam.ac.uk}{lg390@cam.ac.uk}, Sebastian Gibb
-\href{mailto:mail@sebastiangibb.de}{mail@sebastiangibb.de}
+Laurent Gatto and Sebastian Gibb
 }

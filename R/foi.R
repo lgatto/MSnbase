@@ -13,13 +13,13 @@ setMethod("FeaturesOfInterest",
               fns <- featureNames(object)
               if (!all(fnames %in% fns)) {
                   fx <- !fnames %in% fns
-                  stop(sum(fx), " feature(s) of interest absent from your object's feature names:\n   ", 
-                       ifelse(sum(fx) > 5, 
+                  stop(sum(fx), " feature(s) of interest absent from your object's feature names:\n   ",
+                       ifelse(sum(fx) > 5,
                               paste(paste(head(fnames[fx], n = 5), collapse = ", "), ", ..."),
                               paste0(paste(fnames[fx], collapse = ", "), ".")))
               }
-              .FeaturesOfInterest(fnames = fnames, 
-                                  description = description[1], 
+              .FeaturesOfInterest(fnames = fnames,
+                                  description = description[1],
                                   date = date(),
                                   objpar = list(
                                       ncol = ncol(object),
@@ -43,7 +43,7 @@ setMethod("show", "FeaturesOfInterest",
           function(object) {
               if (length(object@objpar) > 0) cat("Traceable object")
               else cat("Object")
-              cat(" of class \"", class(object), "\"\n", sep="")              
+              cat(" of class \"", class(object), "\"\n", sep="")
               cat(" Created on", object@date, "\n")
               cat(" Description:\n")
               cat(strwrap(object@description,
@@ -124,7 +124,7 @@ setMethod("rmFeaturesOfInterest",
               return(object)
           })
 
-          
+
 setMethod("description", "FoICollection",
           function(object, ...) sapply(foi(object), description))
 
@@ -139,7 +139,7 @@ setMethod("description", "FoICollection",
 ##               dgsts <- sapply(foi(x), function(xx) xx@objpar$digest)
 ##               length(unique(dgsts)) == 1
 ##           })
-              
+
 ## setMethod("fromEqual",
 ##           c("FeaturesOfInterest", "FeaturesOfInterest"),
 ##           function(x, y)
@@ -161,21 +161,22 @@ setMethod("fnamesIn", c("FeaturesOfInterest", "MSnSet"),
 
 setMethod("fnamesIn", c("FeaturesOfInterest", "data.frame"),
           function(x, y, count = FALSE) fnamesIn(x, as.matrix(y), count))
-          
+
 setMethod("fnamesIn", c("FeaturesOfInterest", "matrix"),
-          function(x, y, count = FALSE) {             
+          function(x, y, count = FALSE) {
               ans <- foi(x) %in% rownames(y)
               if (count) return(sum(ans))
               else return(any(ans))
           })
 
 
+##' @exportS3Method
 as.matrix.FoICollection <- function(x, ...) as(x, "matrix")
 
 setAs("FoICollection", "matrix",
       function(from) {
           nms <- sapply(foi(from), description)
-          names(nms) <- NULL          
+          names(nms) <- NULL
           fns <- unique(unlist(lapply(foi(from), foi)))
           res <- matrix(0, ncol = length(nms), nrow = length(fns))
           rownames(res) <- fns

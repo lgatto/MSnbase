@@ -129,9 +129,9 @@ setMethod("normalize", "MSnSet",
                   c(object@processingData@processing,
                     paste("Normalised (", method ,"): ",
                           date(), sep = ""))
-              object@processingData@normalised <- TRUE              
+              object@processingData@normalised <- TRUE
               if (validObject(object))
-                  return(object)              
+                  return(object)
           })
 
 normalise <- normalize
@@ -552,8 +552,10 @@ setMethod("filterZero", signature = "MSnSet",
                   return(object)
           })
 
+##' @exportS3Method
 is.na.MSnSet <- function(x) is.na(exprs(x))
 
+##' @exportS3Method
 droplevels.MSnSet <- function(x, ...) {
     fData(x) <- droplevels(fData(x), ...)
     x@processingData@processing <-

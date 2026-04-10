@@ -110,7 +110,7 @@ MSpectra(..., elementMetadata = NULL)
 \linkS4class{Spectrum} objects.
 For all other methods optional arguments passed along.}
 
-\item{elementMetadata}{For \code{MSpectra}: \link{DataFrame} with optional information
+\item{elementMetadata}{For \code{MSpectra}: \link[S4Vectors:DataFrame-class]{S4Vectors::DataFrame} with optional information
 that should be added as metadata information (\code{mcols}) to the object.
 The number of rows has to match the number of \linkS4class{Spectrum} objects,
 each row is expected to represent additional metadata information for
@@ -158,7 +158,7 @@ for details.}
 \linkS4class{Spectrum} object(s) (\linkS4class{Spectrum1} or \linkS4class{Spectrum2}) in
 a \code{list}-like structure with the possibility to add arbitrary annotations
 to each individual \code{Spectrum} object. These can be accessed/set with
-the \code{\link[=mcols]{mcols()}} method.
+the \code{\link[S4Vectors:Vector-class]{S4Vectors::mcols()}} method.
 
 \code{MSpectra} objects can be created with the \code{MSpectra} function.
 
@@ -170,7 +170,7 @@ metadata columns present in \code{mcols} are exported as additional fields with
 the capitalized column names used as field names (see examples below).
 }
 \details{
-\code{MSpectra} inherits all methods from the \link{SimpleList} class of the
+\code{MSpectra} inherits all methods from the \link[S4Vectors:SimpleList-class]{S4Vectors::SimpleList} class of the
 \code{S4Vectors} package. This includes \code{lapply} and other data manipulation
 and subsetting operations.
 }
