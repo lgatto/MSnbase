@@ -129,7 +129,7 @@ library("pRoloc")
 #> Loading required package: cluster
 #> Loading required package: BiocParallel
 #> 
-#> This is pRoloc version 1.51.0 
+#> This is pRoloc version 1.52.0 
 #>   Visit https://lgatto.github.io/pRoloc/ to get started.
 setStockcol(paste0(getStockcol(), "AA"))
 plot2D(avg, cex = 7.7 * disp)

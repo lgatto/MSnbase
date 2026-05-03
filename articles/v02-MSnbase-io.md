@@ -288,8 +288,8 @@ res
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Quantitation data loaded: Fri Apr 10 15:52:07 2026  using readMSnSet. 
-    ##  MSnbase version: 2.37.3
+    ## Quantitation data loaded: Sun May  3 19:38:40 2026  using readMSnSet. 
+    ##  MSnbase version: 2.39.0
 
 #### The `MSnSet` class
 
@@ -356,7 +356,7 @@ eset
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ##  MSnbase version: 2.37.3
+    ##  MSnbase version: 2.39.0
 
 The `ecol` columns can also be queried interactively from R using the
 `getEcols` and `grepEcols` function. The former return a character with
@@ -404,7 +404,7 @@ readMSnSet2(f0, e)
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ##  MSnbase version: 2.37.3
+    ##  MSnbase version: 2.39.0
 
 The `phenoData` slot can now be updated accordingly using the
 replacement functions `phenoData<-` or `pData<-` (see
@@ -418,7 +418,7 @@ for details).
 sessionInfo()
 ```
 
-    ## R Under development (unstable) (2026-04-05 r89793)
+    ## R version 4.6.0 (2026-04-24)
     ## Platform: x86_64-pc-linux-gnu
     ## Running under: Ubuntu 24.04.4 LTS
     ## 
@@ -442,56 +442,56 @@ sessionInfo()
     ## [8] base     
     ## 
     ## other attached packages:
-    ##  [1] pRolocdata_1.49.0   MSnbase_2.37.3      ProtGenerics_1.43.0
-    ##  [4] S4Vectors_0.49.1    mzR_2.45.1          Rcpp_1.1.1         
-    ##  [7] Biobase_2.71.0      BiocGenerics_0.57.0 generics_0.1.4     
-    ## [10] BiocStyle_2.39.0   
+    ##  [1] pRolocdata_1.49.0   MSnbase_2.39.0      ProtGenerics_1.44.0
+    ##  [4] S4Vectors_0.50.0    mzR_2.46.0          Rcpp_1.1.1-1.1     
+    ##  [7] Biobase_2.72.0      BiocGenerics_0.58.0 generics_0.1.4     
+    ## [10] BiocStyle_2.40.0   
     ## 
     ## loaded via a namespace (and not attached):
     ##  [1] rlang_1.2.0                 magrittr_2.0.5             
     ##  [3] clue_0.3-68                 otel_0.2.0                 
-    ##  [5] matrixStats_1.5.0           compiler_4.7.0             
-    ##  [7] PTMods_0.99.6               systemfonts_1.3.2          
-    ##  [9] vctrs_0.7.2                 reshape2_1.4.5             
+    ##  [5] matrixStats_1.5.0           compiler_4.6.0             
+    ##  [7] PTMods_1.0.0                systemfonts_1.3.2          
+    ##  [9] vctrs_0.7.3                 reshape2_1.4.5             
     ## [11] stringr_1.6.0               pkgconfig_2.0.3            
-    ## [13] MetaboCoreUtils_1.19.2      fastmap_1.2.0              
-    ## [15] XVector_0.51.0              rmarkdown_2.31             
-    ## [17] preprocessCore_1.73.0       ragg_1.5.2                 
-    ## [19] purrr_1.2.1                 xfun_0.57                  
-    ## [21] MultiAssayExperiment_1.37.4 cachem_1.1.0               
-    ## [23] jsonlite_2.0.0              DelayedArray_0.37.1        
-    ## [25] BiocParallel_1.45.0         parallel_4.7.0             
+    ## [13] MetaboCoreUtils_1.20.1      fastmap_1.2.0              
+    ## [15] XVector_0.52.0              rmarkdown_2.31             
+    ## [17] preprocessCore_1.75.0       ragg_1.5.2                 
+    ## [19] purrr_1.2.2                 xfun_0.57                  
+    ## [21] MultiAssayExperiment_1.38.0 cachem_1.1.0               
+    ## [23] jsonlite_2.0.0              DelayedArray_0.38.1        
+    ## [25] BiocParallel_1.46.0         parallel_4.6.0             
     ## [27] cluster_2.1.8.2             R6_2.6.1                   
     ## [29] bslib_0.10.0                stringi_1.8.7              
-    ## [31] RColorBrewer_1.1-3          limma_3.67.0               
-    ## [33] GenomicRanges_1.63.2        jquerylib_0.1.4            
-    ## [35] iterators_1.0.14            Seqinfo_1.1.0              
-    ## [37] bookdown_0.46               SummarizedExperiment_1.41.1
-    ## [39] knitr_1.51                  IRanges_2.45.0             
-    ## [41] Matrix_1.7-5                igraph_2.2.3               
+    ## [31] RColorBrewer_1.1-3          limma_3.68.0               
+    ## [33] GenomicRanges_1.64.0        jquerylib_0.1.4            
+    ## [35] iterators_1.0.14            Seqinfo_1.2.0              
+    ## [37] bookdown_0.46               SummarizedExperiment_1.42.0
+    ## [39] knitr_1.51                  IRanges_2.46.0             
+    ## [41] Matrix_1.7-5                igraph_2.3.0               
     ## [43] tidyselect_1.2.1            abind_1.4-8                
     ## [45] yaml_2.3.12                 doParallel_1.0.17          
-    ## [47] codetools_0.2-20            affy_1.89.0                
+    ## [47] codetools_0.2-20            affy_1.90.0                
     ## [49] lattice_0.22-9              tibble_3.3.1               
-    ## [51] plyr_1.8.9                  S7_0.2.1                   
+    ## [51] plyr_1.8.9                  S7_0.2.2                   
     ## [53] evaluate_1.0.5              desc_1.4.3                 
-    ## [55] Spectra_1.21.7              pillar_1.11.1              
-    ## [57] affyio_1.81.0               BiocManager_1.30.27        
-    ## [59] MatrixGenerics_1.23.0       foreach_1.5.2              
+    ## [55] Spectra_1.22.0              pillar_1.11.1              
+    ## [57] affyio_1.82.0               BiocManager_1.30.27        
+    ## [59] MatrixGenerics_1.24.0       foreach_1.5.2              
     ## [61] MALDIquant_1.22.3           ncdf4_1.24                 
-    ## [63] ggplot2_4.0.2               scales_1.4.0               
-    ## [65] glue_1.8.0                  lazyeval_0.2.3             
-    ## [67] tools_4.7.0                 mzID_1.49.1                
-    ## [69] data.table_1.18.2.1         QFeatures_1.21.2           
-    ## [71] vsn_3.79.6                  fs_2.0.1                   
-    ## [73] XML_3.99-0.23               grid_4.7.0                 
-    ## [75] impute_1.85.0               tidyr_1.3.2                
-    ## [77] MsCoreUtils_1.23.7          PSMatch_1.15.3             
+    ## [63] ggplot2_4.0.3               scales_1.4.0               
+    ## [65] glue_1.8.1                  lazyeval_0.2.3             
+    ## [67] tools_4.6.0                 mzID_1.50.0                
+    ## [69] data.table_1.18.2.1         QFeatures_1.22.0           
+    ## [71] vsn_3.80.0                  fs_2.1.0                   
+    ## [73] XML_3.99-0.23               grid_4.6.0                 
+    ## [75] impute_1.86.0               tidyr_1.3.2                
+    ## [77] MsCoreUtils_1.24.0          PSMatch_1.16.0             
     ## [79] cli_3.6.6                   textshaping_1.0.5          
-    ## [81] S4Arrays_1.11.1             dplyr_1.2.1                
-    ## [83] AnnotationFilter_1.35.0     pcaMethods_2.3.0           
+    ## [81] S4Arrays_1.12.0             dplyr_1.2.1                
+    ## [83] AnnotationFilter_1.36.0     pcaMethods_2.4.0           
     ## [85] gtable_0.3.6                sass_0.4.10                
-    ## [87] digest_0.6.39               SparseArray_1.11.13        
+    ## [87] digest_0.6.39               SparseArray_1.12.2         
     ## [89] htmlwidgets_1.6.4           farver_2.1.2               
     ## [91] htmltools_0.5.9             pkgdown_2.2.0.9000         
     ## [93] lifecycle_1.0.5             statmod_1.5.1              

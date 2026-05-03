@@ -21,14 +21,6 @@ package
 ``` r
 
 library("MsDataHub")
-```
-
-    ## Registered S3 method overwritten by 'bit64':
-    ##   method          from 
-    ##   print.bitstring tools
-
-``` r
-
 f <- TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz()
 ```
 
@@ -63,7 +55,7 @@ system.time(inmem <- readMSData(f, msLevel. = 2,
 ```
 
     ##    user  system elapsed 
-    ##  42.596   0.495  42.891
+    ##  42.383   0.651  42.586
 
 Next, we use the `readMSData` function to generate an on-disk
 representation of the same data by setting `mode = "onDisk"`.
@@ -76,7 +68,7 @@ system.time(ondisk <- readMSData(f, msLevel. = 2,
 ```
 
     ##    user  system elapsed 
-    ##   9.882   0.254   9.940
+    ##   8.875   0.477   8.922
 
 Creating the on-disk experiment is considerable faster and scales to
 much bigger, multi-file data, both in terms of object creation time, but
@@ -147,16 +139,16 @@ mb
 ```
 
     ## Unit: microseconds
-    ##             expr         min          lq         mean       median          uq
-    ##   spectra(inmem)     936.362    1054.878    1947.0981    2222.4670    2293.688
-    ##     inmem[[200]]      24.657      27.351      73.6756      83.6095      98.396
-    ##  spectra(ondisk) 4047062.110 4121070.048 5069963.5171 4168015.6790 6137225.851
-    ##    ondisk[[200]] 1601356.059 1617657.239 1618649.1257 1618572.3685 1619296.905
+    ##             expr         min          lq         mean      median          uq
+    ##   spectra(inmem)    1053.555    1146.780    1942.5200    2098.456    2335.639
+    ##     inmem[[200]]      20.238      24.606      60.2014      66.950      80.600
+    ##  spectra(ondisk) 3777068.053 3835597.445 4559788.2515 3871903.718 5388929.336
+    ##    ondisk[[200]] 1454777.799 1460650.337 1464240.8133 1466768.178 1468052.702
     ##          max neval
-    ##     2962.202    10
-    ##      167.349    10
-    ##  7611479.629    10
-    ##  1637738.956    10
+    ##     2836.303    10
+    ##      135.493    10
+    ##  6463781.652    10
+    ##  1470999.337    10
 
 While it takes order or magnitudes more time to access the data
 on-the-fly rather than a pre-generated spectrum, accessing all spectra
@@ -184,7 +176,7 @@ system.time(inmem[i])
 ```
 
     ##    user  system elapsed 
-    ##   0.138   0.000   0.138
+    ##   0.132   0.000   0.132
 
 ``` r
 
@@ -192,7 +184,7 @@ system.time(ondisk[i])
 ```
 
     ##    user  system elapsed 
-    ##   0.011   0.000   0.011
+    ##    0.01    0.00    0.01
 
 Operations on the spectra data, such as peak picking, smoothing,
 cleaning, … are cleverly cached and only applied when the data is
@@ -213,7 +205,7 @@ system.time(eim <- quantify(inmem[1:100], reporters = TMT6,
 ```
 
     ##    user  system elapsed 
-    ##   2.536   1.442   1.688
+    ##   3.641   1.881   1.715
 
 ``` r
 
@@ -222,7 +214,7 @@ system.time(eod <- quantify(ondisk[1:100], reporters = TMT6,
 ```
 
     ##    user  system elapsed 
-    ##   1.683   0.293   1.825
+    ##   1.538   0.296   1.655
 
 ``` r
 

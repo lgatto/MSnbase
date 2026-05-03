@@ -633,7 +633,7 @@ bsa
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Data [logically] subsetted 3 spectra: Fri Apr 10 15:51:28 2026 
+    ## Data [logically] subsetted 3 spectra: Sun May  3 19:38:02 2026 
     ##  MSnbase version: 1.1.22 
     ## - - - Meta data  - - -
     ## phenoData
@@ -757,7 +757,7 @@ str(iddf)
     ##  $ scan.number.s.          : num  2949 6534 5674 4782 5839 ...
     ##  $ acquisitionNum          : num  2949 6534 5674 4782 5839 ...
     ##  $ spectrumFile            : chr  "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" ...
-    ##  $ idFile                  : chr  "19fc4a92f7_7857" "19fc4a92f7_7857" "19fc4a92f7_7857" "19fc4a92f7_7857" ...
+    ##  $ idFile                  : chr  "4c8b2e93af61_7857" "4c8b2e93af61_7857" "4c8b2e93af61_7857" "4c8b2e93af61_7857" ...
     ##  $ MS.GF.RawScore          : num  10 12 8 -5 8 7 21 -31 -31 -3 ...
     ##  $ MS.GF.DeNovoScore       : num  101 121 74 160 241 214 196 165 165 59 ...
     ##  $ MS.GF.SpecEValue        : num  4.62e-08 7.26e-08 9.34e-08 1.27e-07 1.32e-07 ...
@@ -1256,8 +1256,8 @@ experiment
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Fri Apr 10 15:51:36 2026 
-    ## Spectra cleaned: Fri Apr 10 15:51:37 2026 
+    ## Curves <= 400 set to '0': Sun May  3 19:38:10 2026 
+    ## Spectra cleaned: Sun May  3 19:38:11 2026 
     ##  MSnbase version: 1.1.22 
     ## - - - Meta data  - - -
     ## phenoData
@@ -1372,9 +1372,9 @@ qnt
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Fri Apr 10 15:51:36 2026 
-    ## Spectra cleaned: Fri Apr 10 15:51:37 2026 
-    ## iTRAQ4 quantification by trapezoidation: Fri Apr 10 15:51:39 2026 
+    ## Curves <= 400 set to '0': Sun May  3 19:38:10 2026 
+    ## Spectra cleaned: Sun May  3 19:38:11 2026 
+    ## iTRAQ4 quantification by trapezoidation: Sun May  3 19:38:13 2026 
     ##  MSnbase version: 1.1.22
 
 ``` r
@@ -1654,7 +1654,7 @@ processingData(x)
 ```
 
     ## - - - Processing information - - -
-    ## Data imputation using min Fri Apr 10 15:51:40 2026 
+    ## Data imputation using min Sun May  3 19:38:14 2026 
     ##  MSnbase version: 1.15.6
 
 ``` r
@@ -1745,7 +1745,7 @@ x
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Data imputation using mixed Fri Apr 10 15:51:41 2026 
+    ## Data imputation using mixed Sun May  3 19:38:15 2026 
     ##  MSnbase version: 1.15.6
 
 Please read `?MsCoreUtils::impute_matix()` for a description of the
@@ -1920,14 +1920,14 @@ qnt2
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Fri Apr 10 15:51:36 2026 
-    ## Spectra cleaned: Fri Apr 10 15:51:37 2026 
-    ## iTRAQ4 quantification by trapezoidation: Fri Apr 10 15:51:39 2026 
-    ## Subset [55,4][54,4] Fri Apr 10 15:51:39 2026 
-    ## Removed features with more than 0 NAs: Fri Apr 10 15:51:39 2026 
-    ## Dropped featureData's levels Fri Apr 10 15:51:39 2026 
-    ## Combined 54 features into 40 using median: Fri Apr 10 15:51:42 2026 
-    ##  MSnbase version: 2.37.3
+    ## Curves <= 400 set to '0': Sun May  3 19:38:10 2026 
+    ## Spectra cleaned: Sun May  3 19:38:11 2026 
+    ## iTRAQ4 quantification by trapezoidation: Sun May  3 19:38:13 2026 
+    ## Subset [55,4][54,4] Sun May  3 19:38:13 2026 
+    ## Removed features with more than 0 NAs: Sun May  3 19:38:13 2026 
+    ## Dropped featureData's levels Sun May  3 19:38:13 2026 
+    ## Combined 54 features into 40 using median: Sun May  3 19:38:16 2026 
+    ##  MSnbase version: 2.39.0
 
 Of interest is also the `iPQF` spectra-to-protein summarisation method,
 which integrates peptide spectra characteristics and quantitative values
@@ -2022,12 +2022,12 @@ processingData(siquant)
 ```
 
     ## - - - Processing information - - -
-    ## Data loaded: Fri Apr 10 15:51:35 2026 
-    ## Filtered 2 unidentified peptides out [Fri Apr 10 15:51:36 2026] 
-    ## Quantitation by total ion current [Fri Apr 10 15:51:43 2026] 
-    ## Combined 3 features into 3 using sum: Fri Apr 10 15:51:43 2026 
-    ## Quantification by SIn [Fri Apr 10 15:51:43 2026] 
-    ##  MSnbase version: 2.37.3
+    ## Data loaded: Sun May  3 19:38:09 2026 
+    ## Filtered 2 unidentified peptides out [Sun May  3 19:38:10 2026] 
+    ## Quantitation by total ion current [Sun May  3 19:38:17 2026] 
+    ## Combined 3 features into 3 using sum: Sun May  3 19:38:17 2026 
+    ## Quantification by SIn [Sun May  3 19:38:17 2026] 
+    ##  MSnbase version: 2.39.0
 
 ``` r
 
@@ -2559,8 +2559,8 @@ exp12
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Combined [27,4] and [24,4] MSnSets Fri Apr 10 15:51:50 2026 
-    ##  MSnbase version: 2.37.3
+    ## Combined [27,4] and [24,4] MSnSets Sun May  3 19:38:24 2026 
+    ##  MSnbase version: 2.39.0
 
 In summary, when experiments with different samples need to be combined
 (along the columns), one needs to (1) clarify the sample names using
@@ -2736,7 +2736,7 @@ the `topN` method.
 
 ## Session information
 
-    ## R Under development (unstable) (2026-04-05 r89793)
+    ## R version 4.6.0 (2026-04-24)
     ## Platform: x86_64-pc-linux-gnu
     ## Running under: Ubuntu 24.04.4 LTS
     ## 
@@ -2760,97 +2760,97 @@ the `topN` method.
     ## [8] methods   base     
     ## 
     ## other attached packages:
-    ##  [1] gplots_3.3.0         MsDataHub_1.11.3     msdata_0.51.2       
-    ##  [4] pRoloc_1.51.0        BiocParallel_1.45.0  MLInterfaces_1.91.0 
-    ##  [7] cluster_2.1.8.2      annotate_1.89.0      XML_3.99-0.23       
-    ## [10] AnnotationDbi_1.73.1 IRanges_2.45.0       pRolocdata_1.49.0   
-    ## [13] Rdisop_1.71.1        zoo_1.8-15           MSnbase_2.37.3      
-    ## [16] ProtGenerics_1.43.0  S4Vectors_0.49.1     mzR_2.45.1          
-    ## [19] Rcpp_1.1.1           Biobase_2.71.0       BiocGenerics_0.57.0 
-    ## [22] generics_0.1.4       ggplot2_4.0.2        BiocStyle_2.39.0    
+    ##  [1] gplots_3.3.0         MsDataHub_1.12.0     msdata_0.51.2       
+    ##  [4] pRoloc_1.52.0        BiocParallel_1.46.0  MLInterfaces_1.92.0 
+    ##  [7] cluster_2.1.8.2      annotate_1.90.0      XML_3.99-0.23       
+    ## [10] AnnotationDbi_1.74.0 IRanges_2.46.0       pRolocdata_1.49.0   
+    ## [13] Rdisop_1.72.0        zoo_1.8-15           MSnbase_2.39.0      
+    ## [16] ProtGenerics_1.44.0  S4Vectors_0.50.0     mzR_2.46.0          
+    ## [19] Rcpp_1.1.1-1.1       Biobase_2.72.0       BiocGenerics_0.58.0 
+    ## [22] generics_0.1.4       ggplot2_4.0.3        BiocStyle_2.40.0    
     ## 
     ## loaded via a namespace (and not attached):
-    ##   [1] splines_4.7.0               bitops_1.0-9               
+    ##   [1] splines_4.6.0               bitops_1.0-9               
     ##   [3] filelock_1.0.3              tibble_3.3.1               
-    ##   [5] hardhat_1.4.3               preprocessCore_1.73.0      
+    ##   [5] hardhat_1.4.3               preprocessCore_1.75.0      
     ##   [7] pROC_1.19.0.1               rpart_4.1.27               
     ##   [9] lifecycle_1.0.5             httr2_1.2.2                
     ##  [11] doParallel_1.0.17           globals_0.19.1             
     ##  [13] lattice_0.22-9              MASS_7.3-65                
-    ##  [15] MultiAssayExperiment_1.37.4 dendextend_1.19.1          
-    ##  [17] magrittr_2.0.5              limma_3.67.0               
+    ##  [15] MultiAssayExperiment_1.38.0 dendextend_1.19.1          
+    ##  [17] magrittr_2.0.5              limma_3.68.0               
     ##  [19] plotly_4.12.0               sass_0.4.10                
     ##  [21] rmarkdown_2.31              jquerylib_0.1.4            
     ##  [23] yaml_2.3.12                 otel_0.2.0                 
-    ##  [25] MsCoreUtils_1.23.7          DBI_1.3.0                  
+    ##  [25] MsCoreUtils_1.24.0          DBI_1.3.0                  
     ##  [27] RColorBrewer_1.1-3          lubridate_1.9.5            
-    ##  [29] abind_1.4-8                 GenomicRanges_1.63.2       
-    ##  [31] purrr_1.2.1                 mixtools_2.0.0.1           
-    ##  [33] AnnotationFilter_1.35.0     nnet_7.3-20                
+    ##  [29] abind_1.4-8                 GenomicRanges_1.64.0       
+    ##  [31] purrr_1.2.2                 mixtools_2.0.0.1           
+    ##  [33] AnnotationFilter_1.36.0     nnet_7.3-20                
     ##  [35] rappdirs_0.3.4              ipred_0.9-15               
     ##  [37] lava_1.9.0                  listenv_0.10.1             
-    ##  [39] parallelly_1.46.1           pkgdown_2.2.0.9000         
+    ##  [39] parallelly_1.47.0           pkgdown_2.2.0.9000         
     ##  [41] ncdf4_1.24                  codetools_0.2-20           
-    ##  [43] DelayedArray_0.37.1         tidyselect_1.2.1           
-    ##  [45] Spectra_1.21.7              farver_2.1.2               
+    ##  [43] DelayedArray_0.38.1         tidyselect_1.2.1           
+    ##  [45] Spectra_1.22.0              farver_2.1.2               
     ##  [47] viridis_0.6.5               matrixStats_1.5.0          
-    ##  [49] BiocFileCache_3.1.0         Seqinfo_1.1.0              
+    ##  [49] BiocFileCache_3.2.0         Seqinfo_1.2.0              
     ##  [51] jsonlite_2.0.0              caret_7.0-1                
-    ##  [53] e1071_1.7-17                PTMods_0.99.6              
+    ##  [53] e1071_1.7-17                PTMods_1.0.0               
     ##  [55] survival_3.8-6              iterators_1.0.14           
     ##  [57] systemfonts_1.3.2           foreach_1.5.2              
-    ##  [59] segmented_2.2-1             tools_4.7.0                
+    ##  [59] segmented_2.2-1             tools_4.6.0                
     ##  [61] progress_1.2.3              ragg_1.5.2                 
-    ##  [63] glue_1.8.0                  prodlim_2026.03.11         
-    ##  [65] gridExtra_2.3               SparseArray_1.11.13        
+    ##  [63] glue_1.8.1                  prodlim_2026.03.11         
+    ##  [65] gridExtra_2.3               SparseArray_1.12.2         
     ##  [67] mgcv_1.9-4                  xfun_0.57                  
-    ##  [69] MatrixGenerics_1.23.0       dplyr_1.2.1                
+    ##  [69] MatrixGenerics_1.24.0       dplyr_1.2.1                
     ##  [71] withr_3.0.2                 BiocManager_1.30.27        
     ##  [73] fastmap_1.2.0               caTools_1.18.3             
     ##  [75] digest_0.6.39               timechange_0.4.0           
     ##  [77] R6_2.6.1                    colorspace_2.1-2           
     ##  [79] textshaping_1.0.5           gtools_3.9.5               
-    ##  [81] lpSolve_5.6.23              biomaRt_2.67.7             
+    ##  [81] lpSolve_5.6.23              biomaRt_2.68.0             
     ##  [83] RSQLite_2.4.6               tidyr_1.3.2                
     ##  [85] hexbin_1.28.5               data.table_1.18.2.1        
     ##  [87] recipes_1.3.2               FNN_1.1.4.1                
     ##  [89] class_7.3-23                prettyunits_1.2.0          
-    ##  [91] PSMatch_1.15.3              httr_1.4.8                 
-    ##  [93] htmlwidgets_1.6.4           S4Arrays_1.11.1            
+    ##  [91] PSMatch_1.16.0              httr_1.4.8                 
+    ##  [93] htmlwidgets_1.6.4           S4Arrays_1.12.0            
     ##  [95] ModelMetrics_1.2.2.2        pkgconfig_2.0.3            
     ##  [97] gtable_0.3.6                timeDate_4052.112          
-    ##  [99] blob_1.3.0                  S7_0.2.1                   
-    ## [101] impute_1.85.0               XVector_0.51.0             
+    ##  [99] blob_1.3.0                  S7_0.2.2                   
+    ## [101] impute_1.86.0               XVector_0.52.0             
     ## [103] htmltools_0.5.9             bookdown_0.46              
     ## [105] MALDIquant_1.22.3           clue_0.3-68                
     ## [107] scales_1.4.0                png_0.1-9                  
     ## [109] gower_1.0.2                 knitr_1.51                 
-    ## [111] MetaboCoreUtils_1.19.2      reshape2_1.4.5             
+    ## [111] MetaboCoreUtils_1.20.1      reshape2_1.4.5             
     ## [113] coda_0.19-4.1               nlme_3.1-169               
-    ## [115] curl_7.0.0                  proxy_0.4-29               
+    ## [115] curl_7.1.0                  proxy_0.4-29               
     ## [117] cachem_1.1.0                stringr_1.6.0              
     ## [119] KernSmooth_2.23-26          BiocVersion_3.23.1         
-    ## [121] parallel_4.7.0              mzID_1.49.1                
-    ## [123] vsn_3.79.6                  desc_1.4.3                 
-    ## [125] pillar_1.11.1               vctrs_0.7.2                
-    ## [127] pcaMethods_2.3.0            randomForest_4.7-1.2       
+    ## [121] parallel_4.6.0              mzID_1.50.0                
+    ## [123] vsn_3.80.0                  desc_1.4.3                 
+    ## [125] pillar_1.11.1               vctrs_0.7.3                
+    ## [127] pcaMethods_2.4.0            randomForest_4.7-1.2       
     ## [129] dbplyr_2.5.2                xtable_1.8-8               
-    ## [131] evaluate_1.0.5              mvtnorm_1.3-6              
-    ## [133] cli_3.6.6                   compiler_4.7.0             
+    ## [131] evaluate_1.0.5              mvtnorm_1.3-7              
+    ## [133] cli_3.6.6                   compiler_4.6.0             
     ## [135] rlang_1.2.0                 crayon_1.5.3               
     ## [137] future.apply_1.20.2         labeling_0.4.3             
     ## [139] LaplacesDemon_16.1.8        mclust_6.1.2               
-    ## [141] QFeatures_1.21.2            affy_1.89.0                
-    ## [143] plyr_1.8.9                  fs_2.0.1                   
+    ## [141] QFeatures_1.22.0            affy_1.90.0                
+    ## [143] plyr_1.8.9                  fs_2.1.0                   
     ## [145] stringi_1.8.7               viridisLite_0.4.3          
-    ## [147] Biostrings_2.79.5           lazyeval_0.2.3             
-    ## [149] Matrix_1.7-5                ExperimentHub_3.1.0        
+    ## [147] Biostrings_2.80.0           lazyeval_0.2.3             
+    ## [149] Matrix_1.7-5                ExperimentHub_3.2.0        
     ## [151] hms_1.1.4                   future_1.70.0              
-    ## [153] bit64_4.6.0-1               KEGGREST_1.51.1            
-    ## [155] statmod_1.5.1               AnnotationHub_4.1.0        
-    ## [157] SummarizedExperiment_1.41.1 kernlab_0.9-33             
-    ## [159] igraph_2.2.3                memoise_2.0.1              
-    ## [161] affyio_1.81.0               bslib_0.10.0               
+    ## [153] bit64_4.8.0                 KEGGREST_1.52.0            
+    ## [155] statmod_1.5.1               AnnotationHub_4.2.0        
+    ## [157] SummarizedExperiment_1.42.0 kernlab_0.9-33             
+    ## [159] igraph_2.3.0                memoise_2.0.1              
+    ## [161] affyio_1.82.0               bslib_0.10.0               
     ## [163] sampling_2.11               bit_4.6.0
 
 ## References
