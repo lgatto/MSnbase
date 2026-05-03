@@ -1,33 +1,38 @@
+# MSnbase 2.39
+
+## MSnbase 2.39.0
+- New devel version
+
 # MSnbase 2.37
 
-## 2.37.3
+## MSnbase 2.37.3
 - Bump version to make sure the latest updates get published on Bioc.
 
-## 2.37.2
+## MSnbase 2.37.2
 - Fixing vignette (see #613)
 - use `MsDataHub` for TMT and PestMix1_DDA data.
 
-## 2.37.1
+## MSnbase 2.37.1
 - Fixing tests
 
-## 2.37.1
+## MSnbase 2.37.1
 - Remove rols dependency.
 - Remove pryr dependency.
 
 # MSnbase 2.35
 
-## 2.35.2
+## MSnbase 2.35.2
 
 - Second fix error from adding Selenocysteine and Pyrrolysine to
   PSMatch AA table.
 - Import PSmatch >= 1.13.3.
 
-## 2.35.1
+## MSnbase 2.35.1
 
 - Fix error from adding Selenocysteine and Pyrrolysine to PSMatch AA
   table.
 
-## 2.35.0
+## MSnbase 2.35.0
 
 - New devel version
 
