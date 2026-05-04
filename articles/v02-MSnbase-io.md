@@ -288,8 +288,8 @@ res
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Quantitation data loaded: Mon May  4 16:53:42 2026  using readMSnSet. 
-    ##  MSnbase version: 2.39.0
+    ## Quantitation data loaded: Mon May  4 20:39:49 2026  using readMSnSet. 
+    ##  MSnbase version: 2.39.1
 
 #### The `MSnSet` class
 
@@ -356,7 +356,7 @@ eset
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ##  MSnbase version: 2.39.0
+    ##  MSnbase version: 2.39.1
 
 The `ecol` columns can also be queried interactively from R using the
 `getEcols` and `grepEcols` function. The former return a character with
@@ -404,7 +404,7 @@ readMSnSet2(f0, e)
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ##  MSnbase version: 2.39.0
+    ##  MSnbase version: 2.39.1
 
 The `phenoData` slot can now be updated accordingly using the
 replacement functions `phenoData<-` or `pData<-` (see
@@ -442,7 +442,7 @@ sessionInfo()
     ## [8] base     
     ## 
     ## other attached packages:
-    ##  [1] pRolocdata_1.49.0   MSnbase_2.39.0      ProtGenerics_1.44.0
+    ##  [1] pRolocdata_1.49.0   MSnbase_2.39.1      ProtGenerics_1.44.0
     ##  [4] S4Vectors_0.50.0    mzR_2.46.0          Rcpp_1.1.1-1.1     
     ##  [7] Biobase_2.72.0      BiocGenerics_0.58.0 generics_0.1.4     
     ## [10] BiocStyle_2.40.0   
@@ -463,7 +463,7 @@ sessionInfo()
     ## [25] BiocParallel_1.46.0         parallel_4.6.0             
     ## [27] cluster_2.1.8.2             R6_2.6.1                   
     ## [29] bslib_0.10.0                stringi_1.8.7              
-    ## [31] RColorBrewer_1.1-3          limma_3.68.0               
+    ## [31] RColorBrewer_1.1-3          limma_3.68.1               
     ## [33] GenomicRanges_1.64.0        jquerylib_0.1.4            
     ## [35] iterators_1.0.14            Seqinfo_1.2.0              
     ## [37] bookdown_0.46               SummarizedExperiment_1.42.0

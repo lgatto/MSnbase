@@ -57,6 +57,6 @@ processingData(itraqdata2)
 #> - - - Processing information - - -
 #> Data loaded: Wed May 11 18:54:39 2011 
 #> Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#> Spectra binned: Mon May  4 16:50:32 2026 
+#> Spectra binned: Mon May  4 20:36:40 2026 
 #>  MSnbase version: 1.1.22 
 ```

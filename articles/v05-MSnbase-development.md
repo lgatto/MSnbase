@@ -680,7 +680,7 @@ sessionInfo()
     ## [8] base     
     ## 
     ## other attached packages:
-    ## [1] MSnbase_2.39.0      ProtGenerics_1.44.0 S4Vectors_0.50.0   
+    ## [1] MSnbase_2.39.1      ProtGenerics_1.44.0 S4Vectors_0.50.0   
     ## [4] mzR_2.46.0          Rcpp_1.1.1-1.1      Biobase_2.72.0     
     ## [7] BiocGenerics_0.58.0 generics_0.1.4      BiocStyle_2.40.0   
     ## 
@@ -700,7 +700,7 @@ sessionInfo()
     ## [25] BiocParallel_1.46.0         parallel_4.6.0             
     ## [27] cluster_2.1.8.2             R6_2.6.1                   
     ## [29] bslib_0.10.0                stringi_1.8.7              
-    ## [31] RColorBrewer_1.1-3          limma_3.68.0               
+    ## [31] RColorBrewer_1.1-3          limma_3.68.1               
     ## [33] GenomicRanges_1.64.0        jquerylib_0.1.4            
     ## [35] iterators_1.0.14            Seqinfo_1.2.0              
     ## [37] bookdown_0.46               SummarizedExperiment_1.42.0

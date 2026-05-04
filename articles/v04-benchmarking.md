@@ -55,7 +55,7 @@ system.time(inmem <- readMSData(f, msLevel. = 2,
 ```
 
     ##    user  system elapsed 
-    ##  42.793   0.701  43.036
+    ##  42.627   0.671  42.851
 
 Next, we use the `readMSData` function to generate an on-disk
 representation of the same data by setting `mode = "onDisk"`.
@@ -68,7 +68,7 @@ system.time(ondisk <- readMSData(f, msLevel. = 2,
 ```
 
     ##    user  system elapsed 
-    ##   8.949   0.488   8.998
+    ##   8.924   0.489   8.974
 
 Creating the on-disk experiment is considerable faster and scales to
 much bigger, multi-file data, both in terms of object creation time, but
@@ -139,16 +139,16 @@ mb
 ```
 
     ## Unit: microseconds
-    ##             expr         min          lq        mean      median          uq
-    ##   spectra(inmem)    1068.872    1181.402    2067.483    2195.362    2269.480
-    ##     inmem[[200]]      20.518      24.425      60.712      66.223      85.048
-    ##  spectra(ondisk) 3795962.393 3829861.581 4612846.737 3904226.417 5479449.047
-    ##    ondisk[[200]] 1456502.077 1459972.834 1466811.881 1469299.629 1473657.943
+    ##             expr         min          lq         mean       median          uq
+    ##   spectra(inmem)    1044.761    1875.973    2307.3866    2392.7425    2979.554
+    ##     inmem[[200]]      21.309      23.303      67.7046      76.0975      95.058
+    ##  spectra(ondisk) 3783740.819 3813753.377 4594918.8143 3880893.3990 5478913.314
+    ##    ondisk[[200]] 1457603.317 1461433.339 1470042.6410 1469794.7630 1474073.364
     ##          max neval
-    ##     3181.789    10
-    ##      134.391    10
-    ##  6547004.843    10
-    ##  1473867.697    10
+    ##     3153.940    10
+    ##      148.988    10
+    ##  6477370.537    10
+    ##  1484207.696    10
 
 While it takes order or magnitudes more time to access the data
 on-the-fly rather than a pre-generated spectrum, accessing all spectra
@@ -176,7 +176,7 @@ system.time(inmem[i])
 ```
 
     ##    user  system elapsed 
-    ##   0.139   0.000   0.139
+    ##   0.135   0.000   0.135
 
 ``` r
 
@@ -205,7 +205,7 @@ system.time(eim <- quantify(inmem[1:100], reporters = TMT6,
 ```
 
     ##    user  system elapsed 
-    ##   2.958   1.211   1.751
+    ##   2.880   1.251   1.749
 
 ``` r
 
@@ -214,7 +214,7 @@ system.time(eod <- quantify(ondisk[1:100], reporters = TMT6,
 ```
 
     ##    user  system elapsed 
-    ##   1.541   0.297   1.651
+    ##   1.545   0.313   1.666
 
 ``` r
 

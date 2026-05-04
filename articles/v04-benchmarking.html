@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">MSnbase</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.39.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.39.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,7 +122,7 @@ this operation.</p>
 <span>                                mode <span class="op">=</span> <span class="st">"inMemory"</span>,</span>
 <span>                                centroided. <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##  42.793   0.701  43.036</span></span></code></pre>
+<span><span class="co">##  42.627   0.671  42.851</span></span></code></pre>
 <p>Next, we use the <code>readMSData</code> function to generate an
 on-disk representation of the same data by setting
 <code>mode = "onDisk"</code>.</p>
@@ -131,7 +131,7 @@ on-disk representation of the same data by setting
 <span>                                  mode <span class="op">=</span> <span class="st">"onDisk"</span>,</span>
 <span>                                  centroided. <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   8.949   0.488   8.998</span></span></code></pre>
+<span><span class="co">##   8.924   0.489   8.974</span></span></code></pre>
 <p>Creating the on-disk experiment is considerable faster and scales to
 much bigger, multi-file data, both in terms of object creation time, but
 also in terms of object size (see next section). We must of course make
@@ -184,16 +184,16 @@ spectrum in-memory (i.e. pre-loaded and constructed) and on-disk
 <span>                     times <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">mb</span></span></code></pre></div>
 <pre><code><span><span class="co">## Unit: microseconds</span></span>
-<span><span class="co">##             expr         min          lq        mean      median          uq</span></span>
-<span><span class="co">##   spectra(inmem)    1068.872    1181.402    2067.483    2195.362    2269.480</span></span>
-<span><span class="co">##     inmem[[200]]      20.518      24.425      60.712      66.223      85.048</span></span>
-<span><span class="co">##  spectra(ondisk) 3795962.393 3829861.581 4612846.737 3904226.417 5479449.047</span></span>
-<span><span class="co">##    ondisk[[200]] 1456502.077 1459972.834 1466811.881 1469299.629 1473657.943</span></span>
+<span><span class="co">##             expr         min          lq         mean       median          uq</span></span>
+<span><span class="co">##   spectra(inmem)    1044.761    1875.973    2307.3866    2392.7425    2979.554</span></span>
+<span><span class="co">##     inmem[[200]]      21.309      23.303      67.7046      76.0975      95.058</span></span>
+<span><span class="co">##  spectra(ondisk) 3783740.819 3813753.377 4594918.8143 3880893.3990 5478913.314</span></span>
+<span><span class="co">##    ondisk[[200]] 1457603.317 1461433.339 1470042.6410 1469794.7630 1474073.364</span></span>
 <span><span class="co">##          max neval</span></span>
-<span><span class="co">##     3181.789    10</span></span>
-<span><span class="co">##      134.391    10</span></span>
-<span><span class="co">##  6547004.843    10</span></span>
-<span><span class="co">##  1473867.697    10</span></span></code></pre>
+<span><span class="co">##     3153.940    10</span></span>
+<span><span class="co">##      148.988    10</span></span>
+<span><span class="co">##  6477370.537    10</span></span>
+<span><span class="co">##  1484207.696    10</span></span></code></pre>
 <p>While it takes order or magnitudes more time to access the data
 on-the-fly rather than a pre-generated spectrum, accessing all spectra
 is only marginally slower than accessing all spectra, as most of the
@@ -215,7 +215,7 @@ for on-disk data:</p>
 <code class="sourceCode R"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="../reference/pSet-class.html">length</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">)</span>, <span class="fl">100</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.139   0.000   0.139</span></span></code></pre>
+<span><span class="co">##   0.135   0.000   0.135</span></span></code></pre>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">ondisk</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
@@ -236,12 +236,12 @@ names).</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">eim</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">inmem</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, reporters <span class="op">=</span> <span class="va">TMT6</span>,</span>
 <span>                            method <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   2.958   1.211   1.751</span></span></code></pre>
+<span><span class="co">##   2.880   1.251   1.749</span></span></code></pre>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">eod</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/quantify-methods.html">quantify</a></span><span class="op">(</span><span class="va">ondisk</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span><span class="op">]</span>, reporters <span class="op">=</span> <span class="va">TMT6</span>,</span>
 <span>                            method <span class="op">=</span> <span class="st">"max"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   1.541   0.297   1.651</span></span></code></pre>
+<span><span class="co">##   1.545   0.313   1.666</span></span></code></pre>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">eim</span>, <span class="va">eod</span>, check.attributes <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
