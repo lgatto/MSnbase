@@ -20,7 +20,7 @@ readMSData(
 \arguments{
 \item{files}{A \code{character} with file names to be read and parsed.}
 
-\item{pdata}{An object of class \link[Biobase:class.AnnotatedDataFrame]{Biobase::AnnotatedDataFrame} or
+\item{pdata}{An object of class \link[Biobase:AnnotatedDataFrame-class]{AnnotatedDataFrame} or
 \code{NULL} (default).}
 
 \item{msLevel.}{MS level spectra to be read. In \code{inMemory} mode,
@@ -37,7 +37,7 @@ centroided or not. Default is \code{NA} in which case the information
 is extracted from the raw file (for mzML or mzXML files). In
 \code{onDisk}, it can also be set for different MS levels by a
 vector of logicals, where the first element is for MS1, the
-second element is for MS2, ... See \linkS4class{OnDiskMSnExp} for
+second element is for MS2, ... See \link[=OnDiskMSnExp-class]{OnDiskMSnExp} for
 an example.}
 
 \item{smoothed.}{A \code{logical} indicating whether spectra already
@@ -53,27 +53,27 @@ needed. See the \emph{benchmarking} vignette for memory and speed
 implications.}
 }
 \value{
-An \linkS4class{MSnExp} object for \code{inMemory} mode and a
-\linkS4class{OnDiskMSnExp} object for \code{onDisk} mode.
+An \link[=MSnExp-class]{MSnExp} object for \code{inMemory} mode and a
+\link[=OnDiskMSnExp-class]{OnDiskMSnExp} object for \code{onDisk} mode.
 }
 \description{
 Reads as set of XML-based mass-spectrometry data files and
-generates an \linkS4class{MSnExp} object. This function uses the
+generates an \link[=MSnExp-class]{MSnExp} object. This function uses the
 functionality provided by the \code{mzR} package to access data and
 meta data in \code{mzData}, \code{mzXML} and \code{mzML}.
 }
 \details{
 When using the \code{inMemory} mode, the whole MS data is read from
-file and kept in memory as \linkS4class{Spectrum} objects within the
-\linkS4class{MSnExp}'es \code{assayData} slot.
+file and kept in memory as \link[=Spectrum-class]{Spectrum} objects within the
+\link[=MSnExp-class]{MSnExp}'es \code{assayData} slot.
 
 To reduce the memory footpring especially for large MS1 data sets
 it is also possible to read only selected information from the MS
 files and fetch the actual spectrum data (i.e. the M/Z and
 intensity values) only on demand from the original data
 files. This can be achieved by setting \code{mode = "onDisk"}. The
-function returns then an \linkS4class{OnDiskMSnExp} object instead of a
-\linkS4class{MSnExp} object.
+function returns then an \link[=OnDiskMSnExp-class]{OnDiskMSnExp} object instead of a
+\link[=MSnExp-class]{MSnExp} object.
 }
 \note{
 \code{readMSData} uses \code{normalizePath} to replace relative with

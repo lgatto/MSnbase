@@ -17,7 +17,7 @@
 \S4method{combineSpectra}{MSpectra}(object, fcol, method = meanMzInts, fun, ...)
 }
 \arguments{
-\item{object}{A \linkS4class{MSnExp} or \linkS4class{MSpectra}}
+\item{object}{A \link[=MSnExp-class]{MSnExp} or \link[=MSpectra-class]{MSpectra}}
 
 \item{fcol}{For \code{MSpectra} objects: \code{mcols} column name to be used to define
 the sets of spectra to be combined. If missing, all spectra are
@@ -27,12 +27,12 @@ for more details.}
 
 \item{method}{\code{function} to be used to combine the spectra by \code{fcol}. Has to
 be a function that takes a list of spectra as input and returns a single
-\linkS4class{Spectrum}. See \code{\link[=meanMzInts]{meanMzInts()}} for details.}
+\link[=Spectrum-class]{Spectrum}. See \code{\link[=meanMzInts]{meanMzInts()}} for details.}
 
 \item{...}{additional arguments for \code{fun}.}
 
 \item{BPPARAM}{For \code{MSnExp}/\code{OnDiskMSnExp} objects: parallel processing setup
-to perform per-file parallel spectra combining. See \code{\link[BiocParallel:register]{BiocParallel::bpparam()}} for more
+to perform per-file parallel spectra combining. See \code{\link[BiocParallel:bpparam]{bpparam()}} for more
 details.}
 
 \item{fun}{\emph{Deprecated} use \code{method} instead.}
@@ -43,14 +43,14 @@ A \code{MSpectra} or \code{MSnExp} object with combined spectra. Metadata
 are taken from the first \code{Spectrum} in each set.
 }
 \description{
-\code{combineSpectra} combines spectra in a \linkS4class{MSnExp}, \linkS4class{OnDiskMSnExp}
-or \linkS4class{MSpectra} object applying the summarization function \code{fun} to sets
+\code{combineSpectra} combines spectra in a \link[=MSnExp-class]{MSnExp}, \link[=OnDiskMSnExp-class]{OnDiskMSnExp}
+or \link[=MSpectra-class]{MSpectra} object applying the summarization function \code{fun} to sets
 of spectra defined by a factor (\code{fcol} parameter). The resulting combined
 spectrum for each set contains metadata information (present in \code{mcols} and
 all spectrum information other than \code{mz} and \code{intensity}) from the \strong{first}
 spectrum in each set.
 
-Combining of spectra for \linkS4class{MSnExp} or \linkS4class{OnDiskMSnExp} objects is
+Combining of spectra for \link[=MSnExp-class]{MSnExp} or \link[=OnDiskMSnExp-class]{OnDiskMSnExp} objects is
 performed by default for each file \strong{separately}, combining of spectra
 across files is thus not possible. See examples for details.
 }

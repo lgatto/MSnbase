@@ -8,12 +8,12 @@
 extractSpectraData(x)
 }
 \arguments{
-\item{x}{a \code{list} of \linkS4class{Spectrum} objects or an object extending
-\linkS4class{MSnExp} or a \linkS4class{MSpectra} object.}
+\item{x}{a \code{list} of \link[=Spectrum-class]{Spectrum} objects or an object extending
+\link[=MSnExp-class]{MSnExp} or a \link[=MSpectra-class]{MSpectra} object.}
 }
 \value{
 \itemize{
-\item \code{extracSpectraData()} returns a \code{\link[S4Vectors:DataFrame-class]{S4Vectors::DataFrame()}} with the full spectrum data
+\item \code{extracSpectraData()} returns a \code{\link[S4Vectors:DataFrame]{DataFrame()}} with the full spectrum data
 that can be passed to the \code{\link[Spectra:Spectra]{Spectra::Spectra()}} function to create a
 \code{Spectra} object.
 \item \code{as(x, "MSpectra")} returns a \code{MSpectra} object with the content of the
@@ -28,10 +28,10 @@ package should be used instead of the \emph{MSnbase}. The functions listed here
 allow to convert between objects from the \emph{MSnbase} and \emph{Spectra} packages.
 
 \code{extractSpectraData} extracts the spectra data (m/z and intensity values
-including metadata) from \linkS4class{MSnExp}, \linkS4class{OnDiskMSnExp},
-\linkS4class{Spectrum1}, \linkS4class{Spectrum2} objects (or \code{list} of such objects) and
+including metadata) from \link[=MSnExp-class]{MSnExp}, \link[=OnDiskMSnExp-class]{OnDiskMSnExp},
+\link[=Spectrum1-class]{Spectrum1}, \link[=Spectrum2-class]{Spectrum2} objects (or \code{list} of such objects) and
 returns these as a \code{DataFrame} that can be used to create a
-\link[Spectra:Spectra]{Spectra::Spectra} object.This function enables thus
+\link[Spectra:Spectra-class]{Spectra::Spectra} object.This function enables thus
 to convert data from the \emph{old} \code{MSnbase} package to the newer \code{Spectra}
 package.
 

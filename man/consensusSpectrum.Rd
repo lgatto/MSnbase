@@ -16,8 +16,8 @@ consensusSpectrum(
 )
 }
 \arguments{
-\item{x}{\code{list} of \linkS4class{Spectrum} objects (either \linkS4class{Spectrum1} or
-\linkS4class{Spectrum2}).}
+\item{x}{\code{list} of \link[=Spectrum-class]{Spectrum} objects (either \link[=Spectrum1-class]{Spectrum1} or
+\link[=Spectrum2-class]{Spectrum2}).}
 
 \item{mzd}{\code{numeric(1)} defining the maximal m/z difference below which
 mass peaks are grouped in to the same final mass peak (see details for
@@ -104,8 +104,8 @@ plot(mz(cons), intensity(cons), type = "h", xlab = "m/z", ylab = "intensity",
 
 }
 \seealso{
-Other spectra combination functions: 
-\code{\link{meanMzInts}()}
+Other spectra combination functions:
+\code{\link[=meanMzInts]{meanMzInts()}}
 }
 \author{
 Johannes Rainer

@@ -106,13 +106,13 @@ MSpectra(..., elementMetadata = NULL)
 \S4method{filterMsLevel}{MSpectra}(object, msLevel.)
 }
 \arguments{
-\item{...}{For \code{MSpectra}: \linkS4class{Spectrum} object(s) or a \code{list} of
-\linkS4class{Spectrum} objects.
+\item{...}{For \code{MSpectra}: \link[=Spectrum-class]{Spectrum} object(s) or a \code{list} of
+\link[=Spectrum-class]{Spectrum} objects.
 For all other methods optional arguments passed along.}
 
-\item{elementMetadata}{For \code{MSpectra}: \link[S4Vectors:DataFrame-class]{S4Vectors::DataFrame} with optional information
+\item{elementMetadata}{For \code{MSpectra}: \link[S4Vectors:DataFrame]{DataFrame} with optional information
 that should be added as metadata information (\code{mcols}) to the object.
-The number of rows has to match the number of \linkS4class{Spectrum} objects,
+The number of rows has to match the number of \link[=Spectrum-class]{Spectrum} objects,
 each row is expected to represent additional metadata information for
 one spectrum.}
 
@@ -155,10 +155,10 @@ for details.}
 }
 \description{
 \code{MSpectra} (Mass Spectra) objects allow to collect one or more
-\linkS4class{Spectrum} object(s) (\linkS4class{Spectrum1} or \linkS4class{Spectrum2}) in
+\link[=Spectrum-class]{Spectrum} object(s) (\link[=Spectrum1-class]{Spectrum1} or \link[=Spectrum2-class]{Spectrum2}) in
 a \code{list}-like structure with the possibility to add arbitrary annotations
 to each individual \code{Spectrum} object. These can be accessed/set with
-the \code{\link[S4Vectors:Vector-class]{S4Vectors::mcols()}} method.
+the \code{\link[S4Vectors:mcols]{mcols()}} method.
 
 \code{MSpectra} objects can be created with the \code{MSpectra} function.
 
@@ -170,7 +170,7 @@ metadata columns present in \code{mcols} are exported as additional fields with
 the capitalized column names used as field names (see examples below).
 }
 \details{
-\code{MSpectra} inherits all methods from the \link[S4Vectors:SimpleList-class]{S4Vectors::SimpleList} class of the
+\code{MSpectra} inherits all methods from the \link[S4Vectors:SimpleList]{SimpleList} class of the
 \code{S4Vectors} package. This includes \code{lapply} and other data manipulation
 and subsetting operations.
 }
@@ -194,15 +194,15 @@ a \code{MSpectra} as a \code{DataFrame}, which can then be used to create a
 
 
 New \link{MSpectra} can be created with the \code{MSpectra(...)} function
-where \code{...} can either be a single \linkS4class{Spectrum} object or a \code{list} of
-\code{Spectrum} objects (\linkS4class{Spectrum1} and/or \linkS4class{Spectrum2}).
+where \code{...} can either be a single \link[=Spectrum-class]{Spectrum} object or a \code{list} of
+\code{Spectrum} objects (\link[=Spectrum1-class]{Spectrum1} and/or \link[=Spectrum2-class]{Spectrum2}).
 }
 
 \section{Accessing spectrum attributes}{
 
 
 These methods allow to access the attributes and values of the individual
-\code{Spectrum} (\linkS4class{Spectrum1} or \linkS4class{Spectrum2}) objects within the list.
+\code{Spectrum} (\link[=Spectrum1-class]{Spectrum1} or \link[=Spectrum2-class]{Spectrum2}) objects within the list.
 \itemize{
 \item \code{mz} return the m/z values of each spectrum as a \code{list} of \code{numeric}
 vectors.
@@ -213,7 +213,7 @@ with length equal to the length of \code{object}.
 \item \code{precursorMz}, \code{precursorCharge}, \code{precursorIntensity}, \code{precScanNum}
 return precursor m/z values, charge, intensity and scan number for each
 spectrum as a \code{numeric} (or \code{integer}) vector with length equal to the
-length of \code{object}. Note that for \linkS4class{Spectrum1} objects \code{NA} will be
+length of \code{object}. Note that for \link[=Spectrum1-class]{Spectrum1} objects \code{NA} will be
 returned.
 \item \code{acquisitionNum} and \code{scanIndex} return the acquisition number of each
 spectrum and its scan index as an \code{integer} vector with the same length
@@ -224,7 +224,7 @@ spectrum.
 vector.
 \item \code{msLevel} returns the MS level of each spectrum.
 \item \code{collisionEnergy} returns the collision energy for each spectrum or \code{NA}
-for \linkS4class{Spectrum1} objects.
+for \link[=Spectrum1-class]{Spectrum1} objects.
 \item \code{polarity} returns the spectra's polarity.
 \item \code{fromFile} returns the index from the (e.g. mzML) file the spectra where
 from. This applies only for spectra read using the \code{\link[=readMSData]{readMSData()}} function.

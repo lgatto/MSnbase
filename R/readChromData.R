@@ -177,7 +177,7 @@ readSRMData <- function(files, pdata = NULL) {
 #' all columns being `factors` might not be as expected. It is thus suggested
 #' to avoid passing `data.frame`s with `factors` to the function.
 #'
-#' @param x
+#' @param x `data.frame`
 #'
 #' @param cols `character` defining the columns that should be returned.
 #'

@@ -7,7 +7,7 @@
 isCentroidedFromFile(x)
 }
 \arguments{
-\item{x}{An object of class \linkS4class{OnDiskMSnExp}.}
+\item{x}{An object of class \link[=OnDiskMSnExp-class]{OnDiskMSnExp}.}
 }
 \value{
 A named \code{logical} vector of the same length as \code{x}.

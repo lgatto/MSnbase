@@ -214,8 +214,8 @@ The \code{Chromatogram} class is designed to store
 chromatographic MS data, i.e. pairs of retention time and intensity
 values. Instances of the class can be created with the
 \code{Chromatogram} constructor function but in most cases the dedicated
-methods for \linkS4class{OnDiskMSnExp} and
-\linkS4class{MSnExp} objects extracting chromatograms should be
+methods for \link[=OnDiskMSnExp-class]{OnDiskMSnExp} and
+\link[=MSnExp-class]{MSnExp} objects extracting chromatograms should be
 used instead (i.e. the \code{\link[=chromatogram]{chromatogram()}} method).
 }
 \details{
@@ -294,7 +294,7 @@ chromatogram has the same length (number of data points) than \code{y} and the
 same retention times thus allowing to perform any pair-wise comparisons
 between the chromatograms. If \code{x} is a \code{\link[=MChromatograms]{MChromatograms()}} object, each
 \code{Chromatogram} in it is aligned against \code{y}. Additional parameters (\code{...})
-are passed along to the alignment functions (e.g. \code{\link[MsCoreUtils:matching]{MsCoreUtils::closest()}}).
+are passed along to the alignment functions (e.g. \code{\link[MsCoreUtils:closest]{closest()}}).
 
 Parameter \code{method} allows to specify which alignment method
 should be used. Currently there are the following options:
@@ -305,7 +305,7 @@ between their retention times: each data point in \code{x} is assigned to the
 data point in \code{y} with the smallest difference in their retention times
 if their difference is smaller than the minimum average difference
 between retention times in \code{x} or \code{y} (parameter \code{tolerance} for the
-call to the \code{\link[MsCoreUtils:matching]{MsCoreUtils::closest()}} function).
+call to the \code{\link[MsCoreUtils:closest]{closest()}} function).
 By setting \code{tolerance = 0} only exact retention times are matched against
 each other (i.e. only values are kept with exactly the same retention
 times between both chromatograms).
