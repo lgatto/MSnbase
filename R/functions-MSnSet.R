@@ -1,11 +1,11 @@
 MSnSet <- function(exprs, fData, pData, ...) {
     if (missing(fData))
         fData <- data.frame(row.names = rownames(exprs))
-    if (class(fData) == "data.frame")
+    if (inherits(fData, "data.frame"))
         fData <- new("AnnotatedDataFrame", data = fData)
     if (missing(pData))
         pData <- data.frame(row.names = colnames(exprs))
-    if (class(pData) == "data.frame")
+    if (inherits(pData, "data.frame"))
         pData <- new("AnnotatedDataFrame", data = pData)
     ans <- new("MSnSet",
                exprs = exprs,
@@ -128,7 +128,7 @@ updateFeatureNames <- function(object, label, sep = ".") {
 ##' head(exprs(msnset2))
 ##' head(exprs(msnset2) * (n/m))
 nQuants <- function(x, groupBy) {
-  if (class(x) != "MSnSet")
+  if (!inherits(x, "MSnSet"))
     stop("'x' must be of class 'MSnSet'.")
 
   e <- !is.na(exprs(x))

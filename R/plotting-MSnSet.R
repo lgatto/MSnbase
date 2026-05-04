@@ -1,7 +1,7 @@
 lineplot <- function(x, ...) {
   ## x: MSnSet or matrix or data.frame
-  if (class(x) == "MSnSet")
-    x <- exprs(x)
+  if (inherits(x, "MSnSet"))
+      x <- exprs(x)
   plot(0, type = "n", xlim = c(1,ncol(x)),
        ylim = range(x, na.rm = TRUE),
        xlab = "Reporter",
@@ -11,4 +11,3 @@ lineplot <- function(x, ...) {
     lines(1:ncol(x), x[i,], ...)
   }
 }
-

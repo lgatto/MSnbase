@@ -26,7 +26,7 @@ setMethod("writeMgfData",
 #' @noRd
 writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
                              verbose = isMSnbaseVerbose(), addFields = NULL) {
-  if (class(con) == "character" && file.exists(con)) {
+  if (inherits(con, "character") && file.exists(con)) {
     message("Overwriting ", con, "!")
     unlink(con)
   }
@@ -42,7 +42,7 @@ writeMgfDataFile <- function(splist, con, COM = NULL, TITLE = NULL,
           stop("nrow of 'addFields' has to match length of 'splist'")
   }
 
-  if (class(con)[1] == "character") {
+  if (inherits(con, "character")) {
     con <- file(description = con, open = "at")
     on.exit(close(con))
   }

@@ -36,7 +36,7 @@ plot_MSnExp <- function(object,
         labs(x = "M/Z", y = "Intensity") +
         title
     if (!full) {
-        if (class(reporters) != "ReporterIons")
+        if (!inherits(reporters, "ReporterIons"))
             stop("Reporters must be of class \"ReporterIons\".")
         width <- reporters@width
         rlim1 <- min(reporters@mz) - width

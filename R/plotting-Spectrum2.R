@@ -7,7 +7,7 @@ plot_Spectrum2 <- function(spectrum,
     if (is.null(reporters)) {
         full <- TRUE
     } else {
-        if (class(reporters) != "ReporterIons")
+        if (!inherits(reporters, "ReporterIons"))
             stop("Reporters must be of class 'ReporterIons'.")
     }
     xmin <- xmax <- ymin <- ymax <- fill <- NULL # to satisfy codetools
