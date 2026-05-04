@@ -67,7 +67,7 @@ prot
 #> experimentData: use 'experimentData(object)'
 #> Annotation:  
 #> - - - Processing information - - -
-#> mzTab read: Sun May  3 19:37:33 2026 
+#> mzTab read: Mon May  4 16:52:33 2026 
 #>  MSnbase version: 2.39.0 
 
 pep <- readMzTabData_v0.9(testfile, "PEP")
@@ -90,6 +90,6 @@ pep
 #> experimentData: use 'experimentData(object)'
 #> Annotation:  
 #> - - - Processing information - - -
-#> mzTab read: Sun May  3 19:37:33 2026 
+#> mzTab read: Mon May  4 16:52:33 2026 
 #>  MSnbase version: 2.39.0 
 ```

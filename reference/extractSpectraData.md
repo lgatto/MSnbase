@@ -43,7 +43,7 @@ extractSpectraData(x)
 ## Value
 
 - `extracSpectraData()` returns a
-  [`S4Vectors::DataFrame()`](https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html)
+  [`DataFrame()`](https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html)
   with the full spectrum data that can be passed to the
   [`Spectra::Spectra()`](https://rdrr.io/pkg/Spectra/man/Spectra.html)
   function to create a `Spectra` object.

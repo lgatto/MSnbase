@@ -9,8 +9,7 @@ or
 in a `list`-like structure with the possibility to add arbitrary
 annotations to each individual `Spectrum` object. These can be
 accessed/set with the
-[`S4Vectors::mcols()`](https://rdrr.io/pkg/S4Vectors/man/Vector-class.html)
-method.
+[`mcols()`](https://rdrr.io/pkg/S4Vectors/man/Vector-class.html) method.
 
 `MSpectra` objects can be created with the `MSpectra` function.
 
@@ -135,7 +134,7 @@ filterMsLevel(object, msLevel.)
 - elementMetadata:
 
   For `MSpectra`:
-  [S4Vectors::DataFrame](https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html)
+  [DataFrame](https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html)
   with optional information that should be added as metadata information
   (`mcols`) to the object. The number of rows has to match the number of
   [Spectrum](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)
@@ -220,7 +219,7 @@ filterMsLevel(object, msLevel.)
 ## Details
 
 `MSpectra` inherits all methods from the
-[S4Vectors::SimpleList](https://rdrr.io/pkg/S4Vectors/man/SimpleList-class.html)
+[SimpleList](https://rdrr.io/pkg/S4Vectors/man/SimpleList-class.html)
 class of the `S4Vectors` package. This includes `lapply` and other data
 manipulation and subsetting operations.
 
@@ -506,7 +505,7 @@ writeMgfData(spl, tmpf)
 ## Evaluate the written output. The ID of each spectrum (defined in the
 ## "id" metadata column) is exported as field "ID".
 readLines(tmpf)
-#>  [1] "COM=Experimentexported by MSnbase on Sun May  3 19:35:14 2026"   
+#>  [1] "COM=Experimentexported by MSnbase on Mon May  4 16:50:13 2026"   
 #>  [2] "BEGIN IONS"                                                      
 #>  [3] "SCANS=NA"                                                        
 #>  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     
@@ -536,7 +535,7 @@ file.remove(tmpf)
 
 writeMgfData(spl, tmpf)
 readLines(tmpf)
-#>  [1] "COM=Experimentexported by MSnbase on Sun May  3 19:35:14 2026"   
+#>  [1] "COM=Experimentexported by MSnbase on Mon May  4 16:50:13 2026"   
 #>  [2] "BEGIN IONS"                                                      
 #>  [3] "SCANS=NA"                                                        
 #>  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     

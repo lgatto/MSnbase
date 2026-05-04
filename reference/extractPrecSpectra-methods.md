@@ -35,7 +35,7 @@ precursorMz(bb)
 #> 645.3741 645.3741 
 processingData(bb)
 #> - - - Processing information - - -
-#> Data loaded: Sun May  3 19:36:49 2026 
-#> 1 (2) precursors (spectra) extracted: Sun May  3 19:36:49 2026 
+#> Data loaded: Mon May  4 16:51:48 2026 
+#> 1 (2) precursors (spectra) extracted: Mon May  4 16:51:48 2026 
 #>  MSnbase version: 2.39.0 
 ```
