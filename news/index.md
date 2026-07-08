@@ -2,6 +2,10 @@
 
 ## MSnbase 2.39
 
+### MSnbase 2.39.2
+
+- Defunct deprecated functions.
+
 ### MSnbase 2.39.1
 
 - Use [`inherits()`](https://rdrr.io/r/base/class.html) to check class

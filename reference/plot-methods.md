@@ -112,26 +112,26 @@ See below for more details.
 
   `col`
 
-  :   color for the border of the points. Defaults to `col = "grey"`.
+  : color for the border of the points. Defaults to `col = "grey"`.
 
   `colramp`
 
-  :   color function/ramp to be used for the intensity-dependent
-      background color of data points. Defaults to
-      `colramp = topo.colors`.
+  : color function/ramp to be used for the intensity-dependent
+    background color of data points. Defaults to
+    `colramp = topo.colors`.
 
   `grid.color`
 
-  :   color for the grid lines. Defaults to `grid.color = "lightgrey"`;
-      use `grid.color = NA` to disable grid lines altogether.
+  : color for the grid lines. Defaults to `grid.color = "lightgrey"`;
+    use `grid.color = NA` to disable grid lines altogether.
 
   `pch`
 
-  :   point character. Defaults to `pch = 21`
+  : point character. Defaults to `pch = 21`
 
   `...`
 
-  :   additional parameters for the low-level `plot` function.
+  : additional parameters for the low-level `plot` function.
 
 - `plot(signature(x = "Spectrum", y = "missing"), reporters = "ReporterIons", full = "logical", centroided. = "logical", plot = "logical", w1, w2)`:
 

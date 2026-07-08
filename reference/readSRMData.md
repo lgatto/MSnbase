@@ -69,6 +69,9 @@ Johannes Rainer
 ## Read an example MRM/SRM data
 library(msdata)
 fl <- proteomics(full.names = TRUE, pattern = "MRM")
+#> Warning: 'proteomics' is deprecated.
+#> Use 'MsDataHub::MsDataHub()' instead.
+#> See help("Deprecated")
 
 ## Read the data
 mrm <- readSRMData(fl)

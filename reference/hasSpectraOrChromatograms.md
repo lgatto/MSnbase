@@ -31,6 +31,9 @@ Laurent Gatto
 
 ``` r
 f <- msdata::proteomics(full.names = TRUE)[1:2]
+#> Warning: 'msdata::proteomics' is deprecated.
+#> Use 'MsDataHub::MsDataHub()' instead.
+#> See help("Deprecated")
 hasSpectra(f)
 #>                /__w/_temp/Library/msdata/proteomics/MRM-standmix-5.mzML.gz 
 #>                                                                      FALSE 

@@ -84,7 +84,7 @@ to compuate an average `MSnSet`.
 ``` r
 library("pRolocdata")
 #> 
-#> This is pRolocdata version 1.49.0.
+#> This is pRolocdata version 1.50.0.
 #> Use 'pRolocdata()' to list available data sets.
 data(tan2009r1)
 data(tan2009r2)

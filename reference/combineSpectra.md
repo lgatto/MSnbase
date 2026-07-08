@@ -29,7 +29,7 @@ combineSpectra(
 )
 
 # S4 method for class 'MSpectra'
-combineSpectra(object, fcol, method = meanMzInts, fun, ...)
+combineSpectra(object, fcol, method = meanMzInts, ...)
 ```
 
 ## Arguments
@@ -66,10 +66,6 @@ combineSpectra(object, fcol, method = meanMzInts, fun, ...)
   perform per-file parallel spectra combining. See
   [`bpparam()`](https://rdrr.io/pkg/BiocParallel/man/register.html) for
   more details.
-
-- fun:
-
-  *Deprecated* use `method` instead.
 
 ## Value
 

@@ -75,7 +75,7 @@ prot
 #>   pubMedIds: pubmed:21398567 
 #> Annotation:  
 #> - - - Processing information - - -
-#>  MSnbase version: 2.39.1 
+#>  MSnbase version: 2.39.2 
 
 head(fData(prot))
 #>            accession
@@ -174,7 +174,7 @@ psms
 #>   pubMedIds: pubmed:21398567 
 #> Annotation:  
 #> - - - Processing information - - -
-#>  MSnbase version: 2.39.1 
+#>  MSnbase version: 2.39.2 
 
 head(fData(psms))
 #>       sequence PSM_ID accession unique       database database_version

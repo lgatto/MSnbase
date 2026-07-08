@@ -381,8 +381,8 @@ msnexp
 #>  Number of spectra: 5 
 #>  MSn retention times: 25:01 - 25:02 minutes
 #> - - - Processing information - - -
-#> Data loaded: Mon May  4 20:36:12 2026 
-#>  MSnbase version: 2.39.1 
+#> Data loaded: Wed Jul  8 13:47:45 2026 
+#>  MSnbase version: 2.39.2 
 #> - - - Meta data  - - -
 #> phenoData
 #>   rowNames: dummyiTRAQ.mzXML

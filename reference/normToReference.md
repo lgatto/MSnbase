@@ -105,8 +105,8 @@ combineFeatures(msnset, groupBy=fData(msnset)$ProteinAccession)
 #> - - - Processing information - - -
 #> Data loaded: Wed May 11 18:54:39 2011 
 #> iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#> Combined 55 features into 40 using mean: Mon May  4 20:38:20 2026 
-#>  MSnbase version: 2.39.1 
+#> Combined 55 features into 40 using mean: Wed Jul  8 13:49:54 2026 
+#>  MSnbase version: 2.39.2 
 
 # use a user-given reference
 combineFeatures(msnset, groupBy=fData(msnset)$ProteinAccession,
@@ -131,6 +131,6 @@ combineFeatures(msnset, groupBy=fData(msnset)$ProteinAccession,
 #> - - - Processing information - - -
 #> Data loaded: Wed May 11 18:54:39 2011 
 #> iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#> Combined 55 features into 40 using mean: Mon May  4 20:38:20 2026 
-#>  MSnbase version: 2.39.1 
+#> Combined 55 features into 40 using mean: Wed Jul  8 13:49:54 2026 
+#>  MSnbase version: 2.39.2 
 ```
