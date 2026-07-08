@@ -35,7 +35,7 @@ spectrum, as some instrument don't measure (or report) signal if below a
 certain threshold.
 }
 \examples{
-
+\dontrun{
 ## Load a profile mode example file
 library(BiocParallel)
 register(SerialParam())
@@ -53,6 +53,7 @@ mzr <- estimateMzResolution(od)
 ## distribution represents the m/z resolution of the MS1 (first peak) and
 ## MS2 spectra (second peak).
 plot(density(unlist(mzr)))
+}
 }
 \author{
 Johannes Rainer
