@@ -38,26 +38,28 @@ test_that("filterNA with pattern", {
     expect_identical(res0, res1)
 })
 
-test_that("filterZero", {
-    data(naset, package = "MSnbase")
-    zeroset <- naset
-    exprs(zeroset)[is.na(naset)] <- 0
-    nares <- filterNA(naset)
-    zerores <- filterZero(zeroset)
-    nares@processingData@processing <-
-        zerores@processingData@processing
-    exprs(zerores)[exprs(zerores) == 0] <- NA
-    expect_equal(nares, zerores)
-})
+## filterZero has been defunct
 
-test_that("filterZero with pNA", {
-    data(naset, package = "MSnbase")
-    zeroset <- naset
-    exprs(zeroset)[is.na(naset)] <- 0
-    nares <- filterNA(naset, pNA = 0.5)
-    zerores <- filterZero(zeroset, pNA = 0.5)
-    nares@processingData@processing <-
-        zerores@processingData@processing
-    exprs(zerores)[exprs(zerores) == 0] <- NA
-    expect_equal(nares, zerores)
-})
+## test_that("filterZero", {
+##     data(naset, package = "MSnbase")
+##     zeroset <- naset
+##     exprs(zeroset)[is.na(naset)] <- 0
+##     nares <- filterNA(naset)
+##     zerores <- filterZero(zeroset)
+##     nares@processingData@processing <-
+##         zerores@processingData@processing
+##     exprs(zerores)[exprs(zerores) == 0] <- NA
+##     expect_equal(nares, zerores)
+## })
+
+## test_that("filterZero with pNA", {
+##     data(naset, package = "MSnbase")
+##     zeroset <- naset
+##     exprs(zeroset)[is.na(naset)] <- 0
+##     nares <- filterNA(naset, pNA = 0.5)
+##     zerores <- filterZero(zeroset, pNA = 0.5)
+##     nares@processingData@processing <-
+##         zerores@processingData@processing
+##     exprs(zerores)[exprs(zerores) == 0] <- NA
+##     expect_equal(nares, zerores)
+## })
