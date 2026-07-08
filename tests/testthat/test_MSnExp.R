@@ -1,5 +1,3 @@
-context("MSnExp class")
-
 test_that("MSnExp validity", {
     expect_true(validObject(new("MSnExp")))
     data(itraqdata, package = "MSnbase")

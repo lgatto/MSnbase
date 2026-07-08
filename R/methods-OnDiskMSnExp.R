@@ -12,17 +12,11 @@ setMethod("initialize",
 
 setMethod("header",
           c("OnDiskMSnExp", "missing"),
-          function(object) {
-              .Deprecated("fData")
-              fData(object)
-          })
+          function(object) .Defunct("fData"))
 
 setMethod("header",
           c("OnDiskMSnExp", "numeric"),
-          function(object, scans) {
-              .Deprecated("fData")
-              fData(object)[scans, ]
-          })
+          function(object, scans) .Defunct("fData"))
 
 
 setReplaceMethod("featureNames",
@@ -680,10 +674,7 @@ setMethod("clean", signature("OnDiskMSnExp"),
 ## Add the "trimMz" ProcessingStep to the queue and update the
 ## processingData.
 setMethod("trimMz", signature("OnDiskMSnExp", "numeric"),
-          function(object, mzlim, msLevel.) {
-              .Deprecated("filterMz")
-              return(filterMz(object, mz = mzlim, msLevel.))
-          })
+          function(object, mzlim, msLevel.) .Defunct("filterMz"))
 
 ############################################################
 ## normalize

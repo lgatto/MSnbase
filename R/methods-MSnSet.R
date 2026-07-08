@@ -504,11 +504,7 @@ setMethod("filterNA", signature(object = "matrix"),
 
 setMethod("filterZero", "matrix",
           function(object, ...) {
-              .Deprecated("filterNA (after replace 0s by NAs)")
-              object[object == 0] <- NA
-              object <- filterNA(object, ...)
-              object[is.na(object)] <- 0
-              object
+              .Defunct("filterNA (after replace 0s by NAs)")
           })
 
 
@@ -534,23 +530,9 @@ setMethod("filterNA", signature(object = "MSnSet"),
           })
 
 setMethod("filterZero", signature = "MSnSet",
-          function(object, ...) {
-              .Deprecated("filterNA (after replace 0s by NAs)")
-              exprs(object)[exprs(object) == 0] <- NA
-              object <- filterNA(object, ...)
-              ## updating processing log
-              px <- object@processingData@processing
-              lx <- length(px)
-              ## if last one is 'Dropped ...', then update previous
-              i <- ifelse(grep("Dropped featureData's levels", px[lx]),
-                          lx - 1,
-                          lx)
-              px[i] <- sub("NAs", "zeros", px[i])
-              exprs(object)[is.na(object)] <- 0
-              object@processingData@processing <- px
-              if (validObject(object))
-                  return(object)
-          })
+          function(object, ...)
+              .Defunct("filterNA (after replace 0s by NAs)"))
+
 
 ##' @exportS3Method
 is.na.MSnSet <- function(x) is.na(exprs(x))

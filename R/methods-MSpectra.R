@@ -449,8 +449,6 @@ setMethod("smooth", "MSpectra", function(x, method = c("SavitzkyGolay",
 #'     in `fData(object)` defining which spectra to combine. See examples below
 #'     for more details.
 #'
-#' @param fun *Deprecated* use `method` instead.
-#'
 #' @param method `function` to be used to combine the spectra by `fcol`. Has to
 #'     be a function that takes a list of spectra as input and returns a single
 #'     [Spectrum-class]. See [meanMzInts()] for details.
@@ -552,13 +550,7 @@ setMethod("smooth", "MSpectra", function(x, method = c("SavitzkyGolay",
 #'
 #' ## The data was reduced to 19 spectra for each file.
 setMethod("combineSpectra", "MSpectra", function(object, fcol,
-                                                 method = meanMzInts, fun, ...) {
-    if (!missing(fun)) {
-        .Deprecated(
-            msg = "Parameter 'fun' is deprecated. Please use 'method' instead")
-        if (missing(method))
-            method <- fun
-    }
+                                                 method = meanMzInts, ...) {
     if (missing(fcol)) {
         .by <- factor(rep(1, length(object)))
     } else {

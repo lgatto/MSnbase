@@ -14,11 +14,10 @@ setMethod("combineFeatures", "MSnSet",
                    cv = TRUE,
                    cv.norm = "sum",
                    verbose = isMSnbaseVerbose(),
-                   fun,
                    ...)
               .combineFeatures(object, groupBy, method, fcol,
-                               redundancy.handler, cv, cv.norm, verbose,
-                               fun, ...))
+                               redundancy.handler, cv, cv.norm,
+                               verbose, ...))
 
 .combineFeatures <- function(object, groupBy,
                    method = c("mean",
@@ -31,13 +30,7 @@ setMethod("combineFeatures", "MSnSet",
                               "NTR"),
                    fcol,
                    redundancy.handler = c("unique", "multiple"),
-                   cv, cv.norm, verbose, fun, ...) {
-    if (!missing(fun)) {
-        .Deprecated(
-            msg = "Parameter 'fun' is deprecated. Please use 'method' instead")
-        if (missing(method))
-            method <- fun
-    }
+                   cv, cv.norm, verbose, ...) {
     if (is.character(method))
         method <- match.arg(method)
     if (missing(groupBy)) {

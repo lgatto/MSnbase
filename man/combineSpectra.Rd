@@ -14,7 +14,7 @@
   BPPARAM = bpparam()
 )
 
-\S4method{combineSpectra}{MSpectra}(object, fcol, method = meanMzInts, fun, ...)
+\S4method{combineSpectra}{MSpectra}(object, fcol, method = meanMzInts, ...)
 }
 \arguments{
 \item{object}{A \link[=MSnExp-class]{MSnExp} or \link[=MSpectra-class]{MSpectra}}
@@ -34,8 +34,6 @@ be a function that takes a list of spectra as input and returns a single
 \item{BPPARAM}{For \code{MSnExp}/\code{OnDiskMSnExp} objects: parallel processing setup
 to perform per-file parallel spectra combining. See \code{\link[BiocParallel:bpparam]{bpparam()}} for more
 details.}
-
-\item{fun}{\emph{Deprecated} use \code{method} instead.}
 }
 \value{
 A \code{MSpectra} or \code{MSnExp} object with combined spectra. Metadata

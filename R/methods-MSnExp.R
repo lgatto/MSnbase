@@ -152,8 +152,7 @@ setMethod("removePeaks",signature("MSnExp"),
 setMethod("trimMz",
           signature = signature("MSnExp", "numeric"),
           function(object, mzlim, msLevel.) {
-              .Deprecated(new = "filterMz")
-              return(filterMz(object, mz = mzlim, msLevel.))
+              .Defunct(new = "filterMz")
           })
 
 setMethod("quantify",
