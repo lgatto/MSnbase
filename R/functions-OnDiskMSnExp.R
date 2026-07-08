@@ -683,9 +683,11 @@ precursorValue_OnDiskMSnExp <- function(object, column) {
 ##' @md
 ##' @author Laurent Gatto
 ##' @examples
+##' \dontrun{
 ##' f <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz()
 ##' x <- readMSData(f, mode = "onDisk")
 ##' table(isCentroidedFromFile(x), msLevel(x))
+##' }
 isCentroidedFromFile <- function(x) {
     stopifnot(inherits(x, "OnDiskMSnExp"))
     fs <- fileNames(x)

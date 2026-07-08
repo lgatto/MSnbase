@@ -319,6 +319,7 @@ setMethod("isCentroided", "Spectrum",
 #'
 #' @examples
 #'
+#' \dontrun{
 #' ## Load a profile mode example file
 #' library(BiocParallel)
 #' register(SerialParam())
@@ -336,6 +337,7 @@ setMethod("isCentroided", "Spectrum",
 #' ## distribution represents the m/z resolution of the MS1 (first peak) and
 #' ## MS2 spectra (second peak).
 #' plot(density(unlist(mzr)))
+#' }
 setMethod("estimateMzResolution", "Spectrum", function(object, ...) {
     .estimate_mz_resolution(object@mz)
 })
