@@ -36,10 +36,9 @@ Laurent Gatto
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 f <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz()
-#> see ?MsDataHub and browseVignettes('MsDataHub') for documentation
-#> loading from cache
 x <- readMSData(f, mode = "onDisk")
 table(isCentroidedFromFile(x), msLevel(x))
-#> < table of extent 0 x 2 >
+} # }
 ```
