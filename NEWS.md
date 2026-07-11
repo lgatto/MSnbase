@@ -1,5 +1,8 @@
 # MSnbase 2.39
 
+## MSnbase 2.39.3
+- Use long tests.
+
 ## MSnbase 2.39.2
 - Defunct deprecated functions.
 

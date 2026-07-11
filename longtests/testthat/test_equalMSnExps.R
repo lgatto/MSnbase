@@ -1,4 +1,4 @@
-context("[OnDisk]MSnExp equality")
+context("lontest [OnDisk]MSnExp equality")
 
 test_that("Equality function", {
     ## testing it on spectra only.
