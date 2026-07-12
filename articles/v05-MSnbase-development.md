@@ -680,7 +680,7 @@ sessionInfo()
     ## [8] base     
     ## 
     ## other attached packages:
-    ## [1] MSnbase_2.39.2      ProtGenerics_1.44.0 S4Vectors_0.50.1   
+    ## [1] MSnbase_2.39.3      ProtGenerics_1.44.0 S4Vectors_0.50.1   
     ## [4] mzR_2.46.0          Rcpp_1.1.2          Biobase_2.72.0     
     ## [7] BiocGenerics_0.58.1 generics_0.1.4      BiocStyle_2.40.0   
     ## 
@@ -694,7 +694,7 @@ sessionInfo()
     ## [13] MetaboCoreUtils_1.20.1      fastmap_1.2.0              
     ## [15] XVector_0.52.0              rmarkdown_2.31             
     ## [17] preprocessCore_1.75.0       ragg_1.5.2                 
-    ## [19] purrr_1.2.2                 xfun_0.59                  
+    ## [19] purrr_1.2.2                 xfun_0.60                  
     ## [21] MultiAssayExperiment_1.38.0 cachem_1.1.0               
     ## [23] jsonlite_2.0.0              DelayedArray_0.38.2        
     ## [25] BiocParallel_1.46.0         parallel_4.6.1             

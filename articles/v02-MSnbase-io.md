@@ -288,8 +288,8 @@ res
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Quantitation data loaded: Wed Jul  8 15:21:17 2026  using readMSnSet. 
-    ##  MSnbase version: 2.39.2
+    ## Quantitation data loaded: Sun Jul 12 07:09:06 2026  using readMSnSet. 
+    ##  MSnbase version: 2.39.3
 
 #### The `MSnSet` class
 
@@ -356,7 +356,7 @@ eset
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ##  MSnbase version: 2.39.2
+    ##  MSnbase version: 2.39.3
 
 The `ecol` columns can also be queried interactively from R using the
 `getEcols` and `grepEcols` function. The former return a character with
@@ -404,7 +404,7 @@ readMSnSet2(f0, e)
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ##  MSnbase version: 2.39.2
+    ##  MSnbase version: 2.39.3
 
 The `phenoData` slot can now be updated accordingly using the
 replacement functions `phenoData<-` or `pData<-` (see
@@ -442,7 +442,7 @@ sessionInfo()
     ## [8] base     
     ## 
     ## other attached packages:
-    ##  [1] pRolocdata_1.50.0   MSnbase_2.39.2      ProtGenerics_1.44.0
+    ##  [1] pRolocdata_1.50.0   MSnbase_2.39.3      ProtGenerics_1.44.0
     ##  [4] S4Vectors_0.50.1    mzR_2.46.0          Rcpp_1.1.2         
     ##  [7] Biobase_2.72.0      BiocGenerics_0.58.1 generics_0.1.4     
     ## [10] BiocStyle_2.40.0   
@@ -457,7 +457,7 @@ sessionInfo()
     ## [13] MetaboCoreUtils_1.20.1      fastmap_1.2.0              
     ## [15] XVector_0.52.0              rmarkdown_2.31             
     ## [17] preprocessCore_1.75.0       ragg_1.5.2                 
-    ## [19] purrr_1.2.2                 xfun_0.59                  
+    ## [19] purrr_1.2.2                 xfun_0.60                  
     ## [21] MultiAssayExperiment_1.38.0 cachem_1.1.0               
     ## [23] jsonlite_2.0.0              DelayedArray_0.38.2        
     ## [25] BiocParallel_1.46.0         parallel_4.6.1             
