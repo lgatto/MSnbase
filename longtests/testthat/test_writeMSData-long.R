@@ -143,3 +143,41 @@ test_that("writeMSData,OnDiskMSnExp works", {
     check_cols <- !(colnames(fData(out_data)) %in% not_equal)
     expect_equal(fData(out_data)[, check_cols], fData(in_data)[, check_cols])
 })
+
+test_that("writeMSData works on CDF files", {
+    in_file <- system.file(package = "msdata", "cdf/ko15.CDF")
+    ## on disk
+    data_out <- readMSData(in_file, mode = "onDisk")
+    out_file <- paste0(tempfile(), ".mzML")
+    writeMSData(data_out, file = out_file, outformat = "mzml", copy = FALSE)
+    data_in <- readMSData(out_file, mode = "onDisk")
+    expect_equal(rtime(data_out), rtime(data_in))
+    ## Most of the data in fData will be different, because CDF files do not
+    ## provide that many header informations.
+    sps_in <- spectra(data_in)
+    sps_out <- spectra(data_out)
+    expect_equal(lapply(sps_in, mz), lapply(sps_out, mz))
+    expect_equal(lapply(sps_in, intensity), lapply(sps_out, intensity))
+
+    ## in mem
+    ## NOTE: reading a CDF file inMem is much slower than converting an
+    ## OnDiskMSnExp into a MSnExp.
+    ## data_out <- readMSData(in_file, mode = "inMem", msLevel. = 1)
+    data_out <- as(data_out, "MSnExp")
+    out_file <- paste0(tempfile(), ".mzML")
+    writeMSData(data_out, file = out_file, outformat = "mzml", copy = FALSE)
+    ## Reading the data as onDisk in, since we just compare the data anyway.
+    data_in <- readMSData(out_file, mode = "onDisk", msLevel. = 1)
+    expect_equal(rtime(data_out), rtime(data_in))
+    expect_equal(mz(data_out), mz(data_in))
+    expect_equal(intensity(data_out), intensity(data_in))
+    sps_in <- spectra(data_in)
+    sps_out <- spectra(data_out)
+    tmp_fun <- function(z) {
+        z@polarity <- 1L
+        z
+    }
+    sps_in <- lapply(sps_in, tmp_fun)
+    sps_out <- lapply(sps_out, tmp_fun)
+    expect_equal(sps_in, sps_out)
+})

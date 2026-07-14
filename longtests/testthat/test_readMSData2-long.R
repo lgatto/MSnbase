@@ -21,3 +21,23 @@ test_that("msLevel set correctly", {
     x <- readMSData(f, msLevel. = 1, centroided. = FALSE)
     expect_true(all(!centroided(x)))
 })
+
+test_that("Constructor performance and test for MS1 only", {
+    featDat <- fData(odmse)
+    featDat <- featDat[featDat$fileIdx == 1, ]
+    ## system.time(
+    ##     spR <- MSnbase:::.applyFun2SpectraOfFileSlow(featDat, filenames=fileNames(odmse))
+    ## ) ## 19.5 sec.
+    system.time(
+        spM <- MSnbase:::.applyFun2SpectraOfFileMulti(featDat, filenames=fileNames(odmse))
+    ) ## 3.2 sec.
+    ## expect_equal(spR, spM)
+})
+
+test_that("readMSData inMemory and onDisk reading CDF", {
+    library(msdata)
+    f <- system.file("cdf/ko15.CDF",  package = "msdata")
+    odmse <- readMSData(f, mode = "onDisk")
+    mse <- readMSData(f, msLevel. = 1, mode = "inMemory")
+    all.equal(spectra(odmse), spectra(mse))
+})
