@@ -633,7 +633,7 @@ bsa
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Data [logically] subsetted 3 spectra: Sun Jul 12 07:08:28 2026 
+    ## Data [logically] subsetted 3 spectra: Tue Jul 14 07:53:28 2026 
     ##  MSnbase version: 1.1.22 
     ## - - - Meta data  - - -
     ## phenoData
@@ -757,7 +757,7 @@ str(iddf)
     ##  $ scan.number.s.          : num  2949 6534 5674 4782 5839 ...
     ##  $ acquisitionNum          : num  2949 6534 5674 4782 5839 ...
     ##  $ spectrumFile            : chr  "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" ...
-    ##  $ idFile                  : chr  "d9c69ed6e59_7857" "d9c69ed6e59_7857" "d9c69ed6e59_7857" "d9c69ed6e59_7857" ...
+    ##  $ idFile                  : chr  "dc012c73d72_7857" "dc012c73d72_7857" "dc012c73d72_7857" "dc012c73d72_7857" ...
     ##  $ MS.GF.RawScore          : num  10 12 8 -5 8 7 21 -31 -31 -3 ...
     ##  $ MS.GF.DeNovoScore       : num  101 121 74 160 241 214 196 165 165 59 ...
     ##  $ MS.GF.SpecEValue        : num  4.62e-08 7.26e-08 9.34e-08 1.27e-07 1.32e-07 ...
@@ -1256,8 +1256,8 @@ experiment
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Sun Jul 12 07:08:36 2026 
-    ## Spectra cleaned: Sun Jul 12 07:08:36 2026 
+    ## Curves <= 400 set to '0': Tue Jul 14 07:53:36 2026 
+    ## Spectra cleaned: Tue Jul 14 07:53:37 2026 
     ##  MSnbase version: 1.1.22 
     ## - - - Meta data  - - -
     ## phenoData
@@ -1372,9 +1372,9 @@ qnt
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Sun Jul 12 07:08:36 2026 
-    ## Spectra cleaned: Sun Jul 12 07:08:36 2026 
-    ## iTRAQ4 quantification by trapezoidation: Sun Jul 12 07:08:39 2026 
+    ## Curves <= 400 set to '0': Tue Jul 14 07:53:36 2026 
+    ## Spectra cleaned: Tue Jul 14 07:53:37 2026 
+    ## iTRAQ4 quantification by trapezoidation: Tue Jul 14 07:53:39 2026 
     ##  MSnbase version: 1.1.22
 
 ``` r
@@ -1654,7 +1654,7 @@ processingData(x)
 ```
 
     ## - - - Processing information - - -
-    ## Data imputation using min Sun Jul 12 07:08:40 2026 
+    ## Data imputation using min Tue Jul 14 07:53:40 2026 
     ##  MSnbase version: 1.15.6
 
 ``` r
@@ -1745,7 +1745,7 @@ x
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Data imputation using mixed Sun Jul 12 07:08:41 2026 
+    ## Data imputation using mixed Tue Jul 14 07:53:41 2026 
     ##  MSnbase version: 1.15.6
 
 Please read `?MsCoreUtils::impute_matix()` for a description of the
@@ -1920,14 +1920,14 @@ qnt2
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Sun Jul 12 07:08:36 2026 
-    ## Spectra cleaned: Sun Jul 12 07:08:36 2026 
-    ## iTRAQ4 quantification by trapezoidation: Sun Jul 12 07:08:39 2026 
-    ## Subset [55,4][54,4] Sun Jul 12 07:08:39 2026 
-    ## Removed features with more than 0 NAs: Sun Jul 12 07:08:39 2026 
-    ## Dropped featureData's levels Sun Jul 12 07:08:39 2026 
-    ## Combined 54 features into 40 using median: Sun Jul 12 07:08:42 2026 
-    ##  MSnbase version: 2.39.3
+    ## Curves <= 400 set to '0': Tue Jul 14 07:53:36 2026 
+    ## Spectra cleaned: Tue Jul 14 07:53:37 2026 
+    ## iTRAQ4 quantification by trapezoidation: Tue Jul 14 07:53:39 2026 
+    ## Subset [55,4][54,4] Tue Jul 14 07:53:39 2026 
+    ## Removed features with more than 0 NAs: Tue Jul 14 07:53:39 2026 
+    ## Dropped featureData's levels Tue Jul 14 07:53:39 2026 
+    ## Combined 54 features into 40 using median: Tue Jul 14 07:53:42 2026 
+    ##  MSnbase version: 2.39.4
 
 Of interest is also the `iPQF` spectra-to-protein summarisation method,
 which integrates peptide spectra characteristics and quantitative values
@@ -2022,12 +2022,12 @@ processingData(siquant)
 ```
 
     ## - - - Processing information - - -
-    ## Data loaded: Sun Jul 12 07:08:35 2026 
-    ## Filtered 2 unidentified peptides out [Sun Jul 12 07:08:36 2026] 
-    ## Quantitation by total ion current [Sun Jul 12 07:08:42 2026] 
-    ## Combined 3 features into 3 using sum: Sun Jul 12 07:08:42 2026 
-    ## Quantification by SIn [Sun Jul 12 07:08:42 2026] 
-    ##  MSnbase version: 2.39.3
+    ## Data loaded: Tue Jul 14 07:53:35 2026 
+    ## Filtered 2 unidentified peptides out [Tue Jul 14 07:53:36 2026] 
+    ## Quantitation by total ion current [Tue Jul 14 07:53:42 2026] 
+    ## Combined 3 features into 3 using sum: Tue Jul 14 07:53:42 2026 
+    ## Quantification by SIn [Tue Jul 14 07:53:42 2026] 
+    ##  MSnbase version: 2.39.4
 
 ``` r
 
@@ -2559,8 +2559,8 @@ exp12
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Combined [27,4] and [24,4] MSnSets Sun Jul 12 07:08:50 2026 
-    ##  MSnbase version: 2.39.3
+    ## Combined [27,4] and [24,4] MSnSets Tue Jul 14 07:53:50 2026 
+    ##  MSnbase version: 2.39.4
 
 In summary, when experiments with different samples need to be combined
 (along the columns), one needs to (1) clarify the sample names using
@@ -2764,7 +2764,7 @@ the `topN` method.
     ##  [4] pRoloc_1.52.0        BiocParallel_1.46.0  MLInterfaces_1.92.0 
     ##  [7] cluster_2.1.8.2      annotate_1.90.0      XML_3.99-0.23       
     ## [10] AnnotationDbi_1.74.0 IRanges_2.46.0       pRolocdata_1.50.0   
-    ## [13] Rdisop_1.72.0        zoo_1.8-15           MSnbase_2.39.3      
+    ## [13] Rdisop_1.72.0        zoo_1.8-15           MSnbase_2.39.4      
     ## [16] ProtGenerics_1.44.0  S4Vectors_0.50.1     mzR_2.46.0          
     ## [19] Rcpp_1.1.2           Biobase_2.72.0       BiocGenerics_0.58.1 
     ## [22] generics_0.1.4       ggplot2_4.0.3        BiocStyle_2.40.0    
@@ -2808,7 +2808,7 @@ the `topN` method.
     ##  [71] withr_3.0.3                 BiocManager_1.30.27        
     ##  [73] fastmap_1.2.0               caTools_1.18.3             
     ##  [75] digest_0.6.39               timechange_0.4.0           
-    ##  [77] R6_2.6.1                    colorspace_2.1-2           
+    ##  [77] R6_2.6.1                    colorspace_2.1-3           
     ##  [79] textshaping_1.0.5           gtools_3.9.5               
     ##  [81] lpSolve_5.6.23              biomaRt_2.68.0             
     ##  [83] RSQLite_3.53.3              tidyr_1.3.2                
@@ -2835,7 +2835,7 @@ the `topN` method.
     ## [125] pillar_1.11.1               vctrs_0.7.3                
     ## [127] pcaMethods_2.4.0            randomForest_4.7-1.2       
     ## [129] dbplyr_2.6.0                xtable_1.8-8               
-    ## [131] evaluate_1.0.5              mvtnorm_1.4-1              
+    ## [131] evaluate_1.0.5              mvtnorm_1.4-2              
     ## [133] cli_3.6.6                   compiler_4.6.1             
     ## [135] rlang_1.3.0                 crayon_1.5.3               
     ## [137] future.apply_1.20.2         labeling_0.4.3             

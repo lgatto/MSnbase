@@ -288,8 +288,8 @@ res
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Quantitation data loaded: Sun Jul 12 07:09:06 2026  using readMSnSet. 
-    ##  MSnbase version: 2.39.3
+    ## Quantitation data loaded: Tue Jul 14 07:54:06 2026  using readMSnSet. 
+    ##  MSnbase version: 2.39.4
 
 #### The `MSnSet` class
 
@@ -356,7 +356,7 @@ eset
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ##  MSnbase version: 2.39.3
+    ##  MSnbase version: 2.39.4
 
 The `ecol` columns can also be queried interactively from R using the
 `getEcols` and `grepEcols` function. The former return a character with
@@ -404,7 +404,7 @@ readMSnSet2(f0, e)
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ##  MSnbase version: 2.39.3
+    ##  MSnbase version: 2.39.4
 
 The `phenoData` slot can now be updated accordingly using the
 replacement functions `phenoData<-` or `pData<-` (see
@@ -442,7 +442,7 @@ sessionInfo()
     ## [8] base     
     ## 
     ## other attached packages:
-    ##  [1] pRolocdata_1.50.0   MSnbase_2.39.3      ProtGenerics_1.44.0
+    ##  [1] pRolocdata_1.50.0   MSnbase_2.39.4      ProtGenerics_1.44.0
     ##  [4] S4Vectors_0.50.1    mzR_2.46.0          Rcpp_1.1.2         
     ##  [7] Biobase_2.72.0      BiocGenerics_0.58.1 generics_0.1.4     
     ## [10] BiocStyle_2.40.0   
