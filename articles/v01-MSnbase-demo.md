@@ -633,7 +633,7 @@ bsa
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Data [logically] subsetted 3 spectra: Tue Jul 14 07:53:28 2026 
+    ## Data [logically] subsetted 3 spectra: Tue Jul 14 08:17:28 2026 
     ##  MSnbase version: 1.1.22 
     ## - - - Meta data  - - -
     ## phenoData
@@ -757,7 +757,7 @@ str(iddf)
     ##  $ scan.number.s.          : num  2949 6534 5674 4782 5839 ...
     ##  $ acquisitionNum          : num  2949 6534 5674 4782 5839 ...
     ##  $ spectrumFile            : chr  "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" ...
-    ##  $ idFile                  : chr  "dc012c73d72_7857" "dc012c73d72_7857" "dc012c73d72_7857" "dc012c73d72_7857" ...
+    ##  $ idFile                  : chr  "dc0546eadb7_7857" "dc0546eadb7_7857" "dc0546eadb7_7857" "dc0546eadb7_7857" ...
     ##  $ MS.GF.RawScore          : num  10 12 8 -5 8 7 21 -31 -31 -3 ...
     ##  $ MS.GF.DeNovoScore       : num  101 121 74 160 241 214 196 165 165 59 ...
     ##  $ MS.GF.SpecEValue        : num  4.62e-08 7.26e-08 9.34e-08 1.27e-07 1.32e-07 ...
@@ -1256,8 +1256,8 @@ experiment
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Tue Jul 14 07:53:36 2026 
-    ## Spectra cleaned: Tue Jul 14 07:53:37 2026 
+    ## Curves <= 400 set to '0': Tue Jul 14 08:17:35 2026 
+    ## Spectra cleaned: Tue Jul 14 08:17:36 2026 
     ##  MSnbase version: 1.1.22 
     ## - - - Meta data  - - -
     ## phenoData
@@ -1372,9 +1372,9 @@ qnt
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Tue Jul 14 07:53:36 2026 
-    ## Spectra cleaned: Tue Jul 14 07:53:37 2026 
-    ## iTRAQ4 quantification by trapezoidation: Tue Jul 14 07:53:39 2026 
+    ## Curves <= 400 set to '0': Tue Jul 14 08:17:35 2026 
+    ## Spectra cleaned: Tue Jul 14 08:17:36 2026 
+    ## iTRAQ4 quantification by trapezoidation: Tue Jul 14 08:17:38 2026 
     ##  MSnbase version: 1.1.22
 
 ``` r
@@ -1654,7 +1654,7 @@ processingData(x)
 ```
 
     ## - - - Processing information - - -
-    ## Data imputation using min Tue Jul 14 07:53:40 2026 
+    ## Data imputation using min Tue Jul 14 08:17:39 2026 
     ##  MSnbase version: 1.15.6
 
 ``` r
@@ -1745,7 +1745,7 @@ x
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Data imputation using mixed Tue Jul 14 07:53:41 2026 
+    ## Data imputation using mixed Tue Jul 14 08:17:40 2026 
     ##  MSnbase version: 1.15.6
 
 Please read `?MsCoreUtils::impute_matix()` for a description of the
@@ -1920,13 +1920,13 @@ qnt2
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Tue Jul 14 07:53:36 2026 
-    ## Spectra cleaned: Tue Jul 14 07:53:37 2026 
-    ## iTRAQ4 quantification by trapezoidation: Tue Jul 14 07:53:39 2026 
-    ## Subset [55,4][54,4] Tue Jul 14 07:53:39 2026 
-    ## Removed features with more than 0 NAs: Tue Jul 14 07:53:39 2026 
-    ## Dropped featureData's levels Tue Jul 14 07:53:39 2026 
-    ## Combined 54 features into 40 using median: Tue Jul 14 07:53:42 2026 
+    ## Curves <= 400 set to '0': Tue Jul 14 08:17:35 2026 
+    ## Spectra cleaned: Tue Jul 14 08:17:36 2026 
+    ## iTRAQ4 quantification by trapezoidation: Tue Jul 14 08:17:38 2026 
+    ## Subset [55,4][54,4] Tue Jul 14 08:17:38 2026 
+    ## Removed features with more than 0 NAs: Tue Jul 14 08:17:38 2026 
+    ## Dropped featureData's levels Tue Jul 14 08:17:38 2026 
+    ## Combined 54 features into 40 using median: Tue Jul 14 08:17:41 2026 
     ##  MSnbase version: 2.39.4
 
 Of interest is also the `iPQF` spectra-to-protein summarisation method,
@@ -2022,11 +2022,11 @@ processingData(siquant)
 ```
 
     ## - - - Processing information - - -
-    ## Data loaded: Tue Jul 14 07:53:35 2026 
-    ## Filtered 2 unidentified peptides out [Tue Jul 14 07:53:36 2026] 
-    ## Quantitation by total ion current [Tue Jul 14 07:53:42 2026] 
-    ## Combined 3 features into 3 using sum: Tue Jul 14 07:53:42 2026 
-    ## Quantification by SIn [Tue Jul 14 07:53:42 2026] 
+    ## Data loaded: Tue Jul 14 08:17:34 2026 
+    ## Filtered 2 unidentified peptides out [Tue Jul 14 08:17:35 2026] 
+    ## Quantitation by total ion current [Tue Jul 14 08:17:42 2026] 
+    ## Combined 3 features into 3 using sum: Tue Jul 14 08:17:42 2026 
+    ## Quantification by SIn [Tue Jul 14 08:17:42 2026] 
     ##  MSnbase version: 2.39.4
 
 ``` r
@@ -2559,7 +2559,7 @@ exp12
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Combined [27,4] and [24,4] MSnSets Tue Jul 14 07:53:50 2026 
+    ## Combined [27,4] and [24,4] MSnSets Tue Jul 14 08:17:49 2026 
     ##  MSnbase version: 2.39.4
 
 In summary, when experiments with different samples need to be combined

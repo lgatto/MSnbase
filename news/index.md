@@ -2,7 +2,9 @@
 
 ## MSnbase 2.39
 
-### \## MSnbase 2.39.4
+### MSnbase 2.39.4
+
+- Move more tests to longtests.
 
 ### MSnbase 2.39.3
 

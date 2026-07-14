@@ -505,7 +505,7 @@ writeMgfData(spl, tmpf)
 ## Evaluate the written output. The ID of each spectrum (defined in the
 ## "id" metadata column) is exported as field "ID".
 readLines(tmpf)
-#>  [1] "COM=Experimentexported by MSnbase on Tue Jul 14 07:51:32 2026"   
+#>  [1] "COM=Experimentexported by MSnbase on Tue Jul 14 08:15:32 2026"   
 #>  [2] "BEGIN IONS"                                                      
 #>  [3] "SCANS=NA"                                                        
 #>  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     
@@ -535,7 +535,7 @@ file.remove(tmpf)
 
 writeMgfData(spl, tmpf)
 readLines(tmpf)
-#>  [1] "COM=Experimentexported by MSnbase on Tue Jul 14 07:51:32 2026"   
+#>  [1] "COM=Experimentexported by MSnbase on Tue Jul 14 08:15:32 2026"   
 #>  [2] "BEGIN IONS"                                                      
 #>  [3] "SCANS=NA"                                                        
 #>  [4] "TITLE=msLevel 1; retentionTime ; scanNum NA"                     
