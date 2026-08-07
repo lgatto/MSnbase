@@ -2,8 +2,8 @@
 
 Calculates a non-parametric version of the coefficient of variation
 where the standard deviation is replaced by the median absolute
-deviations (see `mad` for details) and divided by the absolute value of
-the mean.
+deviations (see [`mad`](https://rdrr.io/r/stats/mad.html) for details)
+and divided by the absolute value of the mean.
 
 Note that the `mad` of a single value is 0 (as opposed to `NA` for the
 standard deviation, see example below).

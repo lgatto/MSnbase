@@ -7,6 +7,8 @@ intended as a starting point for developers or users who would like to
 learn more or further develop/extend mass spectrometry and proteomics
 data structures.
 
+    ## No methods found in package 'BiocGenerics' for request: 'scale' when loading 'MSnbase'
+
 ## Foreword
 
 This software is free and open-source software. If you use it, please
@@ -680,9 +682,9 @@ sessionInfo()
     ## [8] base     
     ## 
     ## other attached packages:
-    ## [1] MSnbase_2.39.4      ProtGenerics_1.44.0 S4Vectors_0.50.1   
-    ## [4] mzR_2.46.0          Rcpp_1.1.2          Biobase_2.72.0     
-    ## [7] BiocGenerics_0.58.1 generics_0.1.4      BiocStyle_2.40.0   
+    ## [1] MSnbase_2.39.5      S4Vectors_0.50.1    Biobase_2.72.0     
+    ## [4] BiocGenerics_0.58.1 generics_0.1.4      mzR_2.46.0         
+    ## [7] Rcpp_1.1.2          BiocStyle_2.40.0   
     ## 
     ## loaded via a namespace (and not attached):
     ##  [1] rlang_1.3.0                 magrittr_2.0.5             
@@ -690,49 +692,49 @@ sessionInfo()
     ##  [5] matrixStats_1.5.0           compiler_4.6.1             
     ##  [7] PTMods_1.1.1                systemfonts_1.3.2          
     ##  [9] vctrs_0.7.3                 reshape2_1.4.5             
-    ## [11] stringr_1.6.0               pkgconfig_2.0.3            
-    ## [13] MetaboCoreUtils_1.20.1      fastmap_1.2.0              
-    ## [15] XVector_0.52.0              rmarkdown_2.31             
-    ## [17] preprocessCore_1.75.0       ragg_1.5.2                 
-    ## [19] purrr_1.2.2                 xfun_0.60                  
-    ## [21] MultiAssayExperiment_1.38.0 cachem_1.1.0               
-    ## [23] jsonlite_2.0.0              DelayedArray_0.38.2        
-    ## [25] BiocParallel_1.46.0         parallel_4.6.1             
-    ## [27] cluster_2.1.8.2             R6_2.6.1                   
-    ## [29] bslib_0.11.0                stringi_1.8.7              
-    ## [31] RColorBrewer_1.1-3          limma_3.68.4               
-    ## [33] GenomicRanges_1.64.0        jquerylib_0.1.4            
-    ## [35] iterators_1.0.14            Seqinfo_1.2.0              
-    ## [37] bookdown_0.47               SummarizedExperiment_1.42.0
-    ## [39] knitr_1.51                  IRanges_2.46.0             
-    ## [41] Matrix_1.7-5                igraph_2.3.3               
-    ## [43] tidyselect_1.2.1            abind_1.4-8                
-    ## [45] yaml_2.3.12                 doParallel_1.0.17          
-    ## [47] codetools_0.2-20            affy_1.90.0                
-    ## [49] lattice_0.22-9              tibble_3.3.1               
-    ## [51] plyr_1.8.9                  S7_0.2.2                   
-    ## [53] evaluate_1.0.5              desc_1.4.3                 
-    ## [55] Spectra_1.22.2              pillar_1.11.1              
-    ## [57] affyio_1.82.0               BiocManager_1.30.27        
-    ## [59] MatrixGenerics_1.24.0       foreach_1.5.2              
-    ## [61] MALDIquant_1.22.3           ncdf4_1.24                 
-    ## [63] ggplot2_4.0.3               scales_1.4.0               
-    ## [65] glue_1.8.1                  lazyeval_0.2.3             
-    ## [67] tools_4.6.1                 mzID_1.50.0                
-    ## [69] data.table_1.18.4           QFeatures_1.22.0           
-    ## [71] vsn_3.80.0                  fs_2.1.0                   
-    ## [73] XML_3.99-0.23               grid_4.6.1                 
-    ## [75] impute_1.86.0               tidyr_1.3.2                
-    ## [77] MsCoreUtils_1.24.0          PSMatch_1.17.1             
-    ## [79] cli_3.6.6                   textshaping_1.0.5          
-    ## [81] S4Arrays_1.12.0             dplyr_1.2.1                
-    ## [83] AnnotationFilter_1.36.0     pcaMethods_2.4.0           
-    ## [85] gtable_0.3.6                sass_0.4.10                
-    ## [87] digest_0.6.39               SparseArray_1.12.2         
-    ## [89] htmlwidgets_1.6.4           farver_2.1.2               
-    ## [91] htmltools_0.5.9             pkgdown_2.2.1.9000         
-    ## [93] lifecycle_1.0.5             statmod_1.5.2              
-    ## [95] MASS_7.3-65
+    ## [11] stringr_1.6.0               ProtGenerics_1.44.0        
+    ## [13] pkgconfig_2.0.3             MetaboCoreUtils_1.20.1     
+    ## [15] fastmap_1.2.0               XVector_0.52.0             
+    ## [17] rmarkdown_2.31              preprocessCore_1.75.0      
+    ## [19] ragg_1.5.2                  purrr_1.2.2                
+    ## [21] xfun_0.60                   MultiAssayExperiment_1.38.0
+    ## [23] cachem_1.1.0                jsonlite_2.0.0             
+    ## [25] DelayedArray_0.38.2         BiocParallel_1.46.0        
+    ## [27] parallel_4.6.1              cluster_2.1.8.3            
+    ## [29] R6_2.6.1                    bslib_0.12.0               
+    ## [31] stringi_1.8.9               RColorBrewer_1.1-3         
+    ## [33] limma_3.68.4                GenomicRanges_1.64.0       
+    ## [35] jquerylib_0.1.4             iterators_1.0.14           
+    ## [37] Seqinfo_1.2.0               bookdown_0.47              
+    ## [39] SummarizedExperiment_1.42.0 knitr_1.51                 
+    ## [41] IRanges_2.46.0              Matrix_1.7-6               
+    ## [43] igraph_2.3.3                tidyselect_1.2.1           
+    ## [45] abind_1.4-8                 yaml_2.3.12                
+    ## [47] doParallel_1.0.17           codetools_0.2-20           
+    ## [49] affy_1.90.0                 lattice_0.22-9             
+    ## [51] tibble_3.3.1                plyr_1.8.9                 
+    ## [53] S7_0.2.2                    evaluate_1.0.5             
+    ## [55] desc_1.4.3                  Spectra_1.22.2             
+    ## [57] pillar_1.11.1               affyio_1.82.0              
+    ## [59] BiocManager_1.30.27         MatrixGenerics_1.24.0      
+    ## [61] foreach_1.5.2               MALDIquant_1.22.3          
+    ## [63] ncdf4_1.24                  ggplot2_4.0.3              
+    ## [65] scales_1.4.0                glue_1.8.1                 
+    ## [67] lazyeval_0.2.3              tools_4.6.1                
+    ## [69] mzID_1.50.0                 data.table_1.18.4          
+    ## [71] QFeatures_1.22.0            vsn_3.80.0                 
+    ## [73] fs_2.1.0                    XML_3.99-0.23              
+    ## [75] grid_4.6.1                  impute_1.86.0              
+    ## [77] tidyr_1.3.2                 MsCoreUtils_1.24.0         
+    ## [79] PSMatch_1.17.1              cli_3.6.6                  
+    ## [81] textshaping_1.0.5           S4Arrays_1.12.0            
+    ## [83] dplyr_1.2.1                 AnnotationFilter_1.36.0    
+    ## [85] pcaMethods_2.4.0            gtable_0.3.6               
+    ## [87] sass_0.4.10                 digest_0.6.39              
+    ## [89] SparseArray_1.12.2          htmlwidgets_1.6.4          
+    ## [91] farver_2.1.2                htmltools_0.5.9            
+    ## [93] pkgdown_2.2.1.9000          lifecycle_1.0.5            
+    ## [95] statmod_1.5.2               MASS_7.3-66
 
 ## References
 

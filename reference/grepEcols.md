@@ -10,8 +10,7 @@ connection) `f` with
 according to the optional `...` arguments (it is important to correctly
 specify [`strsplit`](https://rdrr.io/r/base/strsplit.html)'s `split`
 character vector here) and then matches `pattern` to the individual
-column names using
-[`grep`](https://rdrr.io/pkg/BiocGenerics/man/grep.html).
+column names using [`grep`](https://rdrr.io/r/base/grep.html).
 
 Similarly, `getEcols` can be used to explore the column names and decide
 for the appropriate `pattern` value.

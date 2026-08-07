@@ -55,7 +55,7 @@ Most of the code for plotMzDelta has kindly been contributed by
 
     <a class="navbar-brand me-2" href="../index.html">MSnbase</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.39.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.39.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -214,9 +214,9 @@ Most of the code for plotMzDelta has kindly been contributed by
 <span class="r-in"><span><span class="co">## let's retrieve peptide sequence information</span></span></span>
 <span class="r-in"><span><span class="co">## and get a table of amino acids</span></span></span>
 <span class="r-in"><span><span class="va">peps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">itraqdata</span><span class="op">)</span><span class="op">$</span><span class="va">PeptideSequence</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">aas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">peps</span>,<span class="st">""</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">aas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">peps</span>,<span class="st">""</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co">## table of aas</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">aas</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">aas</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> aas</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  A  C  D  E  F  G  H  I  K  L  M  N  P  Q  R  S  T  V  W  Y </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 70  1 53 49 12 53  6 32 41 63 16 26 20 29 14 36 47 58  3 13 </span>

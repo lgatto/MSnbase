@@ -13,7 +13,7 @@ spectrum's m/z values."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">MSnbase</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.39.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.39.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,7 +43,7 @@ spectrum's m/z values."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Estimate the m/z resolution of a spectrum</h1>
-      <small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/master/R/methods-MSnExp.R" class="external-link"><code>R/methods-MSnExp.R</code></a>, <a href="https://github.com/lgatto/MSnbase/blob/master/R/methods-Spectrum.R" class="external-link"><code>R/methods-Spectrum.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/jomain/R/methods-MSnExp.R" class="external-link"><code>R/methods-MSnExp.R</code></a>, <a href="https://github.com/lgatto/MSnbase/blob/jomain/R/methods-Spectrum.R" class="external-link"><code>R/methods-Spectrum.R</code></a></small>
       <div class="d-none name"><code>estimateMzResolution.Rd</code></div>
     </div>
 
@@ -113,7 +113,7 @@ certain threshold.</p>
 <span class="r-in"><span><span class="co">## plot the distribution of estimated m/z resolutions. The bimodal</span></span></span>
 <span class="r-in"><span><span class="co">## distribution represents the m/z resolution of the MS1 (first peak) and</span></span></span>
 <span class="r-in"><span><span class="co">## MS2 spectra (second peak).</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="plot-methods.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">mzr</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plot-methods.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">mzr</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

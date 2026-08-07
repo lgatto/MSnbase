@@ -10,6 +10,8 @@ classes and methods and (2) enabling the utilisation of throughput-high
 data analysis pipelines provided by the Bioconductor (Gentleman et al.
 2004) project.
 
+    ## No methods found in package 'BiocGenerics' for request: 'scale' when loading 'MSnbase'
+
 ## Foreword
 
 This software is free and open-source software. If you use it, please
@@ -633,7 +635,7 @@ bsa
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Data [logically] subsetted 3 spectra: Tue Jul 14 08:17:28 2026 
+    ## Data [logically] subsetted 3 spectra: Fri Aug  7 14:33:31 2026 
     ##  MSnbase version: 1.1.22 
     ## - - - Meta data  - - -
     ## phenoData
@@ -757,7 +759,7 @@ str(iddf)
     ##  $ scan.number.s.          : num  2949 6534 5674 4782 5839 ...
     ##  $ acquisitionNum          : num  2949 6534 5674 4782 5839 ...
     ##  $ spectrumFile            : chr  "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" ...
-    ##  $ idFile                  : chr  "dc0546eadb7_7857" "dc0546eadb7_7857" "dc0546eadb7_7857" "dc0546eadb7_7857" ...
+    ##  $ idFile                  : chr  "5166aba4346_7857" "5166aba4346_7857" "5166aba4346_7857" "5166aba4346_7857" ...
     ##  $ MS.GF.RawScore          : num  10 12 8 -5 8 7 21 -31 -31 -3 ...
     ##  $ MS.GF.DeNovoScore       : num  101 121 74 160 241 214 196 165 165 59 ...
     ##  $ MS.GF.SpecEValue        : num  4.62e-08 7.26e-08 9.34e-08 1.27e-07 1.32e-07 ...
@@ -1256,8 +1258,8 @@ experiment
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Tue Jul 14 08:17:35 2026 
-    ## Spectra cleaned: Tue Jul 14 08:17:36 2026 
+    ## Curves <= 400 set to '0': Fri Aug  7 14:33:39 2026 
+    ## Spectra cleaned: Fri Aug  7 14:33:39 2026 
     ##  MSnbase version: 1.1.22 
     ## - - - Meta data  - - -
     ## phenoData
@@ -1372,9 +1374,9 @@ qnt
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Tue Jul 14 08:17:35 2026 
-    ## Spectra cleaned: Tue Jul 14 08:17:36 2026 
-    ## iTRAQ4 quantification by trapezoidation: Tue Jul 14 08:17:38 2026 
+    ## Curves <= 400 set to '0': Fri Aug  7 14:33:39 2026 
+    ## Spectra cleaned: Fri Aug  7 14:33:39 2026 
+    ## iTRAQ4 quantification by trapezoidation: Fri Aug  7 14:33:41 2026 
     ##  MSnbase version: 1.1.22
 
 ``` r
@@ -1654,7 +1656,7 @@ processingData(x)
 ```
 
     ## - - - Processing information - - -
-    ## Data imputation using min Tue Jul 14 08:17:39 2026 
+    ## Data imputation using min Fri Aug  7 14:33:43 2026 
     ##  MSnbase version: 1.15.6
 
 ``` r
@@ -1745,7 +1747,7 @@ x
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Data imputation using mixed Tue Jul 14 08:17:40 2026 
+    ## Data imputation using mixed Fri Aug  7 14:33:43 2026 
     ##  MSnbase version: 1.15.6
 
 Please read `?MsCoreUtils::impute_matix()` for a description of the
@@ -1920,14 +1922,14 @@ qnt2
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Tue Jul 14 08:17:35 2026 
-    ## Spectra cleaned: Tue Jul 14 08:17:36 2026 
-    ## iTRAQ4 quantification by trapezoidation: Tue Jul 14 08:17:38 2026 
-    ## Subset [55,4][54,4] Tue Jul 14 08:17:38 2026 
-    ## Removed features with more than 0 NAs: Tue Jul 14 08:17:38 2026 
-    ## Dropped featureData's levels Tue Jul 14 08:17:38 2026 
-    ## Combined 54 features into 40 using median: Tue Jul 14 08:17:41 2026 
-    ##  MSnbase version: 2.39.4
+    ## Curves <= 400 set to '0': Fri Aug  7 14:33:39 2026 
+    ## Spectra cleaned: Fri Aug  7 14:33:39 2026 
+    ## iTRAQ4 quantification by trapezoidation: Fri Aug  7 14:33:41 2026 
+    ## Subset [55,4][54,4] Fri Aug  7 14:33:41 2026 
+    ## Removed features with more than 0 NAs: Fri Aug  7 14:33:41 2026 
+    ## Dropped featureData's levels Fri Aug  7 14:33:41 2026 
+    ## Combined 54 features into 40 using median: Fri Aug  7 14:33:45 2026 
+    ##  MSnbase version: 2.39.5
 
 Of interest is also the `iPQF` spectra-to-protein summarisation method,
 which integrates peptide spectra characteristics and quantitative values
@@ -2022,12 +2024,12 @@ processingData(siquant)
 ```
 
     ## - - - Processing information - - -
-    ## Data loaded: Tue Jul 14 08:17:34 2026 
-    ## Filtered 2 unidentified peptides out [Tue Jul 14 08:17:35 2026] 
-    ## Quantitation by total ion current [Tue Jul 14 08:17:42 2026] 
-    ## Combined 3 features into 3 using sum: Tue Jul 14 08:17:42 2026 
-    ## Quantification by SIn [Tue Jul 14 08:17:42 2026] 
-    ##  MSnbase version: 2.39.4
+    ## Data loaded: Fri Aug  7 14:33:38 2026 
+    ## Filtered 2 unidentified peptides out [Fri Aug  7 14:33:38 2026] 
+    ## Quantitation by total ion current [Fri Aug  7 14:33:45 2026] 
+    ## Combined 3 features into 3 using sum: Fri Aug  7 14:33:45 2026 
+    ## Quantification by SIn [Fri Aug  7 14:33:45 2026] 
+    ##  MSnbase version: 2.39.5
 
 ``` r
 
@@ -2559,8 +2561,8 @@ exp12
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Combined [27,4] and [24,4] MSnSets Tue Jul 14 08:17:49 2026 
-    ##  MSnbase version: 2.39.4
+    ## Combined [27,4] and [24,4] MSnSets Fri Aug  7 14:33:52 2026 
+    ##  MSnbase version: 2.39.5
 
 In summary, when experiments with different samples need to be combined
 (along the columns), one needs to (1) clarify the sample names using
@@ -2762,31 +2764,31 @@ the `topN` method.
     ## other attached packages:
     ##  [1] gplots_3.3.0         MsDataHub_1.12.0     msdata_0.52.0       
     ##  [4] pRoloc_1.52.0        BiocParallel_1.46.0  MLInterfaces_1.92.0 
-    ##  [7] cluster_2.1.8.2      annotate_1.90.0      XML_3.99-0.23       
+    ##  [7] cluster_2.1.8.3      annotate_1.90.0      XML_3.99-0.23       
     ## [10] AnnotationDbi_1.74.0 IRanges_2.46.0       pRolocdata_1.50.0   
-    ## [13] Rdisop_1.72.0        zoo_1.8-15           MSnbase_2.39.4      
-    ## [16] ProtGenerics_1.44.0  S4Vectors_0.50.1     mzR_2.46.0          
-    ## [19] Rcpp_1.1.2           Biobase_2.72.0       BiocGenerics_0.58.1 
-    ## [22] generics_0.1.4       ggplot2_4.0.3        BiocStyle_2.40.0    
+    ## [13] Rdisop_1.72.0        zoo_1.9-0            MSnbase_2.39.5      
+    ## [16] S4Vectors_0.50.1     Biobase_2.72.0       BiocGenerics_0.58.1 
+    ## [19] generics_0.1.4       mzR_2.46.0           Rcpp_1.1.2          
+    ## [22] ggplot2_4.0.3        BiocStyle_2.40.0    
     ## 
     ## loaded via a namespace (and not attached):
-    ##   [1] splines_4.6.1               bitops_1.0-9               
+    ##   [1] splines_4.6.1               bitops_1.1-0               
     ##   [3] filelock_1.0.3              tibble_3.3.1               
     ##   [5] hardhat_1.4.3               preprocessCore_1.75.0      
     ##   [7] pROC_1.19.0.1               rpart_4.1.27               
-    ##   [9] lifecycle_1.0.5             httr2_1.2.3                
+    ##   [9] lifecycle_1.0.5             httr2_1.3.0                
     ##  [11] doParallel_1.0.17           globals_0.19.1             
-    ##  [13] lattice_0.22-9              MASS_7.3-65                
+    ##  [13] lattice_0.22-9              MASS_7.3-66                
     ##  [15] MultiAssayExperiment_1.38.0 dendextend_1.19.1          
     ##  [17] magrittr_2.0.5              limma_3.68.4               
-    ##  [19] plotly_4.12.0               sass_0.4.10                
+    ##  [19] plotly_4.12.1               sass_0.4.10                
     ##  [21] rmarkdown_2.31              jquerylib_0.1.4            
     ##  [23] yaml_2.3.12                 otel_0.2.0                 
     ##  [25] MsCoreUtils_1.24.0          DBI_1.3.0                  
     ##  [27] RColorBrewer_1.1-3          lubridate_1.9.5            
     ##  [29] abind_1.4-8                 GenomicRanges_1.64.0       
     ##  [31] purrr_1.2.2                 mixtools_2.0.0.1           
-    ##  [33] AnnotationFilter_1.36.0     nnet_7.3-20                
+    ##  [33] AnnotationFilter_1.36.0     nnet_7.3-21                
     ##  [35] rappdirs_0.3.4              ipred_0.9-15               
     ##  [37] lava_1.9.2                  listenv_1.0.0              
     ##  [39] parallelly_1.48.0           pkgdown_2.2.1.9000         
@@ -2806,15 +2808,15 @@ the `topN` method.
     ##  [67] mgcv_1.9-4                  xfun_0.60                  
     ##  [69] MatrixGenerics_1.24.0       dplyr_1.2.1                
     ##  [71] withr_3.0.3                 BiocManager_1.30.27        
-    ##  [73] fastmap_1.2.0               caTools_1.18.3             
+    ##  [73] fastmap_1.2.0               caTools_1.18.4             
     ##  [75] digest_0.6.39               timechange_0.4.0           
     ##  [77] R6_2.6.1                    colorspace_2.1-3           
     ##  [79] textshaping_1.0.5           gtools_3.9.5               
     ##  [81] lpSolve_5.6.23              biomaRt_2.68.0             
     ##  [83] RSQLite_3.53.3              tidyr_1.3.2                
-    ##  [85] hexbin_1.28.5               data.table_1.18.4          
+    ##  [85] hexbin_1.28.6               data.table_1.18.4          
     ##  [87] recipes_1.3.3               FNN_1.1.4.1                
-    ##  [89] class_7.3-23                prettyunits_1.2.0          
+    ##  [89] class_7.3-24                prettyunits_1.2.0          
     ##  [91] PSMatch_1.17.1              httr_1.4.8                 
     ##  [93] htmlwidgets_1.6.4           S4Arrays_1.12.0            
     ##  [95] ModelMetrics_1.2.2.2        pkgconfig_2.0.3            
@@ -2822,36 +2824,37 @@ the `topN` method.
     ##  [99] blob_1.3.0                  S7_0.2.2                   
     ## [101] impute_1.86.0               XVector_0.52.0             
     ## [103] htmltools_0.5.9             bookdown_0.47              
-    ## [105] MALDIquant_1.22.3           clue_0.3-68                
-    ## [107] scales_1.4.0                png_0.1-9                  
-    ## [109] gower_1.0.2                 knitr_1.51                 
-    ## [111] MetaboCoreUtils_1.20.1      reshape2_1.4.5             
-    ## [113] coda_0.19-4.1               nlme_3.1-169               
-    ## [115] curl_7.1.0                  proxy_0.4-29               
-    ## [117] cachem_1.1.0                stringr_1.6.0              
-    ## [119] KernSmooth_2.23-26          BiocVersion_3.23.1         
-    ## [121] parallel_4.6.1              mzID_1.50.0                
-    ## [123] vsn_3.80.0                  desc_1.4.3                 
-    ## [125] pillar_1.11.1               vctrs_0.7.3                
-    ## [127] pcaMethods_2.4.0            randomForest_4.7-1.2       
-    ## [129] dbplyr_2.6.0                xtable_1.8-8               
-    ## [131] evaluate_1.0.5              mvtnorm_1.4-2              
-    ## [133] cli_3.6.6                   compiler_4.6.1             
-    ## [135] rlang_1.3.0                 crayon_1.5.3               
-    ## [137] future.apply_1.20.2         labeling_0.4.3             
-    ## [139] LaplacesDemon_16.1.8        mclust_6.1.3               
-    ## [141] QFeatures_1.22.0            affy_1.90.0                
-    ## [143] plyr_1.8.9                  fs_2.1.0                   
-    ## [145] stringi_1.8.7               viridisLite_0.4.3          
-    ## [147] Biostrings_2.80.1           lazyeval_0.2.3             
-    ## [149] Matrix_1.7-5                ExperimentHub_3.2.0        
-    ## [151] hms_1.1.4                   future_1.70.0              
-    ## [153] bit64_4.8.2                 KEGGREST_1.52.2            
-    ## [155] statmod_1.5.2               AnnotationHub_4.2.2        
-    ## [157] SummarizedExperiment_1.42.0 kernlab_0.9-33             
-    ## [159] igraph_2.3.3                memoise_2.0.1              
-    ## [161] affyio_1.82.0               bslib_0.11.0               
-    ## [163] sampling_2.11               bit_4.6.0
+    ## [105] MALDIquant_1.22.3           ProtGenerics_1.44.0        
+    ## [107] clue_0.3-68                 scales_1.4.0               
+    ## [109] png_0.1-9                   gower_1.0.2                
+    ## [111] knitr_1.51                  MetaboCoreUtils_1.20.1     
+    ## [113] reshape2_1.4.5              coda_0.19-4.1              
+    ## [115] nlme_3.1-170                curl_7.1.0                 
+    ## [117] proxy_0.4-29                cachem_1.1.0               
+    ## [119] stringr_1.6.0               KernSmooth_2.23-26         
+    ## [121] BiocVersion_3.23.1          parallel_4.6.1             
+    ## [123] mzID_1.50.0                 vsn_3.80.0                 
+    ## [125] desc_1.4.3                  pillar_1.11.1              
+    ## [127] vctrs_0.7.3                 pcaMethods_2.4.0           
+    ## [129] randomForest_4.7-1.2        dbplyr_2.6.0               
+    ## [131] xtable_1.8-8                evaluate_1.0.5             
+    ## [133] mvtnorm_1.4-2               cli_3.6.6                  
+    ## [135] compiler_4.6.1              rlang_1.3.0                
+    ## [137] crayon_1.5.3                future.apply_1.20.2        
+    ## [139] labeling_0.4.3              LaplacesDemon_16.1.8       
+    ## [141] mclust_6.1.3                QFeatures_1.22.0           
+    ## [143] affy_1.90.0                 plyr_1.8.9                 
+    ## [145] fs_2.1.0                    stringi_1.8.9              
+    ## [147] viridisLite_0.4.3           Biostrings_2.80.1          
+    ## [149] lazyeval_0.2.3              Matrix_1.7-6               
+    ## [151] ExperimentHub_3.2.0         hms_1.1.4                  
+    ## [153] bit64_4.8.2                 future_1.75.0              
+    ## [155] KEGGREST_1.52.2             statmod_1.5.2              
+    ## [157] AnnotationHub_4.2.2         SummarizedExperiment_1.42.0
+    ## [159] kernlab_0.9-33              igraph_2.3.3               
+    ## [161] memoise_2.0.1               affyio_1.82.0              
+    ## [163] bslib_0.12.0                sampling_2.11              
+    ## [165] bit_4.6.0
 
 ## References
 

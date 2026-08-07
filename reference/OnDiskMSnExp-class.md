@@ -45,10 +45,8 @@ spectrometry data to generate a valid `"OnDiskMSnExp"` instance.
 
 - `spectraProcessingQueue`::
 
-  `list` of
-  [`ProcessingStep`](https://lgatto.github.io/MSnbase/reference/ProcessingStep-class.md)
-  objects defining the functions to be applied *on-the-fly* to the
-  spectra data (M/Z and intensity duplets).
+  `list` of `ProcessingStep` objects defining the functions to be
+  applied *on-the-fly* to the spectra data (M/Z and intensity duplets).
 
 - `assayData`::
 
@@ -1081,9 +1079,9 @@ head(msLevel(odmse))
 #>  Number of spectra: 35 
 #>  MSn retention times: 45:27 - 45:30 minutes
 #> - - - Processing information - - -
-#> Data loaded [Tue Jul 14 08:15:40 2026] 
-#> Filter: select parent/children scans for 21945 [Tue Jul 14 08:15:42 2026] 
-#>  MSnbase version: 2.39.4 
+#> Data loaded [Fri Aug  7 14:31:45 2026] 
+#> Filter: select parent/children scans for 21945 [Fri Aug  7 14:31:46 2026] 
+#>  MSnbase version: 2.39.5 
 #> - - - Meta data  - - -
 #> phenoData
 #>   rowNames: MS3TMT11.mzML
@@ -1113,9 +1111,9 @@ table(msLevel(from1))
 #>  Number of spectra: 3 
 #>  MSn retention times: 45:27 - 45:27 minutes
 #> - - - Processing information - - -
-#> Data loaded [Tue Jul 14 08:15:40 2026] 
-#> Filter: select parent/children scans for 21946 [Tue Jul 14 08:15:42 2026] 
-#>  MSnbase version: 2.39.4 
+#> Data loaded [Fri Aug  7 14:31:45 2026] 
+#> Filter: select parent/children scans for 21946 [Fri Aug  7 14:31:46 2026] 
+#>  MSnbase version: 2.39.5 
 #> - - - Meta data  - - -
 #> phenoData
 #>   rowNames: MS3TMT11.mzML

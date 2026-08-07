@@ -285,6 +285,7 @@
   [`MSnSet`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
   [`acquisitionNum,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
   [`exprs,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
+  [`exprs<-,MSnSet,matrix-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
   [`dim,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
   [`fileNames,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
   [`msInfo,MSnSet-method`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)
@@ -379,6 +380,7 @@
   [`sapply,MSnSetList-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
   [`fData,MSnSetList-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
   [`fData<-,MSnSetList,DataFrame-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
+  [`featureData,MSnSetList-method`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)
   : Storing multiple related MSnSets
 
 - [`MSnbaseOptions()`](https://lgatto.github.io/MSnbase/reference/MSnbaseOptions.md)
@@ -504,13 +506,6 @@
   :
 
   The `OnDiskMSnExp` Class for MS Data And Meta-Data
-
-- [`ProcessingStep-class`](https://lgatto.github.io/MSnbase/reference/ProcessingStep-class.md)
-  [`ProcessingStep:OnDiskMSnExp`](https://lgatto.github.io/MSnbase/reference/ProcessingStep-class.md)
-  [`ProcessingStep`](https://lgatto.github.io/MSnbase/reference/ProcessingStep-class.md)
-  [`show,ProcessingStep-method`](https://lgatto.github.io/MSnbase/reference/ProcessingStep-class.md)
-  [`executeProcessingStep`](https://lgatto.github.io/MSnbase/reference/ProcessingStep-class.md)
-  : Simple processing step class
 
 - [`ReporterIons-class`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
   [`class:ReporterIons`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
@@ -899,6 +894,7 @@
   [`isolationWindowUpperMz`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
   [`isolationWindowLowerMz,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
   [`isolationWindowUpperMz,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
+  [`featureData<-,pSet,AnnotatedDataFrame-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
   [`spectrapply`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
   [`spectrapply,pSet-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)
   [`coerce,AnnotatedDataFrame,list-method`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)

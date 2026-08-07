@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">MSnbase</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.39.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.39.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,7 +73,7 @@ Italy.<br><h4 data-toc-skip class="author">Sebastian
 Gibb</h4>
             <address class="author_afil">
       Department of Anesthesiology and Intensive Care, University
-Medicine Greifswald, Germany.<br><small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/master/vignettes/v05-MSnbase-development.Rmd" class="external-link"><code>vignettes/v05-MSnbase-development.Rmd</code></a></small>
+Medicine Greifswald, Germany.<br><small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/jomain/vignettes/v05-MSnbase-development.Rmd" class="external-link"><code>vignettes/v05-MSnbase-development.Rmd</code></a></small>
       <div class="d-none name"><code>v05-MSnbase-development.Rmd</code></div>
     </address>
 </address>
@@ -89,6 +89,7 @@ Medicine Greifswald, Germany.<br><small class="dont-index">Source: <a href="http
       proteomics data structures.</p>
     </div>
     
+<pre><code><span><span class="co">## No methods found in package 'BiocGenerics' for request: 'scale' when loading 'MSnbase'</span></span></code></pre>
 <div class="section level2">
 <h2 class="unnumbered" id="foreword">Foreword<a class="anchor" aria-label="anchor" href="#foreword"></a>
 </h2>
@@ -166,11 +167,11 @@ definition: <code>f(a = 1, b = 2)</code>.</li>
 <li>Lines should be kept shorter than 80 characters. For example the
 following code isn’t accepted</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># no wrap at 80</span></span>
 <span><span class="va">someVeryLongVariableName</span> <span class="op">&lt;-</span> <span class="fu">someVeryLongFunctionName</span><span class="op">(</span>withSomeEvenLongerFunctionArgumentA <span class="op">=</span> <span class="fl">1</span>, withSomeEvenLongerFunctionArgumentB <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <p>and should be wrapped as shown below:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># alternative 1</span></span>
 <span><span class="va">someVeryLongVariableName</span> <span class="op">&lt;-</span></span>
 <span>    <span class="fu">someVeryLongFunctionName</span><span class="op">(</span>withSomeEvenLongerFunctionArgumentA <span class="op">=</span> <span class="fl">1</span>,</span>
@@ -208,7 +209,7 @@ contains one <code>MSnProcess</code> instance (see the <a href="#MSnProcess"><co
 <code>MIAPE</code> data. The <code>annotation</code> slot has not been
 implemented, as no prior feature annotation is known in shotgun
 proteomics.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"pSet"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Virtual Class "pSet" [package "MSnbase"]</span></span>
 <span><span class="co">## </span></span>
@@ -239,7 +240,7 @@ Accessors and setters are all inherited from <code>pSet</code> and new
 ones should be implemented for <code>pSet</code>. Methods that
 manipulate actual data in experiments are implemented for
 <code>MSnExp</code> objects.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MSnExp"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Class "MSnExp" [package "MSnbase"]</span></span>
 <span><span class="co">## </span></span>
@@ -301,7 +302,7 @@ package).</p>
 intensity values of a spectrum (e.g. sub-setting by retention time etc)
 are very fast as they operate directly to the object’s
 <code>featureData</code> slot.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"OnDiskMSnExp"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Class "OnDiskMSnExp" [package "MSnbase"]</span></span>
 <span><span class="co">## </span></span>
@@ -352,7 +353,7 @@ file.</p>
 annotation slot introduced in the <code>pSet</code> class, namely
 <code>processingData</code> for objects of class
 <code>MSnProcess</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MSnSet"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Class "MSnSet" [package "MSnbase"]</span></span>
 <span><span class="co">## </span></span>
@@ -378,24 +379,24 @@ also of class <code>MIAPE</code> . The <code>annotation</code> slot,
 inherited from <code>eSet</code> is not used. As a result, it is easy to
 convert <code>ExpressionSet</code> data from/to <code>MSnSet</code>
 objects with the coersion method <code>as</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">msnset</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">msnset</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "MSnSet"</span></span>
 <span><span class="co">## attr(,"package")</span></span>
 <span><span class="co">## [1] "MSnbase"</span></span></code></pre>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="fu"><a href="../reference/mzRident2dfr.html">as</a></span><span class="op">(</span><span class="va">msnset</span>, <span class="st">"ExpressionSet"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "ExpressionSet"</span></span>
 <span><span class="co">## attr(,"package")</span></span>
 <span><span class="co">## [1] "Biobase"</span></span></code></pre>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">sample.ExpressionSet</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">sample.ExpressionSet</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "ExpressionSet"</span></span>
 <span><span class="co">## attr(,"package")</span></span>
 <span><span class="co">## [1] "Biobase"</span></span></code></pre>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="fu"><a href="../reference/mzRident2dfr.html">as</a></span><span class="op">(</span><span class="va">sample.ExpressionSet</span>, <span class="st">"MSnSet"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "MSnSet"</span></span>
 <span><span class="co">## attr(,"package")</span></span>
@@ -419,7 +420,7 @@ here.</p>
 version that was in use when the <code>MSnProcess</code> instance, and
 hence the <code>MSnExp</code>/<code>MSnSet</code> objects, were
 originally created.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MSnProcess"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Class "MSnProcess" [package "MSnbase"]</span></span>
 <span><span class="co">## </span></span>
@@ -445,7 +446,7 @@ Experiment<a class="anchor" aria-label="anchor" href="#miape-minimum-information
 <code>MIAPE</code> class describes the experiment, including contact
 details, information about the mass spectrometer and control and
 analysis software.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MIAPE"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Class "MIAPE" [package "MSnbase"]</span></span>
 <span><span class="co">## </span></span>
@@ -508,7 +509,7 @@ analysis software.</p>
 attributes to all types of spectra. MS1 and MS2 specific attributes are
 defined in the <code>Spectrum1</code> and <code>Spectrum2</code>
 classes, that directly extend <code>Spectrum</code>.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"Spectrum"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Virtual Class "Spectrum" [package "MSnbase"]</span></span>
 <span><span class="co">## </span></span>
@@ -529,7 +530,7 @@ classes, that directly extend <code>Spectrum</code>.</p>
 <span><span class="co">## Extends: "Versioned"</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Known Subclasses: "Spectrum2", "Spectrum1"</span></span></code></pre>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"Spectrum1"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Class "Spectrum1" [package "MSnbase"]</span></span>
 <span><span class="co">## </span></span>
@@ -550,7 +551,7 @@ classes, that directly extend <code>Spectrum</code>.</p>
 <span><span class="co">## Extends: </span></span>
 <span><span class="co">## Class "Spectrum", directly</span></span>
 <span><span class="co">## Class "Versioned", by class "Spectrum", distance 2</span></span></code></pre>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"Spectrum2"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Class "Spectrum2" [package "MSnbase"]</span></span>
 <span><span class="co">## </span></span>
@@ -589,7 +590,7 @@ classes, that directly extend <code>Spectrum</code>.</p>
 <code>ReporterIons</code> instances, that essentially defines an
 expected MZ position for the peak and a width around this value as well
 a names for the reporters.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"ReporterIons"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Class "ReporterIons" [package "MSnbase"]</span></span>
 <span><span class="co">## </span></span>
@@ -620,7 +621,7 @@ and retention time dimensions from which the intensities are extracted
 class. <code>MChromatograms</code> objects can be extracted from an
 <code>MSnExp</code> or <code>OnDiskMSnExp</code> object using the
 <code>chromatogram</code> method.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"Chromatogram"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Class "Chromatogram" [package "MSnbase"]</span></span>
 <span><span class="co">## </span></span>
@@ -636,7 +637,7 @@ class. <code>MChromatograms</code> objects can be extracted from an
 <span><span class="co">## Class:           integer          Versions</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Extends: "Versioned"</span></span></code></pre>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MChromatograms"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Class "MChromatograms" [package "MSnbase"]</span></span>
 <span><span class="co">## </span></span>
@@ -667,7 +668,7 @@ as a list into and <code>MSnSetList</code> object. In addition to the
 actual <code>list</code> slot, this class also has basic logging
 functionality and enables iteration over the <code>MSnSet</code>
 instances using a dedicated <code>lapply</code> methods.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/getClass.html" class="external-link">getClass</a></span><span class="op">(</span><span class="st">"MSnSetList"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Class "MSnSetList" [package "MSnbase"]</span></span>
 <span><span class="co">## </span></span>
@@ -702,7 +703,7 @@ instance in the specific method.</p>
 <div class="section level2">
 <h2 id="session-information">Session information<a class="anchor" aria-label="anchor" href="#session-information"></a>
 </h2>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## R version 4.6.1 (2026-06-24)</span></span>
 <span><span class="co">## Platform: x86_64-pc-linux-gnu</span></span>
@@ -728,9 +729,9 @@ instance in the specific method.</p>
 <span><span class="co">## [8] base     </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## other attached packages:</span></span>
-<span><span class="co">## [1] MSnbase_2.39.4      ProtGenerics_1.44.0 S4Vectors_0.50.1   </span></span>
-<span><span class="co">## [4] mzR_2.46.0          Rcpp_1.1.2          Biobase_2.72.0     </span></span>
-<span><span class="co">## [7] BiocGenerics_0.58.1 generics_0.1.4      BiocStyle_2.40.0   </span></span>
+<span><span class="co">## [1] MSnbase_2.39.5      S4Vectors_0.50.1    Biobase_2.72.0     </span></span>
+<span><span class="co">## [4] BiocGenerics_0.58.1 generics_0.1.4      mzR_2.46.0         </span></span>
+<span><span class="co">## [7] Rcpp_1.1.2          BiocStyle_2.40.0   </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## loaded via a namespace (and not attached):</span></span>
 <span><span class="co">##  [1] rlang_1.3.0                 magrittr_2.0.5             </span></span>
@@ -738,49 +739,49 @@ instance in the specific method.</p>
 <span><span class="co">##  [5] matrixStats_1.5.0           compiler_4.6.1             </span></span>
 <span><span class="co">##  [7] PTMods_1.1.1                systemfonts_1.3.2          </span></span>
 <span><span class="co">##  [9] vctrs_0.7.3                 reshape2_1.4.5             </span></span>
-<span><span class="co">## [11] stringr_1.6.0               pkgconfig_2.0.3            </span></span>
-<span><span class="co">## [13] MetaboCoreUtils_1.20.1      fastmap_1.2.0              </span></span>
-<span><span class="co">## [15] XVector_0.52.0              rmarkdown_2.31             </span></span>
-<span><span class="co">## [17] preprocessCore_1.75.0       ragg_1.5.2                 </span></span>
-<span><span class="co">## [19] purrr_1.2.2                 xfun_0.60                  </span></span>
-<span><span class="co">## [21] MultiAssayExperiment_1.38.0 cachem_1.1.0               </span></span>
-<span><span class="co">## [23] jsonlite_2.0.0              DelayedArray_0.38.2        </span></span>
-<span><span class="co">## [25] BiocParallel_1.46.0         parallel_4.6.1             </span></span>
-<span><span class="co">## [27] cluster_2.1.8.2             R6_2.6.1                   </span></span>
-<span><span class="co">## [29] bslib_0.11.0                stringi_1.8.7              </span></span>
-<span><span class="co">## [31] RColorBrewer_1.1-3          limma_3.68.4               </span></span>
-<span><span class="co">## [33] GenomicRanges_1.64.0        jquerylib_0.1.4            </span></span>
-<span><span class="co">## [35] iterators_1.0.14            Seqinfo_1.2.0              </span></span>
-<span><span class="co">## [37] bookdown_0.47               SummarizedExperiment_1.42.0</span></span>
-<span><span class="co">## [39] knitr_1.51                  IRanges_2.46.0             </span></span>
-<span><span class="co">## [41] Matrix_1.7-5                igraph_2.3.3               </span></span>
-<span><span class="co">## [43] tidyselect_1.2.1            abind_1.4-8                </span></span>
-<span><span class="co">## [45] yaml_2.3.12                 doParallel_1.0.17          </span></span>
-<span><span class="co">## [47] codetools_0.2-20            affy_1.90.0                </span></span>
-<span><span class="co">## [49] lattice_0.22-9              tibble_3.3.1               </span></span>
-<span><span class="co">## [51] plyr_1.8.9                  S7_0.2.2                   </span></span>
-<span><span class="co">## [53] evaluate_1.0.5              desc_1.4.3                 </span></span>
-<span><span class="co">## [55] Spectra_1.22.2              pillar_1.11.1              </span></span>
-<span><span class="co">## [57] affyio_1.82.0               BiocManager_1.30.27        </span></span>
-<span><span class="co">## [59] MatrixGenerics_1.24.0       foreach_1.5.2              </span></span>
-<span><span class="co">## [61] MALDIquant_1.22.3           ncdf4_1.24                 </span></span>
-<span><span class="co">## [63] ggplot2_4.0.3               scales_1.4.0               </span></span>
-<span><span class="co">## [65] glue_1.8.1                  lazyeval_0.2.3             </span></span>
-<span><span class="co">## [67] tools_4.6.1                 mzID_1.50.0                </span></span>
-<span><span class="co">## [69] data.table_1.18.4           QFeatures_1.22.0           </span></span>
-<span><span class="co">## [71] vsn_3.80.0                  fs_2.1.0                   </span></span>
-<span><span class="co">## [73] XML_3.99-0.23               grid_4.6.1                 </span></span>
-<span><span class="co">## [75] impute_1.86.0               tidyr_1.3.2                </span></span>
-<span><span class="co">## [77] MsCoreUtils_1.24.0          PSMatch_1.17.1             </span></span>
-<span><span class="co">## [79] cli_3.6.6                   textshaping_1.0.5          </span></span>
-<span><span class="co">## [81] S4Arrays_1.12.0             dplyr_1.2.1                </span></span>
-<span><span class="co">## [83] AnnotationFilter_1.36.0     pcaMethods_2.4.0           </span></span>
-<span><span class="co">## [85] gtable_0.3.6                sass_0.4.10                </span></span>
-<span><span class="co">## [87] digest_0.6.39               SparseArray_1.12.2         </span></span>
-<span><span class="co">## [89] htmlwidgets_1.6.4           farver_2.1.2               </span></span>
-<span><span class="co">## [91] htmltools_0.5.9             pkgdown_2.2.1.9000         </span></span>
-<span><span class="co">## [93] lifecycle_1.0.5             statmod_1.5.2              </span></span>
-<span><span class="co">## [95] MASS_7.3-65</span></span></code></pre>
+<span><span class="co">## [11] stringr_1.6.0               ProtGenerics_1.44.0        </span></span>
+<span><span class="co">## [13] pkgconfig_2.0.3             MetaboCoreUtils_1.20.1     </span></span>
+<span><span class="co">## [15] fastmap_1.2.0               XVector_0.52.0             </span></span>
+<span><span class="co">## [17] rmarkdown_2.31              preprocessCore_1.75.0      </span></span>
+<span><span class="co">## [19] ragg_1.5.2                  purrr_1.2.2                </span></span>
+<span><span class="co">## [21] xfun_0.60                   MultiAssayExperiment_1.38.0</span></span>
+<span><span class="co">## [23] cachem_1.1.0                jsonlite_2.0.0             </span></span>
+<span><span class="co">## [25] DelayedArray_0.38.2         BiocParallel_1.46.0        </span></span>
+<span><span class="co">## [27] parallel_4.6.1              cluster_2.1.8.3            </span></span>
+<span><span class="co">## [29] R6_2.6.1                    bslib_0.12.0               </span></span>
+<span><span class="co">## [31] stringi_1.8.9               RColorBrewer_1.1-3         </span></span>
+<span><span class="co">## [33] limma_3.68.4                GenomicRanges_1.64.0       </span></span>
+<span><span class="co">## [35] jquerylib_0.1.4             iterators_1.0.14           </span></span>
+<span><span class="co">## [37] Seqinfo_1.2.0               bookdown_0.47              </span></span>
+<span><span class="co">## [39] SummarizedExperiment_1.42.0 knitr_1.51                 </span></span>
+<span><span class="co">## [41] IRanges_2.46.0              Matrix_1.7-6               </span></span>
+<span><span class="co">## [43] igraph_2.3.3                tidyselect_1.2.1           </span></span>
+<span><span class="co">## [45] abind_1.4-8                 yaml_2.3.12                </span></span>
+<span><span class="co">## [47] doParallel_1.0.17           codetools_0.2-20           </span></span>
+<span><span class="co">## [49] affy_1.90.0                 lattice_0.22-9             </span></span>
+<span><span class="co">## [51] tibble_3.3.1                plyr_1.8.9                 </span></span>
+<span><span class="co">## [53] S7_0.2.2                    evaluate_1.0.5             </span></span>
+<span><span class="co">## [55] desc_1.4.3                  Spectra_1.22.2             </span></span>
+<span><span class="co">## [57] pillar_1.11.1               affyio_1.82.0              </span></span>
+<span><span class="co">## [59] BiocManager_1.30.27         MatrixGenerics_1.24.0      </span></span>
+<span><span class="co">## [61] foreach_1.5.2               MALDIquant_1.22.3          </span></span>
+<span><span class="co">## [63] ncdf4_1.24                  ggplot2_4.0.3              </span></span>
+<span><span class="co">## [65] scales_1.4.0                glue_1.8.1                 </span></span>
+<span><span class="co">## [67] lazyeval_0.2.3              tools_4.6.1                </span></span>
+<span><span class="co">## [69] mzID_1.50.0                 data.table_1.18.4          </span></span>
+<span><span class="co">## [71] QFeatures_1.22.0            vsn_3.80.0                 </span></span>
+<span><span class="co">## [73] fs_2.1.0                    XML_3.99-0.23              </span></span>
+<span><span class="co">## [75] grid_4.6.1                  impute_1.86.0              </span></span>
+<span><span class="co">## [77] tidyr_1.3.2                 MsCoreUtils_1.24.0         </span></span>
+<span><span class="co">## [79] PSMatch_1.17.1              cli_3.6.6                  </span></span>
+<span><span class="co">## [81] textshaping_1.0.5           S4Arrays_1.12.0            </span></span>
+<span><span class="co">## [83] dplyr_1.2.1                 AnnotationFilter_1.36.0    </span></span>
+<span><span class="co">## [85] pcaMethods_2.4.0            gtable_0.3.6               </span></span>
+<span><span class="co">## [87] sass_0.4.10                 digest_0.6.39              </span></span>
+<span><span class="co">## [89] SparseArray_1.12.2          htmlwidgets_1.6.4          </span></span>
+<span><span class="co">## [91] farver_2.1.2                htmltools_0.5.9            </span></span>
+<span><span class="co">## [93] pkgdown_2.2.1.9000          lifecycle_1.0.5            </span></span>
+<span><span class="co">## [95] statmod_1.5.2               MASS_7.3-66</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>

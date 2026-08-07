@@ -2,6 +2,10 @@
 
 ## MSnbase 2.39
 
+### MSnbase 2.39.5
+
+- Use selective import from ProtGenerics and BiocGenerics.
+
 ### MSnbase 2.39.4
 
 - Move more tests to longtests.

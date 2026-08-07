@@ -9,7 +9,7 @@ noise) for the same ion in consecutive scans of a LCMS experiment."></head><body
 
     <a class="navbar-brand me-2" href="../index.html">MSnbase</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.39.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.39.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +39,7 @@ noise) for the same ion in consecutive scans of a LCMS experiment."></head><body
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Estimate m/z scattering in consecutive scans</h1>
-      <small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/master/R/functions-MSnExp.R" class="external-link"><code>R/functions-MSnExp.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/jomain/R/functions-MSnExp.R" class="external-link"><code>R/functions-MSnExp.R</code></a></small>
       <div class="d-none name"><code>estimateMzScattering.Rd</code></div>
     </div>
 
@@ -112,11 +112,11 @@ profile-mode spectrum's m/z resolution from it's data.</p></div>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">estimateMzScattering</span><span class="op">(</span><span class="va">im</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Plot the distribution of estimated m/z scattering</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="plot-methods.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plot-methods.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/density.html" class="external-link">density</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Compare the m/z resolution and m/z scattering of the spectrum with the</span></span></span>
 <span class="r-in"><span><span class="co">## most peaks</span></span></span>
-<span class="r-in"><span><span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="pSet-class.html">spectrapply</a></span><span class="op">(</span><span class="va">im</span>, <span class="va">peaksCount</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="pSet-class.html">spectrapply</a></span><span class="op">(</span><span class="va">im</span>, <span class="va">peaksCount</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">res</span><span class="op">[[</span><span class="va">idx</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0006662792</span>

@@ -17,7 +17,7 @@ NA for the standard deviation, see example below)."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">MSnbase</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.39.4</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.39.5</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,14 +47,14 @@ NA for the standard deviation, see example below)."></head><body>
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Non-parametric coefficient of variation</h1>
-      <small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/master/R/utils.R" class="external-link"><code>R/utils.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/lgatto/MSnbase/blob/jomain/R/utils.R" class="external-link"><code>R/utils.R</code></a></small>
       <div class="d-none name"><code>npcv.Rd</code></div>
     </div>
 
     <div class="ref-description section level2">
     <p>Calculates a non-parametric version of the coefficient of
 variation where the standard deviation is replaced by the median
-absolute deviations (see <code>mad</code> for details) and
+absolute deviations (see <code><a href="https://rdrr.io/r/stats/mad.html" class="external-link">mad</a></code> for details) and
 divided by the absolute value of the mean.</p>
 <p>Note that the <code>mad</code> of a single value is 0 (as opposed to
 <code>NA</code> for the standard deviation, see example below).</p>
@@ -98,9 +98,9 @@ of the median absolute deviation and mean.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [8]  6.049891 11.716089  3.265193</span>
 <span class="r-in"><span><span class="fu">npcv</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-in"><span><span class="fu">mad</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/mad.html" class="external-link">mad</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-in"><span><span class="fu">sd</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] NA</span>
 </code></pre></div>
     </div>

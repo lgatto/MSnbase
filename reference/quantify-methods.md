@@ -198,7 +198,7 @@ msnset
 #> - - - Processing information - - -
 #> Data loaded: Wed May 11 18:54:39 2011 
 #> Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-#> iTRAQ4 quantification by trapezoidation: Tue Jul 14 08:16:45 2026 
+#> iTRAQ4 quantification by trapezoidation: Fri Aug  7 14:32:49 2026 
 #>  MSnbase version: 1.1.22 
 
 ## specifying a custom parallel framework
@@ -235,12 +235,12 @@ fData(msexp)$DatabaseAccess
 si <- quantify(msexp, method = "SIn")
 processingData(si)
 #> - - - Processing information - - -
-#> Data loaded: Tue Jul 14 08:16:46 2026 
-#> Filtered 2 unidentified peptides out [Tue Jul 14 08:16:46 2026] 
-#> Quantitation by total ion current [Tue Jul 14 08:16:46 2026] 
-#> Combined 3 features into 3 using sum: Tue Jul 14 08:16:46 2026 
-#> Quantification by SIn [Tue Jul 14 08:16:46 2026] 
-#>  MSnbase version: 2.39.4 
+#> Data loaded: Fri Aug  7 14:32:50 2026 
+#> Filtered 2 unidentified peptides out [Fri Aug  7 14:32:50 2026] 
+#> Quantitation by total ion current [Fri Aug  7 14:32:50 2026] 
+#> Combined 3 features into 3 using sum: Fri Aug  7 14:32:51 2026 
+#> Quantification by SIn [Fri Aug  7 14:32:51 2026] 
+#>  MSnbase version: 2.39.5 
 exprs(si)
 #>         dummyiTRAQ.mzXML
 #> ECA0510     0.0006553518
@@ -250,13 +250,13 @@ exprs(si)
 saf <- quantify(msexp, method = "NSAF")
 processingData(saf)
 #> - - - Processing information - - -
-#> Data loaded: Tue Jul 14 08:16:46 2026 
-#> Filtered 2 unidentified peptides out [Tue Jul 14 08:16:46 2026] 
-#> Filtered 0 unidentified peptides out [Tue Jul 14 08:16:46 2026] 
-#> Quantitation by count [Tue Jul 14 08:16:46 2026] 
-#> Combined 3 features into 3 using user-defined function: Tue Jul 14 08:16:46 2026 
-#> Quantification by NSAF [Tue Jul 14 08:16:46 2026] 
-#>  MSnbase version: 2.39.4 
+#> Data loaded: Fri Aug  7 14:32:50 2026 
+#> Filtered 2 unidentified peptides out [Fri Aug  7 14:32:51 2026] 
+#> Filtered 0 unidentified peptides out [Fri Aug  7 14:32:51 2026] 
+#> Quantitation by count [Fri Aug  7 14:32:51 2026] 
+#> Combined 3 features into 3 using user-defined function: Fri Aug  7 14:32:51 2026 
+#> Quantification by NSAF [Fri Aug  7 14:32:51 2026] 
+#>  MSnbase version: 2.39.5 
 exprs(saf)
 #>         dummyiTRAQ.mzXML
 #> ECA0510        0.4306167
