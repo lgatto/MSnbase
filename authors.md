@@ -45,7 +45,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/lgatto/MSnbase/blob/jomain/inst/CITATION)
+[`inst/CITATION`](https://github.com/lgatto/MSnbase/blob/master/inst/CITATION)
 
 Laurent Gatto and Kathryn S. Lilley. MSnbase - an R/Bioconductor package
 for isobaric tagged mass spectrometry data visualization, processing and
