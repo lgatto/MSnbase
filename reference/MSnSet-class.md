@@ -585,7 +585,7 @@ if (require("SummarizedExperiment")) {
 #> - - - Processing information - - -
 #> Data loaded: Wed May 11 18:54:39 2011 
 #> iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#> Subset [55,4][6,4] Fri Aug  7 14:31:28 2026 
+#> Subset [55,4][6,4] Fri Aug  7 14:32:56 2026 
 #>  MSnbase version: 1.1.22 
 
 as(msnset, "ExpressionSet")
