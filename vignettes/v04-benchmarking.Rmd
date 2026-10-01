@@ -39,7 +39,7 @@ As a benchmarking dataset, we are going to use a subset of an TMT
 6-plex experiment acquired on an LTQ Orbitrap Velos, that is
 distributed with the `r Biocexptpkg("MsDataHub")` package
 
-```{r msdata}
+```{r msdatahub}
 library("MsDataHub")
 f <- TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz()
 ```
