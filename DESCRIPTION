@@ -108,6 +108,7 @@ Suggests:
     pRoloc,
     pRolocdata (>= 1.43.3),
     magick,
+    msdata,
     MsDataHub,
     roxygen2,
     rgl,

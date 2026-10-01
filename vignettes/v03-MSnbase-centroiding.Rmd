@@ -197,7 +197,7 @@ centroided data for serine.
 ```{r smoothSG-pp-serine, warning = FALSE, fig.align = "center", fig.cap = "Centroided data for serine after smoothing with a Savitzky-Golay filter."}
 
 data_sg_cent <- data_sg |>
-    pickPeaks |>
+    pickPeaks() |>
     filterRt(rtr) |>
     filterMz(mzr)
 
