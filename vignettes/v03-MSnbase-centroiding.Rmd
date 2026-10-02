@@ -211,7 +211,7 @@ the centroided data of serine as well as proline as can be seen below.
 
 ```{r smoothSG-pp-proline, warning = FALSE, fig.align = "center", fig.cap = "Centroided data for proline after smoothing with a Savitzky-Golay filter."}
 prol_sg_cent <- data_sg |>
-    pickPeaks |>
+    pickPeaks() |>
     filterRt(prol_rtr) |>
     filterMz(prol_mzr)
 

@@ -1031,7 +1031,7 @@ chromatographic data for the same polarity, precursor and product m/z. In the
 example code below we load a single SRM file using `readSRMData`.
 
 ```{r readSRMData, echo = TRUE, warning = FALSE}
-fl <- proteomics(full.names = TRUE, pattern = "MRM")
+fl <- MsDataHub::MRM.standmix.5.mzML()
 srm <- readSRMData(fl)
 
 srm
