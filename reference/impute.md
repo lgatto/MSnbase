@@ -79,7 +79,7 @@ impute(naset, method = "min")
 #> experimentData: use 'experimentData(object)'
 #> Annotation:  
 #> - - - Processing information - - -
-#> Data imputation using min Fri Aug  7 15:21:38 2026 
+#> Data imputation using min Fri Oct  2 05:55:56 2026 
 #>  MSnbase version: 1.15.6 
 
 if (require("imputeLCMD")) {
@@ -131,7 +131,7 @@ if (require("imputeLCMD")) {
 #> experimentData: use 'experimentData(object)'
 #> Annotation:  
 #> - - - Processing information - - -
-#> Data imputation using MinDet Fri Aug  7 15:21:39 2026 
+#> Data imputation using MinDet Fri Oct  2 05:55:57 2026 
 #>  MSnbase version: 1.15.6 
 
 if (require("norm"))
@@ -155,7 +155,7 @@ if (require("norm"))
 #> experimentData: use 'experimentData(object)'
 #> Annotation:  
 #> - - - Processing information - - -
-#> Data imputation using MLE Fri Aug  7 15:21:39 2026 
+#> Data imputation using MLE Fri Oct  2 05:55:57 2026 
 #>  MSnbase version: 1.15.6 
 
 impute(naset, "mixed",
@@ -178,7 +178,7 @@ impute(naset, "mixed",
 #> experimentData: use 'experimentData(object)'
 #> Annotation:  
 #> - - - Processing information - - -
-#> Data imputation using mixed Fri Aug  7 15:21:39 2026 
+#> Data imputation using mixed Fri Oct  2 05:55:57 2026 
 #>  MSnbase version: 1.15.6 
 
 

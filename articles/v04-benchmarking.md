@@ -18,11 +18,9 @@ experiment acquired on an LTQ Orbitrap Velos, that is distributed with
 the *[MsDataHub](https://bioconductor.org/packages/3.23/MsDataHub)*
 package
 
-``` r
-
-library("MsDataHub")
-f <- TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz()
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"MsDataHub"`](https://rformassspectrometry.github.io/MsDataHub)`)`\
+`f`` ``<-`` `[`TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzML.gz`](https://rformassspectrometry.github.io/MsDataHub/reference/PXD000001.html)`(``)`
 
     ## see ?MsDataHub and browseVignettes('MsDataHub') for documentation
 
@@ -32,11 +30,9 @@ We need to load the
 *[MSnbase](https://bioconductor.org/packages/3.23/MSnbase)* package and
 set the session-wide verbosity flag to `FALSE`.
 
-``` r
-
-library("MSnbase")
-setMSnbaseVerbose(FALSE)
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"MSnbase"`](https://lgatto.github.io/MSnbase)`)`\
+[`setMSnbaseVerbose`](https://lgatto.github.io/MSnbase/reference/MSnbaseOptions.md)`(``FALSE``)`
 
 ## Benchmarking
 
@@ -47,38 +43,32 @@ function by setting the `mode` argument to `"inMemory"` to generates an
 in-memory representation of the MS2-level raw data and measure the time
 needed for this operation.
 
-``` r
-
-system.time(inmem <- readMSData(f, msLevel. = 2,
-                                mode = "inMemory",
-                                centroided. = TRUE))
-```
+\
+[`system.time`](https://rdrr.io/r/base/system.time.html)`(``inmem`` ``<-`` `[`readMSData`](https://lgatto.github.io/MSnbase/reference/readMSData.md)`(``f``, msLevel. ``=`` ``2``,`\
+`                                mode ``=`` ``"inMemory"``,`\
+`                                centroided. ``=`` ``TRUE``)``)`
 
     ##    user  system elapsed 
-    ##  41.512   0.355  41.695
+    ##  41.062   0.371  41.262
 
 Next, we use the `readMSData` function to generate an on-disk
 representation of the same data by setting `mode = "onDisk"`.
 
-``` r
-
-system.time(ondisk <- readMSData(f, msLevel. = 2,
-                                  mode = "onDisk",
-                                  centroided. = TRUE))
-```
+\
+[`system.time`](https://rdrr.io/r/base/system.time.html)`(``ondisk`` ``<-`` `[`readMSData`](https://lgatto.github.io/MSnbase/reference/readMSData.md)`(``f``, msLevel. ``=`` ``2``,`\
+`                                  mode ``=`` ``"onDisk"``,`\
+`                                  centroided. ``=`` ``TRUE``)``)`
 
     ##    user  system elapsed 
-    ##   9.849   0.209   9.897
+    ##   9.792   0.205   9.834
 
 Creating the on-disk experiment is considerable faster and scales to
 much bigger, multi-file data, both in terms of object creation time, but
 also in terms of object size (see next section). We must of course make
 sure that these two datasets are equivalent:
 
-``` r
-
-all.equal(inmem, ondisk)
-```
+\
+[`all.equal`](https://rdrr.io/r/base/all.equal.html)`(``inmem``, ``ondisk``)`
 
     ## [1] TRUE
 
@@ -89,17 +79,13 @@ going to use the `object.size` function, which accounts for the data
 (the spectra) in the `assayData` environment (as opposed to the
 `object.size` function from the `utils` package).
 
-``` r
-
-print(object.size(inmem), units = "MiB")
-```
+\
+[`print`](https://rdrr.io/r/base/print.html)`(`[`object.size`](https://rdrr.io/r/utils/object.size.html)`(``inmem``)``, units ``=`` ``"MiB"``)`
 
     ## 0.5 MiB
 
-``` r
-
-print(object.size(ondisk), units = "MiB")
-```
+\
+[`print`](https://rdrr.io/r/base/print.html)`(`[`object.size`](https://rdrr.io/r/utils/object.size.html)`(``ondisk``)``, units ``=`` ``"MiB"``)`
 
     ## 2.8 MiB
 
@@ -107,11 +93,9 @@ The difference is explained by the fact that for `ondisk`, the spectra
 are not created and stored in memory; they are access on disk when
 needed, such as for example for plotting:
 
-``` r
-
-plot(inmem[[200]], full = TRUE)
-plot(ondisk[[200]], full = TRUE)
-```
+\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``inmem``[[``200``]``]``, full ``=`` ``TRUE``)`\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``ondisk``[[``200``]``]``, full ``=`` ``TRUE``)`
 
 ![Plotting in-memory and on-disk
 spectra](v04-benchmarking_files/figure-html/plot1-1.png)
@@ -127,28 +111,26 @@ and repeat access 10 times to compare access to all 6103 and a single
 spectrum in-memory (i.e. pre-loaded and constructed) and on-disk
 (i.e. on-the-fly access).
 
-``` r
-
-library("microbenchmark")
-mb <- microbenchmark(spectra(inmem),
-                     inmem[[200]],
-                     spectra(ondisk),
-                     ondisk[[200]],
-                     times = 10)
-mb
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"microbenchmark"`](https://github.com/joshuaulrich/microbenchmark/)`)`\
+`mb`` ``<-`` `[`microbenchmark`](https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html)`(`[`spectra`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)`(``inmem``)``,`\
+`                     ``inmem``[[``200``]``]``,`\
+`                     `[`spectra`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)`(``ondisk``)``,`\
+`                     ``ondisk``[[``200``]``]``,`\
+`                     times ``=`` ``10``)`\
+`mb`
 
     ## Unit: microseconds
     ##             expr         min          lq         mean      median          uq
-    ##   spectra(inmem)     910.929    1123.365    1683.5052    1901.277    2018.100
-    ##     inmem[[200]]      21.232      22.694      61.4641      61.005      84.025
-    ##  spectra(ondisk) 3992747.053 4021374.812 4045300.6269 4043784.412 4069670.943
-    ##    ondisk[[200]] 1595582.294 1612854.625 1617147.0656 1615447.373 1623815.435
+    ##   spectra(inmem)     922.239    1434.270    1764.1386    1916.486    2024.046
+    ##     inmem[[200]]      20.170      22.363      62.5161      57.170      81.742
+    ##  spectra(ondisk) 4004717.471 4020451.792 4734164.1678 4037820.935 5795670.019
+    ##    ondisk[[200]] 1597398.145 1609258.647 1619363.0977 1619704.890 1628712.366
     ##          max neval
-    ##     2171.627    10
-    ##      120.459    10
-    ##  4093764.455    10
-    ##  1646932.835    10
+    ##     2371.571    10
+    ##      134.180    10
+    ##  5816314.962    10
+    ##  1640935.447    10
 
 While it takes order or magnitudes more time to access the data
 on-the-fly rather than a pre-generated spectrum, accessing all spectra
@@ -169,22 +151,18 @@ example, as it is about 1/2 seconds, which is an operation that is
 relatively rare, compared to subsetting and filtering, which are faster
 for on-disk data:
 
-``` r
-
-i <- sample(length(inmem), 100)
-system.time(inmem[i])
-```
+\
+`i`` ``<-`` `[`sample`](https://rdrr.io/r/base/sample.html)`(`[`length`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)`(``inmem``)``, ``100``)`\
+[`system.time`](https://rdrr.io/r/base/system.time.html)`(``inmem``[``i``]``)`
 
     ##    user  system elapsed 
-    ##   0.132   0.000   0.132
+    ##   0.133   0.001   0.134
 
-``` r
-
-system.time(ondisk[i])
-```
+\
+[`system.time`](https://rdrr.io/r/base/system.time.html)`(``ondisk``[``i``]``)`
 
     ##    user  system elapsed 
-    ##    0.01    0.00    0.01
+    ##   0.011   0.000   0.010
 
 Operations on the spectra data, such as peak picking, smoothing,
 cleaning, … are cleverly cached and only applied when the data is
@@ -198,28 +176,22 @@ Below, we perform TMT 6-plex reporter ions quantitation on the first 100
 spectra and verify that the results are identical (ignoring feature
 names).
 
-``` r
-
-system.time(eim <- quantify(inmem[1:100], reporters = TMT6,
-                            method = "max"))
-```
+\
+[`system.time`](https://rdrr.io/r/base/system.time.html)`(``eim`` ``<-`` `[`quantify`](https://lgatto.github.io/MSnbase/reference/quantify-methods.md)`(``inmem``[``1``:``100``]``, reporters ``=`` ``TMT6``,`\
+`                            method ``=`` ``"max"``)``)`
 
     ##    user  system elapsed 
-    ##   2.704   1.795   1.408
+    ##   2.114   1.223   1.428
 
-``` r
-
-system.time(eod <- quantify(ondisk[1:100], reporters = TMT6,
-                            method = "max"))
-```
+\
+[`system.time`](https://rdrr.io/r/base/system.time.html)`(``eod`` ``<-`` `[`quantify`](https://lgatto.github.io/MSnbase/reference/quantify-methods.md)`(``ondisk``[``1``:``100``]``, reporters ``=`` ``TMT6``,`\
+`                            method ``=`` ``"max"``)``)`
 
     ##    user  system elapsed 
-    ##   1.666   0.215   1.785
+    ##   1.677   0.267   1.812
 
-``` r
-
-all.equal(eim, eod, check.attributes = FALSE)
-```
+\
+[`all.equal`](https://rdrr.io/r/base/all.equal.html)`(``eim``, ``eod``, check.attributes ``=`` ``FALSE``)`
 
     ## [1] TRUE
 
@@ -269,7 +241,5 @@ For general functionality about the on-disk `MSnExp` data class and
 *[MSnbase](https://bioconductor.org/packages/3.23/MSnbase)* in general,
 see other vignettes available with
 
-``` r
-
-vignette(package = "MSnbase")
-```
+\
+[`vignette`](https://rdrr.io/r/utils/vignette.html)`(``package ``=`` ``"MSnbase"``)`

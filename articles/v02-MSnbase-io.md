@@ -159,15 +159,13 @@ uses example files from the
 We start by describing the `csv` to be used as input using the
 `read.csv` function.
 
-``` r
-
-## The original data for replicate 1, available
-## from the pRolocdata package
-f0 <- dir(system.file("extdata", package = "pRolocdata"),
-          full.names = TRUE,
-          pattern = "pr800866n_si_004-rep1.csv")
-csv <- read.csv(f0)
-```
+\
+`## The original data for replicate 1, available`\
+`## from the pRolocdata package`\
+`f0`` ``<-`` `[`dir`](https://rdrr.io/r/base/list.files.html)`(`[`system.file`](https://rdrr.io/r/base/system.file.html)`(``"extdata"``, package ``=`` ``"pRolocdata"``)``,`\
+`          full.names ``=`` ``TRUE``,`\
+`          pattern ``=`` ``"pr800866n_si_004-rep1.csv"``)`\
+`csv`` ``<-`` `[`read.csv`](https://rdrr.io/r/utils/read.table.html)`(``f0``)`
 
 The three first lines of the original spreadsheet, containing the data
 for replicate one, are illustrated below (using the function `head`). It
@@ -175,10 +173,8 @@ contains 888 rows (proteins) and 16 columns, including protein
 identifiers, database accession numbers, gene symbols, reporter ion
 quantitation values, information related to protein identification, …
 
-``` r
-
-head(csv, n=3)
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(``csv``, n``=``3``)`
 
     ##   Protein.ID        FBgn Flybase.Symbol No..peptide.IDs Mascot.score
     ## 1    CG10060 FBgn0001104    G-ialpha65A               3       179.86
@@ -201,29 +197,25 @@ Below read in turn the spread sheets that contain the quantitation data
 (`exprsFile.csv`), feature meta-data (`fdataFile.csv`) and sample
 meta-data (`pdataFile.csv`).
 
-``` r
-
-## The quantitation data, from the original data
-f1 <- dir(system.file("extdata", package = "pRolocdata"),
-          full.names = TRUE, pattern = "exprsFile.csv")
-exprsCsv <- read.csv(f1)
-## Feature meta-data, from the original data
-f2 <- dir(system.file("extdata", package = "pRolocdata"),
-          full.names = TRUE, pattern = "fdataFile.csv")
-fdataCsv <- read.csv(f2)
-## Sample meta-data, a new file
-f3 <- dir(system.file("extdata", package = "pRolocdata"),
-          full.names = TRUE, pattern = "pdataFile.csv")
-pdataCsv <- read.csv(f3)
-```
+\
+`## The quantitation data, from the original data`\
+`f1`` ``<-`` `[`dir`](https://rdrr.io/r/base/list.files.html)`(`[`system.file`](https://rdrr.io/r/base/system.file.html)`(``"extdata"``, package ``=`` ``"pRolocdata"``)``,`\
+`          full.names ``=`` ``TRUE``, pattern ``=`` ``"exprsFile.csv"``)`\
+`exprsCsv`` ``<-`` `[`read.csv`](https://rdrr.io/r/utils/read.table.html)`(``f1``)`\
+`## Feature meta-data, from the original data`\
+`f2`` ``<-`` `[`dir`](https://rdrr.io/r/base/list.files.html)`(`[`system.file`](https://rdrr.io/r/base/system.file.html)`(``"extdata"``, package ``=`` ``"pRolocdata"``)``,`\
+`          full.names ``=`` ``TRUE``, pattern ``=`` ``"fdataFile.csv"``)`\
+`fdataCsv`` ``<-`` `[`read.csv`](https://rdrr.io/r/utils/read.table.html)`(``f2``)`\
+`## Sample meta-data, a new file`\
+`f3`` ``<-`` `[`dir`](https://rdrr.io/r/base/list.files.html)`(`[`system.file`](https://rdrr.io/r/base/system.file.html)`(``"extdata"``, package ``=`` ``"pRolocdata"``)``,`\
+`          full.names ``=`` ``TRUE``, pattern ``=`` ``"pdataFile.csv"``)`\
+`pdataCsv`` ``<-`` `[`read.csv`](https://rdrr.io/r/utils/read.table.html)`(``f3``)`
 
 `exprsFile.csv` contains the quantitation (expression) data for the 888
 proteins and 4 reporter tags.
 
-``` r
-
-head(exprsCsv, n = 3)
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(``exprsCsv``, n ``=`` ``3``)`
 
     ##          FBgn     X114     X115     X116     X117
     ## 1 FBgn0001104 0.379000 0.281000 0.225000 0.114000
@@ -232,10 +224,8 @@ head(exprsCsv, n = 3)
 
 `fdataFile.csv` contains meta-data for the 888 features (here proteins).
 
-``` r
-
-head(fdataCsv, n = 3)
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(``fdataCsv``, n ``=`` ``3``)`
 
     ##          FBgn ProteinID FlybaseSymbol NoPeptideIDs MascotScore
     ## 1 FBgn0001104   CG10060   G-ialpha65A            3      179.86
@@ -249,10 +239,8 @@ head(fdataCsv, n = 3)
 `pdataFile.csv` contains samples (here fractions) meta-data. This simple
 file has been created manually.
 
-``` r
-
-pdataCsv
-```
+\
+`pdataCsv`
 
     ##   sampleNames Fractions
     ## 1        X114       4/5
@@ -265,15 +253,13 @@ The self-contained `MSnSet` can now easily be generated using the
 shown above and specifying that the data is comma-separated (with
 `sep = ","`). Below, we call that object `res` and display its content.
 
-``` r
-
-library("MSnbase")
-res <- readMSnSet(exprsFile = f1,
-                  featureDataFile = f2,
-                  phenoDataFile = f3,
-                  sep = ",")
-res
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"MSnbase"`](https://lgatto.github.io/MSnbase)`)`\
+`res`` ``<-`` `[`readMSnSet`](https://lgatto.github.io/MSnbase/reference/readMSnSet.md)`(``exprsFile ``=`` ``f1``,`\
+`                  featureDataFile ``=`` ``f2``,`\
+`                  phenoDataFile ``=`` ``f3``,`\
+`                  sep ``=`` ``","``)`\
+`res`
 
     ## MSnSet (storageMode: lockedEnvironment)
     ## assayData: 888 features, 4 samples 
@@ -290,8 +276,8 @@ res
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Quantitation data loaded: Fri Aug  7 15:23:13 2026  using readMSnSet. 
-    ##  MSnbase version: 2.39.5
+    ## Quantitation data loaded: Fri Oct  2 05:57:31 2026  using readMSnSet. 
+    ##  MSnbase version: 2.39.6
 
 #### The `MSnSet` class
 
@@ -338,13 +324,11 @@ Special characters like `'-'` or `'('` will be transformed by R into
 column to be used as feature names. Note that these must be unique to
 guarantee the final object validity.
 
-``` r
-
-ecol <- paste("area", 114:117, sep = ".")
-fname <- "Protein.ID"
-eset <- readMSnSet2(f0, ecol, fname)
-eset
-```
+\
+`ecol`` ``<-`` `[`paste`](https://rdrr.io/r/base/paste.html)`(``"area"``, ``114``:``117``, sep ``=`` ``"."``)`\
+`fname`` ``<-`` ``"Protein.ID"`\
+`eset`` ``<-`` `[`readMSnSet2`](https://lgatto.github.io/MSnbase/reference/readMSnSet.md)`(``f0``, ``ecol``, ``fname``)`\
+`eset`
 
     ## MSnSet (storageMode: lockedEnvironment)
     ## assayData: 888 features, 4 samples 
@@ -358,7 +342,7 @@ eset
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ##  MSnbase version: 2.39.5
+    ##  MSnbase version: 2.39.6
 
 The `ecol` columns can also be queried interactively from R using the
 `getEcols` and `grepEcols` function. The former return a character with
@@ -367,10 +351,8 @@ of the spreadsheet (typically `","` for `csv`, `"\t"` for `tsv`, …). The
 latter can be used to grep a pattern of interest to obtain the relevant
 column indices.
 
-``` r
-
-getEcols(f0, ",")
-```
+\
+[`getEcols`](https://lgatto.github.io/MSnbase/reference/grepEcols.md)`(``f0``, ``","``)`
 
     ##  [1] "\"Protein ID\""              "\"FBgn\""                   
     ##  [3] "\"Flybase Symbol\""          "\"No. peptide IDs\""        
@@ -381,18 +363,14 @@ getEcols(f0, ",")
     ## [13] "\"Precursor ion mass\""      "\"Precursor ion charge\""   
     ## [15] "\"pd.2013\""                 "\"pd.markers\""
 
-``` r
-
-grepEcols(f0, "area", ",")
-```
+\
+[`grepEcols`](https://lgatto.github.io/MSnbase/reference/grepEcols.md)`(``f0``, ``"area"``, ``","``)`
 
     ## [1]  7  8  9 10
 
-``` r
-
-e <- grepEcols(f0, "area", ",")
-readMSnSet2(f0, e)
-```
+\
+`e`` ``<-`` `[`grepEcols`](https://lgatto.github.io/MSnbase/reference/grepEcols.md)`(``f0``, ``"area"``, ``","``)`\
+[`readMSnSet2`](https://lgatto.github.io/MSnbase/reference/readMSnSet.md)`(``f0``, ``e``)`
 
     ## MSnSet (storageMode: lockedEnvironment)
     ## assayData: 888 features, 4 samples 
@@ -406,7 +384,7 @@ readMSnSet2(f0, e)
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ##  MSnbase version: 2.39.5
+    ##  MSnbase version: 2.39.6
 
 The `phenoData` slot can now be updated accordingly using the
 replacement functions `phenoData<-` or `pData<-` (see
@@ -415,10 +393,8 @@ for details).
 
 ## Session information
 
-``` r
-
-sessionInfo()
-```
+\
+[`sessionInfo`](https://rdrr.io/r/utils/sessionInfo.html)`(``)`
 
     ## R version 4.6.1 (2026-06-24)
     ## Platform: x86_64-pc-linux-gnu
@@ -444,7 +420,7 @@ sessionInfo()
     ## [8] base     
     ## 
     ## other attached packages:
-    ## [1] pRolocdata_1.50.0   MSnbase_2.39.5      S4Vectors_0.50.1   
+    ## [1] pRolocdata_1.50.0   MSnbase_2.39.6      S4Vectors_0.50.3   
     ## [4] Biobase_2.72.0      BiocGenerics_0.58.1 generics_0.1.4     
     ## [7] mzR_2.46.0          Rcpp_1.1.2          BiocStyle_2.40.0   
     ## 
@@ -457,23 +433,23 @@ sessionInfo()
     ## [11] stringr_1.6.0               ProtGenerics_1.44.0        
     ## [13] pkgconfig_2.0.3             MetaboCoreUtils_1.20.1     
     ## [15] fastmap_1.2.0               XVector_0.52.0             
-    ## [17] rmarkdown_2.31              preprocessCore_1.75.0      
+    ## [17] rmarkdown_2.32              preprocessCore_1.75.1      
     ## [19] ragg_1.5.2                  purrr_1.2.2                
-    ## [21] xfun_0.60                   MultiAssayExperiment_1.38.0
+    ## [21] xfun_0.61                   MultiAssayExperiment_1.38.0
     ## [23] cachem_1.1.0                jsonlite_2.0.0             
     ## [25] DelayedArray_0.38.2         BiocParallel_1.46.0        
     ## [27] parallel_4.6.1              cluster_2.1.8.3            
     ## [29] R6_2.6.1                    bslib_0.12.0               
     ## [31] stringi_1.8.9               RColorBrewer_1.1-3         
-    ## [33] limma_3.68.4                GenomicRanges_1.64.0       
+    ## [33] limma_3.68.5                GenomicRanges_1.64.0       
     ## [35] jquerylib_0.1.4             iterators_1.0.14           
-    ## [37] Seqinfo_1.2.0               bookdown_0.47              
-    ## [39] SummarizedExperiment_1.42.0 knitr_1.51                 
+    ## [37] Seqinfo_1.2.0               bookdown_0.48              
+    ## [39] SummarizedExperiment_1.42.0 knitr_1.52                 
     ## [41] IRanges_2.46.0              Matrix_1.7-6               
-    ## [43] igraph_2.3.3                tidyselect_1.2.1           
+    ## [43] igraph_2.3.4                tidyselect_1.2.1           
     ## [45] abind_1.4-8                 yaml_2.3.12                
     ## [47] doParallel_1.0.17           codetools_0.2-20           
-    ## [49] affy_1.90.0                 lattice_0.22-9             
+    ## [49] affy_1.90.0                 lattice_0.23-1             
     ## [51] tibble_3.3.1                plyr_1.8.9                 
     ## [53] S7_0.2.2                    evaluate_1.0.5             
     ## [55] desc_1.4.3                  Spectra_1.22.2             
@@ -483,17 +459,17 @@ sessionInfo()
     ## [63] ncdf4_1.24                  ggplot2_4.0.3              
     ## [65] scales_1.4.0                glue_1.8.1                 
     ## [67] lazyeval_0.2.3              tools_4.6.1                
-    ## [69] mzID_1.50.0                 data.table_1.18.4          
+    ## [69] mzID_1.50.0                 data.table_1.18.6.1        
     ## [71] QFeatures_1.22.0            vsn_3.80.0                 
-    ## [73] fs_2.1.0                    XML_3.99-0.23              
+    ## [73] fs_2.1.0                    XML_3.99-0.25              
     ## [75] grid_4.6.1                  impute_1.86.0              
     ## [77] tidyr_1.3.2                 MsCoreUtils_1.24.0         
     ## [79] PSMatch_1.17.1              cli_3.6.6                  
-    ## [81] textshaping_1.0.5           S4Arrays_1.12.0            
+    ## [81] textshaping_1.0.5           S4Arrays_1.12.1            
     ## [83] dplyr_1.2.1                 AnnotationFilter_1.36.0    
     ## [85] pcaMethods_2.4.0            gtable_0.3.6               
     ## [87] sass_0.4.10                 digest_0.6.39              
-    ## [89] SparseArray_1.12.2          htmlwidgets_1.6.4          
+    ## [89] SparseArray_1.12.3          htmlwidgets_1.6.4          
     ## [91] farver_2.1.2                htmltools_0.5.9            
     ## [93] pkgdown_2.2.1.9000          lifecycle_1.0.5            
     ## [95] statmod_1.5.2               MASS_7.3-66

@@ -41,25 +41,16 @@ interaction high-performance liquid chromatography (HILIC HPLC)). The
 mzML file contains profile mode data for an m/z range from 105 to 130
 and a retention time from 0 to 240 seconds. For more details on the
 sample see
-[`?msdata::sciexdata`](https://rdrr.io/pkg/msdata/man/sciexdata.html).
+[`?sciex`](https://rformassspectrometry.github.io/MsDataHub/reference/sciex.html)
+documentation page in the
+[MsDataHub](https://rformassspectrometry.github.io/MsDataHub/) package.
 Below we load the required packages and read the MS data.
 
-``` r
-
-library("MSnbase")
-library("msdata")
-library("magrittr")
-
-fl <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[2]
-basename(fl)
-```
-
-    ## [1] "20171016_POOL_POS_3_105-134.mzML"
-
-``` r
-
-data_prof <- readMSData(fl, mode = "onDisk", centroided = FALSE)
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"MSnbase"`](https://lgatto.github.io/MSnbase)`)`\
+\
+`fl`` ``<-`` ``MsDataHub``::`[`X20171016_POOL_POS_3_105.134.mzML`](https://rformassspectrometry.github.io/MsDataHub/reference/sciex.html)`(``)`\
+`data_prof`` ``<-`` `[`readMSData`](https://lgatto.github.io/MSnbase/reference/readMSData.md)`(``fl``, mode ``=`` ``"onDisk"``, centroided. ``=`` ``FALSE``)`
 
 We next extract the profile MS data for the \[M+H\]+ adduct of serine
 with the expected m/z of 106.049871. We thus filter the `data_prof`
@@ -67,26 +58,22 @@ object using an m/z range containing the signal for the metabolite and a
 retention time window from 175 to 187 seconds corresponding to the time
 when the analyte elutes from the LC.
 
-``` r
-
-## Define the mz and retention time ranges
-serine_mz <- 106.049871
-mzr <- c(serine_mz - 0.01, serine_mz + 0.01)
-rtr <- c(175, 187)
-
-## Filtering the object
-serine <- data_prof %>%
-    filterRt(rtr) %>%
-    filterMz(mzr)
-```
+\
+`## Define the mz and retention time ranges`\
+`serine_mz`` ``<-`` ``106.049871`\
+`mzr`` ``<-`` `[`c`](https://rdrr.io/r/base/c.html)`(``serine_mz`` ``-`` ``0.01``, ``serine_mz`` ``+`` ``0.01``)`\
+`rtr`` ``<-`` `[`c`](https://rdrr.io/r/base/c.html)`(``175``, ``187``)`\
+\
+`## Filtering the object`\
+`serine`` ``<-`` ``data_prof`` ``|>`\
+`    `[`filterRt`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)`(``rtr``)`` ``|>`\
+`    `[`filterMz`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)`(``mzr``)`
 
 We can now plot the profile MS data for serine.
 
-``` r
-
-plot(serine, type = "XIC")
-abline(h = serine_mz, col = "red", lty = 2)
-```
+\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``serine``, type ``=`` ``"XIC"``)`\
+[`abline`](https://rdrr.io/r/graphics/abline.html)`(``h ``=`` ``serine_mz``, col ``=`` ``"red"``, lty ``=`` ``2``)`
 
 ![MS profile data for serine. Upper panel shows the base peak
 chromatogram (BPC), lower panel the individual signals in the retention
@@ -112,10 +99,8 @@ in one spectrum.
 Below we plot the signal for one of of the 43 spectra containing signal
 for serine, the one at retention time 181.07
 
-``` r
-
-plot(serine[[22]])
-```
+\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``serine``[[``22``]``]``)`
 
 ![On of the spectra for serine in profile
 mode.](v03-MSnbase-centroiding_files/figure-html/serine-spectrum24-1.png)
@@ -135,19 +120,17 @@ intensity for each mass peak and report its intensity and m/z value.
 This can be done using the `pickPeaks` method with default parameters as
 shown below.
 
-``` r
-
-data_cent <- data_prof %>%
-    pickPeaks()
-
-serine_cent <- data_cent %>%
-    filterRt(rtr) %>%
-    filterMz(mzr)
-
-## Plot the centroided data for serine
-plot(serine_cent, type = "XIC")
-abline(h = serine_mz, col = "red", lty = 2)
-```
+\
+`data_cent`` ``<-`` ``data_prof`` ``|>`\
+`    `[`pickPeaks`](https://lgatto.github.io/MSnbase/reference/pickPeaks-method.md)`(``)`\
+\
+`serine_cent`` ``<-`` ``data_cent`` ``|>`\
+`    `[`filterRt`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)`(``rtr``)`` ``|>`\
+`    `[`filterMz`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)`(``mzr``)`\
+\
+`## Plot the centroided data for serine`\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``serine_cent``, type ``=`` ``"XIC"``)`\
+[`abline`](https://rdrr.io/r/graphics/abline.html)`(``h ``=`` ``serine_mz``, col ``=`` ``"red"``, lty ``=`` ``2``)`
 
 ![Centroided data for
 serine.](v03-MSnbase-centroiding_files/figure-html/simple-pickPeaks-1.png)
@@ -163,20 +146,18 @@ intensity signals this variation can be substantial.
 To further illustrate this, we plot below the centroided signal for the
 \[M+H\]+ ion of proline.
 
-``` r
-
-prol_mz <- 116.070608
-prol_mzr <- c(prol_mz - 0.01, prol_mz + 0.01)
-prol_rtr <- c(165, 175)
-
-proline <- data_prof %>%
-    pickPeaks() %>%
-    filterRt(prol_rtr) %>%
-    filterMz(prol_mzr)
-
-plot(proline, type = "XIC")
-abline(h = prol_mz, col = "red", lty = 2)
-```
+\
+`prol_mz`` ``<-`` ``116.070608`\
+`prol_mzr`` ``<-`` `[`c`](https://rdrr.io/r/base/c.html)`(``prol_mz`` ``-`` ``0.01``, ``prol_mz`` ``+`` ``0.01``)`\
+`prol_rtr`` ``<-`` `[`c`](https://rdrr.io/r/base/c.html)`(``165``, ``175``)`\
+\
+`proline`` ``<-`` ``data_prof`` ``|>`\
+`    `[`pickPeaks`](https://lgatto.github.io/MSnbase/reference/pickPeaks-method.md)`(``)`` ``|>`\
+`    `[`filterRt`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)`(``prol_rtr``)`` ``|>`\
+`    `[`filterMz`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)`(``prol_mzr``)`\
+\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``proline``, type ``=`` ``"XIC"``)`\
+[`abline`](https://rdrr.io/r/graphics/abline.html)`(``h ``=`` ``prol_mz``, col ``=`` ``"red"``, lty ``=`` ``2``)`
 
 ![Centroided data for
 proline.](v03-MSnbase-centroiding_files/figure-html/proline-1.png)
@@ -207,27 +188,23 @@ of 4 to the data within each spectrum (see
 [`?smooth`](https://lgatto.github.io/MSnbase/reference/smooth-methods.md)
 for more details on the parameters).
 
-``` r
-
-data_sg <- data_prof %>%
-    smooth(method = "SavitzkyGolay", halfWindowSize = 4L)
-```
+\
+`data_sg`` ``<-`` ``data_prof`` ``|>`\
+`    `[`smooth`](https://lgatto.github.io/MSnbase/reference/smooth-methods.md)`(``method ``=`` ``"SavitzkyGolay"``, halfWindowSize ``=`` ``4L``)`
 
 We next apply the simple peak picking on the smoothed data, filter the
 desired retention time and m/z ranges, and subsequently plot the such
 centroided data for serine.
 
-``` r
-
-data_sg_cent <- data_sg %>%
-    pickPeaks %>%
-    filterRt(rtr) %>%
-    filterMz(mzr)
-
-## Plot the centroided data for serine
-plot(data_sg_cent, type = "XIC")
-abline(h = serine_mz, col = "red", lty = 2)
-```
+\
+`data_sg_cent`` ``<-`` ``data_sg`` ``|>`\
+`    `[`pickPeaks`](https://lgatto.github.io/MSnbase/reference/pickPeaks-method.md)`(``)`` ``|>`\
+`    `[`filterRt`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)`(``rtr``)`` ``|>`\
+`    `[`filterMz`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)`(``mzr``)`\
+\
+`## Plot the centroided data for serine`\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``data_sg_cent``, type ``=`` ``"XIC"``)`\
+[`abline`](https://rdrr.io/r/graphics/abline.html)`(``h ``=`` ``serine_mz``, col ``=`` ``"red"``, lty ``=`` ``2``)`
 
 ![Centroided data for serine after smoothing with a Savitzky-Golay
 filter.](v03-MSnbase-centroiding_files/figure-html/smoothSG-pp-serine-1.png)
@@ -237,16 +214,14 @@ Centroided data for serine after smoothing with a Savitzky-Golay filter.
 Smoothing the raw data prior to peak picking improved the quality of the
 centroided data of serine as well as proline as can be seen below.
 
-``` r
-
-prol_sg_cent <- data_sg %>%
-    pickPeaks %>%
-    filterRt(prol_rtr) %>%
-    filterMz(prol_mzr)
-
-plot(prol_sg_cent, type = "XIC")
-abline(h = prol_mz, col = "red", lty = 2)
-```
+\
+`prol_sg_cent`` ``<-`` ``data_sg`` ``|>`\
+`    `[`pickPeaks`](https://lgatto.github.io/MSnbase/reference/pickPeaks-method.md)`(``)`` ``|>`\
+`    `[`filterRt`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)`(``prol_rtr``)`` ``|>`\
+`    `[`filterMz`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)`(``prol_mzr``)`\
+\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``prol_sg_cent``, type ``=`` ``"XIC"``)`\
+[`abline`](https://rdrr.io/r/graphics/abline.html)`(``h ``=`` ``prol_mz``, col ``=`` ``"red"``, lty ``=`` ``2``)`
 
 ![Centroided data for proline after smoothing with a Savitzky-Golay
 filter.](v03-MSnbase-centroiding_files/figure-html/smoothSG-pp-proline-1.png)
@@ -268,22 +243,18 @@ reduce the run-time of the example we apply the smoothing only to the
 profile-mode data for a retention time window containing proline (in a
 real data analysis this should be performed on the full data).
 
-``` r
+\
+`## Subset to the data for proline, smooth it in rt dimension and`\
+`## perform the centroiding`\
+`proline_c_cent`` ``<-`` ``data_prof`` ``|>`\
+`    `[`filterRt`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)`(``prol_rtr``)`` ``|>`\
+`    `[`combineSpectraMovingWindow`](https://lgatto.github.io/MSnbase/reference/combineSpectraMovingWindow.md)`(``)`` ``|>`\
+`    `[`pickPeaks`](https://lgatto.github.io/MSnbase/reference/pickPeaks-method.md)`(``)`` ``|>`\
+`    `[`filterMz`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)`(``prol_mzr``)`
 
-## Subset to the data for proline, smooth it in rt dimension and
-## perform the centroiding
-proline_c_cent <- data_prof %>%
-    filterRt(prol_rtr) %>%
-    combineSpectraMovingWindow() %>%
-    pickPeaks() %>%
-    filterMz(prol_mzr)
-```
-
-``` r
-
-plot(proline_c_cent, type = "XIC")
-abline(h = prol_mz, col = "red", lty = 2)
-```
+\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``proline_c_cent``, type ``=`` ``"XIC"``)`\
+[`abline`](https://rdrr.io/r/graphics/abline.html)`(``h ``=`` ``prol_mz``, col ``=`` ``"red"``, lty ``=`` ``2``)`
 
 ![Centroided data for proline after smoothing in retention time
 dimension.](v03-MSnbase-centroiding_files/figure-html/proline-rtsmooth-1.png)
@@ -321,38 +292,34 @@ until the signal increases again. All m/z intensity pairs within this
 range are used for the weighted average calculation of the centroid’s
 m/z value.
 
-``` r
-
-## Use pickPeaks with descendPeak m/z refinement
-data_sg_cent_mz <- data_sg %>%
-    pickPeaks(refineMz = "descendPeak")
-```
+\
+`## Use pickPeaks with descendPeak m/z refinement`\
+`data_sg_cent_mz`` ``<-`` ``data_sg`` ``|>`\
+`    `[`pickPeaks`](https://lgatto.github.io/MSnbase/reference/pickPeaks-method.md)`(``refineMz ``=`` ``"descendPeak"``)`
 
 Below we first extract the data for serine and then plot the smoothed
 and centroided data without and with m/z refinement.
 
-``` r
-
-## Extract the data for serine
-serine_sg_cent <- data_sg_cent %>%
-    filterRt(rtr) %>%
-    filterMz(mzr)
-
-serine_sg_cent_mz <- data_sg_cent_mz %>%
-    filterRt(rtr) %>%
-    filterMz(mzr)
-
-## Plot the data
-layout(matrix(1:4, ncol = 2))
-## No m/z refinement
-plot(serine_sg_cent, type = "XIC", layout = NULL)
-abline(h = serine_mz, col = "red", lty = 2)
-abline(v = rtime(serine_sg_cent)[22], col = "red", lty = 3)
-## With m/z refinement
-plot(serine_sg_cent_mz, type = "XIC", layout = NULL)
-abline(h = serine_mz, col = "red", lty = 2)
-abline(v = rtime(serine_sg_cent_mz)[22], col = "red", lty = 3)
-```
+\
+`## Extract the data for serine`\
+`serine_sg_cent`` ``<-`` ``data_sg_cent`` ``|>`\
+`    `[`filterRt`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)`(``rtr``)`` ``|>`\
+`    `[`filterMz`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)`(``mzr``)`\
+\
+`serine_sg_cent_mz`` ``<-`` ``data_sg_cent_mz`` ``|>`\
+`    `[`filterRt`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)`(``rtr``)`` ``|>`\
+`    `[`filterMz`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)`(``mzr``)`\
+\
+`## Plot the data`\
+[`layout`](https://rdrr.io/r/graphics/layout.html)`(`[`matrix`](https://rdrr.io/r/base/matrix.html)`(``1``:``4``, ncol ``=`` ``2``)``)`\
+`## No m/z refinement`\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``serine_sg_cent``, type ``=`` ``"XIC"``, layout ``=`` ``NULL``)`\
+[`abline`](https://rdrr.io/r/graphics/abline.html)`(``h ``=`` ``serine_mz``, col ``=`` ``"red"``, lty ``=`` ``2``)`\
+[`abline`](https://rdrr.io/r/graphics/abline.html)`(``v ``=`` `[`rtime`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``serine_sg_cent``)``[``22``]``, col ``=`` ``"red"``, lty ``=`` ``3``)`\
+`## With m/z refinement`\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``serine_sg_cent_mz``, type ``=`` ``"XIC"``, layout ``=`` ``NULL``)`\
+[`abline`](https://rdrr.io/r/graphics/abline.html)`(``h ``=`` ``serine_mz``, col ``=`` ``"red"``, lty ``=`` ``2``)`\
+[`abline`](https://rdrr.io/r/graphics/abline.html)`(``v ``=`` `[`rtime`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``serine_sg_cent_mz``)``[``22``]``, col ``=`` ``"red"``, lty ``=`` ``3``)`
 
 ![Smoothed and centroided data for serine without (left) and with m/z
 refinement (right). The horizontal red dashed line indicates the
@@ -372,60 +339,52 @@ of serine is reduced.
 
 For the simple peak picking on raw data the difference is:
 
-``` r
-
-## only centroided
-mz(filterMz(filterRt(data_cent, rtr), mzr))[[22]] - serine_mz
-```
+\
+`## only centroided`\
+[`mz`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(`[`filterMz`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)`(`[`filterRt`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)`(``data_cent``, ``rtr``)``, ``mzr``)``)``[[``22``]``]`` ``-`` ``serine_mz`
 
     ## [1] -0.0003682412
 
 Smoothing already improves the accuracy:
 
-``` r
-
-## smoothed and centroided
-mz(serine_sg_cent)[[22]] - serine_mz
-```
+\
+`## smoothed and centroided`\
+[`mz`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``serine_sg_cent``)``[[``22``]``]`` ``-`` ``serine_mz`
 
     ## [1] -0.0003682412
 
 And refining the m/z value during the centroiding can improve accuracy
 even more:
 
-``` r
-
-## smoothed and centroided with m/z refinement
-mz(serine_sg_cent_mz)[[22]] - serine_mz
-```
+\
+`## smoothed and centroided with m/z refinement`\
+[`mz`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``serine_sg_cent_mz``)``[[``22``]``]`` ``-`` ``serine_mz`
 
     ## [1] -0.0001703475
 
 Similarly, the m/z refinement also improved the accuracy for proline.
 
-``` r
-
-proline_sg_cent <- data_prof %>%
-    smooth(method = "SavitzkyGolay", halfWindowSize = 4L) %>%
-    pickPeaks() %>%
-    filterRt(prol_rtr) %>%
-    filterMz(prol_mzr)
-
-proline_sg_cent_mz <- data_prof %>%
-    smooth(method = "SavitzkyGolay", halfWindowSize = 4L) %>%
-    pickPeaks(refineMz = "descendPeak") %>%
-    filterRt(prol_rtr) %>%
-    filterMz(prol_mzr)
-
-layout(matrix(1:4, ncol = 2))
-plot(proline_sg_cent, type = "XIC", layout = NULL)
-abline(h = prol_mz, col = "red", lty = 2)
-abline(v = rtime(proline_sg_cent_mz)[16], col = "red", lty = 3)
-
-plot(proline_sg_cent_mz, type = "XIC", layout = NULL)
-abline(h = prol_mz, col = "red", lty = 2)
-abline(v = rtime(proline_sg_cent_mz)[16], col = "red", lty = 3)
-```
+\
+`proline_sg_cent`` ``<-`` ``data_prof`` ``|>`\
+`    `[`smooth`](https://lgatto.github.io/MSnbase/reference/smooth-methods.md)`(``method ``=`` ``"SavitzkyGolay"``, halfWindowSize ``=`` ``4L``)`` ``|>`\
+`    `[`pickPeaks`](https://lgatto.github.io/MSnbase/reference/pickPeaks-method.md)`(``)`` ``|>`\
+`    `[`filterRt`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)`(``prol_rtr``)`` ``|>`\
+`    `[`filterMz`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)`(``prol_mzr``)`\
+\
+`proline_sg_cent_mz`` ``<-`` ``data_prof`` ``|>`\
+`    `[`smooth`](https://lgatto.github.io/MSnbase/reference/smooth-methods.md)`(``method ``=`` ``"SavitzkyGolay"``, halfWindowSize ``=`` ``4L``)`` ``|>`\
+`    `[`pickPeaks`](https://lgatto.github.io/MSnbase/reference/pickPeaks-method.md)`(``refineMz ``=`` ``"descendPeak"``)`` ``|>`\
+`    `[`filterRt`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)`(``prol_rtr``)`` ``|>`\
+`    `[`filterMz`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)`(``prol_mzr``)`\
+\
+[`layout`](https://rdrr.io/r/graphics/layout.html)`(`[`matrix`](https://rdrr.io/r/base/matrix.html)`(``1``:``4``, ncol ``=`` ``2``)``)`\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``proline_sg_cent``, type ``=`` ``"XIC"``, layout ``=`` ``NULL``)`\
+[`abline`](https://rdrr.io/r/graphics/abline.html)`(``h ``=`` ``prol_mz``, col ``=`` ``"red"``, lty ``=`` ``2``)`\
+[`abline`](https://rdrr.io/r/graphics/abline.html)`(``v ``=`` `[`rtime`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``proline_sg_cent_mz``)``[``16``]``, col ``=`` ``"red"``, lty ``=`` ``3``)`\
+\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``proline_sg_cent_mz``, type ``=`` ``"XIC"``, layout ``=`` ``NULL``)`\
+[`abline`](https://rdrr.io/r/graphics/abline.html)`(``h ``=`` ``prol_mz``, col ``=`` ``"red"``, lty ``=`` ``2``)`\
+[`abline`](https://rdrr.io/r/graphics/abline.html)`(``v ``=`` `[`rtime`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``proline_sg_cent_mz``)``[``16``]``, col ``=`` ``"red"``, lty ``=`` ``3``)`
 
 ![Smoothed and centroided data for proline without (left) and with m/z
 refinement (right). The horizontal red dashed line indicates the
@@ -441,27 +400,21 @@ the position of the maximum signal.
 The difference between the m/z of the centroid with the largest signal
 and the theoretical m/z for the \[M+H\]+ ion of proline is shown below.
 
-``` r
-
-## only centroiding
-mz(filterMz(filterRt(data_cent, prol_rtr), prol_mzr))[[16]] - prol_mz
-```
+\
+`## only centroiding`\
+[`mz`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(`[`filterMz`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)`(`[`filterRt`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)`(``data_cent``, ``prol_rtr``)``, ``prol_mzr``)``)``[[``16``]``]`` ``-`` ``prol_mz`
 
     ## [1] 0.001577028
 
-``` r
-
-## smoothed and centroided
-mz(proline_sg_cent)[[16]] - prol_mz
-```
+\
+`## smoothed and centroided`\
+[`mz`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``proline_sg_cent``)``[[``16``]``]`` ``-`` ``prol_mz`
 
     ## [1] 5.75261e-05
 
-``` r
-
-## smoothed and centroided with m/z refinement
-mz(proline_sg_cent_mz)[[16]] - prol_mz
-```
+\
+`## smoothed and centroided with m/z refinement`\
+[`mz`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``proline_sg_cent_mz``)``[[``16``]``]`` ``-`` ``prol_mz`
 
     ## [1] -3.241556e-05
 

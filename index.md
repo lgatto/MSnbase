@@ -45,19 +45,15 @@ quantitative data. See <https://RforMassSpectrometry.org> for details.
 
 To install the package:
 
-``` r
-
-install.packages("BiocManager")
-BiocManager::install("MSnbase")
-```
+\
+[`install.packages`](https://rdrr.io/r/utils/install.packages.html)`(``"BiocManager"``)`\
+`BiocManager``::`[`install`](https://bioconductor.github.io/BiocManager/reference/install.html)`(``"MSnbase"``)`
 
 If you need the github version (not recommended unless you know what you
 are doing), use
 
-``` r
-
-BiocManager::install("lgatto/MSnbase")
-```
+\
+`BiocManager``::`[`install`](https://bioconductor.github.io/BiocManager/reference/install.html)`(``"lgatto/MSnbase"``)`
 
 ## Questions
 

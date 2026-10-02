@@ -99,14 +99,12 @@ processing with `register(SerialParam())`. To avoid these deadlocks, it
 is possible to initiate the parallel processing setup explicitly at the
 beginning of the script using, for example
 
-``` r
-
-library("doParallel")
-registerDoParallel(3) ## using 3 slave nodes
-register(DoparParam(), default = TRUE)
-
-## rest of script comes below
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"doParallel"`](https://github.com/RevolutionAnalytics/doparallel)`)`\
+[`registerDoParallel`](https://rdrr.io/pkg/doParallel/man/registerDoParallel.html)`(``3``)`` ``## using 3 slave nodes`\
+[`register`](https://rdrr.io/pkg/BiocParallel/man/register.html)`(`[`DoparParam`](https://rdrr.io/pkg/BiocParallel/man/DoparParam-class.html)`(``)``, default ``=`` ``TRUE``)`\
+\
+`## rest of script comes below`
 
 **On-disk access** Developmenets in version 2 of the package have solved
 the memory issue by implementing and *on-disk* version the of data class
@@ -131,12 +129,10 @@ for more details). To make use of the new *on-disk* implementation, set
 `mode = "onDisk"` in `readMSData` rather than using the default
 `mode = "inMemory"`.
 
-``` r
-
-file <- dir(system.file(package = "MSnbase", dir = "extdata"),
-            full.names = TRUE, pattern = "mzXML$")
-rawdata <- readMSData(file, msLevel. = 2, verbose = FALSE)
-```
+\
+`file`` ``<-`` `[`dir`](https://rdrr.io/r/base/list.files.html)`(`[`system.file`](https://rdrr.io/r/base/system.file.html)`(``package ``=`` ``"MSnbase"``, dir ``=`` ``"extdata"``)``,`\
+`            full.names ``=`` ``TRUE``, pattern ``=`` ``"mzXML$"``)`\
+`rawdata`` ``<-`` `[`readMSData`](https://lgatto.github.io/MSnbase/reference/readMSData.md)`(``file``, msLevel. ``=`` ``2``, verbose ``=`` ``FALSE``)`
 
 Only spectra of a given MS level can be loaded at a time by setting the
 `msLevel` parameter accordingly in `readMSData` and *in-memory* data. In
@@ -207,21 +203,17 @@ the optional parameter `copy = TRUE` general metadata (such as
 instrument info or all data processing descriptions) are copied over
 from the originating file.
 
-``` r
-
-writeMSData(rawdata, file = paste0(tempfile(), ".mzML"), copy = TRUE)
-```
+\
+[`writeMSData`](https://lgatto.github.io/MSnbase/reference/writeMSData.md)`(``rawdata``, file ``=`` `[`paste0`](https://rdrr.io/r/base/paste.html)`(`[`tempfile`](https://rdrr.io/r/base/tempfile.html)`(``)``, ``".mzML"``)``, copy ``=`` ``TRUE``)`
 
 ### MS experiments
 
 Raw data is contained in *MSnExp* objects, that stores all the spectra
 of an experiment, as defined by one or multiple raw data files.
 
-``` r
-
-library("MSnbase")
-itraqdata
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"MSnbase"`](https://lgatto.github.io/MSnbase)`)`\
+`itraqdata`
 
     ## MSn experiment data ("MSnExp")
     ## Object size in memory: 1.9 Mb
@@ -248,10 +240,8 @@ itraqdata
     ##   fvarMetadata: labelDescription
     ## experimentData: use 'experimentData(object)'
 
-``` r
-
-head(fData(itraqdata))
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``itraqdata``)``)`
 
     ##     spectrum ProteinAccession                       ProteinDescription
     ## X1         1              BSA                     bovine serum albumin
@@ -303,11 +293,9 @@ individually (X1, X10, X11, X12, X13, X14, …) and stored in a
 `msLevel=2`, the spectra will all be of level 2 (or higher, if
 available).
 
-``` r
-
-sp <- itraqdata[["X1"]]
-sp
-```
+\
+`sp`` ``<-`` ``itraqdata``[[``"X1"``]``]`\
+`sp`
 
     ## Object of class "Spectrum2"
     ##  Precursor: 520.7833 
@@ -323,32 +311,24 @@ precursor charge, `rtime` for the retention time, `mz` for the MZ
 values, `intensity` for the intensities, … see the *Spectrum*,
 *Spectrum1* and *Spectrum2* manuals for more details.
 
-``` r
-
-peaksCount(sp)
-```
+\
+[`peaksCount`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``sp``)`
 
     ## [1] 1922
 
-``` r
-
-head(peaksCount(itraqdata))
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`peaksCount`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``itraqdata``)``)`
 
     ##   X1  X10  X11  X12  X13  X14 
     ## 1922 1376 1571 2397 2574 1829
 
-``` r
-
-rtime(sp)
-```
+\
+[`rtime`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``sp``)`
 
     ## [1] 1149.31
 
-``` r
-
-head(rtime(itraqdata))
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`rtime`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``itraqdata``)``)`
 
     ##      X1     X10     X11     X12     X13     X14 
     ## 1149.31 1503.03 1663.61 1663.86 1664.08 1664.32
@@ -366,10 +346,8 @@ tags are already defined in
 [`?ReporterIons`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)
 for details about how to generate new *ReporterIons* objects.
 
-``` r
-
-iTRAQ4
-```
+\
+`iTRAQ4`
 
     ## Object of class "ReporterIons"
     ## iTRAQ4: '4-plex iTRAQ' with 4 reporter ions
@@ -378,10 +356,8 @@ iTRAQ4
     ##  - [iTRAQ4.116] 116.1116 +/- 0.05 (blue)
     ##  - [iTRAQ4.117] 117.115 +/- 0.05 (yellow)
 
-``` r
-
-TMT16
-```
+\
+`TMT16`
 
     ## Object of class "ReporterIons"
     ## TMT16HCD: '16-plex TMT HCD' with 16 reporter ions
@@ -406,20 +382,23 @@ TMT16
 
 Chromatographic data, i.e. intensity values along the retention time
 dimension for a given $`m/z`$ range/slice, can be extracted with the
-`chromatogram` method. Below we read a file from the `msdata` package
+`chromatogram` method. Below we read a file from the
+[MsDataHub](https://rformassspectrometry.github.io/MsDataHub/) package
 and extract the (MS level 1) chromatogram. Without providing an $`m/z`$
 and a retention time range the function returns the total ion
 chromatogram (TIC) for each file within the `MSnExp` or `OnDiskMSnExp`
 object. See also section @ref(sec:io3) for importing chromatographic
 data from SRM/MRM experiments.
 
-``` r
+\
+`(``f`` ``<-`` `[`system.file`](https://rdrr.io/r/base/system.file.html)`(``"microtofq/MM14.mzML"``, package ``=`` ``"msdata"``)``)`
 
-f <- c(system.file("microtofq/MM14.mzML", package = "msdata"))
-mtof <- readMSData(f, mode = "onDisk")
-mtof_tic <- chromatogram(mtof)
-mtof_tic
-```
+    ## [1] "/__w/_temp/Library/msdata/microtofq/MM14.mzML"
+
+\
+`mtof`` ``<-`` `[`readMSData`](https://lgatto.github.io/MSnbase/reference/readMSData.md)`(``f``, mode ``=`` ``"onDisk"``)`\
+`mtof_tic`` ``<-`` `[`chromatogram`](https://lgatto.github.io/MSnbase/reference/chromatogram-MSnExp-method.md)`(``mtof``)`\
+`mtof_tic`
 
     ## MChromatograms with 1 row and 1 column
     ##           MM14.mzML
@@ -440,10 +419,8 @@ to the `Spectrum` objects, `Chromatogram` objects provide the accessor
 functions `intensity` and `rtime` to access the data, as well as the
 `mz` function, that returns the $`m/z`$ range of the chromatogram.
 
-``` r
-
-mtof_tic[1, 1]
-```
+\
+`mtof_tic``[``1``, ``1``]`
 
     ## Object of class: Chromatogram
     ## Intensity values aggregated using: sum 
@@ -453,26 +430,20 @@ mtof_tic[1, 1]
     ## rt range: [270.334, 307.678]
     ## MS level: 1
 
-``` r
-
-head(intensity(mtof_tic[1, 1]))
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`intensity`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``mtof_tic``[``1``, ``1``]``)``)`
 
     ## F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
     ##   64989   67445   77843  105097  155609  212760
 
-``` r
-
-head(rtime(mtof_tic[1, 1]))
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`rtime`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``mtof_tic``[``1``, ``1``]``)``)`
 
     ## F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
     ## 270.334 270.671 271.007 271.343 271.680 272.016
 
-``` r
-
-mz(mtof_tic[1, 1])
-```
+\
+[`mz`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``mtof_tic``[``1``, ``1``]``)`
 
     ## [1]   94.80679 1004.96155
 
@@ -480,10 +451,8 @@ To extract the base peak chromatogram (the largest peak along the
 $`m/z`$ dimension for each retention time/spectrum) we set the
 `aggregationFun` argument to `"max"`.
 
-``` r
-
-mtof_bpc <- chromatogram(mtof, aggregationFun = "max")
-```
+\
+`mtof_bpc`` ``<-`` `[`chromatogram`](https://lgatto.github.io/MSnbase/reference/chromatogram-MSnExp-method.md)`(``mtof``, aggregationFun ``=`` ``"max"``)`
 
 See the `Chromatogram` help page and the vignettes from the
 *[xcms](https://bioconductor.org/packages/3.23/xcms)* package for more
@@ -505,31 +474,27 @@ $`m/z`$. See
 [`?MSmap`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)
 for details.
 
-``` r
+\
+`## downloads the data`\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"rpx"`](https://github.com/lgatto/rpx)`)`\
+`px1`` ``<-`` `[`PXDataset`](https://rdrr.io/pkg/rpx/man/PXDataset2.html)`(``"PXD000001"``)`\
+`mzf`` ``<-`` `[`pxget`](https://rdrr.io/pkg/rpx/man/PXDataset2.html)`(``px1``, ``7``)`\
+\
+`## reads the data`\
+`ms`` ``<-`` `[`openMSfile`](https://rdrr.io/pkg/mzR/man/openMSfile.html)`(``mzf``)`\
+`hd`` ``<-`` `[`header`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)`(``ms``)`\
+\
+`## a set of spectra of interest: MS1 spectra eluted`\
+`## between 30 and 35 minutes retention time`\
+`ms1`` ``<-`` `[`which`](https://rdrr.io/r/base/which.html)`(``hd``$``msLevel`` ``==`` ``1``)`\
+`rtsel`` ``<-`` ``hd``$``retentionTime``[``ms1``]`` ``/`` ``60`` ``>`` ``30`` ``&`\
+`    ``hd``$``retentionTime``[``ms1``]`` ``/`` ``60`` ``<`` ``35`\
+\
+`## the map`\
+`M`` ``<-`` `[`MSmap`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)`(``ms``, ``ms1``[``rtsel``]``, ``521``, ``523``, ``.005``, ``hd``, zeroIsNA ``=`` ``TRUE``)`
 
-## downloads the data
-library("rpx")
-px1 <- PXDataset("PXD000001")
-mzf <- pxget(px1, 7)
-
-## reads the data
-ms <- openMSfile(mzf)
-hd <- header(ms)
-
-## a set of spectra of interest: MS1 spectra eluted
-## between 30 and 35 minutes retention time
-ms1 <- which(hd$msLevel == 1)
-rtsel <- hd$retentionTime[ms1] / 60 > 30 &
-    hd$retentionTime[ms1] / 60 < 35
-
-## the map
-M <- MSmap(ms, ms1[rtsel], 521, 523, .005, hd, zeroIsNA = TRUE)
-```
-
-``` r
-
-M
-```
+\
+`M`
 
     ## Object of class "MSmap"
     ##  Map [75, 401]
@@ -539,10 +504,8 @@ M
 The `M` map object can be rendered as a heatmap with `plot`, as shown on
 figure @ref(fig:mapheat).
 
-``` r
-
-plot(M, aspect = 1, allTicks = FALSE)
-```
+\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``M``, aspect ``=`` ``1``, allTicks ``=`` ``FALSE``)`
 
 ![Heat map of a chunk of the MS
 data.](v01-MSnbase-demo_files/figure-html/mapheat-1.png)
@@ -552,10 +515,8 @@ Heat map of a chunk of the MS data.
 One can also render the data in 3 dimension with the `plot3D` function,
 as show on figure @ref(fig:map3d).
 
-``` r
-
-plot3D(M)
-```
+\
+[`plot3D`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)`(``M``)`
 
 ![3 dimensional represention of MS map
 data.](v01-MSnbase-demo_files/figure-html/map3d-1.png)
@@ -567,27 +528,21 @@ containing the first two MS1 spectra of the first map (object `M` above)
 and all intermediate MS2 spectra and display $`m/z`$ values between 100
 and 1000.
 
-``` r
+\
+`i`` ``<-`` ``ms1``[`[`which`](https://rdrr.io/r/base/which.html)`(``rtsel``)``]``[``1``]`\
+`j`` ``<-`` ``ms1``[`[`which`](https://rdrr.io/r/base/which.html)`(``rtsel``)``]``[``2``]`\
+`M2`` ``<-`` `[`MSmap`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)`(``ms``, ``i``:``j``, ``100``, ``1000``, ``1``, ``hd``)`
 
-i <- ms1[which(rtsel)][1]
-j <- ms1[which(rtsel)][2]
-M2 <- MSmap(ms, i:j, 100, 1000, 1, hd)
-```
-
-``` r
-
-M2
-```
+\
+`M2`
 
     ## Object of class "MSmap"
     ##  Map [12, 901]
     ##   [1]  Retention time: 30:01 - 30:05 
     ##   [2]  M/Z: 100 - 1000 (res 1)
 
-``` r
-
-plot3D(M2)
-```
+\
+[`plot3D`](https://lgatto.github.io/MSnbase/reference/MSmap-class.md)`(``M2``)`
 
 ![3 dimensional represention of MS map data. MS1 and MS2 spectra are
 coloured in blue and magenta
@@ -604,10 +559,8 @@ specific reporter ions of interest (by specifying with reporters with
 `reporters=iTRAQ4` for instance) or both (see figure
 @ref(fig:spectrumPlot)).
 
-``` r
-
-plot(sp, reporters = iTRAQ4, full = TRUE)
-```
+\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``sp``, reporters ``=`` ``iTRAQ4``, full ``=`` ``TRUE``)`
 
 ![Raw MS2 spectrum with details about reporter
 ions.](v01-MSnbase-demo_files/figure-html/spectrumPlot-1.png)
@@ -619,12 +572,10 @@ It is also possible to plot all spectra of an experiment (figure
 experiment using the protein accession numbers included in the feature
 metadata, and keep the 6 from the *BSA* protein.
 
-``` r
-
-sel <- fData(itraqdata)$ProteinAccession == "BSA"
-bsa <- itraqdata[sel]
-bsa
-```
+\
+`sel`` ``<-`` `[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``itraqdata``)``$``ProteinAccession`` ``==`` ``"BSA"`\
+`bsa`` ``<-`` ``itraqdata``[``sel``]`\
+`bsa`
 
     ## MSn experiment data ("MSnExp")
     ## Object size in memory: 0.11 Mb
@@ -635,7 +586,7 @@ bsa
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Data [logically] subsetted 3 spectra: Fri Aug  7 15:22:36 2026 
+    ## Data [logically] subsetted 3 spectra: Fri Oct  2 05:56:53 2026 
     ##  MSnbase version: 1.1.22 
     ## - - - Meta data  - - -
     ## phenoData
@@ -652,20 +603,16 @@ bsa
     ##   fvarMetadata: labelDescription
     ## experimentData: use 'experimentData(object)'
 
-``` r
-
-as.character(fData(bsa)$ProteinAccession)
-```
+\
+[`as.character`](https://rdrr.io/r/base/character.html)`(`[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``bsa``)``$``ProteinAccession``)`
 
     ## [1] "BSA" "BSA" "BSA"
 
 These can then be visualised together by plotting the *MSnExp* object,
 as illustrated on figure @ref(fig:msnexpPlot).
 
-``` r
-
-plot(bsa, reporters = iTRAQ4, full = FALSE) + theme_gray(8)
-```
+\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``bsa``, reporters ``=`` ``iTRAQ4``, full ``=`` ``FALSE``)`` ``+`` `[`theme_gray`](https://ggplot2.tidyverse.org/reference/ggtheme.html)`(``8``)`
 
 ![Experiment-wide raw MS2 spectra. The y-axes of the individual spectra
 are automatically rescaled to the same range. See section
@@ -700,10 +647,8 @@ graphics. The `plot` method is implemented for `Chromatogram` and
 same $`m/z`$-rt range of all files in an experiment (i.e. for one row in
 the `MChromatograms` object) into one plot.
 
-``` r
-
-plot(mtof_bpc)
-```
+\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``mtof_bpc``)`
 
 ![Base peak
 chromatogram.](v01-MSnbase-demo_files/figure-html/chromPlot-1.png)
@@ -721,21 +666,17 @@ The `MSnbase` package relies on the former (which is faster) and offers
 a simplified interface by converting the dedicated identification data
 objects into `data.frames`.
 
-``` r
-
-library("MsDataHub")
-idf <- MsDataHub::TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzid()
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"MsDataHub"`](https://rformassspectrometry.github.io/MsDataHub)`)`\
+`idf`` ``<-`` ``MsDataHub``::`[`TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.20141210.mzid`](https://rformassspectrometry.github.io/MsDataHub/reference/PXD000001.html)`(``)`
 
     ## see ?MsDataHub and browseVignettes('MsDataHub') for documentation
 
     ## loading from cache
 
-``` r
-
-iddf <- readMzIdData(idf)
-str(iddf)
-```
+\
+`iddf`` ``<-`` `[`readMzIdData`](https://lgatto.github.io/MSnbase/reference/readMzIdData.md)`(``idf``)`\
+[`str`](https://rdrr.io/r/utils/str.html)`(``iddf``)`
 
     ## 'data.frame':    5802 obs. of  35 variables:
     ##  $ sequence                : chr  "RQCRTDFLNYLR" "ESVALADQVTCVDWRNRKATKK" "KELLCLAMQIIR" "QRMARTSDKQQSIRFLERLCGR" ...
@@ -759,7 +700,7 @@ str(iddf)
     ##  $ scan.number.s.          : num  2949 6534 5674 4782 5839 ...
     ##  $ acquisitionNum          : num  2949 6534 5674 4782 5839 ...
     ##  $ spectrumFile            : chr  "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" ...
-    ##  $ idFile                  : chr  "51663738d478_7857" "51663738d478_7857" "51663738d478_7857" "51663738d478_7857" ...
+    ##  $ idFile                  : chr  "50b428ab32cf_7857" "50b428ab32cf_7857" "50b428ab32cf_7857" "50b428ab32cf_7857" ...
     ##  $ MS.GF.RawScore          : num  10 12 8 -5 8 7 21 -31 -31 -3 ...
     ##  $ MS.GF.DeNovoScore       : num  101 121 74 160 241 214 196 165 165 59 ...
     ##  $ MS.GF.SpecEValue        : num  4.62e-08 7.26e-08 9.34e-08 1.27e-07 1.32e-07 ...
@@ -793,31 +734,25 @@ of when there are multiple modifications in a PSM, such as
 At this stage, it is useful to perform some exploratory data analysis
 and visualisation on the identification data. For example
 
-``` r
-
-table(iddf$isDecoy)
-```
+\
+[`table`](https://rdrr.io/r/base/table.html)`(``iddf``$``isDecoy``)`
 
     ## 
     ## FALSE  TRUE 
     ##  2906  2896
 
-``` r
-
-table(iddf$chargeState)
-```
+\
+[`table`](https://rdrr.io/r/base/table.html)`(``iddf``$``chargeState``)`
 
     ## 
     ##    2    3    4    5    6 
     ## 3312 2064  400   23    3
 
-``` r
-
-library("ggplot2")
-ggplot(data = iddf, aes(x = MS.GF.RawScore, colour = isDecoy)) +
-    geom_density() +
-    facet_wrap(~chargeState)
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"ggplot2"`](https://ggplot2.tidyverse.org)`)`\
+[`ggplot`](https://ggplot2.tidyverse.org/reference/ggplot.html)`(``data ``=`` ``iddf``, `[`aes`](https://ggplot2.tidyverse.org/reference/aes.html)`(``x ``=`` ``MS.GF.RawScore``, colour ``=`` ``isDecoy``)``)`` ``+`\
+`    `[`geom_density`](https://ggplot2.tidyverse.org/reference/geom_density.html)`(``)`` ``+`\
+`    `[`facet_wrap`](https://ggplot2.tidyverse.org/reference/facet_wrap.html)`(``~``chargeState``)`
 
 ![](v01-MSnbase-demo_files/figure-html/idvis-1.png)
 
@@ -825,18 +760,14 @@ The `filterIdentificationDataFrame` function can be used to remove -
 PSMs that match decoy entries - PSMs of rank \> 1 - PSMs that match
 non-proteotypic proteins
 
-``` r
-
-iddf <- filterIdentificationDataFrame(iddf)
-```
+\
+`iddf`` ``<-`` `[`filterIdentificationDataFrame`](https://lgatto.github.io/MSnbase/reference/filterIdentificationDataFrame.md)`(``iddf``)`
 
 This `data.frame` can be now be further reduced so that individual rows
 represent unique spectra, which can be done with the `reduce` method.
 
-``` r
-
-iddf2 <- reduce(iddf, key = "spectrumID")
-```
+\
+`iddf2`` ``<-`` `[`reduce`](https://rdrr.io/pkg/IRanges/man/inter-range-methods.html)`(``iddf``, key ``=`` ``"spectrumID"``)`
 
 This reduces the number of rows from 2710 to 2646.
 
@@ -878,18 +809,16 @@ sections. See also
 [`?MSnExp`](https://lgatto.github.io/MSnbase/reference/MSnExp-class.md)
 for more details.
 
-``` r
-
-## find path to a mzXML file
-quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                 full.names = TRUE, pattern = "mzXML$")
-## find path to a mzIdentML file
-identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                 full.names = TRUE, pattern = "dummyiTRAQ.mzid")
-## create basic MSnExp
-msexp <- readMSData(quantFile, verbose = FALSE)
-head(fData(msexp), n = 2)
-```
+\
+`## find path to a mzXML file`\
+`quantFile`` ``<-`` `[`dir`](https://rdrr.io/r/base/list.files.html)`(`[`system.file`](https://rdrr.io/r/base/system.file.html)`(``package ``=`` ``"MSnbase"``, dir ``=`` ``"extdata"``)``,`\
+`                 full.names ``=`` ``TRUE``, pattern ``=`` ``"mzXML$"``)`\
+`## find path to a mzIdentML file`\
+`identFile`` ``<-`` `[`dir`](https://rdrr.io/r/base/list.files.html)`(`[`system.file`](https://rdrr.io/r/base/system.file.html)`(``package ``=`` ``"MSnbase"``, dir ``=`` ``"extdata"``)``,`\
+`                 full.names ``=`` ``TRUE``, pattern ``=`` ``"dummyiTRAQ.mzid"``)`\
+`## create basic MSnExp`\
+`msexp`` ``<-`` `[`readMSData`](https://lgatto.github.io/MSnbase/reference/readMSData.md)`(``quantFile``, verbose ``=`` ``FALSE``)`\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``msexp``)``, n ``=`` ``2``)`
 
     ##       spectrum
     ## F1.S1        1
@@ -902,11 +831,9 @@ names (as a character vector) as second one[^5] and updates the *MSnExp*
 feature data using the identification data read from the `mzIdentML`
 file(s).
 
-``` r
-
-msexp <- addIdentificationData(msexp, id = identFile)
-head(fData(msexp), n = 2)
-```
+\
+`msexp`` ``<-`` `[`addIdentificationData`](https://lgatto.github.io/MSnbase/reference/addIdentificationData-methods.md)`(``msexp``, id ``=`` ``identFile``)`\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``msexp``)``, n ``=`` ``2``)`
 
     ##       spectrum acquisition.number          sequence chargeState rank
     ## F1.S1        1                  1 VESITARHGEVLQLRPK           3    1
@@ -936,10 +863,8 @@ head(fData(msexp), n = 2)
 Finally we can use `idSummary` to summarise the percentage of identified
 features per quantitation/identification pairs.
 
-``` r
-
-idSummary(msexp)
-```
+\
+[`idSummary`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)`(``msexp``)`
 
     ##       spectrumFile          idFile coverage
     ## 1 dummyiTRAQ.mzXML dummyiTRAQ.mzid      0.6
@@ -948,17 +873,13 @@ When identification data is present, and hence peptide sequences, one
 can annotation fragment peaks on the MS2 figure by passing the peptide
 sequence to the `plot` method.
 
-``` r
+\
+`itraqdata2`` ``<-`` `[`pickPeaks`](https://lgatto.github.io/MSnbase/reference/pickPeaks-method.md)`(``itraqdata``, verbose``=``FALSE``)`\
+`i`` ``<-`` ``14`\
+`s`` ``<-`` `[`as.character`](https://rdrr.io/r/base/character.html)`(`[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``itraqdata2``)``[``i``, ``"PeptideSequence"``]``)`
 
-itraqdata2 <- pickPeaks(itraqdata, verbose=FALSE)
-i <- 14
-s <- as.character(fData(itraqdata2)[i, "PeptideSequence"])
-```
-
-``` r
-
-plot(itraqdata2[[i]], s, main = s)
-```
+\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``itraqdata2``[[``i``]``]``, ``s``, main ``=`` ``s``)`
 
 ![Annotated MS2
 spectrum.](v01-MSnbase-demo_files/figure-html/fragplot-1.png)
@@ -975,26 +896,20 @@ One can remove the features that have not been identified using
 variable to search the presence of missing data (`NA` values) and then
 filter these non-identified spectra.
 
-``` r
-
-fData(msexp)$sequence
-```
+\
+[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``msexp``)``$``sequence`
 
     ## [1] "VESITARHGEVLQLRPK" "IDGQWVTHQWLKK"     NA                 
     ## [4] NA                  "LVILLFR"
 
-``` r
-
-msexp <- removeNoId(msexp)
-fData(msexp)$sequence
-```
+\
+`msexp`` ``<-`` `[`removeNoId`](https://lgatto.github.io/MSnbase/reference/removeNoId-methods.md)`(``msexp``)`\
+[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``msexp``)``$``sequence`
 
     ## [1] "VESITARHGEVLQLRPK" "IDGQWVTHQWLKK"     "LVILLFR"
 
-``` r
-
-idSummary(msexp)
-```
+\
+[`idSummary`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)`(``msexp``)`
 
     ##       spectrumFile          idFile coverage
     ## 1 dummyiTRAQ.mzXML dummyiTRAQ.mzid        1
@@ -1012,11 +927,9 @@ be called on *MSnExp* instances.
 *[MSnbase](https://bioconductor.org/packages/3.23/MSnbase)* is able to
 calculate theoretical peptide fragments via `calculateFragments`.
 
-``` r
-
-calculateFragments("ACEK",
-                   type = c("a", "b", "c", "x", "y", "z"))
-```
+\
+[`calculateFragments`](https://lgatto.github.io/MSnbase/reference/calculateFragments-methods.md)`(``"ACEK"``,`\
+`                   type ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"a"``, ``"b"``, ``"c"``, ``"x"``, ``"y"``, ``"z"``)``)`
 
     ## Fixed modifications used: C=57.02146
     ## Variable modifications used: None
@@ -1053,11 +966,9 @@ calculateFragments("ACEK",
 It is also possible to match these fragments against an *Spectrum2*
 object.
 
-``` r
-
-pepseq <- fData(msexp)$sequence[1]
-calculateFragments(pepseq, msexp[[1]], type=c("b", "y"))
-```
+\
+`pepseq`` ``<-`` `[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``msexp``)``$``sequence``[``1``]`\
+[`calculateFragments`](https://lgatto.github.io/MSnbase/reference/calculateFragments-methods.md)`(``pepseq``, ``msexp``[[``1``]``]``, type``=`[`c`](https://rdrr.io/r/base/c.html)`(``"b"``, ``"y"``)``)`
 
     ## Fixed modifications used: C=57.02146
     ## Variable modifications used: None
@@ -1150,18 +1061,14 @@ intensity in a spectrum) with the `ionCount` method before (object
 `itraqdata`) and after (object `experiment`) for spectrum `X55`. The
 respective spectra are shown on figure @ref(fig:spectrum-clean-plot).
 
-``` r
-
-experiment <- removePeaks(itraqdata, t = 400, verbose = FALSE)
-ionCount(itraqdata[["X55"]])
-```
+\
+`experiment`` ``<-`` `[`removePeaks`](https://lgatto.github.io/MSnbase/reference/removePeaks-methods.md)`(``itraqdata``, t ``=`` ``400``, verbose ``=`` ``FALSE``)`\
+[`ionCount`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``itraqdata``[[``"X55"``]``]``)`
 
     ## [1] 555408.8
 
-``` r
-
-ionCount(experiment[["X55"]])
-```
+\
+[`ionCount`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``experiment``[[``"X55"``]``]``)`
 
     ## [1] 499769.6
 
@@ -1178,25 +1085,19 @@ intensity peaks from spectra, and reduce the size of the data set, one
 can use the `clean` method. The effect of the `removePeaks` and `clean`
 methods are illustrated on figure @ref(fig:preprocPlot).
 
-``` r
-
-peaksCount(itraqdata[["X55"]])
-```
+\
+[`peaksCount`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``itraqdata``[[``"X55"``]``]``)`
 
     ## [1] 1726
 
-``` r
-
-peaksCount(experiment[["X55"]])
-```
+\
+[`peaksCount`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``experiment``[[``"X55"``]``]``)`
 
     ## [1] 1726
 
-``` r
-
-experiment <- clean(experiment, verbose = FALSE)
-peaksCount(experiment[["X55"]])
-```
+\
+`experiment`` ``<-`` `[`clean`](https://lgatto.github.io/MSnbase/reference/clean-methods.md)`(``experiment``, verbose ``=`` ``FALSE``)`\
+[`peaksCount`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``experiment``[[``"X55"``]``]``)`
 
     ## [1] 440
 
@@ -1229,25 +1130,19 @@ specific MZ range, as for reporter ions quantification, and generally
 results in substantial reduction of data size. Compare the size of the
 full trimmed experiment to the original 1.9 Mb.
 
-``` r
-
-range(mz(itraqdata[["X55"]]))
-```
+\
+[`range`](https://rdrr.io/r/base/range.html)`(`[`mz`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``itraqdata``[[``"X55"``]``]``)``)`
 
     ## [1] 100.0002 977.6636
 
-``` r
-
-experiment <- filterMz(experiment, mzlim = c(112,120))
-range(mz(experiment[["X55"]]))
-```
+\
+`experiment`` ``<-`` `[`filterMz`](https://lgatto.github.io/MSnbase/reference/trimMz-methods.md)`(``experiment``, mzlim ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``112``,``120``)``)`\
+[`range`](https://rdrr.io/r/base/range.html)`(`[`mz`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``experiment``[[``"X55"``]``]``)``)`
 
     ## [1] 102.0612 473.3372
 
-``` r
-
-experiment
-```
+\
+`experiment`
 
     ## MSn experiment data ("MSnExp")
     ## Object size in memory: 1.18 Mb
@@ -1258,8 +1153,8 @@ experiment
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Fri Aug  7 15:22:44 2026 
-    ## Spectra cleaned: Fri Aug  7 15:22:44 2026 
+    ## Curves <= 400 set to '0': Fri Oct  2 05:57:01 2026 
+    ## Spectra cleaned: Fri Oct  2 05:57:01 2026 
     ##  MSnbase version: 1.1.22 
     ## - - - Meta data  - - -
     ## phenoData
@@ -1297,17 +1192,13 @@ specified with an *ReporterIons* object. A specific peak is defined by
 it’s expected `mz` value and is searched for within `mz` $`\pm`$`width`.
 If no data is found, `NA` is returned.
 
-``` r
-
-mz(iTRAQ4)
-```
+\
+[`mz`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``iTRAQ4``)`
 
     ## [1] 114.1112 115.1083 116.1116 117.1150
 
-``` r
-
-width(iTRAQ4)
-```
+\
+[`width`](https://lgatto.github.io/MSnbase/reference/ReporterIons-class.md)`(``iTRAQ4``)`
 
     ## [1] 0.05
 
@@ -1347,15 +1238,13 @@ the *MSnExp* used as parameter in `quantify` and $`m`$ is the number of
 reporter ions, that can be accessed with the `exprs` method. The meta
 data is directly inherited from the *MSnExp* instance.
 
-``` r
-
-qnt <- quantify(experiment,
-                method = "trap",
-                reporters = iTRAQ4,
-                strict = FALSE,
-                verbose = FALSE)
-qnt
-```
+\
+`qnt`` ``<-`` `[`quantify`](https://lgatto.github.io/MSnbase/reference/quantify-methods.md)`(``experiment``,`\
+`                method ``=`` ``"trap"``,`\
+`                reporters ``=`` ``iTRAQ4``,`\
+`                strict ``=`` ``FALSE``,`\
+`                verbose ``=`` ``FALSE``)`\
+`qnt`
 
     ## MSnSet (storageMode: lockedEnvironment)
     ## assayData: 55 features, 4 samples 
@@ -1374,15 +1263,13 @@ qnt
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Fri Aug  7 15:22:44 2026 
-    ## Spectra cleaned: Fri Aug  7 15:22:44 2026 
-    ## iTRAQ4 quantification by trapezoidation: Fri Aug  7 15:22:46 2026 
+    ## Curves <= 400 set to '0': Fri Oct  2 05:57:01 2026 
+    ## Spectra cleaned: Fri Oct  2 05:57:01 2026 
+    ## iTRAQ4 quantification by trapezoidation: Fri Oct  2 05:57:03 2026 
     ##  MSnbase version: 1.1.22
 
-``` r
-
-head(exprs(qnt))
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`exprs`](https://rdrr.io/pkg/Biobase/man/exprs.html)`(``qnt``)``)`
 
     ##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
     ## X1   1347.6158  2247.3097  3927.6931  7661.1463
@@ -1412,20 +1299,16 @@ The `pNA` argument defines the percentage of accepted missing values per
 feature. As we do not expect any missing peaks, we set it to be 0 (which
 is also the detault value).
 
-``` r
-
-table(is.na(qnt))
-```
+\
+[`table`](https://rdrr.io/r/base/table.html)`(`[`is.na`](https://rdrr.io/r/base/NA.html)`(``qnt``)``)`
 
     ## 
     ## FALSE  TRUE 
     ##   219     1
 
-``` r
-
-qnt <- filterNA(qnt, pNA = 0)
-sum(is.na(qnt))
-```
+\
+`qnt`` ``<-`` `[`filterNA`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)`(``qnt``, pNA ``=`` ``0``)`\
+[`sum`](https://rdrr.io/r/base/sum.html)`(`[`is.na`](https://rdrr.io/r/base/NA.html)`(``qnt``)``)`
 
     ## [1] 0
 
@@ -1442,11 +1325,9 @@ removed, i.e. those that have at least one `NA` value and explicitly
 remove these rows. This method allows one to devise and easily apply any
 filtering strategy.
 
-``` r
-
-whichRow <- which(is.na((qnt))) %% nrow(qnt)
-qnt <- qnt[-whichRow, ]
-```
+\
+`whichRow`` ``<-`` `[`which`](https://rdrr.io/r/base/which.html)`(`[`is.na`](https://rdrr.io/r/base/NA.html)`(``(``qnt``)``)``)`` `[`%%`](https://rdrr.io/r/base/Arithmetic.html)` `[`nrow`](https://rdrr.io/r/base/nrow.html)`(``qnt``)`\
+`qnt`` ``<-`` ``qnt``[``-``whichRow``, ``]`
 
 See also the `plotNA` method to obtain a graphical overview of the
 completeness of a data set.
@@ -1482,13 +1363,17 @@ two-dimensional array, each column representing the data of one file
 precursor and product m/z. In the example code below we load a single
 SRM file using `readSRMData`.
 
-``` r
+\
+`fl`` ``<-`` ``MsDataHub``::`[`MRM.standmix.5.mzML`](https://rformassspectrometry.github.io/MsDataHub/reference/MRM.html)`(``)`
 
-fl <- proteomics(full.names = TRUE, pattern = "MRM")
-srm <- readSRMData(fl)
+    ## see ?MsDataHub and browseVignettes('MsDataHub') for documentation
 
-srm
-```
+    ## loading from cache
+
+\
+`srm`` ``<-`` `[`readSRMData`](https://lgatto.github.io/MSnbase/reference/readSRMData.md)`(``fl``)`\
+\
+`srm`
 
     ## MChromatograms with 137 rows and 1 column
     ##                     1
@@ -1507,10 +1392,8 @@ matrix, each row providing the lower and upper m/z value of the
 isolation window (in most cases minimal and maximal m/z will be
 identical).
 
-``` r
-
-head(precursorMz(srm))
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`precursorMz`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)`(``srm``)``)`
 
     ##      mzmin mzmax
     ## [1,]   115   115
@@ -1520,10 +1403,8 @@ head(precursorMz(srm))
     ## [5,]   133   133
     ## [6,]   133   133
 
-``` r
-
-head(productMz(srm))
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(``productMz``(``srm``)``)`
 
     ##        mzmin   mzmax
     ## [1,]  26.996  26.996
@@ -1542,22 +1423,18 @@ inteferes with the 121.1 TMT reporter ion. Below, we calculate the
 relative intensity of the +1 peaks compared to the main peak using the
 *[Rdisop](https://bioconductor.org/packages/3.23/Rdisop)* package.
 
-``` r
-
-library(Rdisop)
-## Phenylalanine immonium ion
-Fim <- getMolecule("C8H10N")
-getMass(Fim)
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`Rdisop`](https://github.com/sneumann/Rdisop)`)`\
+`## Phenylalanine immonium ion`\
+`Fim`` ``<-`` `[`getMolecule`](https://rdrr.io/pkg/Rdisop/man/getMolecule.html)`(``"C8H10N"``)`\
+[`getMass`](https://rdrr.io/pkg/Rdisop/man/getMolecule.html)`(``Fim``)`
 
     ## [1] 120.0813
 
-``` r
-
-isotopes <- getIsotope(Fim)
-F1 <- isotopes[[1]][2, 2]
-F1
-```
+\
+`isotopes`` ``<-`` `[`getIsotope`](https://rdrr.io/pkg/Rdisop/man/getMolecule.html)`(``Fim``)`\
+`F1`` ``<-`` ``isotopes``[[``1``]``]``[``2``, ``2``]`\
+`F1`
 
     ## [1] 0.08339707
 
@@ -1581,16 +1458,14 @@ See
 [`?purityCorrect`](https://lgatto.github.io/MSnbase/reference/purityCorrect-methods.md)
 for more details.
 
-``` r
-
-impurities <- matrix(c(0.929, 0.059, 0.002, 0.000,
-                       0.020, 0.923, 0.056, 0.001,
-                       0.000, 0.030, 0.924, 0.045,
-                       0.000, 0.001, 0.040, 0.923),
-                     nrow = 4)
-qnt.crct <- purityCorrect(qnt, impurities)
-head(exprs(qnt))
-```
+\
+`impurities`` ``<-`` `[`matrix`](https://rdrr.io/r/base/matrix.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``0.929``, ``0.059``, ``0.002``, ``0.000``,`\
+`                       ``0.020``, ``0.923``, ``0.056``, ``0.001``,`\
+`                       ``0.000``, ``0.030``, ``0.924``, ``0.045``,`\
+`                       ``0.000``, ``0.001``, ``0.040``, ``0.923``)``,`\
+`                     nrow ``=`` ``4``)`\
+`qnt.crct`` ``<-`` `[`purityCorrect`](https://lgatto.github.io/MSnbase/reference/purityCorrect-methods.md)`(``qnt``, ``impurities``)`\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`exprs`](https://rdrr.io/pkg/Biobase/man/exprs.html)`(``qnt``)``)`
 
     ##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
     ## X1   1347.6158  2247.3097  3927.6931  7661.1463
@@ -1600,10 +1475,8 @@ head(exprs(qnt))
     ## X13 26143.7542 29677.4781 29089.0593 27902.5608
     ## X14  6448.0829  6234.1957  6902.8903  6437.2303
 
-``` r
-
-head(exprs(qnt.crct))
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`exprs`](https://rdrr.io/pkg/Biobase/man/exprs.html)`(``qnt.crct``)``)`
 
     ##     iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
     ## X1   1304.7675  2168.1082  3784.2244  8133.9211
@@ -1628,41 +1501,33 @@ returns an updated for *MSnSet* without any missing values. Below, we
 apply a deterministic minimum value imputation on the `naset` example
 data:
 
-``` r
-
-## an example MSnSet containing missing values
-data(naset)
-table(is.na(naset))
-```
+\
+`## an example MSnSet containing missing values`\
+[`data`](https://rdrr.io/r/utils/data.html)`(``naset``)`\
+[`table`](https://rdrr.io/r/base/table.html)`(`[`is.na`](https://rdrr.io/r/base/NA.html)`(``naset``)``)`
 
     ## 
     ## FALSE  TRUE 
     ## 10254   770
 
-``` r
-
-## number of NAs per protein
-table(fData(naset)$nNA)
-```
+\
+`## number of NAs per protein`\
+[`table`](https://rdrr.io/r/base/table.html)`(`[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``naset``)``$``nNA``)`
 
     ## 
     ##   0   1   2   3   4   8   9  10 
     ## 301 247  91  13   2  23  10   2
 
-``` r
-
-x <- impute(naset, "min")
-processingData(x)
-```
+\
+`x`` ``<-`` ``impute``(``naset``, ``"min"``)`\
+[`processingData`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)`(``x``)`
 
     ## - - - Processing information - - -
-    ## Data imputation using min Fri Aug  7 15:22:48 2026 
+    ## Data imputation using min Fri Oct  2 05:57:06 2026 
     ##  MSnbase version: 1.15.6
 
-``` r
-
-table(is.na(x))
-```
+\
+[`table`](https://rdrr.io/r/base/table.html)`(`[`is.na`](https://rdrr.io/r/base/NA.html)`(``x``)``)`
 
     ## 
     ## FALSE 
@@ -1718,19 +1583,15 @@ contain randomly distributed missing values (if any) (yellow on figure
 proteins that display a non-random pattern of missing values (brown on
 figure @ref(fig:miximp)).
 
-``` r
-
-x <- impute(naset, method = "mixed",
-            randna = fData(naset)$randna,
-            mar = "knn", mnar = "min")
-```
+\
+`x`` ``<-`` ``impute``(``naset``, method ``=`` ``"mixed"``,`\
+`            randna ``=`` `[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``naset``)``$``randna``,`\
+`            mar ``=`` ``"knn"``, mnar ``=`` ``"min"``)`
 
     ## Imputing along margin 1 (features/rows).
 
-``` r
-
-x
-```
+\
+`x`
 
     ## MSnSet (storageMode: lockedEnvironment)
     ## assayData: 689 features, 16 samples 
@@ -1747,7 +1608,7 @@ x
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Data imputation using mixed Fri Aug  7 15:22:48 2026 
+    ## Data imputation using mixed Fri Oct  2 05:57:06 2026 
     ##  MSnbase version: 1.15.6
 
 Please read `?MsCoreUtils::impute_matix()` for a description of the
@@ -1787,14 +1648,12 @@ See
 for more methods. A `scale` method for *MSnSet* instances, that relies
 on the [`base::scale`](https://rdrr.io/r/base/scale.html) function.
 
-``` r
-
-qnt.max <- normalise(qnt, "max")
-qnt.sum <- normalise(qnt, "sum")
-qnt.quant <- normalise(qnt, "quantiles")
-qnt.qrob <- normalise(qnt, "quantiles.robust")
-qnt.vsn <- normalise(qnt, "vsn")
-```
+\
+`qnt.max`` ``<-`` `[`normalise`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)`(``qnt``, ``"max"``)`\
+`qnt.sum`` ``<-`` `[`normalise`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)`(``qnt``, ``"sum"``)`\
+`qnt.quant`` ``<-`` `[`normalise`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)`(``qnt``, ``"quantiles"``)`\
+`qnt.qrob`` ``<-`` `[`normalise`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)`(``qnt``, ``"quantiles.robust"``)`\
+`qnt.vsn`` ``<-`` `[`normalise`](https://lgatto.github.io/MSnbase/reference/normalise-methods.md)`(``qnt``, ``"vsn"``)`
 
 The effect of these are illustrated on figure @ref(fig:normPlot) and
 figure @ref(fig:cvPlot) reproduces figure 3 of (Karp et al. 2010) that
@@ -1867,11 +1726,9 @@ features. Here, we will combine individual MS2 spectra based on the
 protein they originate from. As shown below, this will result in 40 new
 aggregated features.
 
-``` r
-
-gb <- fData(qnt)$ProteinAccession
-table(gb)
-```
+\
+`gb`` ``<-`` `[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``qnt``)``$``ProteinAccession`\
+[`table`](https://rdrr.io/r/base/table.html)`(``gb``)`
 
     ## gb
     ##     BSA ECA0172 ECA0435 ECA0452 ECA0469 ECA0621 ECA0631 ECA0691 ECA0871 ECA0978 
@@ -1883,10 +1740,8 @@ table(gb)
     ## ECA3929 ECA3969 ECA4013 ECA4026 ECA4030 ECA4037 ECA4512 ECA4513 ECA4514     ENO 
     ##       1       1       1       2       1       1       1       1       6       3
 
-``` r
-
-length(unique(gb))
-```
+\
+[`length`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)`(`[`unique`](https://rdrr.io/r/base/unique.html)`(``gb``)``)`
 
     ## [1] 40
 
@@ -1899,11 +1754,9 @@ features to be aggregated). Alternatively, is is possible to supply user
 defined functions with `method=function(x) { ... }`. We will use the
 `median` here.
 
-``` r
-
-qnt2 <- combineFeatures(qnt, groupBy = gb, method = "median")
-qnt2
-```
+\
+`qnt2`` ``<-`` `[`combineFeatures`](https://lgatto.github.io/MSnbase/reference/combineFeatures.md)`(``qnt``, groupBy ``=`` ``gb``, method ``=`` ``"median"``)`\
+`qnt2`
 
     ## MSnSet (storageMode: lockedEnvironment)
     ## assayData: 40 features, 4 samples 
@@ -1922,14 +1775,14 @@ qnt2
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Fri Aug  7 15:22:44 2026 
-    ## Spectra cleaned: Fri Aug  7 15:22:44 2026 
-    ## iTRAQ4 quantification by trapezoidation: Fri Aug  7 15:22:46 2026 
-    ## Subset [55,4][54,4] Fri Aug  7 15:22:47 2026 
-    ## Removed features with more than 0 NAs: Fri Aug  7 15:22:47 2026 
-    ## Dropped featureData's levels Fri Aug  7 15:22:47 2026 
-    ## Combined 54 features into 40 using median: Fri Aug  7 15:22:50 2026 
-    ##  MSnbase version: 2.39.5
+    ## Curves <= 400 set to '0': Fri Oct  2 05:57:01 2026 
+    ## Spectra cleaned: Fri Oct  2 05:57:01 2026 
+    ## iTRAQ4 quantification by trapezoidation: Fri Oct  2 05:57:03 2026 
+    ## Subset [55,4][54,4] Fri Oct  2 05:57:04 2026 
+    ## Removed features with more than 0 NAs: Fri Oct  2 05:57:04 2026 
+    ## Dropped featureData's levels Fri Oct  2 05:57:04 2026 
+    ## Combined 54 features into 40 using median: Fri Oct  2 05:57:08 2026 
+    ##  MSnbase version: 2.39.6
 
 Of interest is also the `iPQF` spectra-to-protein summarisation method,
 which integrates peptide spectra characteristics and quantitative values
@@ -1949,22 +1802,18 @@ section @ref(sec:id)), it becomes straightforward to estimate protein
 quantities using the simple peptide counting method, as illustrated in
 section @ref(sec:feataggregation).
 
-``` r
-
-sc <- quantify(msexp, method = "count")
-## lets modify out data for demonstration purposes
-fData(sc)$DatabaseAccess[1] <- fData(sc)$DatabaseAccess[2]
-fData(sc)$DatabaseAccess
-```
+\
+`sc`` ``<-`` `[`quantify`](https://lgatto.github.io/MSnbase/reference/quantify-methods.md)`(``msexp``, method ``=`` ``"count"``)`\
+`## lets modify out data for demonstration purposes`\
+[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``sc``)``$``DatabaseAccess``[``1``]`` ``<-`` `[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``sc``)``$``DatabaseAccess``[``2``]`\
+[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``sc``)``$``DatabaseAccess`
 
     ## [1] "ECA1028" "ECA1028" "ECA0510"
 
-``` r
-
-sc <- combineFeatures(sc, groupBy = fData(sc)$DatabaseAccess,
-                      method = "sum")
-exprs(sc)
-```
+\
+`sc`` ``<-`` `[`combineFeatures`](https://lgatto.github.io/MSnbase/reference/combineFeatures.md)`(``sc``, groupBy ``=`` `[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``sc``)``$``DatabaseAccess``,`\
+`                      method ``=`` ``"sum"``)`\
+[`exprs`](https://rdrr.io/pkg/Biobase/man/exprs.html)`(``sc``)`
 
     ##         dummyiTRAQ.mzXML
     ## ECA0510                1
@@ -1994,10 +1843,8 @@ peptide that do not match uniquely to proteins (as defined by the
 `nprot` feature variable column) with the `removeMultipleAssignment`
 method.
 
-``` r
-
-fData(msexp)[, c("DatabaseAccess", "nprot")]
-```
+\
+[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``msexp``)``[``, `[`c`](https://rdrr.io/r/base/c.html)`(``"DatabaseAccess"``, ``"nprot"``)``]`
 
     ##       DatabaseAccess nprot
     ## F1.S1        ECA0984     1
@@ -2017,24 +1864,20 @@ here). The required peptide-protein mapping and protein lengths are
 extracted automatically from the feature meta-data using the default
 `accession` and `length` feature variables.
 
-``` r
-
-siquant <- quantify(msexp, method = "SIn")
-processingData(siquant)
-```
+\
+`siquant`` ``<-`` `[`quantify`](https://lgatto.github.io/MSnbase/reference/quantify-methods.md)`(``msexp``, method ``=`` ``"SIn"``)`\
+[`processingData`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)`(``siquant``)`
 
     ## - - - Processing information - - -
-    ## Data loaded: Fri Aug  7 15:22:43 2026 
-    ## Filtered 2 unidentified peptides out [Fri Aug  7 15:22:43 2026] 
-    ## Quantitation by total ion current [Fri Aug  7 15:22:50 2026] 
-    ## Combined 3 features into 3 using sum: Fri Aug  7 15:22:50 2026 
-    ## Quantification by SIn [Fri Aug  7 15:22:50 2026] 
-    ##  MSnbase version: 2.39.5
+    ## Data loaded: Fri Oct  2 05:57:00 2026 
+    ## Filtered 2 unidentified peptides out [Fri Oct  2 05:57:00 2026] 
+    ## Quantitation by total ion current [Fri Oct  2 05:57:08 2026] 
+    ## Combined 3 features into 3 using sum: Fri Oct  2 05:57:08 2026 
+    ## Quantification by SIn [Fri Oct  2 05:57:08 2026] 
+    ##  MSnbase version: 2.39.6
 
-``` r
-
-exprs(siquant)
-```
+\
+[`exprs`](https://rdrr.io/pkg/Biobase/man/exprs.html)`(``siquant``)`
 
     ##         dummyiTRAQ.mzXML
     ## ECA0510     0.0006553518
@@ -2056,28 +1899,22 @@ function is `plot`. If two *Spectrum2* objects are provided `plot` will
 draw two plots: the upper and lower panel contain respectively the first
 and second spectrum. Common peaks are drawn in a slightly darker colour.
 
-``` r
-
-centroided <- pickPeaks(itraqdata, verbose = FALSE)
-(k <- which(fData(centroided)[, "PeptideSequence"] == "TAGIQIVADDLTVTNPK"))
-```
+\
+`centroided`` ``<-`` `[`pickPeaks`](https://lgatto.github.io/MSnbase/reference/pickPeaks-method.md)`(``itraqdata``, verbose ``=`` ``FALSE``)`\
+`(``k`` ``<-`` `[`which`](https://rdrr.io/r/base/which.html)`(`[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``centroided``)``[``, ``"PeptideSequence"``]`` ``==`` ``"TAGIQIVADDLTVTNPK"``)``)`
 
     ## [1] 41 42
 
-``` r
-
-mzk <- precursorMz(centroided)[k]
-zk <- precursorCharge(centroided)[k]
-mzk * zk
-```
+\
+`mzk`` ``<-`` `[`precursorMz`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)`(``centroided``)``[``k``]`\
+`zk`` ``<-`` `[`precursorCharge`](https://lgatto.github.io/MSnbase/reference/Spectrum2-class.md)`(``centroided``)``[``k``]`\
+`mzk`` ``*`` ``zk`
 
     ##      X46      X47 
     ## 2046.175 2045.169
 
-``` r
-
-plot(centroided[[k[1]]], centroided[[k[2]]])
-```
+\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(``centroided``[[``k``[``1``]``]``]``, ``centroided``[[``k``[``2``]``]``]``)`
 
 ![Comparing two MS2
 spectra.](v01-MSnbase-demo_files/figure-html/compms2plot-1.png)
@@ -2093,37 +1930,29 @@ Pearson correlation and `dotproduct` to calculate the dot product. See
 [`?compareSpectra`](https://lgatto.github.io/MSnbase/reference/compareSpectra-methods.md)
 to apply other arbitrary metrics.
 
-``` r
-
-compareSpectra(centroided[[2]], centroided[[3]],
-               fun = "common")
-```
+\
+[`compareSpectra`](https://lgatto.github.io/MSnbase/reference/compareSpectra-methods.md)`(``centroided``[[``2``]``]``, ``centroided``[[``3``]``]``,`\
+`               fun ``=`` ``"common"``)`
 
     ## [1] 8
 
-``` r
-
-compareSpectra(centroided[[2]], centroided[[3]],
-               fun = "cor")
-```
+\
+[`compareSpectra`](https://lgatto.github.io/MSnbase/reference/compareSpectra-methods.md)`(``centroided``[[``2``]``]``, ``centroided``[[``3``]``]``,`\
+`               fun ``=`` ``"cor"``)`
 
     ## [1] 0.1105021
 
-``` r
-
-compareSpectra(centroided[[2]], centroided[[3]],
-               fun = "dotproduct")
-```
+\
+[`compareSpectra`](https://lgatto.github.io/MSnbase/reference/compareSpectra-methods.md)`(``centroided``[[``2``]``]``, ``centroided``[[``3``]``]``,`\
+`               fun ``=`` ``"dotproduct"``)`
 
     ## [1] 0.1185025
 
 `compareSpectra` supports *MSnExp* objects as well.
 
-``` r
-
-compmat <- compareSpectra(centroided, fun="cor")
-compmat[1:10, 1:5]
-```
+\
+`compmat`` ``<-`` `[`compareSpectra`](https://lgatto.github.io/MSnbase/reference/compareSpectra-methods.md)`(``centroided``, fun``=``"cor"``)`\
+`compmat``[``1``:``10``, ``1``:``5``]`
 
     ##             X1        X10        X11        X12        X13
     ## X1          NA 0.07672973 0.38024702 0.51579989 0.46647324
@@ -2140,10 +1969,8 @@ compmat[1:10, 1:5]
 Below, we illustrate how to compare a set of spectra using a
 hierarchical clustering.
 
-``` r
-
-plot(hclust(as.dist(compmat)))
-```
+\
+[`plot`](https://lgatto.github.io/MSnbase/reference/plot-methods.md)`(`[`hclust`](https://rdrr.io/r/stats/hclust.html)`(`[`as.dist`](https://rdrr.io/r/stats/dist.html)`(``compmat``)``)``)`
 
 ![](v01-MSnbase-demo_files/figure-html/dendo-1.png)
 
@@ -2176,10 +2003,8 @@ among others, a *ReporterIons* object for iTRAQ 4-plex that includes the
 experiment as show in section @ref(sec:quant) to estimate incomplete
 dissociation for each spectrum.
 
-``` r
-
-iTRAQ5
-```
+\
+`iTRAQ5`
 
     ## Object of class "ReporterIons"
     ## iTRAQ5: '4-plex iTRAQ and reporter + balance group' with 5 reporter ions
@@ -2189,15 +2014,13 @@ iTRAQ5
     ##  - [iTRAQ5.117] 117.115 +/- 0.05 (yellow)
     ##  - [iTRAQ5.145] 145.1 +/- 0.05 (grey)
 
-``` r
-
-incompdiss <- quantify(itraqdata,
-                       method = "trap",
-                       reporters = iTRAQ5,
-                       strict = FALSE,
-                       verbose = FALSE)
-head(exprs(incompdiss))
-```
+\
+`incompdiss`` ``<-`` `[`quantify`](https://lgatto.github.io/MSnbase/reference/quantify-methods.md)`(``itraqdata``,`\
+`                       method ``=`` ``"trap"``,`\
+`                       reporters ``=`` ``iTRAQ5``,`\
+`                       strict ``=`` ``FALSE``,`\
+`                       verbose ``=`` ``FALSE``)`\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`exprs`](https://rdrr.io/pkg/Biobase/man/exprs.html)`(``incompdiss``)``)`
 
     ##     iTRAQ5.114 iTRAQ5.115 iTRAQ5.116 iTRAQ5.117 iTRAQ5.145
     ## X1   1347.6158  2247.3097  3927.6931  7661.1463  2063.8947
@@ -2257,22 +2080,18 @@ beginning of this document. Both experiments share the *same* default
 iTRAQ 4-plex reporter names as default sample names, and will thus
 automatically be combined along rows.
 
-``` r
-
-exp1 <- quantify(itraqdata, reporters = iTRAQ4,
-                 verbose = FALSE)
-sampleNames(exp1)
-```
+\
+`exp1`` ``<-`` `[`quantify`](https://lgatto.github.io/MSnbase/reference/quantify-methods.md)`(``itraqdata``, reporters ``=`` ``iTRAQ4``,`\
+`                 verbose ``=`` ``FALSE``)`\
+[`sampleNames`](https://rdrr.io/pkg/Biobase/man/featureNames.html)`(``exp1``)`
 
     ## [1] "iTRAQ4.114" "iTRAQ4.115" "iTRAQ4.116" "iTRAQ4.117"
 
-``` r
-
-centroided(rawdata) <- FALSE
-exp2 <- quantify(rawdata, reporters = iTRAQ4,
-                 verbose = FALSE)
-sampleNames(exp2)
-```
+\
+[`centroided`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``rawdata``)`` ``<-`` ``FALSE`\
+`exp2`` ``<-`` `[`quantify`](https://lgatto.github.io/MSnbase/reference/quantify-methods.md)`(``rawdata``, reporters ``=`` ``iTRAQ4``,`\
+`                 verbose ``=`` ``FALSE``)`\
+[`sampleNames`](https://rdrr.io/pkg/Biobase/man/featureNames.html)`(``exp2``)`
 
     ## [1] "iTRAQ4.114" "iTRAQ4.115" "iTRAQ4.116" "iTRAQ4.117"
 
@@ -2287,33 +2106,25 @@ experiment and represent quantitation from different spectra using the
 convenience function `updateFeatureNames`. Note that updating the names
 of one experiment would suffice here.
 
-``` r
-
-head(featureNames(exp1))
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`featureNames`](https://rdrr.io/pkg/Biobase/man/featureNames.html)`(``exp1``)``)`
 
     ## [1] "X1"  "X10" "X11" "X12" "X13" "X14"
 
-``` r
-
-exp1 <- updateFeatureNames(exp1)
-head(featureNames(exp1))
-```
+\
+`exp1`` ``<-`` `[`updateFeatureNames`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)`(``exp1``)`\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`featureNames`](https://rdrr.io/pkg/Biobase/man/featureNames.html)`(``exp1``)``)`
 
     ## [1] "X1.exp1"  "X10.exp1" "X11.exp1" "X12.exp1" "X13.exp1" "X14.exp1"
 
-``` r
-
-head(featureNames(exp2))
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`featureNames`](https://rdrr.io/pkg/Biobase/man/featureNames.html)`(``exp2``)``)`
 
     ## [1] "F1.S1" "F1.S2" "F1.S3" "F1.S4" "F1.S5"
 
-``` r
-
-exp2 <- updateFeatureNames(exp2)
-head(featureNames(exp2))
-```
+\
+`exp2`` ``<-`` `[`updateFeatureNames`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)`(``exp2``)`\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`featureNames`](https://rdrr.io/pkg/Biobase/man/featureNames.html)`(``exp2``)``)`
 
     ## [1] "F1.S1.exp2" "F1.S2.exp2" "F1.S3.exp2" "F1.S4.exp2" "F1.S5.exp2"
 
@@ -2321,32 +2132,24 @@ The two experiments now share the same sample names and have different
 feature names and will be combined along the row. Note that all
 meta-data is correctly combined along the quantitation values.
 
-``` r
-
-exp12 <- combine(exp1, exp2)
-```
+\
+`exp12`` ``<-`` ``combine``(``exp1``, ``exp2``)`
 
     ## Warning in combine(experimentData(x), experimentData(y)): 
     ##   unknown or conflicting information in MIAPE field 'email'; using information from first object 'x'
 
-``` r
-
-dim(exp1)
-```
+\
+[`dim`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)`(``exp1``)`
 
     ## [1] 55  4
 
-``` r
-
-dim(exp2)
-```
+\
+[`dim`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)`(``exp2``)`
 
     ## [1] 5 4
 
-``` r
-
-dim(exp12)
-```
+\
+[`dim`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)`(``exp12``)`
 
     ## [1] 60  4
 
@@ -2361,47 +2164,39 @@ Alternatively, if peptide sequences would have been used as grouping
 factor in `combineFeatures`, then these would be good feature name
 candidates.
 
-``` r
-
-set.seed(1)
-i <- sample(length(itraqdata), 35)
-j <- sample(length(itraqdata), 35)
-exp1 <- quantify(itraqdata[i], reporters = iTRAQ4,
-                 verbose = FALSE)
-exp2 <- quantify(itraqdata[j], reporters = iTRAQ4,
-                 verbose = FALSE)
-exp1 <- droplevels(exp1)
-exp2 <- droplevels(exp2)
-table(featureNames(exp1) %in% featureNames(exp2))
-```
+\
+[`set.seed`](https://rdrr.io/r/base/Random.html)`(``1``)`\
+`i`` ``<-`` `[`sample`](https://rdrr.io/r/base/sample.html)`(`[`length`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)`(``itraqdata``)``, ``35``)`\
+`j`` ``<-`` `[`sample`](https://rdrr.io/r/base/sample.html)`(`[`length`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)`(``itraqdata``)``, ``35``)`\
+`exp1`` ``<-`` `[`quantify`](https://lgatto.github.io/MSnbase/reference/quantify-methods.md)`(``itraqdata``[``i``]``, reporters ``=`` ``iTRAQ4``,`\
+`                 verbose ``=`` ``FALSE``)`\
+`exp2`` ``<-`` `[`quantify`](https://lgatto.github.io/MSnbase/reference/quantify-methods.md)`(``itraqdata``[``j``]``, reporters ``=`` ``iTRAQ4``,`\
+`                 verbose ``=`` ``FALSE``)`\
+`exp1`` ``<-`` `[`droplevels`](https://rdrr.io/r/base/droplevels.html)`(``exp1``)`\
+`exp2`` ``<-`` `[`droplevels`](https://rdrr.io/r/base/droplevels.html)`(``exp2``)`\
+[`table`](https://rdrr.io/r/base/table.html)`(`[`featureNames`](https://rdrr.io/pkg/Biobase/man/featureNames.html)`(``exp1``)`` `[`%in%`](https://rdrr.io/r/base/match.html)` `[`featureNames`](https://rdrr.io/pkg/Biobase/man/featureNames.html)`(``exp2``)``)`
 
     ## 
     ## FALSE  TRUE 
     ##    14    21
 
-``` r
-
-exp1 <- combineFeatures(exp1,
-                        groupBy = fData(exp1)$ProteinAccession)
-exp2 <- combineFeatures(exp2,
-                        groupBy = fData(exp2)$ProteinAccession)
-```
+\
+`exp1`` ``<-`` `[`combineFeatures`](https://lgatto.github.io/MSnbase/reference/combineFeatures.md)`(``exp1``,`\
+`                        groupBy ``=`` `[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``exp1``)``$``ProteinAccession``)`\
+`exp2`` ``<-`` `[`combineFeatures`](https://lgatto.github.io/MSnbase/reference/combineFeatures.md)`(``exp2``,`\
+`                        groupBy ``=`` `[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``exp2``)``$``ProteinAccession``)`
 
     ## Your data contains missing values. Please read the relevant section in
     ## the combineFeatures manual page for details on the effects of missing
     ## values on data aggregation.
 
-``` r
-
-head(featureNames(exp1))
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`featureNames`](https://rdrr.io/pkg/Biobase/man/featureNames.html)`(``exp1``)``)`
 
     ## [1] "BSA"     "ECA0172" "ECA0469" "ECA0631" "ECA0691" "ECA0871"
 
-``` r
-
-head(featureNames(exp2))
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`featureNames`](https://rdrr.io/pkg/Biobase/man/featureNames.html)`(``exp2``)``)`
 
     ## [1] "BSA"     "ECA0435" "ECA0469" "ECA0621" "ECA0871" "ECA1032"
 
@@ -2423,26 +2218,20 @@ is provided to append the *MSnSet*’s variable name to the already
 defined names, although in general, biologically relevant identifiers
 are preferred.
 
-``` r
-
-sampleNames(exp1)
-```
+\
+[`sampleNames`](https://rdrr.io/pkg/Biobase/man/featureNames.html)`(``exp1``)`
 
     ## [1] "iTRAQ4.114" "iTRAQ4.115" "iTRAQ4.116" "iTRAQ4.117"
 
-``` r
-
-exp1 <- updateSampleNames(exp1)
-sampleNames(exp1)
-```
+\
+`exp1`` ``<-`` `[`updateSampleNames`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)`(``exp1``)`\
+[`sampleNames`](https://rdrr.io/pkg/Biobase/man/featureNames.html)`(``exp1``)`
 
     ## [1] "iTRAQ4.114.exp1" "iTRAQ4.115.exp1" "iTRAQ4.116.exp1" "iTRAQ4.117.exp1"
 
-``` r
-
-sampleNames(exp1) <- c("Ctrl1", "Cond1", "Ctrl2", "Cond2")
-sampleNames(exp2) <- c("Ctrl3", "Cond3", "Ctrl4", "Cond4")
-```
+\
+[`sampleNames`](https://rdrr.io/pkg/Biobase/man/featureNames.html)`(``exp1``)`` ``<-`` `[`c`](https://rdrr.io/r/base/c.html)`(``"Ctrl1"``, ``"Cond1"``, ``"Ctrl2"``, ``"Cond2"``)`\
+[`sampleNames`](https://rdrr.io/pkg/Biobase/man/featureNames.html)`(``exp2``)`` ``<-`` `[`c`](https://rdrr.io/r/base/c.html)`(``"Ctrl3"``, ``"Cond3"``, ``"Ctrl4"``, ``"Cond4"``)`
 
 At this stage, it is not yet possible to combine the two experiments,
 because their feature data is not compatible yet; they share the same
@@ -2454,19 +2243,15 @@ retention times, precursor intensities, …). Feature data with identical
 labels (columns in the data frame) and names (row in the data frame) are
 expected to have the same data and produce an error if not conform.
 
-``` r
-
-stopifnot(all(fvarLabels(exp1) == fvarLabels(exp2)))
-fData(exp1)["BSA", 1:4]
-```
+\
+[`stopifnot`](https://rdrr.io/r/base/stopifnot.html)`(`[`all`](https://rdrr.io/r/base/all.html)`(`[`fvarLabels`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``exp1``)`` ``==`` `[`fvarLabels`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``exp2``)``)``)`\
+[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``exp1``)``[``"BSA"``, ``1``:``4``]`
 
     ##     spectrum ProteinAccession   ProteinDescription PeptideSequence
     ## BSA        1              BSA bovine serum albumin          NYQEAK
 
-``` r
-
-fData(exp2)["BSA", 1:4]
-```
+\
+[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``exp2``)``[``"BSA"``, ``1``:``4``]`
 
     ##     spectrum ProteinAccession   ProteinDescription PeptideSequence
     ## BSA        1              BSA bovine serum albumin          NYQEAK
@@ -2476,21 +2261,17 @@ second convenience function, `updateFvarLabels`, to update feature
 labels based on the experiements variable name and maintain all the
 metadata.
 
-``` r
-
-exp1 <- updateFvarLabels(exp1)
-exp2 <- updateFvarLabels(exp2)
-head(fvarLabels(exp1))
-```
+\
+`exp1`` ``<-`` `[`updateFvarLabels`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)`(``exp1``)`\
+`exp2`` ``<-`` `[`updateFvarLabels`](https://lgatto.github.io/MSnbase/reference/MSnSet-class.md)`(``exp2``)`\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`fvarLabels`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``exp1``)``)`
 
     ## [1] "spectrum.exp1"           "ProteinAccession.exp1"  
     ## [3] "ProteinDescription.exp1" "PeptideSequence.exp1"   
     ## [5] "fileIdx.exp1"            "retention.time.exp1"
 
-``` r
-
-head(fvarLabels(exp2))
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`fvarLabels`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``exp2``)``)`
 
     ## [1] "spectrum.exp2"           "ProteinAccession.exp2"  
     ## [3] "ProteinDescription.exp2" "PeptideSequence.exp2"   
@@ -2501,18 +2282,14 @@ meta-data, with the `combine` method. The new experiment will contain
 the union of the feature names of the individual experiments with
 missing values inserted appropriately.
 
-``` r
-
-exp12 <- combine(exp1, exp2)
-dim(exp12)
-```
+\
+`exp12`` ``<-`` ``combine``(``exp1``, ``exp2``)`\
+[`dim`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)`(``exp12``)`
 
     ## [1] 36  8
 
-``` r
-
-pData(exp12)
-```
+\
+[`pData`](https://rdrr.io/pkg/Biobase/man/phenoData.html)`(``exp12``)`
 
     ##             mz reporters
     ## Ctrl1 114.1112    iTRAQ4
@@ -2524,10 +2301,8 @@ pData(exp12)
     ## Ctrl4 116.1116    iTRAQ4
     ## Cond4 117.1150    iTRAQ4
 
-``` r
-
-exprs(exp12)[25:28, ]
-```
+\
+[`exprs`](https://rdrr.io/pkg/Biobase/man/exprs.html)`(``exp12``)``[``25``:``28``, ``]`
 
     ##             Ctrl1     Cond1     Ctrl2     Cond2     Ctrl3     Cond3     Ctrl4
     ## ECA4513 10154.953 10486.943 11018.191 11289.552        NA        NA        NA
@@ -2540,10 +2315,8 @@ exprs(exp12)[25:28, ]
     ## ENO      5925.663
     ## ECA0435  5079.295
 
-``` r
-
-exp12
-```
+\
+`exp12`
 
     ## MSnSet (storageMode: lockedEnvironment)
     ## assayData: 36 features, 8 samples 
@@ -2561,8 +2334,8 @@ exp12
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Combined [27,4] and [24,4] MSnSets Fri Aug  7 15:22:57 2026 
-    ##  MSnbase version: 2.39.5
+    ## Combined [27,4] and [24,4] MSnSets Fri Oct  2 05:57:15 2026 
+    ##  MSnbase version: 2.39.6
 
 In summary, when experiments with different samples need to be combined
 (along the columns), one needs to (1) clarify the sample names using
@@ -2581,11 +2354,9 @@ A single *MSnSet* can also be split along the features/rows or
 samples/columns using the `split` method and a factor defining the
 splitting groups, resulting in an instance of class *MSnSetList*:
 
-``` r
-
-data(dunkley2006)
-head(pData(dunkley2006))
-```
+\
+[`data`](https://rdrr.io/r/utils/data.html)`(``dunkley2006``)`\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`pData`](https://rdrr.io/pkg/Biobase/man/phenoData.html)`(``dunkley2006``)``)`
 
     ##        membrane.prep fraction replicate
     ## M1F1A              1        1         A
@@ -2595,18 +2366,14 @@ head(pData(dunkley2006))
     ## M1F2B              1        2         B
     ## M1F5B              1        5         B
 
-``` r
-
-split(dunkley2006, dunkley2006$replicate)
-```
+\
+[`split`](https://rdrr.io/pkg/S4Vectors/man/splitAsList.html)`(``dunkley2006``, ``dunkley2006``$``replicate``)`
 
     ## Instance of class 'MSnSetList' containig 2 objects.
 
-``` r
-
-## or, defining the appropriate annotation variable name
-dun <- split(dunkley2006, "replicate")
-```
+\
+`## or, defining the appropriate annotation variable name`\
+`dun`` ``<-`` `[`split`](https://rdrr.io/pkg/S4Vectors/man/splitAsList.html)`(``dunkley2006``, ``"replicate"``)`
 
 Above, we split along the columns/samples, but the function would
 equally work with a factor of length equal to the number of rows of the
@@ -2614,11 +2381,9 @@ equally work with a factor of length equal to the number of rows of the
 
 Finally, the effect of `split` can be reverted by `unsplit`.
 
-``` r
-
-dun2 <- unsplit(dun, pData(dunkley2006)$replicate)
-compareMSnSets(dunkley2006, dun2)
-```
+\
+`dun2`` ``<-`` `[`unsplit`](https://rdrr.io/r/base/split.html)`(``dun``, `[`pData`](https://rdrr.io/pkg/Biobase/man/phenoData.html)`(``dunkley2006``)``$``replicate``)`\
+[`compareMSnSets`](https://lgatto.github.io/MSnbase/reference/compareMSnSets.md)`(``dunkley2006``, ``dun2``)`
 
     ## [1] TRUE
 
@@ -2646,16 +2411,14 @@ replicated experiments from (Tan et al. 2009) available in the
 *[pRolocdata](https://bioconductor.org/packages/3.23/pRolocdata)*
 package.
 
-``` r
-
-library("pRolocdata")
-data(tan2009r1)
-data(tan2009r2)
-data(tan2009r3)
-msnl <- MSnSetList(list(tan2009r1, tan2009r2, tan2009r3))
-avgtan <- averageMSnSet(msnl)
-head(exprs(avgtan))
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"pRolocdata"`](https://github.com/lgatto/pRolocdata)`)`\
+[`data`](https://rdrr.io/r/utils/data.html)`(``tan2009r1``)`\
+[`data`](https://rdrr.io/r/utils/data.html)`(``tan2009r2``)`\
+[`data`](https://rdrr.io/r/utils/data.html)`(``tan2009r3``)`\
+`msnl`` ``<-`` `[`MSnSetList`](https://lgatto.github.io/MSnbase/reference/MSnSetList-class.md)`(`[`list`](https://rdrr.io/r/base/list.html)`(``tan2009r1``, ``tan2009r2``, ``tan2009r3``)``)`\
+`avgtan`` ``<-`` `[`averageMSnSet`](https://lgatto.github.io/MSnbase/reference/averageMSnSet.md)`(``msnl``)`\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`exprs`](https://rdrr.io/pkg/Biobase/man/exprs.html)`(``avgtan``)``)`
 
     ##             X114      X115      X116      X117
     ## P20353 0.3605000 0.3035000 0.2095000 0.1265000
@@ -2665,10 +2428,8 @@ head(exprs(avgtan))
     ## Q7KJ73 0.2160000 0.1830000 0.3420000 0.2590000
     ## Q7JZN0 0.0965000 0.2509443 0.4771667 0.1750557
 
-``` r
-
-head(fData(avgtan)$disp)
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``avgtan``)``$``disp``)`
 
     ##               X114      X115        X116       X117
     ## P20353 0.076083495 0.1099127 0.109691169 0.14650198
@@ -2678,10 +2439,8 @@ head(fData(avgtan)$disp)
     ## Q7KJ73 0.000000000 0.0000000 0.000000000 0.00000000
     ## Q7JZN0 0.007681865 0.1959534 0.097873350 0.06210542
 
-``` r
-
-head(fData(avgtan)$nNA)
-```
+\
+[`head`](https://rdrr.io/r/utils/head.html)`(`[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``avgtan``)``$``nNA``)`
 
     ##        X114 X115 X116 X117
     ## P20353    1    1    1    1
@@ -2701,20 +2460,16 @@ default implementation, dispersions estimated from a single measurement
 (i.e. that had 2 missing values in our example) are set to 0; we will
 set these to the overal maximum observed dispersion.
 
-``` r
-
-disp <- rowMax(fData(avgtan)$disp)
-disp[disp == 0] <- max(disp)
-range(disp)
-```
+\
+`disp`` ``<-`` `[`rowMax`](https://rdrr.io/pkg/Biobase/man/rowQ.html)`(`[`fData`](https://rdrr.io/pkg/Biobase/man/featureData.html)`(``avgtan``)``$``disp``)`\
+`disp``[``disp`` ``==`` ``0``]`` ``<-`` `[`max`](https://rdrr.io/r/base/Extremes.html)`(``disp``)`\
+[`range`](https://rdrr.io/r/base/range.html)`(``disp``)`
 
     ## [1] 0.01152877 1.20888923
 
-``` r
-
-library("pRoloc")
-plot2D(avgtan, cex = 3 * disp)
-```
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`"pRoloc"`](https://github.com/lgatto/pRoloc)`)`\
+[`plot2D`](https://rdrr.io/pkg/pRoloc/man/plot2D.html)`(``avgtan``, cex ``=`` ``3`` ``*`` ``disp``)`
 
 ![PCA plot of the averaged \*MSnSet\*. The point sizes are proportional
 to the dispersion of the protein quantitation across the averaged
@@ -2762,35 +2517,35 @@ the `topN` method.
     ## [8] methods   base     
     ## 
     ## other attached packages:
-    ##  [1] gplots_3.3.0         MsDataHub_1.12.0     msdata_0.52.0       
-    ##  [4] pRoloc_1.52.0        BiocParallel_1.46.0  MLInterfaces_1.92.0 
-    ##  [7] cluster_2.1.8.3      annotate_1.90.0      XML_3.99-0.23       
-    ## [10] AnnotationDbi_1.74.0 IRanges_2.46.0       pRolocdata_1.50.0   
-    ## [13] Rdisop_1.72.0        zoo_1.9-0            MSnbase_2.39.5      
-    ## [16] S4Vectors_0.50.1     Biobase_2.72.0       BiocGenerics_0.58.1 
-    ## [19] generics_0.1.4       mzR_2.46.0           Rcpp_1.1.2          
-    ## [22] ggplot2_4.0.3        BiocStyle_2.40.0    
+    ##  [1] gplots_3.3.0         MsDataHub_1.12.1     pRoloc_1.52.0       
+    ##  [4] BiocParallel_1.46.0  MLInterfaces_1.92.0  cluster_2.1.8.3     
+    ##  [7] annotate_1.90.0      XML_3.99-0.25        AnnotationDbi_1.74.0
+    ## [10] IRanges_2.46.0       pRolocdata_1.50.0    Rdisop_1.72.0       
+    ## [13] zoo_1.9-1            MSnbase_2.39.6       S4Vectors_0.50.3    
+    ## [16] Biobase_2.72.0       BiocGenerics_0.58.1  generics_0.1.4      
+    ## [19] mzR_2.46.0           Rcpp_1.1.2           ggplot2_4.0.3       
+    ## [22] BiocStyle_2.40.0    
     ## 
     ## loaded via a namespace (and not attached):
     ##   [1] splines_4.6.1               bitops_1.1-0               
     ##   [3] filelock_1.0.3              tibble_3.3.1               
-    ##   [5] hardhat_1.4.3               preprocessCore_1.75.0      
-    ##   [7] pROC_1.19.0.1               rpart_4.1.27               
+    ##   [5] hardhat_1.4.3               preprocessCore_1.75.1      
+    ##   [7] pROC_1.19.1                 rpart_4.1.27               
     ##   [9] lifecycle_1.0.5             httr2_1.3.0                
     ##  [11] doParallel_1.0.17           globals_0.19.1             
-    ##  [13] lattice_0.22-9              MASS_7.3-66                
+    ##  [13] lattice_0.23-1              MASS_7.3-66                
     ##  [15] MultiAssayExperiment_1.38.0 dendextend_1.19.1          
-    ##  [17] magrittr_2.0.5              limma_3.68.4               
+    ##  [17] magrittr_2.0.5              limma_3.68.5               
     ##  [19] plotly_4.12.1               sass_0.4.10                
-    ##  [21] rmarkdown_2.31              jquerylib_0.1.4            
+    ##  [21] rmarkdown_2.32              jquerylib_0.1.4            
     ##  [23] yaml_2.3.12                 otel_0.2.0                 
     ##  [25] MsCoreUtils_1.24.0          DBI_1.3.0                  
     ##  [27] RColorBrewer_1.1-3          lubridate_1.9.5            
     ##  [29] abind_1.4-8                 GenomicRanges_1.64.0       
     ##  [31] purrr_1.2.2                 mixtools_2.0.0.1           
     ##  [33] AnnotationFilter_1.36.0     nnet_7.3-21                
-    ##  [35] rappdirs_0.3.4              ipred_0.9-15               
-    ##  [37] lava_1.9.2                  listenv_1.0.0              
+    ##  [35] rappdirs_0.3.4              ipred_0.9-16               
+    ##  [37] lava_1.9.3                  listenv_1.0.0              
     ##  [39] parallelly_1.48.0           pkgdown_2.2.1.9000         
     ##  [41] ncdf4_1.24                  codetools_0.2-20           
     ##  [43] DelayedArray_0.38.2         tidyselect_1.2.1           
@@ -2799,13 +2554,13 @@ the `topN` method.
     ##  [49] BiocFileCache_3.2.0         Seqinfo_1.2.0              
     ##  [51] jsonlite_2.0.0              caret_7.0-1                
     ##  [53] e1071_1.7-17                PTMods_1.1.1               
-    ##  [55] survival_3.8-9              iterators_1.0.14           
+    ##  [55] survival_3.8-12             iterators_1.0.14           
     ##  [57] systemfonts_1.3.2           foreach_1.5.2              
-    ##  [59] segmented_2.2-1             tools_4.6.1                
+    ##  [59] segmented_2.2-2             tools_4.6.1                
     ##  [61] progress_1.2.3              ragg_1.5.2                 
     ##  [63] glue_1.8.1                  prodlim_2026.03.11         
-    ##  [65] gridExtra_2.3.1             SparseArray_1.12.2         
-    ##  [67] mgcv_1.9-4                  xfun_0.60                  
+    ##  [65] gridExtra_2.3.1             SparseArray_1.12.3         
+    ##  [67] mgcv_1.9-4                  xfun_0.61                  
     ##  [69] MatrixGenerics_1.24.0       dplyr_1.2.1                
     ##  [71] withr_3.0.3                 BiocManager_1.30.27        
     ##  [73] fastmap_1.2.0               caTools_1.18.4             
@@ -2814,24 +2569,24 @@ the `topN` method.
     ##  [79] textshaping_1.0.5           gtools_3.9.5               
     ##  [81] lpSolve_5.6.23              biomaRt_2.68.0             
     ##  [83] RSQLite_3.53.3              tidyr_1.3.2                
-    ##  [85] hexbin_1.28.6               data.table_1.18.4          
-    ##  [87] recipes_1.3.3               FNN_1.1.4.1                
+    ##  [85] hexbin_1.28.6               data.table_1.18.6.1        
+    ##  [87] recipes_1.4.0               FNN_1.1.4.1                
     ##  [89] class_7.3-24                prettyunits_1.2.0          
-    ##  [91] PSMatch_1.17.1              httr_1.4.8                 
-    ##  [93] htmlwidgets_1.6.4           S4Arrays_1.12.0            
+    ##  [91] PSMatch_1.17.1              httr_1.4.9                 
+    ##  [93] htmlwidgets_1.6.4           S4Arrays_1.12.1            
     ##  [95] ModelMetrics_1.2.2.2        pkgconfig_2.0.3            
     ##  [97] gtable_0.3.6                timeDate_4052.112          
     ##  [99] blob_1.3.0                  S7_0.2.2                   
     ## [101] impute_1.86.0               XVector_0.52.0             
-    ## [103] htmltools_0.5.9             bookdown_0.47              
+    ## [103] htmltools_0.5.9             bookdown_0.48              
     ## [105] MALDIquant_1.22.3           ProtGenerics_1.44.0        
     ## [107] clue_0.3-68                 scales_1.4.0               
     ## [109] png_0.1-9                   gower_1.0.2                
-    ## [111] knitr_1.51                  MetaboCoreUtils_1.20.1     
+    ## [111] knitr_1.52                  MetaboCoreUtils_1.20.1     
     ## [113] reshape2_1.4.5              coda_0.19-4.1              
-    ## [115] nlme_3.1-170                curl_7.1.0                 
+    ## [115] nlme_3.1-171                curl_8.0.0                 
     ## [117] proxy_0.4-29                cachem_1.1.0               
-    ## [119] stringr_1.6.0               KernSmooth_2.23-26         
+    ## [119] stringr_1.6.0               KernSmooth_2.23-27         
     ## [121] BiocVersion_3.23.1          parallel_4.6.1             
     ## [123] mzID_1.50.0                 vsn_3.80.0                 
     ## [125] desc_1.4.3                  pillar_1.11.1              
@@ -2845,13 +2600,13 @@ the `topN` method.
     ## [141] mclust_6.1.3                QFeatures_1.22.0           
     ## [143] affy_1.90.0                 plyr_1.8.9                 
     ## [145] fs_2.1.0                    stringi_1.8.9              
-    ## [147] viridisLite_0.4.3           Biostrings_2.80.1          
+    ## [147] viridisLite_0.4.3           Biostrings_2.80.2          
     ## [149] lazyeval_0.2.3              Matrix_1.7-6               
-    ## [151] ExperimentHub_3.2.0         hms_1.1.4                  
-    ## [153] bit64_4.8.2                 future_1.75.0              
+    ## [151] ExperimentHub_3.2.2         hms_1.1.4                  
+    ## [153] bit64_4.8.6                 future_1.76.0              
     ## [155] KEGGREST_1.52.2             statmod_1.5.2              
     ## [157] AnnotationHub_4.2.2         SummarizedExperiment_1.42.0
-    ## [159] kernlab_0.9-33              igraph_2.3.3               
+    ## [159] kernlab_0.9-33              igraph_2.3.4               
     ## [161] memoise_2.0.1               affyio_1.82.0              
     ## [163] bslib_0.12.0                sampling_2.11              
     ## [165] bit_4.6.0

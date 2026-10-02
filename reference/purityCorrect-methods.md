@@ -190,7 +190,7 @@ processingData(msnset.crct)
 #> - - - Processing information - - -
 #> Data loaded: Wed May 11 18:54:39 2011 
 #> iTRAQ4 quantification by trapezoidation: Wed Apr  1 21:41:53 2015 
-#> Purity corrected: Fri Aug  7 15:21:55 2026 
+#> Purity corrected: Fri Oct  2 05:56:13 2026 
 #>  MSnbase version: 1.1.22 
 
 ## default impurity matrix for iTRAQ 8-plex
