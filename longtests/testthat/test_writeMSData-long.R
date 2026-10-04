@@ -145,7 +145,7 @@ test_that("writeMSData,OnDiskMSnExp works", {
 })
 
 test_that("writeMSData works on CDF files", {
-    in_file <- system.file(package = "msdata", "cdf/ko15.CDF")
+    in_file <- MsDataHub::ko15.CDF()
     ## on disk
     data_out <- readMSData(in_file, mode = "onDisk")
     out_file <- paste0(tempfile(), ".mzML")

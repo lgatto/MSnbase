@@ -35,6 +35,7 @@ spectrum, as some instrument don't measure (or report) signal if below a
 certain threshold.
 }
 \examples{
+
 \dontrun{
 ## Load a profile mode example file
 library(BiocParallel)

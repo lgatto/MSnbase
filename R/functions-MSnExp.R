@@ -399,9 +399,8 @@ removeReporters_MSnExp <- function(object, reporters = NULL,
 #' @examples
 #'
 #' library(MSnbase)
-#' library(msdata)
-#' ## Load a profile-mode LC-MS data file
-#' f <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[1]
+#' #' ## Load a profile-mode LC-MS data file
+#' f <- MsDataHub::X20171016_POOL_POS_3_105.134.mzML()
 #' od <- readMSData(f, mode = "onDisk")
 #' im <- as(filterRt(od, c(10, 20)), "MSnExp")
 #'
@@ -511,10 +510,9 @@ estimateMzScattering <- function(x, halfWindowSize = 1L, timeDomain = FALSE) {
 #' @examples
 #'
 #' library(MSnbase)
-#' library(msdata)
-#'
+#' #'
 #' ## Read a profile-mode LC-MS data file.
-#' fl <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[1]
+#' fl <- MsDataHub::X20171016_POOL_POS_3_105.134.mzML()
 #' od <- readMSData(fl, mode = "onDisk")
 #'
 #' ## Subset the object to the retention time range that includes the signal

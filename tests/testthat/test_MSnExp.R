@@ -272,7 +272,6 @@ test_that("isolation window", {
 })
 
 test_that("spectrapply,MSnExp", {
-    library(msdata)
     inMem <- microtofq_in_mem_ms1
     sps <- spectra(inMem)
     sps_2 <- spectrapply(inMem)
@@ -284,7 +283,6 @@ test_that("spectrapply,MSnExp", {
 })
 
 test_that("splitByFile,MSnExp", {
-    library(msdata)
     inMem <- microtofq_in_mem_ms1
     expect_error(splitByFile(inMem, f = factor(1:3)))
     spl <- splitByFile(inMem, f = factor(c("b", "a")))

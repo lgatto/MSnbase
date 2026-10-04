@@ -280,7 +280,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 
     \item{ionCount}{
       \code{ionCount(signature(object="OnDiskMSnExp",
-	BPPARAM=bpparam()))}:
+        BPPARAM=bpparam()))}:
       extract the ion count (i.e. sum of intensity values) for each
       spectrum in the data set. The relevant data has to be extracted
       from the raw files (with eventually applying processing steps).
@@ -343,7 +343,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 
     \item{peaksCount}{
       \code{peaksCount(signature(object="OnDiskMSnExp",
-	scans="numeric"), BPPARAM=bpparam())}:
+        scans="numeric"), BPPARAM=bpparam())}:
       extrac the peaks count from each spectrum in the object. Depending
       on the eventually present \code{ProcessingStep} objects in the
       \code{spectraProcessingQueue} raw data will be loaded to calculate
@@ -460,7 +460,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 
     \item{spectrapply}{
       \code{spectrapply(signature(object = "OnDiskMSnExp"), FUN = NULL,
-	BPPARAM = bpparam(), ...)}: applies the function \code{FUN} to each
+        BPPARAM = bpparam(), ...)}: applies the function \code{FUN} to each
       spectrum passing additional parameters in \code{...} to that
       function and return its results. For \code{FUN = NULL} it returns
       the list of spectra (same as a call to \code{spectra}). Parameter
@@ -499,7 +499,7 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 
     \item{normalize}{
       \code{normalize(signature(object="OnDiskMSnExp"), method=c("max",
-	"sum"), ...)}:
+        "sum"), ...)}:
       add a \code{normalize} processing step to the lazy processing
       queue of the returned \code{OnDiskMSnExp} object.
 
@@ -563,12 +563,10 @@ Class \code{"\linkS4class{Versioned}"}, by class "pSet", distance 5.
 }
 
 \examples{
-## Get some example mzML files
-library(msdata)
-mzfiles <- c(system.file("microtofq/MM14.mzML", package="msdata"),
-	     system.file("microtofq/MM8.mzML", package="msdata"))
+mzfile <- MsDataHub::X20171016_POOL_POS_1_105.134.mzML()
+
 ## Read the data as an OnDiskMSnExp
-odmse <- readMSData(mzfiles, msLevel=1, centroided = TRUE)
+odmse <- readMSData(mzfile, msLevel. = 1, centroided. = TRUE)
 
 ## Get the length of data, i.e. the total number of spectra.
 length(odmse)
@@ -637,10 +635,9 @@ mzsAfter <- intensity(odmse)
 head(lengths(mzs))
 head(lengths(mzsAfter))
 
-
 ## Centroided or profile mode
-f <- msdata::proteomics(full.names = TRUE,
-			pattern = "MS3TMT11.mzML")
+f <- MsDataHub::MS3TMT11.mzML()
+
 odmse <- readMSData(f, mode = "onDisk")
 validObject(odmse)
 odmse[[1]]
@@ -654,7 +651,7 @@ centroided(odmse, msLevel = 3) <- TRUE
 
 ## or when reading the data
 odmse2 <- readMSData(f, centroided = c(FALSE, TRUE, TRUE),
-		     mode = "onDisk")
+                     mode = "onDisk")
 table(centroided(odmse), msLevel(odmse))
 
 ## Filtering precursor scans
@@ -671,7 +668,6 @@ table(msLevel(from1))
 ## spectra
 (from2 <- filterPrecursorScan(odmse, 21946))
 table(msLevel(from2))
-
 }
 
 \keyword{classes}

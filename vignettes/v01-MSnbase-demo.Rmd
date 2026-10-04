@@ -318,7 +318,7 @@ object. See also section \@ref(sec:io3) for importing chromatographic
 data from SRM/MRM experiments.
 
 ```{r Chromatogram}
-(f <- system.file("microtofq/MM14.mzML", package = "msdata"))
+f <- MsDataHub::X20171016_POOL_POS_3_105.134.mzML()
 mtof <- readMSData(f, mode = "onDisk")
 mtof_tic <- chromatogram(mtof)
 mtof_tic

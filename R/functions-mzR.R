@@ -127,6 +127,8 @@ plotMzDelta_list <- function(object,            ## peakLists
 ##' @title Coerce identification data to a \code{data.frame}
 ##' @param from An object of class \code{mzRident} defined in the
 ##'     \code{mzR} package.
+##' @param to The object will be coerced to a \code{data.frame}.
+##' @param strict \code{TRUE}.
 ##' @return A \code{data.frame}
 ##' @author Laurent Gatto
 ##' @name as
@@ -141,7 +143,8 @@ plotMzDelta_list <- function(object,            ## peakLists
 ##' x
 ##' as(x, "data.frame")
 setAs("mzRident", "data.frame",
-      function(from) {
+      function(from, to = "data.frame",
+               strict = TRUE) {
           ## peptide spectrum matching
           iddf <- factorsAsStrings(psms(from))
           ## add file raw and mzid provenances

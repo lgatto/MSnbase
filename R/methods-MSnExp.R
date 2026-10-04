@@ -467,20 +467,18 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #' ## Read a test data file.
 #' library(BiocParallel)
 #' register(SerialParam())
-#' library(msdata)
-#' f <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-#'      system.file("microtofq/MM8.mzML", package = "msdata"))
+#' f <- MsDataHub::X20171016_POOL_POS_3_105.134.mzML()
 #'
 #' ## Read the data as an MSnExp
-#' msd <- readMSData(f, msLevel = 1)
+#' msd <- readMSData(f, msLevel. = 1)
 #'
 #' ## Extract the total ion chromatogram for each file:
 #' tic <- chromatogram(msd)
 #'
 #' tic
 #'
-#' ## Extract the TIC for the second file:
-#' tic[1, 2]
+#' ## Extract the TIC for the first (only) file:
+#' tic[1, 1]
 #'
 #' ## Plot the TIC for the first file
 #' plot(rtime(tic[1, 1]), intensity(tic[1, 1]), type = "l",
@@ -503,11 +501,11 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #' ## The mz method can be used to extract the m/z ranges directly
 #' mz(chrs)
 #'
-#' ## Also the Chromatogram for the second range in the second file is empty
-#' chrs[2, 2]
+#' ## Also the Chromatogram for the second range in the fiest file is empty
+#' chrs[2, 1]
 #'
-#' ## Get the extracted chromatogram for the first range in the second file
-#' chr <- chrs[1, 2]
+#' ## Get the extracted chromatogram for the first range in the first file
+#' chr <- chrs[1, 1]
 #' chr
 #'
 #' plot(rtime(chr), intensity(chr), xlab = "rtime", ylab = "intensity")

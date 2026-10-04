@@ -19,9 +19,9 @@ test_that("filterRt", {
 
 test_that("filterFile", {
     ## Use two files.
-    mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-                 system.file("microtofq/MM8.mzML", package = "msdata"))
-    oneFileInMem <- readMSData(mzfiles[2], verbose = FALSE, msLevel = 1)
+    mzfiles <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
+                 MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
+    oneFileInMem <- readMSData(mzfiles[2], verbose = FALSE, msLevel. = 1)
     twoFileInMem <- microtofq_in_mem_ms1
     twoFileOnDisk <- microtofq_on_disk
     secondFileOnDisk <- readMSData(mzfiles[2], verbose = FALSE, mode = "onDisk")
@@ -61,8 +61,8 @@ test_that("filterAcquisitionNum", {
     expect_true(all.equal(filterAcquisitionNum(ondisk2, n = 1000:1100),
                           filterAcquisitionNum(inmem2, n = 1000:1100)))
     ## Torture tests. The two files have different number of spectra.
-    mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-                 system.file("microtofq/MM8.mzML", package = "msdata"))
+    mzfiles <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
+                 MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
     twoFileOnDisk <- microtofq_on_disk
     centroided(twoFileOnDisk) <- TRUE
     secondFile <- readMSData(mzfiles[2], verbose = FALSE, centroided. = TRUE, mode = "onDisk")
@@ -89,8 +89,8 @@ test_that("filterPrecursorScan", {
 
 
 test_that("filterPolarity", {
-    fls <- dir(system.file("sciex", package = "msdata"),
-               full.names = TRUE, recursive = TRUE)
+    fls <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
+             MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
     rw <- readMSData(files = fls[1], mode = "onDisk")
     expect_identical(length(filterPolarity(rw, -1)), 0L)
     expect_identical(length(filterPolarity(rw, 1)), length(rw))

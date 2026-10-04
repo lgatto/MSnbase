@@ -180,9 +180,9 @@ s <- as.character(fData(itraqdata2)[i, "PeptideSequence"])
 plot(itraqdata2[[i]], s, main = s)
 
 ## Load profile-mode LC-MS files
-library(msdata)
-od <- readMSData(dir(system.file("sciex", package = "msdata"),
-                     full.names = TRUE), mode = "onDisk")
+od <- readMSData(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
+                 mode = "onDisk")
+
 ## Restrict the MS data to signal for serine
 serine <- filterMz(filterRt(od, rt = c(175, 190)), mz = c(106.04, 106.06))
 plot(serine, type = "XIC")

@@ -1,6 +1,5 @@
 test_that("Empty data", {
-    f <- msdata::proteomics(full.names = TRUE,
-                            pattern = "MRM-standmix-5.mzML")
+    f <- MsDataHub::MRM.standmix.5.mzML()
     expect_warning(x <- readMSData(f, mode = "onDisk"))
     expect_identical(length(x), 0L)
     expect_true(inherits(x, "OnDiskMSnExp"))
@@ -10,10 +9,8 @@ test_that("Empty data", {
 })
 
 test_that("One empty data file", {
-    f1 <- msdata::proteomics(full.names = TRUE,
-                             pattern = "MRM-standmix-5.mzML")
-    f2 <- msdata::proteomics(full.names = TRUE,
-                             pattern = "MS3TMT11.mzML")
+    f1 <- MsDataHub::MRM.standmix.5.mzML()
+    f2 <- MsDataHub::MS3TMT11.mzML()
     ## normalise path to fix expect_identical below on windows
     f2 <- normalizePath(f2)
     expect_warning(x <- readMSData(c(f1, f2), mode = "onDisk"))

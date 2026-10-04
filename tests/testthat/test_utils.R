@@ -379,9 +379,8 @@ test_that("getBpParam", {
     ## Testing the global MSnbase option PARALLEL_THRESH
     orig_val <- options()$MSnbase$PARALLEL_THRESH
     suppressWarnings(
-        onDisk <- readMSData(files = system.file("microtofq/MM14.mzML",
-                                                 package = "msdata"),
-                              verbose = FALSE, mode = "onDisk")
+        onDisk <- readMSData(files = MsDataHub::X20171016_POOL_POS_3_105.134.mzML(),
+                             verbose = FALSE, mode = "onDisk")
     )
     gotParam <- MSnbase:::getBpParam(onDisk)
     expect_true(is(gotParam, "SerialParam"))
@@ -393,7 +392,7 @@ test_that("getBpParam", {
 
 test_that("Get first MS level", {
     MSnbase::setMSnbaseVerbose(FALSE)
-    f <- msdata::proteomics(full.names = TRUE, pattern = "MS3TMT10")
+    f <- MsDataHub::MS3TMT10_01022016_32917.33481.mzML.gz()
     x <- readMSData(f, msLevel. = 2L, mode = "inMemory")
     y <- readMSData(f, msLevel. = 2L, mode = "onDisk")
     ## in memory
@@ -446,20 +445,16 @@ test_that(".topIdx", {
 })
 
 test_that(".openMSfile works", {
-    file <- system.file("microtofq", "MM14.mzML", package = "msdata")
-    res <- MSnbase:::.openMSfile(file)
-    expect_true(is(res, "mzRpwiz"))
-    close(res)
-    file <- system.file("threonine", "threonine_i2_e35_pH_tree.mzXML",
-                        package = "msdata")
+    file <- MsDataHub::X20171016_POOL_POS_1_105.134.mzML()
     res <- MSnbase:::.openMSfile(file)
     expect_true(is(res, "mzRpwiz"))
     close(res)
 
     ## Errors
     expect_error(MSnbase:::.openMSfile(c("a", "b")))
-    file <- c(system.file("microtofq", "MM14.mzML", package = "msdata"),
-              system.file("microtofq", "MM14.mzdata", package = "msdata"))
+    file <- c(file,
+              MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
+
     expect_error(MSnbase:::.openMSfile(file))
 })
 

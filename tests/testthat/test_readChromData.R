@@ -1,6 +1,5 @@
 test_that("readSRMData works", {
-    library(msdata)
-    fl <- proteomics(full.names = TRUE, pattern = "MRM")
+    fl <- MsDataHub::MRM.standmix.5.mzML()
     files <- c(fl, fl)
 
     ## Errors
@@ -24,7 +23,7 @@ test_that("readSRMData works", {
     colnames(prodMz) <- c("mzmin", "mzmax")
     expect_equal(productMz(mrm), prodMz)
     expect_equal(fData(mrm)$productIsolationWindowTargetMZ, prodMz[, 1])
-    
+
     ## Read with pheno data
     expect_warning(mrm <- readSRMData(files,
                                       pdata = data.frame(sample = 1:2)))
@@ -35,11 +34,11 @@ test_that(".combine_data.frame works", {
     A <- data.frame(a = c(1, 1, 2, 3, 4, 5, 6), b = c(2, 2, 3, 4, 5, 5, 6))
     B <- data.frame(a = c(1, 3, 3, 3, 3, 4, 5), b = c(2, 4, 4, 4, 5, 5, 5))
     C <- data.frame(a = c(3, 3, 4, 4), b = c(4, 5, 5, 5))
-    
+
     exp <- data.frame(a = c(1, 1, 2, 3, 3, 3, 3, 4, 4, 5, 6),
                       b = c(2, 2, 3, 4, 4, 4, 5, 5, 5, 5, 6))
     expect_equal(exp, .combine_data.frame(list(A, B, C)))
-    
+
     expect_error(.combine_data.frame())
     expect_error(.combine_data.frame(list(A, B, C), cols = c("z")))
 

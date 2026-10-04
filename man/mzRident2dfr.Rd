@@ -4,9 +4,16 @@
 \alias{as}
 \alias{as.data.frame.mzRident}
 \title{Coerce identification data to a \code{data.frame}}
+\usage{
+\S4method{coerce}{mzRident,data.frame}(from, to = "data.frame", strict = TRUE)
+}
 \arguments{
 \item{from}{An object of class \code{mzRident} defined in the
 \code{mzR} package.}
+
+\item{to}{The object will be coerced to a \code{data.frame}.}
+
+\item{strict}{\code{TRUE}.}
 }
 \value{
 A \code{data.frame}

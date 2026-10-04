@@ -107,8 +107,7 @@ plot(mz(res[[2]]), intensity(res[[2]]), xlim = range(mzs[5:25]), type = "h",
 
 ## Combining spectra of an MSnExp/OnDiskMSnExp objects
 ## Reading data from 2 mzML files
-sciex <- readMSData(dir(system.file("sciex", package = "msdata"),
-    full.names = TRUE), mode = "onDisk")
+sciex <- MsDataHub::X20171016_POOL_POS_3_105.134.mzML()
 
 ## Filter the file to a retention time range from 2 to 20 seconds (to reduce
 ## execution time of the example)

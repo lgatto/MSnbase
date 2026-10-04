@@ -65,8 +65,8 @@ test_that("filterMz", {
     inMemF <- filterMz(inmem2, mz = c(300, 900))
     expect_true(all.equal(onDiskF, inMemF))
     ## On multiple files.
-    mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-                 system.file("microtofq/MM8.mzML", package = "msdata"))
+    mzfiles <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
+                 MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
     twoFileOnDisk <- microtofq_on_disk
     twoFileOnDiskF <- filterMz(twoFileOnDisk, mz = c(300, 350))
     mzr <- range(mz(twoFileOnDiskF))

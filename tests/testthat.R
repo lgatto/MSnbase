@@ -22,8 +22,8 @@ tmt_od_ms1_sub <- filterRt(tmt_erwinia_on_disk_ms1, c(1200, 1250))
 tmt_od_ms2_sub <- filterRt(tmt_erwinia_on_disk_ms2, c(1200, 1250))
 
 ## microtofq
-f <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-       system.file("microtofq/MM8.mzML", package = "msdata"))
+mzfiles <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
+             MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
 microtofq_in_mem_ms1 <- readMSData(f, msLevel. = 1)
 microtofq_on_disk_ms1 <- readMSData(f, msLevel. = 1, mode = "onDisk")
 microtofq_on_disk <- readMSData(f, mode = "onDisk")
@@ -35,8 +35,8 @@ extdata_mzXML_in_mem_ms2 <- readMSData(f, verbose = FALSE, centroided. = FALSE)
 extdata_mzXML_on_disk <- readMSData(f, centroided. = FALSE, mode = "onDisk")
 extdata_mzXML_on_disk_ms2 <- readMSData(f, msLevel. = 2, centroided. = FALSE, mode = "onDisk")
 
-sf <- dir(system.file("sciex", package = "msdata"),
-          full.names = TRUE)
+sf <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
+        MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
 sciex <- readMSData(sf, mode = "onDisk")
 
 test_check("MSnbase")

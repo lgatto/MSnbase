@@ -12,8 +12,7 @@ test_that("fileNames accessor MzTab", {
 })
 
 test_that("fileNames accessor MSmap", {
-    f <- dir(system.file("threonine", package = "msdata"),
-             full.names = TRUE)
+    f <- unname(MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
     ms <- openMSfile(f)
     map <- MSmap(ms, lowMz = 200, highMz = 500, resMz = 1)
     expect_identical(f, fileName(map))

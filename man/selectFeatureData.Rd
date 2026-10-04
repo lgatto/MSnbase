@@ -49,18 +49,6 @@ fvarLabels(x)
 x <- selectFeatureData(hyperLOPIT2015)
 fvarLabels(x)
 }
-
-## Subset the feature data of an OnDiskMSnExp object to the minimal
-## required columns
-f <- system.file("microtofq/MM14.mzML", package = "msdata")
-od <- readMSData(f, mode = "onDisk")
-
-## what columns do we have?
-fvarLabels(od)
-
-## Reduce the feature data data.frame to the required columns only
-od <- selectFeatureData(od, fcol = requiredFvarLabels(class(od)))
-fvarLabels(od)
 }
 \author{
 Laurent Gatto

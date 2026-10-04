@@ -62,7 +62,7 @@ test_that(".guessSoftwareProcessing works", {
 
 test_that("writeMSData,MSnExp works", {
     out_path <- tempdir()
-    out_file <- paste0(out_path, c("/a3.mzML", "/b3.mzML"))
+    out_file <- paste0(out_path, c("/out1.mzML", "/out2.mxML"))
     writeMSData(microtofq_in_mem_ms1, file = out_file, copy = TRUE)
     odf_in <- readMSData(out_file, mode = "onDisk")
     expect_equal(unname(rtime(odf_in)), unname(rtime(microtofq_in_mem_ms1)))
@@ -84,8 +84,7 @@ test_that("writeMSData,MSnExp works", {
     expect_equal(unname(precursorIntensity(odf_in)),
                  unname(precursorIntensity(extdata_mzXML_in_mem_ms2)))
 
-    in_file <- system.file(package = "msdata",
-                           "proteomics/MS3TMT10_01022016_32917-33481.mzML.gz")
+    in_file <- MsDataHub::MS3TMT10_01022016_32917.33481.mzML.gz()
     data_out <- readMSData(in_file, msLevel. = 3, mode = "inMem")
     out_file <- paste0(tempfile(), ".mzML")
     writeMSData(data_out, file = out_file, outformat = "mzml", copy = TRUE)

@@ -15,7 +15,7 @@ test_that("msLevel set correctly", {
     x2 <- readMSData(f, centroided. = c(FALSE, TRUE, NA, NA), verbose = FALSE, mode = "onDisk")
     expect_identical(centroided(x), centroided(x2))
     ## In mem with centroided.
-    f <- system.file("microtofq/MM14.mzML", package = "msdata")
+    f <- MsDataHub::X20171016_POOL_POS_1_105.134.mzML()
     x <- readMSData(f, msLevel = 1)
     expect_true(all(centroided(x)))
     x <- readMSData(f, msLevel. = 1, centroided. = FALSE)
@@ -35,8 +35,7 @@ test_that("Constructor performance and test for MS1 only", {
 })
 
 test_that("readMSData inMemory and onDisk reading CDF", {
-    library(msdata)
-    f <- system.file("cdf/ko15.CDF",  package = "msdata")
+    f <- MsDataHub::ko15.CDF()
     odmse <- readMSData(f, mode = "onDisk")
     mse <- readMSData(f, msLevel. = 1, mode = "inMemory")
     all.equal(spectra(odmse), spectra(mse))

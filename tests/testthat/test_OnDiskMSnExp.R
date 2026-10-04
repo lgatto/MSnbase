@@ -242,9 +242,8 @@ test_that("splitByFile,OnDiskMSnExp", {
 })
 
 test_that("chromatogram,OnDiskMSnExp works", {
-    library(msdata)
-    mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-             system.file("microtofq/MM8.mzML", package = "msdata"))
+    mzf <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
+             MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
     tmpd <- tempdir()
     file.copy(mzf[1], paste0(tmpd, "a.mzML"))
     file.copy(mzf[2], paste0(tmpd, "b.mzML"))
@@ -333,7 +332,7 @@ test_that("chromatogram,OnDiskMSnExp works", {
 ## spectrapply,OnDiskMSnExp method. Each has its own pros and cons and cases
 ## in which it outperforms the other function.
 test_that("low memory spectrapply function works", {
-    fl <- system.file("lockmass/LockMass_test.mzXML", package = "msdata")
+    fl <- MsDataHub::X20171016_POOL_POS_3_105.134.mzML()
     fh <- mzR::openMSfile(fl)
     hdr <- mzR::header(fh)
     mzR::close(fh)

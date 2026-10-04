@@ -102,10 +102,9 @@ results using the \code{\link[=writeMSData]{writeMSData()}} function afterwards.
 \examples{
 
 library(MSnbase)
-library(msdata)
-
+#'
 ## Read a profile-mode LC-MS data file.
-fl <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[1]
+fl <- MsDataHub::X20171016_POOL_POS_3_105.134.mzML()
 od <- readMSData(fl, mode = "onDisk")
 
 ## Subset the object to the retention time range that includes the signal

@@ -1,6 +1,6 @@
-library(msdata)
-mzf <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-         system.file("microtofq/MM8.mzML", package = "msdata"))
+mzf <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
+         MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
+
 inMem <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE)
 onDisk <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE, mode = "onDisk")
 

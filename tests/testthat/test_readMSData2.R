@@ -1,24 +1,7 @@
 context("readMSData onDisk mode")
 
-############################################################
-## Load the required data files.
-.getMzMLFiles <- function(force.msdata = FALSE) {
-    ## Return the mzML files, the ones from the XXX package, or if run
-    ## locally, some of my test files.
-    HOST <- unlist(strsplit(system("hostname", intern = TRUE), split = ".",
-                            perl = FALSE, fixed = TRUE))[1]
-    if (HOST == "macbookjo" & !force.msdata) {
-        mzfiles <- dir("/Users/jo/R-workspaces/EURAC/2016/2016-04-21-PolarMetabolom/data/mzML/",
-                       pattern = "POS_C_O", full.names = TRUE)
-    } else {
-        require(msdata)
-        mzfiles <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-                     system.file("microtofq/MM8.mzML", package = "msdata"))
-    }
-    return(mzfiles)
-}
-
-mzf <- .getMzMLFiles(TRUE)[1:2]
+mzf <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
+         MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
 
 ## Load the data with readMSData mode = onDisk
 odmse <- readMSData(files = mzf, centroided. = TRUE, mode = "onDisk")

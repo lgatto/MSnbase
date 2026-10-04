@@ -1,8 +1,12 @@
 library(MSnbase)
-library(msdata)
-f <- msdata::proteomics(full.names = TRUE)
 
-f <- dir(system.file("sciex/", package = "msdata"), full.names = TRUE)
+
+f <- c(MsDataHub::MRM.standmix.5.mzML(),
+       MsDataHub::MS3TMT10_01022016_32917.33481.mzML.gz(),
+       MsDataHub::MS3TMT11.mzML())
+
+f <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
+       MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
 
 ## readMSData
 for (i in 1:10000) {
@@ -126,9 +130,9 @@ fl <- dir(SN, full.names = TRUE)
 
 torturing(fl)
 ## macOS: 2x FAIL
-## ---  1  --- 
+## ---  1  ---
 ## first spectrapply
-## Error in object@backend$getPeakList(x) : 
+## Error in object@backend$getPeakList(x) :
 ##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
 
 ## Linux: 2x OK.
@@ -148,9 +152,9 @@ fl <- dir("/Users/jo/data/2017/2017_02/", full.names = TRUE)
 setMSnbaseFastLoad(TRUE)
 torturing(fl)
 ## macOS: 2x FAIL
-## ---  1  --- 
+## ---  1  ---
 ## first spectrapply
-## Error in object@backend$getPeakList(x) : 
+## Error in object@backend$getPeakList(x) :
 ##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
 
 ## Linux: 2x OK.
@@ -173,16 +177,16 @@ fl <- dir("/Users/jo/data/2017/nalden01/", full.names = TRUE)
 setMSnbaseFastLoad(TRUE)
 torturing(fl)
 ## macOS: 2x FAIL
-## ---  8  --- 
+## ---  8  ---
 ## first spectrapply
 ## second spectrapply
 ## third spectrapply after filter rt
-## Error in object@backend$getPeakList(x) : 
+## Error in object@backend$getPeakList(x) :
 ##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
-## ---  6  --- 
+## ---  6  ---
 ## first spectrapply
 ## second spectrapply
-## Error in object@backend$getPeakList(x) : 
+## Error in object@backend$getPeakList(x) :
 ##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
 
 ## Linux: 2x OK.
@@ -192,10 +196,10 @@ fl <- dir("/Users/jo/data/2017/nalden01/", full.names = TRUE)
 setMSnbaseFastLoad(FALSE)
 torturing(fl)
 ## macOS: 1x FAIL: that's problematic; it's using the header(last spectrum).
-## ---  3  --- 
+## ---  3  ---
 ## first spectrapply
 ## second spectrapply
-## Error in object@backend$getPeakList(x) : 
+## Error in object@backend$getPeakList(x) :
 ##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
 
 ## macOS without gc(): 1x FAIL, like above!
@@ -212,9 +216,9 @@ fl <- dir("/Users/jo/data/2016/2016_06/", full.names = TRUE)
 setMSnbaseFastLoad(TRUE)
 torturing(fl)
 ## macOS: 1x FAIL:
-## ---  1  --- 
+## ---  1  ---
 ## first spectrapply
-## Error in object@backend$getPeakList(x) : 
+## Error in object@backend$getPeakList(x) :
 ##   [MSData::Spectrum::getMZIntensityPairs()] Sizes do not match.
 
 ## Linux: 2x OK.
@@ -320,7 +324,7 @@ microbenchmark(spectrapply(od, FUN = mz), MSnbase:::spectrapply2(od, FUN = mz),
 ##             spectrapply(od, FUN = mz)  970.0606  986.7927 1033.393 1015.398
 ##  MSnbase:::spectrapply2(od, FUN = mz) 1163.2397 1181.7938 1291.004 1197.522
 ##        uq      max neval cld
-##  1017.076 1177.636     5  a 
+##  1017.076 1177.636     5  a
 ##  1384.279 1528.184     5   b
 
 ## gzipped mzML
@@ -336,7 +340,7 @@ microbenchmark(spectrapply(od), MSnbase:::spectrapply2(od), times = 5)
 ##  MSnbase:::spectrapply2(od) 20.35279 20.77263 21.26155 21.26453 21.90014
 ##       max neval cld
 ##  27.38587     5   b
-##  22.01765     5  a 
+##  22.01765     5  a
 
 
 ## mzXML
@@ -351,7 +355,7 @@ microbenchmark(spectrapply(od), MSnbase:::spectrapply2(od), times = 5)
 ##             spectrapply(od) 177.9468 181.9812 195.6146 186.8247 205.5001
 ##  MSnbase:::spectrapply2(od) 224.5103 259.7205 279.5995 271.8644 313.5613
 ##       max neval cld
-##  225.8203     5  a 
+##  225.8203     5  a
 ##  328.3411     5   b
 
 ## At last with the same file but gzipped...
@@ -380,5 +384,5 @@ microbenchmark(spectrapply(od), MSnbase:::spectrapply2(od), times = 5)
 ##             spectrapply(od)   266.9588   268.5773   338.2803   269.8898
 ##  MSnbase:::spectrapply2(od) 13483.9753 13582.1238 13843.0532 13800.6454
 ##         uq        max neval cld
-##    402.648   483.3276     5  a 
+##    402.648   483.3276     5  a
 ##  14100.982 14247.5391     5   b

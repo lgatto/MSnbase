@@ -108,7 +108,6 @@ Suggests:
     pRoloc,
     pRolocdata (>= 1.43.3),
     magick,
-    msdata,
     MsDataHub,
     roxygen2,
     rgl,
@@ -220,4 +219,4 @@ Collate:
     'utils.R'
     'writeMSData.R'
     'zzz.R'
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

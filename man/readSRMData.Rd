@@ -48,8 +48,7 @@ thrown).
 \examples{
 
 ## Read an example MRM/SRM data
-library(msdata)
-fl <- proteomics(full.names = TRUE, pattern = "MRM")
+fl <- MsDataHub::MRM.standmix.5.mzML()
 
 ## Read the data
 mrm <- readSRMData(fl)

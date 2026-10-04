@@ -291,13 +291,6 @@ test_that("empty spectrum", {
     expect_false(isEmpty(sp))
 })
 
-test_that("show MS1 spectrum", {
-    f <- dir(system.file("threonine", package = "msdata"),
-             full.names = TRUE)
-    x <- readMSData(f, msLevel. = 1)
-    expect_null(show(x[[1]]))
-})
-
 test_that(".spectrum_header works", {
     mzf <- mzR::openMSfile(fileNames(tmt_erwinia_on_disk))
     hdr <- header(mzf)

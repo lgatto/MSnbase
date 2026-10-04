@@ -38,9 +38,8 @@ scattering of m/z values, but the scattering of \code{sqrt(mz)} values.
 \examples{
 
 library(MSnbase)
-library(msdata)
-## Load a profile-mode LC-MS data file
-f <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[1]
+#' ## Load a profile-mode LC-MS data file
+f <- MsDataHub::X20171016_POOL_POS_3_105.134.mzML()
 od <- readMSData(f, mode = "onDisk")
 im <- as(filterRt(od, c(10, 20)), "MSnExp")
 

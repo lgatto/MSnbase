@@ -1,7 +1,7 @@
 # MSnbase 2.39
 
 ## MSnbase 2.39.6
-- Use MsDataHub, drop msdata in vignettes.
+- Use MsDataHub, completely drop msdata.
 
 ## MSnbase 2.39.5
 - Use selective import from ProtGenerics and BiocGenerics.

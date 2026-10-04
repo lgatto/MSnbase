@@ -21,7 +21,8 @@ Helper functions to check whether raw files contain spectra or
 chromatograms.
 }
 \examples{
-f <- msdata::proteomics(full.names = TRUE)[1:2]
+f <- c(MsDataHub::MRM.standmix.5.mzML(),
+       MsDataHub::MS3TMT10_01022016_32917.33481.mzML.gz())
 hasSpectra(f)
 hasChromatograms(f)
 }
