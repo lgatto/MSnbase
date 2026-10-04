@@ -501,19 +501,17 @@ setMethod("splitByFile", c("MSnExp", "factor"), function(object, f) {
 #' ## The mz method can be used to extract the m/z ranges directly
 #' mz(chrs)
 #'
-#' ## Also the Chromatogram for the second range in the fiest file is empty
+#' ## Also the Chromatogram for the second range in the first file is empty
 #' chrs[2, 1]
 #'
 #' ## Get the extracted chromatogram for the first range in the first file
 #' chr <- chrs[1, 1]
 #' chr
-#'
-#' plot(rtime(chr), intensity(chr), xlab = "rtime", ylab = "intensity")
 setMethod("chromatogram", "MSnExp", function(object, rt, mz,
                                              aggregationFun = "sum",
                                              missing = NA_real_,
                                              msLevel = 1L,
-                                             BPPARAM = bpparam()){
+                                             BPPARAM = bpparam()) {
     if (!missing(rt))
         if (is.null(ncol(rt)))
             rt <- matrix(range(rt), ncol = 2, byrow = TRUE)

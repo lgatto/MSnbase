@@ -128,14 +128,12 @@ fData(chrs)
 ## The mz method can be used to extract the m/z ranges directly
 mz(chrs)
 
-## Also the Chromatogram for the second range in the fiest file is empty
+## Also the Chromatogram for the second range in the first file is empty
 chrs[2, 1]
 
 ## Get the extracted chromatogram for the first range in the first file
 chr <- chrs[1, 1]
 chr
-
-plot(rtime(chr), intensity(chr), xlab = "rtime", ylab = "intensity")
 }
 \seealso{
 \code{\link{Chromatogram}} and \code{\link{MChromatograms}} for the
