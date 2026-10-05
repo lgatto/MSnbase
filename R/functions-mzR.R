@@ -125,15 +125,15 @@ plotMzDelta_list <- function(object,            ## peakLists
 ##' \emph{MSnbase-demo} vignette.
 ##'
 ##' @title Coerce identification data to a \code{data.frame}
-##' @param from An object of class \code{mzRident} defined in the
+##'@param from An object of class \code{mzRident} defined in the
 ##'     \code{mzR} package.
 ##' @param to The object will be coerced to a \code{data.frame}.
-##' @param strict \code{TRUE}.
-##' @return A \code{data.frame}
+##' @param strict Set to \code{TRUE}.
+##' @return A \code{data.frame}.
 ##' @author Laurent Gatto
 ##' @name as
 ##' @rdname mzRident2dfr
-##' @aliases as.data.frame.mzRident
+##' @aliases as.data.frame.mzRident coerce,mzRident,data.frame-method
 ##' @examples
 ##' ## find path to a mzIdentML file
 ##' identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),

@@ -3,8 +3,10 @@ test_that(".plotXIC works", {
                     mz = rep(abs(rnorm(30)), 100),
                     i = abs(rnorm(300, mean = 200)))
     od1 <- filterFile(microtofq_on_disk, 1)
+    od1 <- filterRt(od1, c(220, 230))
+    od1 <- filterMz(od1, c(105, 125))
 
-    x <- as(filterMz(filterRt(od1, c(270, 290)), c(610, 615)), "data.frame")
+    x <- as(od1, "data.frame")
     .plotXIC(x)
 
     ## Test passing additional arguments

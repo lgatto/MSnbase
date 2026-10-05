@@ -3,6 +3,7 @@
 \name{as}
 \alias{as}
 \alias{as.data.frame.mzRident}
+\alias{coerce,mzRident,data.frame-method}
 \title{Coerce identification data to a \code{data.frame}}
 \usage{
 \S4method{coerce}{mzRident,data.frame}(from, to = "data.frame", strict = TRUE)
@@ -13,10 +14,10 @@
 
 \item{to}{The object will be coerced to a \code{data.frame}.}
 
-\item{strict}{\code{TRUE}.}
+\item{strict}{Set to \code{TRUE}.}
 }
 \value{
-A \code{data.frame}
+A \code{data.frame}.
 }
 \description{
 A function to convert the identification data contained in an
