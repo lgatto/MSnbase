@@ -658,7 +658,7 @@ setMethod("idSummary", "MSnSet",
               ## to our fData data.frame because utils.idSummary
               ## needs this information for matching
               fd <- fData(object)
-              fd$spectrumFile <- basename(fileNames(object)[fd$file])
+              fd$spectrumFile <- basename(fileNames(object)[fd$fileIdx])
               return(utils.idSummary(fd))
           })
 

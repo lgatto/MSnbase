@@ -242,14 +242,14 @@ test_that("nQuants", {
                              data=data.frame(accession=
                                              factor(c("A", "A", "A", "B", "B")))))
     qu <- matrix(3:2, nrow=2, ncol=2, dimnames=list(c("A", "B"), 1:2))
-    expect_equal(nQuants(m, group=fData(m)$accession), qu)
+    expect_equal(nQuants(m, groupBy=fData(m)$accession), qu)
 
     ## more levels than items present in the factor
     m@featureData <- new("AnnotatedDataFrame",
                          data=data.frame(accession=
                                          factor(c("A", "A", "A", "B", "B"),
                                                     levels=LETTERS[1:10])))
-    expect_equal(nQuants(m, group=fData(m)$accession), qu)
+    expect_equal(nQuants(m, groupBy=fData(m)$accession), qu)
 
     ## real world example
     data(msnset)
@@ -278,24 +278,24 @@ test_that("featureCV", {
                                              factor(c("A", "A", "A", "B", "B")))))
     cv <- matrix(c(0.5, sqrt(0.5)/4.5, 1/7, sqrt(0.5)/9.5),
                  nrow=2, ncol=2, dimnames=list(c("A", "B"), c("CV.1", "CV.2")))
-    expect_equal(featureCV(m, group=fData(m)$accession, norm="none"), cv)
+    expect_equal(featureCV(m, groupBy=fData(m)$accession, norm="none"), cv)
 
     ## more levels than items present in the factor
     m@featureData <- new("AnnotatedDataFrame",
                          data=data.frame(accession=
                                          factor(c("A", "A", "A", "B", "B"),
                                                     levels=LETTERS[1:10])))
-    expect_equal(featureCV(m, group=fData(m)$accession, norm="none"), cv)
+    expect_equal(featureCV(m, groupBy=fData(m)$accession, norm="none"), cv)
 
     i <- list(1:3, 4:5, 6:8, 9:10)
     div <- rowSums(exprs(m))
     cv <- matrix(sapply(i, function(ii) {
                    sd((exprs(m)/div)[ii]/mean((exprs(m)/div)[ii])) }),
                  nrow=2, ncol=2, dimnames=list(c("A", "B"), c("CV.1", "CV.2")))
-    expect_equal(featureCV(m, group=fData(m)$accession, norm="sum"), cv)
+    expect_equal(featureCV(m, groupBy=fData(m)$accession, norm="sum"), cv)
 
-    cv1 <- featureCV(m, group=fData(m)$accession)
-    cv2 <- featureCV(m, group=fData(m)$accession, suffix = "2")
+    cv1 <- featureCV(m, groupBy=fData(m)$accession)
+    cv2 <- featureCV(m, groupBy=fData(m)$accession, suffix = "2")
     expect_identical(colnames(cv1), sub("\\.2", "", colnames(cv2)))
 })
 
@@ -303,16 +303,16 @@ context("MSnSet identification data")
 
 test_that("addIdentificationData", {
   quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                   full.name = TRUE, pattern = "mzXML$")
+                   full.names = TRUE, pattern = "mzXML$")
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                   full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+                   full.names = TRUE, pattern = "dummyiTRAQ.mzid")
   aa <- extdata_mzXML_in_mem_ms2
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,
                      BPPARAM = SerialParam(),
                      verbose = FALSE)
   fd <- fData(addIdentificationData(msnset, identFile, verbose = FALSE))
   expect_equal(fd$spectrum, 1:5)
-  expect_equal(fd$file, rep(1, 5))
+  expect_equal(fd$fileIdx, rep(1, 5))
   expect_equal(fd$acquisition.number, 1:5)
   expect_equal(fd$sequence,
                c("VESITARHGEVLQLRPK", "IDGQWVTHQWLKK",
@@ -329,9 +329,9 @@ test_that("addIdentificationData", {
 
 test_that("idSummary", {
   quantFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                   full.name = TRUE, pattern = "mzXML$")
+                   full.names = TRUE, pattern = "mzXML$")
   identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                   full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+                   full.names = TRUE, pattern = "dummyiTRAQ.mzid")
   ## aa <- readMSData(quantFile, centroided. = FALSE)
   aa <- extdata_mzXML_in_mem_ms2
   msnset <- quantify(aa, method = "trap", reporters = iTRAQ4,

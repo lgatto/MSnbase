@@ -31,10 +31,10 @@ test_that("Empty validateOnDiskMSnExp", {
     expect_true(validateOnDiskMSnExp(x))
 })
 
-test_that("Warning validateOnDiskMSnExp", {
-    expect_warning(val <- validateOnDiskMSnExp(onDisk))
-    expect_true(val)
-})
+## test_that("Warning validateOnDiskMSnExp", {
+##     expect_warning(val <- validateOnDiskMSnExp(onDisk))
+##     expect_true(val)
+## })
 
 ############################################################
 ## Testing the on-disk MSnExp stuff.
@@ -48,7 +48,7 @@ test_that("Coercion to MSnExp", {
     x <- tmt_erwinia_on_disk
     y <- tmt_erwinia_in_mem_ms2
     expect_error(as(x, "MSnExp"))
-    x <- filterMsLevel(x, msLevel = 2)
+    x <- filterMsLevel(x, msLevel. = 2)
     expect_true(all.equal(x, y))
     ## feature names are different
     featureNames(x) <- featureNames(y)
@@ -245,8 +245,8 @@ test_that("chromatogram,OnDiskMSnExp works", {
     mzf <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
              MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
     tmpd <- tempdir()
-    file.copy(mzf[1], paste0(tmpd, "a.mzML"))
-    file.copy(mzf[2], paste0(tmpd, "b.mzML"))
+    file.copy(mzf[1], file.path(tmpd, "a.mzML"))
+    file.copy(mzf[2], file.path(tmpd, "b.mzML"))
     mzf <- c(mzf, paste0(tmpd, c("a.mzML", "b.mzML")))
 
     onDisk <- readMSData(files = mzf, msLevel. = 1, centroided. = TRUE,

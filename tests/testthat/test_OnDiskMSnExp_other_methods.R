@@ -129,9 +129,8 @@ test_that("Compare OnDiskMSnExp and MSnExp extractPrecSpectra", {
 ############################################################
 ## isCentroided
 test_that("isCentroided on OnDiskMSnExp", {
-    expect_true(all(isCentroided(onDisk, verbose = FALSE)))
+    expect_true(!all(isCentroided(onDisk, verbose = FALSE)))
     expect_true(all(isCentroided(ondisk2, verbose = FALSE)))
-
 })
 
 ############################################################

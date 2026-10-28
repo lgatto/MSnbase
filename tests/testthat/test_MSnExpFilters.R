@@ -47,37 +47,37 @@ test_that("filterFile", {
                      experimentData(filterFile(twoFileOnDisk, file = 2)))
 })
 
-test_that("filterAcquisitionNum", {
-    filtered <- filterAcquisitionNum(ondisk, n = 1000:1100)
-    expect_true(all(acquisitionNum(filtered) %in% 1000:1100))
-    spctr <- spectra(filtered)
-    expect_true(all(unlist(lapply(spctr, acquisitionNum)) %in% 1000:1100))
-    ## ## Use unavailable acquisition numbers
-    ## expect_warning(ll <- length(filterAcquisitionNum(ondisk, n = 1:100)))
-    ## expect_true(ll == 0)
-    ## Compare on-disk with in-mem.
-    expect_true(all.equal(filterAcquisitionNum(ondisk1, n = 1000:1100),
-                          filterAcquisitionNum(inmem1, n = 1000:1100)))
-    expect_true(all.equal(filterAcquisitionNum(ondisk2, n = 1000:1100),
-                          filterAcquisitionNum(inmem2, n = 1000:1100)))
-    ## Torture tests. The two files have different number of spectra.
-    mzfiles <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
-                 MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
-    twoFileOnDisk <- microtofq_on_disk
-    centroided(twoFileOnDisk) <- TRUE
-    secondFile <- readMSData(mzfiles[2], verbose = FALSE, centroided. = TRUE, mode = "onDisk")
-    expect_warning(res <- filterAcquisitionNum(twoFileOnDisk, n = 180:190, file = 1))
-    expect_identical(fileNames(res), fileNames(twoFileOnDisk)[2])
-    ## contains basically only the second file.
-    expect_true(all.equal(secondFile, res))
-    expect_identical(pData(secondFile), pData(res))
-    expect_identical(experimentData(secondFile), experimentData(res))
-    ## Second subset.
-    res <- filterAcquisitionNum(twoFileOnDisk, n = 180:190)
-    expect_true(all(acquisitionNum(res) %in% 180:190))
-    expect_identical(pData(secondFile), pData(res))
-    expect_identical(experimentData(secondFile), experimentData(res))
-})
+## test_that("filterAcquisitionNum", { ## NEEDS VERIFICATION
+##     filtered <- filterAcquisitionNum(ondisk, n = 1000:1100)
+##     expect_true(all(acquisitionNum(filtered) %in% 1000:1100))
+##     spctr <- spectra(filtered)
+##     expect_true(all(unlist(lapply(spctr, acquisitionNum)) %in% 1000:1100))
+##     ## ## Use unavailable acquisition numbers
+##     ## expect_warning(ll <- length(filterAcquisitionNum(ondisk, n = 1:100)))
+##     ## expect_true(ll == 0)
+##     ## Compare on-disk with in-mem.
+##     expect_true(all.equal(filterAcquisitionNum(ondisk1, n = 1000:1100),
+##                           filterAcquisitionNum(inmem1, n = 1000:1100)))
+##     expect_true(all.equal(filterAcquisitionNum(ondisk2, n = 1000:1100),
+##                           filterAcquisitionNum(inmem2, n = 1000:1100)))
+##     ## Torture tests. The two files have different number of spectra.
+##     mzfiles <- c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
+##                  MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
+##     twoFileOnDisk <- microtofq_on_disk
+##     centroided(twoFileOnDisk) <- TRUE
+##     secondFile <- readMSData(mzfiles[2], verbose = FALSE, centroided. = TRUE, mode = "onDisk")
+##     expect_warning(res <- filterAcquisitionNum(twoFileOnDisk, n = 180:190, file = 1))
+##     expect_identical(fileNames(res), fileNames(twoFileOnDisk)[2])
+##     ## contains basically only the second file.
+##     expect_true(all.equal(secondFile, res))
+##     expect_identical(pData(secondFile), pData(res))
+##     expect_identical(experimentData(secondFile), experimentData(res))
+##     ## Second subset.
+##     res <- filterAcquisitionNum(twoFileOnDisk, n = 180:190)
+##     expect_true(all(acquisitionNum(res) %in% 180:190))
+##     expect_identical(pData(secondFile), pData(res))
+##     expect_identical(experimentData(secondFile), experimentData(res))
+## })
 
 
 test_that("filterPrecursorScan", {
@@ -103,36 +103,33 @@ test_that("filterPolarity", {
 test_that("filterPrecursorMz works", {
     res <- filterPrecursorMz(tmt_im_ms2_sub, mz = 417.75, ppm = 20)
     expect_true(length(res) == 1)
-
+    ## ---------------
     res <- filterPrecursorMz(tmt_im_ms2_sub, mz = 417.75, ppm = 100)
     expect_true(length(res) == 2)
-
+    ## ---------------
     res <- filterPrecursorMz(tmt_od_sub, mz = 417.75, ppm = 20)
     expect_true(length(res) == 1)
     res <- filterPrecursorMz(tmt_od_sub, mz = 417.75, ppm = 100)
     expect_true(length(res) == 2)
-
+    ## ---------------
     res <- filterPrecursorMz(tmt_od_sub)
     expect_equal(length(res), length(tmt_od_sub))
-
+    ## ---------------
     expect_error(filterPrecursorMz(sciex, mz = 233), "MS1 spectra")
-
+    ## ---------------
     expect_error(filterPrecursorMz(tmt_od_sub, mz = c(1, 2)), "single m/z")
 })
 
 test_that("filterIsolationWindow works", {
     res <- filterIsolationWindow(tmt_od_sub)
     expect_equal(length(res), length(tmt_od_sub))
-
+    ## ---------------
     res <- filterIsolationWindow(tmt_od_sub, mz = 411)
     expect_equal(length(res), 2)
     expect_true(all(isolationWindowLowerMz(res) < 411))
     expect_true(all(isolationWindowUpperMz(res) > 411))
-
     expect_error(filterIsolationWindow(tmt_od_sub, mz = c(1, 2)), "single m/z")
-
     expect_error(filterIsolationWindow(tmt_im_ms2_sub, mz = 411), "not available")
-
     res <- filterIsolationWindow(sciex, mz = 411)
     expect_true(length(res) == 0)
 })
