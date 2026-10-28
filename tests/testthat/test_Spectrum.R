@@ -260,7 +260,7 @@ test_that("removePeaks profile vs centroided", {
                mz = 1:length(int))
     res1 <- c(0, 0, 0, 0, 1, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
     expect_identical(intensity(removePeaks(sp1, 4)), res1)
-
+    ## --------------
     res2 <- int <- c(104, 57, 32, 33, 118, 76, 38, 39, 52, 140, 52,
                      88, 394, 71, 408, 94, 2032)
     sp2 <- new("Spectrum2",
@@ -270,7 +270,7 @@ test_that("removePeaks profile vs centroided", {
     expect_identical(intensity(removePeaks(sp2, 500)),
                      intensity(sp2))
     res2[res2 < 500] <- 0
-
+    ## --------------
     expect_identical(intensity(removePeaks(sp2, 500)),
                      intensity(sp2))
     centroided(sp2) <- TRUE
@@ -372,7 +372,6 @@ test_that("pickPeaks,Spectrum works with refineMz", {
     ## Get one spectrum from the tmt
     spctr <- tmt_erwinia_in_mem_ms1[[1]]
     centroided(spctr) <- FALSE
-
     mzr <- c(530.9, 531.2)
     plot(mz(filterMz(spctr, mz = mzr)), intensity(filterMz(spctr, mz = mzr)),
          type = "h")
@@ -401,14 +400,12 @@ test_that("pickPeaks,Spectrum works with refineMz", {
     points(mz(filterMz(spctr_kn, mz = mzr)),
            intensity(filterMz(spctr_kn, mz = mzr)),
            type = "p", col = "orange")
-
     ## Check if we can call method and refineMz and pass arguments to both
     spctr_kn <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1,
                           method = "SuperSmoother", span = 0.9)
     points(mz(filterMz(spctr_kn, mz = mzr)),
            intensity(filterMz(spctr_kn, mz = mzr)),
            type = "p", col = "red")
-
     ## Check errors
     expect_error(pickPeaks(spctr, refineMz = "some_method"))
     expect_error(pickPeaks(spctr, not_sup = TRUE, method = "SuperSmoother"))
@@ -443,11 +440,9 @@ test_that(".group_mz_values works", {
     expect_true(length(res) == length(all_mz))
     ## Expect groups of 3 each.
     expect_true(all(table(res) == 3))
-
     ## Remove one from the 2nd group.
     res <- .group_mz_values(all_mz[-5])
     expect_true(sum(res == 2) == 2)
-
     res <- .group_mz_values(all_mz, ppm = 20)
     expect_true(all(table(res) == 3))
 })
@@ -550,7 +545,6 @@ test_that(".estimate_mz_resolution, estimateMzResolution,Spectrum works", {
     res <- .estimate_mz_resolution(mzs)
     ## expect_true(res - 0.1 < 0.005)
     expect_true(res - 0.1 < 0.008)
-
     res1 <- estimateMzResolution(tmt_erwinia_in_mem_ms1[[1]])
     res2 <- estimateMzResolution(tmt_erwinia_in_mem_ms1[[2]])
     expect_true(res1 != res2)
