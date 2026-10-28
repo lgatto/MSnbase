@@ -76,14 +76,14 @@ test_that("Compare OnDiskMSnExp and MSnExp pickPeaks", {
     names(pc) <- NULL
     names(pc2) <- NULL
     expect_identical(pc, pc2)
-
+    ## -------------------
     centroided(ondisk) <- FALSE
-    res <- pickPeaks(ondisk, msLevel = 1L)
+    res <- pickPeaks(ondisk, msLevel. = 1L)
     expect_identical(peaksCount(filterMsLevel(res, 2)),
                      peaksCount(filterMsLevel(ondisk, 2)))
     expect_identical(peaksCount(pp2), peaksCount(filterMsLevel(res, 1)))
     expect_identical(peaksCount(ondisk),
-                     peaksCount(pickPeaks(ondisk, msLevel = 3)))
+                     peaksCount(pickPeaks(ondisk, msLevel. = 3)))
 })
 
 ############################################################
@@ -114,13 +114,10 @@ test_that("Compare OnDiskMSnExp and MSnExp extractPrecSpectra", {
     exP <- sample(1:length(precMzs), 20)
     extsp <- extractPrecSpectra(inmem2, prec = precMzs[exP])
     extsp2 <- extractPrecSpectra(ondisk2, prec = precMzs[exP])
-
     expect_true(all.equal(extsp, extsp2))
-
     ## Now with a multi-MS-level object.
     extsp3 <- extractPrecSpectra(ondisk, prec = precMzs[exP])
     expect_true(all.equal(extsp2, extsp3))
-
     ## Check that the precursorMz matches:
     expect_identical(unname(precMzs[sort(exP)]),
                      unname(precursorMz(extsp2)))
@@ -141,40 +138,33 @@ test_that("Test precursor* for OnDiskMSnExp", {
     pmz2 <- precursorMz(ondisk2)
     expect_true(all(is.na(pmz[msLevel(ondisk) == 1])))
     expect_identical(pmz2, pmz[names(pmz2)])
-
     ##  Finally compare to inmem.
     pmz <- precursorMz(inmem2)
     names(pmz) <- names(pmz2) <- NULL
     expect_identical(pmz, pmz2)
-
     ## o precursorCharge
     pch <- precursorCharge(ondisk)
     pch2 <- precursorCharge(ondisk2)
     expect_true(all(is.na(pch[msLevel(ondisk) == 1])))
     expect_identical(pch2, pch[names(pch2)])
-
     ##  Finally compare to inmem.
     pch <- precursorCharge(inmem2)
     names(pch) <- names(pch2) <- NULL
     expect_identical(pch, pch2)
-
     ## o precursorIntensity
     pint <- precursorIntensity(ondisk)
     pint2 <- precursorIntensity(ondisk2)
     expect_true(all(is.na(pint[msLevel(ondisk) == 1])))
     expect_identical(pint2, pint[names(pint2)])
-
     ##  Finally compare to inmem.
     pint <- precursorIntensity(inmem2)
     names(pint) <- names(pint2) <- NULL
     expect_identical(pint, pint2)
-
     ## o precScanNum
     pcn <- precScanNum(ondisk)
     pcn2 <- precScanNum(ondisk2)
     expect_true(all(is.na(pcn[msLevel(ondisk) == 1])))
     expect_identical(pcn2, pcn[names(pcn2)])
-
     ##  Finally compare to inmem.
     pcn <- precScanNum(inmem2)
     names(pcn) <- names(pcn2) <- NULL
@@ -216,34 +206,36 @@ test_that("pickPeaks,OnDiskMSnExp works with refineMz", {
     ## Get one spectrum from the tmt
     spctr <- tmt_erwinia_in_mem_ms1[[1]]
     centroided(spctr) <- FALSE
-
+    ## --------------------------
     tmt_pk <- pickPeaks(tmt_erwinia_on_disk_ms1, refineMz = "kNeighbors",
                         k = 1)
     spctr_pk <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1)
     spctr_tmt_pk <- tmt_pk[[1]]
     expect_equal(spctr_pk, spctr_tmt_pk)
-
+    ## --------------------------
     spctr_pk <- pickPeaks(spctr, refineMz = "descendPeak",
                           signalPercentage = 75)
     tmt_pk <- pickPeaks(tmt_erwinia_on_disk_ms1, refineMz = "descendPeak",
                         signalPercentage = 75)
     expect_equal(spctr_pk, tmt_pk[[1]])
-
+    ## --------------------------
     ## Check if we can call method and refineMz and pass arguments to both
     spctr_pk <- pickPeaks(spctr, refineMz = "kNeighbors", k = 1,
                           method = "SuperSmoother", span = 0.9)
     tmt_pk <- pickPeaks(tmt_erwinia_on_disk_ms1, refineMz = "kNeighbors",
                         k = 1, method = "SuperSmoother", span = 0.9)
     expect_equal(spctr_pk, tmt_pk[[1]])
-
+    ## --------------------------
     ## Check errors
     expect_error(pickPeaks(tmt_erwinia_on_disk_ms1, refineMz = "some_method"))
 })
 
 test_that("smooth,OnDiskMSnExp works with msLevel", {
-    res <- smooth(tmt_od_ms1_sub, msLevel = 2)
-    expect_identical(intensity(res), intensity(tmt_od_ms1_sub))
-    res <- smooth(tmt_od_ms1_sub, msLevel = 1:3)
-    expect_false(all(unlist(intensity(res)) ==
-                     unlist(intensity(tmt_od_ms1_sub))))
+    suppressWarnings({ ## to get cleaner testing output
+        res <- smooth(tmt_od_ms1_sub, msLevel = 2)
+        expect_identical(intensity(res), intensity(tmt_od_ms1_sub))
+        res <- smooth(tmt_od_ms1_sub, msLevel = 1:3)
+        expect_false(all(unlist(intensity(res)) ==
+                         unlist(intensity(tmt_od_ms1_sub))))
+    })
 })

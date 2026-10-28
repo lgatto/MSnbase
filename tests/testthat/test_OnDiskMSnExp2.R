@@ -42,7 +42,7 @@ test_that("Write mgf", {
 
 test_that("Adding identification data", {
     identFile <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                     full.name = TRUE, pattern = "dummyiTRAQ.mzid")
+                     full.names = TRUE, pattern = "dummyiTRAQ.mzid")
     x1 <- extdata_mzXML_in_mem_ms2
     x1 <- addIdentificationData(x1, identFile, verbose = FALSE)
     x2 <- extdata_mzXML_on_disk_ms2
