@@ -55,13 +55,13 @@ MSpectra <- function(..., elementMetadata = NULL) {
     cat("MSpectra with", length(x), "spectra and", length(mcols(x)),
         "metadata column(s):\n")
     if (length(x)) {
-        out <- S4Vectors:::makePrettyMatrixForCompactPrinting(
-                               x, .make_naked_matrix_from_MSpectra)
+        out <- S4Vectors::makePrettyMatrixForCompactPrinting(
+                              x, .make_naked_matrix_from_MSpectra)
         if (print.classinfo) {
             .COL2CLASS <- c(msLevel = "integer", rtime = "numeric",
                             peaksCount = "integer")
-            classinfo <- S4Vectors:::makeClassinfoRowForCompactPrinting(
-                                         x, .COL2CLASS)
+            classinfo <- S4Vectors::makeClassinfoRowForCompactPrinting(
+                                        x, .COL2CLASS)
             out <- rbind(classinfo, out)
         }
         if (nrow(out))

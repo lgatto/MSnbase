@@ -10,7 +10,6 @@
 ##' @return A `data.frame` containing the PSMs stored in the `mzId`
 ##'     files.
 ##' @md
-##' @aliases coerce,mzRident,data.frame-method
 ##' @author Laurent Gatto
 ##' @seealso [filterIdentificationDataFrame()] to filter out unreliable PSMs.
 ##' @examples

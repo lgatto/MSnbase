@@ -2,7 +2,6 @@
 % Please edit documentation in R/functions-addIdentificationData.R
 \name{readMzIdData}
 \alias{readMzIdData}
-\alias{coerce,mzRident,data.frame-method}
 \title{Import peptide-spectrum matches}
 \usage{
 readMzIdData(files)
