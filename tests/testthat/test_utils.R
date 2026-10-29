@@ -356,7 +356,7 @@ test_that("clean utils", {
                 TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE),
               c(TRUE, FALSE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE,
                 TRUE, TRUE, TRUE, TRUE, FALSE, TRUE, TRUE, FALSE, FALSE))
-    for (i in seq(along=x)) {
+    for (i in seq(along.with = x)) {
       expect_identical(MSnbase:::utils.clean(x[[i]], all=TRUE), a[[i]],
                        label=paste0("all=TRUE, i=", i))
       expect_identical(MSnbase:::utils.clean(x[[i]], all=FALSE), b[[i]],
@@ -449,12 +449,10 @@ test_that(".openMSfile works", {
     res <- MSnbase:::.openMSfile(file)
     expect_true(is(res, "mzRpwiz"))
     close(res)
-
     ## Errors
     expect_error(MSnbase:::.openMSfile(c("a", "b")))
     file <- c(file,
               MsDataHub::X20171016_POOL_POS_3_105.134.mzML())
-
     expect_error(MSnbase:::.openMSfile(file))
 })
 
@@ -497,7 +495,6 @@ test_that("windowIndices works", {
     expect_equal(windowIndices(1, 1, 5), c(1, 2))
     expect_equal(windowIndices(5, 1, 5), c(4, 5))
     expect_equal(windowIndices(4, 1, 5), c(3, 4, 5))
-
     expect_error(windowIndices(4, 2, 1))
 })
 

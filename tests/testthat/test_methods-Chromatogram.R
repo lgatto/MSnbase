@@ -1,7 +1,7 @@
 test_that("Chromatogram accessors", {
     int <- rnorm(100, mean = 200, sd = 2)
     rt <- sort(rnorm(100, mean = 300, sd = 3))
-    chr <- Chromatogram(intensity = int, rt = rt)
+    chr <- Chromatogram(intensity = int, rtime = rt)
     expect_equal(intensity(chr), int)
     expect_equal(rtime(chr), rt)
     chr@aggregationFun <- "sum"
@@ -19,7 +19,7 @@ test_that("Chromatogram accessors", {
     chr@aggregationFun <- "max"
     chr@fromFile <- 3L
     expect_true(validObject(chr))
-    chr <- Chromatogram(intensity = int, rt = rt, fromFile = 2L)
+    chr <- Chromatogram(intensity = int, rtime = rt, fromFile = 2L)
     expect_true(validObject(chr))
     expect_equal(fromFile(chr), 2L)
     ## length
@@ -30,22 +30,22 @@ test_that("Chromatogram accessors", {
     ## mz
     chr@mz <- c(1, 3)
     expect_equal(mz(chr), c(1, 3))
-    chr <- Chromatogram(intensity = int, rt = rt, mz = 5)
+    chr <- Chromatogram(intensity = int, rtime = rt, mz = 5)
     expect_equal(mz(chr), c(5, 5))
     expect_equal(mz(chr, filter = TRUE), c(NA_real_, NA_real_))
     chr@filterMz <- 4
     expect_equal(mz(chr, filter = TRUE), 4)
-    chr <- Chromatogram(intensity = int, rt = rt, filterMz = 5)
+    chr <- Chromatogram(intensity = int, rtime = rt, filterMz = 5)
     expect_equal(mz(chr, filter = TRUE), c(5, 5))
     ## precursorMz
     chr@precursorMz <- 123
     expect_equal(precursorMz(chr), 123)
-    chr <- Chromatogram(intensity = int, rt = rt, precursorMz = 123)
+    chr <- Chromatogram(intensity = int, rtime = rt, precursorMz = 123)
     expect_equal(precursorMz(chr), c(123, 123))
     ## productMz
     chr@productMz <- 432
     expect_equal(productMz(chr), 432)
-    chr <- Chromatogram(intensity = int, rt = rt, productMz = 432)
+    chr <- Chromatogram(intensity = int, rtime = rt, productMz = 432)
     expect_equal(productMz(chr), c(432, 432))
 
     ## msLevel
@@ -56,7 +56,7 @@ test_that("Chromatogram accessors", {
     expect_equal(msLevel(chr), 1:4)
     expect_true(validObject(chr))
 
-    chr <- Chromatogram(intensity = int, rt = rt, msLevel = 4)
+    chr <- Chromatogram(intensity = int, rtime = rt, msLevel = 4)
     expect_equal(msLevel(chr), 4L)
 })
 

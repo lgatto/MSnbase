@@ -212,13 +212,14 @@ test_that("Robust summarisation", {
     expect_equal(exp1, exprs(res1))
     ## remove feature with missing value
     msnset <- filterNA(msnset)
-    res2 <- combineFeatures(msnset,
-                            fcol = "ProteinAccession",
-                            method = "robust",
-                            maxit = 100L)
-
+    suppressWarnings(
+        ## In rlm.default(X, expression, ...) : 'rlm' failed to converge in 100
+        ## steps
+        res2 <- combineFeatures(msnset,
+                                fcol = "ProteinAccession",
+                                method = "robust",
+                                maxit = 100L))
     expect_equal(exp2, exprs(res2))
-
     notENO <- featureNames(res1) != "ENO"
     expect_equal(exprs(res1)[notENO, ], exprs(res2)[notENO, ])
     ## all false (0)

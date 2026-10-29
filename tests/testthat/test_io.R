@@ -2,7 +2,7 @@ context("IO testing")
 
 test_that("readMSData >1 files", {
     file1 <- dir(system.file(package = "MSnbase", dir = "extdata"),
-                 full.name = TRUE, pattern = "mzXML$")
+                 full.names = TRUE, pattern = "mzXML$")
     tdir <- tempdir()
     file2 <- file.path(tdir, sub("iTRAQ", "iTRAQ2", basename(file1)))
     stopifnot(file.copy(file1, file2, overwrite = TRUE))

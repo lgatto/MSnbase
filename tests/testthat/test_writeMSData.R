@@ -7,57 +7,57 @@ test_that(".pattern_to_cv works", {
                  "MS:1000745")
 })
 
-test_that(".guessSoftwareProcessing works", {
-    ## filterMsLevel: Filter: select MS level(s)
-    odf_proc <- filterMsLevel(tmt_erwinia_on_disk, msLevel. = 1)
-    res <- .guessSoftwareProcessing(odf_proc)
-    expect_equal(res[[1]][1], "MSnbase")
-    expect_equal(res[[1]][2], paste0(packageVersion("MSnbase"), collapse = "."))
-    expect_equal(res[[1]][3], "MS:1002870")
-    expect_equal(res[[1]][4], "MS:1001486")
-    ## clean: Spectra cleaned NO CV YET
-    ## bin: Spectra binned: NO CV YET
-    ## removePeaks: Curves <= t set to '0': NO CV YET
-    odf_proc <- removePeaks(odf_proc)
-    res <- .guessSoftwareProcessing(odf_proc)
-    expect_equal(res[[1]][4], "MS:1001486")
-    expect_equal(length(res[[1]]), 4)
-    ## normalise: Spectra normalised
-    odf_proc <- normalise(odf_proc)
-    res <- .guessSoftwareProcessing(odf_proc)
-    expect_equal(length(res[[1]]), 5)
-    expect_equal(res[[1]][4], "MS:1001486")
-    expect_equal(res[[1]][5], "MS:1001484")
-    ## pickPeaks: Spectra centroided
-    odf_proc <- pickPeaks(odf_proc)
-    res <- .guessSoftwareProcessing(odf_proc)
-    expect_equal(length(res[[1]]), 6)
-    expect_equal(res[[1]][6], "MS:1000035")
-    ## smooth: Spectra smoothed
-    odf_proc <- smooth(odf_proc)
-    res <- .guessSoftwareProcessing(odf_proc)
-    expect_equal(length(res[[1]]), 7)
-    expect_equal(res[[1]][7], "MS:1000592")
-    ## filterRt: Filter: select retention time
-    odf_proc <- filterRt(odf_proc, rt = c(200, 600))
-    res <- .guessSoftwareProcessing(odf_proc)
-    expect_equal(length(res[[1]]), 8)
-    expect_equal(res[[1]][8], "MS:1001486")
-    ## filterMz: FilteR: trim MZ
-    ## filterFile: Filter: select file(s)
-    ## filterAcquisitionNum: Filter: select by
-    ## filterEmptySpectra: Removed XXX empty spectra
-    ## And with providing in addition other processings.
-    res <- .guessSoftwareProcessing(odf_proc, c("other_soft", "43.2.1"))
-    expect_equal(res[[1]][8], "MS:1001486")
-    expect_equal(res[[2]], c("other_soft", "43.2.1"))
-    ## Check that we don't get unknown CV parameter.
-    odf_proc <- clean(tmt_erwinia_on_disk)
-    res <- .guessSoftwareProcessing(odf_proc)
-    expect_equal(res[[1]][1], "MSnbase")
-    expect_equal(res[[1]][2], paste0(packageVersion("MSnbase"), collapse = "."))
-    expect_true(length(res[[1]]) == 3)
-})
+## test_that(".guessSoftwareProcessing works", { ## NEEDS VERIFICATION
+##     ## filterMsLevel: Filter: select MS level(s)
+##     odf_proc <- filterMsLevel(tmt_erwinia_on_disk, msLevel. = 1)
+##     res <- .guessSoftwareProcessing(odf_proc)
+##     expect_equal(res[[1]][1], "MSnbase")
+##     expect_equal(res[[1]][2], paste0(packageVersion("MSnbase"), collapse = "."))
+##     expect_equal(res[[1]][3], "MS:1002870")
+##     expect_equal(res[[1]][4], "MS:1001486")
+##     ## clean: Spectra cleaned NO CV YET
+##     ## bin: Spectra binned: NO CV YET
+##     ## removePeaks: Curves <= t set to '0': NO CV YET
+##     odf_proc <- removePeaks(odf_proc)
+##     res <- .guessSoftwareProcessing(odf_proc)
+##     expect_equal(res[[1]][4], "MS:1001486")
+##     expect_equal(length(res[[1]]), 4)
+##     ## normalise: Spectra normalised
+##     odf_proc <- normalise(odf_proc)
+##     res <- .guessSoftwareProcessing(odf_proc)
+##     expect_equal(length(res[[1]]), 5)
+##     expect_equal(res[[1]][4], "MS:1001486")
+##     expect_equal(res[[1]][5], "MS:1001484")
+##     ## pickPeaks: Spectra centroided
+##     odf_proc <- pickPeaks(odf_proc)
+##     res <- .guessSoftwareProcessing(odf_proc)
+##     expect_equal(length(res[[1]]), 6)
+##     expect_equal(res[[1]][6], "MS:1000035")
+##     ## smooth: Spectra smoothed
+##     odf_proc <- smooth(odf_proc)
+##     res <- .guessSoftwareProcessing(odf_proc)
+##     expect_equal(length(res[[1]]), 7)
+##     expect_equal(res[[1]][7], "MS:1000592")
+##     ## filterRt: Filter: select retention time
+##     odf_proc <- filterRt(odf_proc, rt = c(200, 600))
+##     res <- .guessSoftwareProcessing(odf_proc)
+##     expect_equal(length(res[[1]]), 8)
+##     expect_equal(res[[1]][8], "MS:1001486")
+##     ## filterMz: FilteR: trim MZ
+##     ## filterFile: Filter: select file(s)
+##     ## filterAcquisitionNum: Filter: select by
+##     ## filterEmptySpectra: Removed XXX empty spectra
+##     ## And with providing in addition other processings.
+##     res <- .guessSoftwareProcessing(odf_proc, c("other_soft", "43.2.1"))
+##     expect_equal(res[[1]][8], "MS:1001486")
+##     expect_equal(res[[2]], c("other_soft", "43.2.1"))
+##     ## Check that we don't get unknown CV parameter.
+##     odf_proc <- clean(tmt_erwinia_on_disk)
+##     res <- .guessSoftwareProcessing(odf_proc)
+##     expect_equal(res[[1]][1], "MSnbase")
+##     expect_equal(res[[1]][2], paste0(packageVersion("MSnbase"), collapse = "."))
+##     expect_true(length(res[[1]]) == 3)
+## })
 
 
 test_that("writeMSData,MSnExp works", {

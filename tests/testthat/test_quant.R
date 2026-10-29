@@ -19,7 +19,7 @@ test_that("MS2 isobaric quantitation", {
     expect_true(inherits(q1, "MSnSet"))
 })
 
-    
+
 test_that("Parallel quantification", {
     q1 <- quantify(itraqdata[1:5], reporters = iTRAQ4,
                    parallel = TRUE, verbose = FALSE)
@@ -32,7 +32,7 @@ test_that("Parallel quantification", {
 
 test_that("Counting and tic MSnSets", {
     f <- dir(system.file(package = "MSnbase", dir = "extdata"),
-             full.name = TRUE, pattern = "msx.rda")
+             full.names = TRUE, pattern = "msx.rda")
     load(f) ## msx
     ## count
     .cnt <- MSnbase:::count_MSnSet(msx, pepseq = "pepseq")
@@ -53,12 +53,12 @@ test_that("Counting and tic MSnSets", {
 test_that("MS2 labelfree quantitation: SI", {
     ## prepare data
     f <- dir(system.file(package = "MSnbase",dir = "extdata"),
-             full.name = TRUE, pattern = "msx.rda")
+             full.names = TRUE, pattern = "msx.rda")
     load(f) ## msx
     fData(msx)$accession[3:4] <- "protein"
     fData(msx)$nprot[3:4] <- 1
     fData(msx)$pepseq[3:4] <- c("ABCDEFG", "1234567")
-    fData(msx)$length[3:4] <- 100   
+    fData(msx)$length[3:4] <- 100
     msx <- MSnbase:::utils.removeNoIdAndMultipleAssignments(msx, pepseq = "pepseq")
     ## SI
     si <- MSnbase:::SI(msx, "SI", groupBy = "accession", plength = "length")
@@ -82,12 +82,12 @@ test_that("MS2 labelfree quantitation: SI", {
 test_that("MS2 labelfree quantitation: SAF", {
     ## prepare data
     f <- dir(system.file(package = "MSnbase", dir = "extdata"),
-             full.name = TRUE, pattern = "msx.rda")
+             full.names = TRUE, pattern = "msx.rda")
     load(f) ## msx
     fData(msx)$accession[3:4] <- "protein"
     fData(msx)$nprot[3:4] <- 1
     fData(msx)$pepseq[3:4] <- c("ABCDEFG", "1234567")
-    fData(msx)$length[3:4] <- 100   
+    fData(msx)$length[3:4] <- 100
     msx <-
         MSnbase:::utils.removeNoIdAndMultipleAssignments(msx, pepseq = "length")
     ## SAF
@@ -103,7 +103,7 @@ test_that("MS2 labelfree quantitation: SAF", {
     ## NSAF
     nsaf <- MSnbase:::SAF(msx, method = "NSAF",
                          groupBy = "accession", plength = "length",
-                         pepseq = "pepseq")                          
+                         pepseq = "pepseq")
     m <- m/sum(m)
     expect_equal(exprs(nsaf)[, 1], m)
 })

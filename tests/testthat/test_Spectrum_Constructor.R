@@ -76,11 +76,9 @@ test_that("C-level multi-Spectrum1 constructor with M/Z ordering", {
     rts <- c(1.3, 1.4, 1.5, 1.6)
     acqN <- 1:4
     nvals <- rep(5000, 4)
-
     mzValsList <- split(mzVals, f = rep(1:4, each = 5000))
     intValsList <- split(intVals, f = rep(1:4, each = 5000))
     idxList <- lapply(mzValsList, order)
-
     ## Switch on gctorture to force potential memory mapping problems.
     ## gctorture(on = TRUE)
     spectL <- MSnbase:::Spectra1_mz_sorted(rt = rts, acquisitionNum = acqN,
@@ -126,7 +124,6 @@ test_that("C-level multi-Spectrum1 constructor with M/Z ordering", {
         expect_identical(mz(spectL[[i]]), mzValsList[[i]][idxList[[i]]])
         expect_identical(intensity(spectL[[i]]), intValsList[[i]][idxList[[i]]])
     }
-
     ## Check empty spectra.
     ## Spectrum1
     mzVals <- sort(abs(rnorm(200, mean = 100, sd = 10)))
@@ -142,14 +139,12 @@ test_that("C-level multi-Spectrum1 constructor with M/Z ordering", {
     expect_equal(length(mz(res[[4]])), 20)
     expect_equal(mz(res[[4]]), mzVals[51:70])
     expect_true(all(unlist(lapply(res, validObject))))
-    
     ## If nVals does NOT match mz
     nVals_err <- c(50, 0, 0, 20, 0, 100, 0, 30, 4)
     expect_error(MSnbase:::Spectra1_mz_sorted(rt = rts,
                                               acquisitionNum = 1:length(nVals),
                                               mz = mzVals, intensity = intVals,
                                               nvalues = nVals_err))
-    
 })
 
 
@@ -161,7 +156,6 @@ test_that("M/Z sorted Spectrum2 constructor", {
     set.seed(123)
     mzVals <- abs(rnorm(3500, mean = 100, sd = 10))
     intVals <- abs(rnorm(3500, mean = 10, sd = 5))
-
     sorted <- sort(mzVals)
     idx <- order(mzVals)
     ## R constructor:
@@ -196,7 +190,6 @@ test_that("M/Z sorted Spectrum2 constructor", {
     expect_identical(classVersion(sp2)["Spectrum"],
                      new("Versions",
                          Spectrum = MSnbase:::getClassVersionString("Spectrum")))
-
     ## Calculate tic within:
     sp1 <- new("Spectrum2", intensity = intVals, mz = mzVals)
     expect_equal(sp1@tic, sum(intVals))
@@ -204,7 +197,6 @@ test_that("M/Z sorted Spectrum2 constructor", {
     ## o Pass only intensity or mz
     expect_error(new("Spectrum2", intensity = intVals, polarity = 1L))
     expect_error(new("Spectrum2", mz = muVals, polarity = 1L))
-
     ## Check empty spectrum
     expect_true(validObject(MSnbase:::Spectrum2()))
     expect_true(validObject(MSnbase:::Spectrum2_mz_sorted()))
@@ -221,11 +213,9 @@ test_that("C-level multi-Spectrum2 constructor with M/Z ordering", {
     rts <- c(1.3, 1.4, 1.5, 1.6)
     acqN <- 1:4
     nvals <- rep(5000, 4)
-
     mzValsList <- split(mzVals, f = rep(1:4, each = 5000))
     intValsList <- split(intVals, f = rep(1:4, each = 5000))
     idxList <- lapply(mzValsList, order)
-
     ## gctorture(on = TRUE)
     spectL <- MSnbase:::Spectra2_mz_sorted(rt = rts, acquisitionNum = acqN,
                                            scanIndex = acqN, mz = mzVals,
@@ -267,13 +257,11 @@ test_that("C-level multi-Spectrum2 constructor with M/Z ordering", {
     expect_identical(classVersion(spectL[[3]])["Spectrum"],
                      new("Versions",
                          Spectrum = MSnbase:::getClassVersionString("Spectrum")))
-
     ## Check if we've got the M/Z and intensity values correctly sorted.
     for (i in 1:length(idxList)) {
         expect_identical(mz(spectL[[i]]), mzValsList[[i]][idxList[[i]]])
         expect_identical(intensity(spectL[[i]]), intValsList[[i]][idxList[[i]]])
     }
-
     ## Spectrum2
     mzVals <- sort(abs(rnorm(200, mean = 100, sd = 10)))
     intVals <- abs(rnorm(200, mean = 10, sd = 5))

@@ -48,7 +48,6 @@ test_that("MSpectra construction works as expected", {
     expect_true(is(spl, "MSpectra"))
     expect_equal(spl[[1]], sp1)
     expect_equal(spl[[2]], sp2)
-
 })
 
 test_that(".make_naked_matrix_from_MSpectra works", {

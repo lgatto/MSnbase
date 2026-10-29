@@ -87,4 +87,4 @@ test_that("iPQF unit test", {
               res5@experimentData <- experimentData(ipqf5)
               res5@.__classVersion__ <- ipqf5@.__classVersion__
               expect_true(all.equal(res5, ipqf5))
-          })
+})

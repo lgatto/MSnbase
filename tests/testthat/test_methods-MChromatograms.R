@@ -1,5 +1,4 @@
 test_that("[,MChromatograms works", {
-
     ints <- abs(rnorm(12, sd = 20))
     ch <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(20, sd = 14))
@@ -117,7 +116,6 @@ test_that("[,MChromatograms works", {
 })
 
 test_that("[<-,MChromatograms works", {
-
     ints <- abs(rnorm(12, sd = 20))
     ch <- Chromatogram(rtime = 1:length(ints), ints)
     ints <- abs(rnorm(20, sd = 14))

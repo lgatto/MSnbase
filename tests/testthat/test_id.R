@@ -19,13 +19,11 @@ test_that("adding compatible ident with mzID and mzR", {
      msexp0 <- readMSData(quantFile)
      id1 <- mzR::openIDfile(identFile)
      msexp1 <- addIdentificationData(msexp0, id1)
-     id2 <- mzID::mzID(identFile)
+     suppressWarnings(id2 <- mzID::mzID(identFile))
      msexp2 <- addIdentificationData(msexp0, id2)
-
      ## same feature variables are equal
      k <- intersect(fvarLabels(msexp1), fvarLabels(msexp2))
      expect_equal(fData(msexp1)[, k], fData(msexp2)[, k])
-
      expect_equal(fData(msexp1)[, "chargeState"], fData(msexp2)[, "chargestate"])
      expect_equal(fData(msexp1)[, "passThreshold"], fData(msexp2)[, "passthreshold"])
      expect_equal(fData(msexp1)[, "experimentalMassToCharge"],
