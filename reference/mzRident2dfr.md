@@ -8,15 +8,30 @@ rows/scans are unique and use semicolon-separated values to combine
 information pertaining a scan, use
 [`reduce`](https://lgatto.github.io/MSnbase/reference/reduce-data.frame-method.md).
 
+## Usage
+
+``` r
+# S4 method for class 'mzRident,data.frame'
+coerce(from, to = "data.frame", strict = TRUE)
+```
+
 ## Arguments
 
 - from:
 
   An object of class `mzRident` defined in the `mzR` package.
 
+- to:
+
+  The object will be coerced to a `data.frame`.
+
+- strict:
+
+  Set to `TRUE`.
+
 ## Value
 
-A `data.frame`
+A `data.frame`.
 
 ## Details
 

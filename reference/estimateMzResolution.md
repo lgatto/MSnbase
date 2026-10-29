@@ -49,6 +49,7 @@ Johannes Rainer
 ## Examples
 
 ``` r
+
 if (FALSE) { # \dontrun{
 ## Load a profile mode example file
 library(BiocParallel)

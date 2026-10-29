@@ -154,8 +154,16 @@ plot(mz(res[[2]]), intensity(res[[2]]), xlim = range(mzs[5:25]), type = "h",
 
 ## Combining spectra of an MSnExp/OnDiskMSnExp objects
 ## Reading data from 2 mzML files
-sciex <- readMSData(dir(system.file("sciex", package = "msdata"),
-    full.names = TRUE), mode = "onDisk")
+sciex <- readMSData(c(MsDataHub::X20171016_POOL_POS_1_105.134.mzML(),
+                      MsDataHub::X20171016_POOL_POS_3_105.134.mzML()),
+                    mode = "onDisk")
+#> see ?MsDataHub and browseVignettes('MsDataHub') for documentation
+#> loading from cache
+#> see ?MsDataHub and browseVignettes('MsDataHub') for documentation
+#> loading from cache
+#> Warning: Reading different file formats in.
+#> This is untested and you are welcome to try it out.
+#> Please report back!
 
 ## Filter the file to a retention time range from 2 to 20 seconds (to reduce
 ## execution time of the example)
@@ -164,8 +172,6 @@ table(fromFile(sciex))
 #> 
 #>  1  2 
 #> 64 64 
-
-## We have thus 64 spectra per file.
 
 ## In the example below we combine spectra measured in one second to a
 ## single spectrum. We thus first define the grouping variable and add that

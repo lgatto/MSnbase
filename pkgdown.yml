@@ -1,4 +1,4 @@
-pandoc: '3.11'
+pandoc: 3.12.1
 pkgdown: 2.2.1.9000
 pkgdown_sha: f69b62a7e74b58b42170284b6f3f56c674e7a3f8
 articles:
@@ -7,7 +7,7 @@ articles:
   v03-MSnbase-centroiding: v03-MSnbase-centroiding.html
   v04-benchmarking: v04-benchmarking.html
   v05-MSnbase-development: v05-MSnbase-development.html
-last_built: 2026-10-02T05:54Z
+last_built: 2026-10-29T09:03Z
 urls:
   reference: https://lgatto.github.io/MSnbase/reference
   article: https://lgatto.github.io/MSnbase/articles

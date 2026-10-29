@@ -202,8 +202,16 @@ are taken from the first <code>Spectrum</code> in each set.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Combining spectra of an MSnExp/OnDiskMSnExp objects</span></span></span>
 <span class="r-in"><span><span class="co">## Reading data from 2 mzML files</span></span></span>
-<span class="r-in"><span><span class="va">sciex</span> <span class="op">&lt;-</span> <span class="fu"><a href="readMSData.html">readMSData</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"sciex"</span>, package <span class="op">=</span> <span class="st">"msdata"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>    full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, mode <span class="op">=</span> <span class="st">"onDisk"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sciex</span> <span class="op">&lt;-</span> <span class="fu"><a href="readMSData.html">readMSData</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">MsDataHub</span><span class="fu">::</span><span class="fu"><a href="https://rformassspectrometry.github.io/MsDataHub/reference/sciex.html" class="external-link">X20171016_POOL_POS_1_105.134.mzML</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                      <span class="fu">MsDataHub</span><span class="fu">::</span><span class="fu"><a href="https://rformassspectrometry.github.io/MsDataHub/reference/sciex.html" class="external-link">X20171016_POOL_POS_3_105.134.mzML</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                    mode <span class="op">=</span> <span class="st">"onDisk"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> see ?MsDataHub and browseVignettes('MsDataHub') for documentation</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> loading from cache</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> see ?MsDataHub and browseVignettes('MsDataHub') for documentation</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> loading from cache</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Reading different file formats in.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> This is untested and you are welcome to try it out.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> Please report back!</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Filter the file to a retention time range from 2 to 20 seconds (to reduce</span></span></span>
 <span class="r-in"><span><span class="co">## execution time of the example)</span></span></span>
@@ -212,8 +220,6 @@ are taken from the first <code>Spectrum</code> in each set.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1  2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 64 64 </span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## We have thus 64 spectra per file.</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## In the example below we combine spectra measured in one second to a</span></span></span>
 <span class="r-in"><span><span class="co">## single spectrum. We thus first define the grouping variable and add that</span></span></span>

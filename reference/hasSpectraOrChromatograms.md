@@ -30,18 +30,16 @@ Laurent Gatto
 ## Examples
 
 ``` r
-f <- msdata::proteomics(full.names = TRUE)[1:2]
-#> Warning: 'msdata::proteomics' is deprecated.
-#> Use 'MsDataHub::MsDataHub()' instead.
-#> See help("Deprecated")
+f <- c(MsDataHub::MRM.standmix.5.mzML(),
+       MsDataHub::MS3TMT10_01022016_32917.33481.mzML.gz())
+#> see ?MsDataHub and browseVignettes('MsDataHub') for documentation
+#> loading from cache
+#> see ?MsDataHub and browseVignettes('MsDataHub') for documentation
+#> loading from cache
 hasSpectra(f)
-#>                /__w/_temp/Library/msdata/proteomics/MRM-standmix-5.mzML.gz 
-#>                                                                      FALSE 
-#> /__w/_temp/Library/msdata/proteomics/MS3TMT10_01022016_32917-33481.mzML.gz 
-#>                                                                       TRUE 
+#> EH10329 EH10410 
+#>   FALSE    TRUE 
 hasChromatograms(f)
-#>                /__w/_temp/Library/msdata/proteomics/MRM-standmix-5.mzML.gz 
-#>                                                                       TRUE 
-#> /__w/_temp/Library/msdata/proteomics/MS3TMT10_01022016_32917-33481.mzML.gz 
-#>                                                                       TRUE 
+#> EH10329 EH10410 
+#>    TRUE    TRUE 
 ```

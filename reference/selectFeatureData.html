@@ -113,38 +113,6 @@ variable names.</p>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">selectFeatureData</span><span class="op">(</span><span class="va">hyperLOPIT2015</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fvarLabels</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Subset the feature data of an OnDiskMSnExp object to the minimal</span></span></span>
-<span class="r-in"><span><span class="co">## required columns</span></span></span>
-<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"microtofq/MM14.mzML"</span>, package <span class="op">=</span> <span class="st">"msdata"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">od</span> <span class="op">&lt;-</span> <span class="fu"><a href="readMSData.html">readMSData</a></span><span class="op">(</span><span class="va">f</span>, mode <span class="op">=</span> <span class="st">"onDisk"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## what columns do we have?</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fvarLabels</a></span><span class="op">(</span><span class="va">od</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "fileIdx"                    "spIdx"                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "smoothed"                   "seqNum"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "acquisitionNum"             "msLevel"                   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "polarity"                   "originalPeaksCount"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "totIonCurrent"              "retentionTime"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11] "basePeakMZ"                 "basePeakIntensity"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "collisionEnergy"            "electronBeamEnergy"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] "ionisationEnergy"           "lowMZ"                     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "highMZ"                     "precursorScanNum"          </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "precursorMZ"                "precursorCharge"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [21] "precursorIntensity"         "mergedScan"                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [23] "mergedResultScanNum"        "mergedResultStartScanNum"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25] "mergedResultEndScanNum"     "injectionTime"             </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [27] "filterString"               "spectrumId"                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [29] "centroided"                 "ionMobilityDriftTime"      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [31] "isolationWindowTargetMZ"    "isolationWindowLowerOffset"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [33] "isolationWindowUpperOffset" "scanWindowLowerLimit"      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [35] "scanWindowUpperLimit"       "spectrum"                  </span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Reduce the feature data data.frame to the required columns only</span></span></span>
-<span class="r-in"><span><span class="va">od</span> <span class="op">&lt;-</span> <span class="fu">selectFeatureData</span><span class="op">(</span><span class="va">od</span>, fcol <span class="op">=</span> <span class="fu">requiredFvarLabels</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">od</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fvarLabels</a></span><span class="op">(</span><span class="va">od</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "fileIdx"          "spIdx"            "acquisitionNum"   "retentionTime"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "msLevel"          "precursorScanNum"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

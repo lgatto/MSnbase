@@ -103,9 +103,10 @@ profile-mode spectrum's m/z resolution from it's data.</p></div>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lgatto.github.io/MSnbase">MSnbase</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">msdata</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co">## Load a profile-mode LC-MS data file</span></span></span>
-<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">dir</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"sciex"</span>, package <span class="op">=</span> <span class="st">"msdata"</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="co">#' ## Load a profile-mode LC-MS data file</span></span></span>
+<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">MsDataHub</span><span class="fu">::</span><span class="fu"><a href="https://rformassspectrometry.github.io/MsDataHub/reference/sciex.html" class="external-link">X20171016_POOL_POS_3_105.134.mzML</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> see ?MsDataHub and browseVignettes('MsDataHub') for documentation</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> loading from cache</span>
 <span class="r-in"><span><span class="va">od</span> <span class="op">&lt;-</span> <span class="fu"><a href="readMSData.html">readMSData</a></span><span class="op">(</span><span class="va">f</span>, mode <span class="op">=</span> <span class="st">"onDisk"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">im</span> <span class="op">&lt;-</span> <span class="fu"><a href="mzRident2dfr.html">as</a></span><span class="op">(</span><span class="fu"><a href="MSnExp-class.html">filterRt</a></span><span class="op">(</span><span class="va">od</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span>, <span class="st">"MSnExp"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -119,11 +120,11 @@ profile-mode spectrum's m/z resolution from it's data.</p></div>
 <span class="r-in"><span><span class="va">idx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="pSet-class.html">spectrapply</a></span><span class="op">(</span><span class="va">im</span>, <span class="va">peaksCount</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">res</span><span class="op">[[</span><span class="va">idx</span><span class="op">]</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0006662792</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0007795357</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>v <span class="op">=</span> <span class="va">res</span><span class="op">[[</span><span class="va">idx</span><span class="op">]</span><span class="op">]</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="estimateMzScattering-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="estimateMzResolution.html">estimateMzResolution</a></span><span class="op">(</span><span class="va">im</span><span class="op">[[</span><span class="va">idx</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.001419494</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.001423046</span>
 <span class="r-in"><span><span class="co">## As expected, the m/z scattering is much lower than the m/z resolution.</span></span></span>
 </code></pre></div>
     </div>

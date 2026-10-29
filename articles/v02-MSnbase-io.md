@@ -276,7 +276,7 @@ shown above and specifying that the data is comma-separated (with
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Quantitation data loaded: Fri Oct  2 05:57:31 2026  using readMSnSet. 
+    ## Quantitation data loaded: Thu Oct 29 09:06:03 2026  using readMSnSet. 
     ##  MSnbase version: 2.39.6
 
 #### The `MSnSet` class
@@ -398,7 +398,7 @@ for details).
 
     ## R version 4.6.1 (2026-06-24)
     ## Platform: x86_64-pc-linux-gnu
-    ## Running under: Ubuntu 24.04.4 LTS
+    ## Running under: Ubuntu 24.04.5 LTS
     ## 
     ## Matrix products: default
     ## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
@@ -428,14 +428,14 @@ for details).
     ##  [1] rlang_1.3.0                 magrittr_2.0.5             
     ##  [3] clue_0.3-68                 otel_0.2.0                 
     ##  [5] matrixStats_1.5.0           compiler_4.6.1             
-    ##  [7] PTMods_1.1.1                systemfonts_1.3.2          
+    ##  [7] PTMods_1.0.0                systemfonts_1.3.2          
     ##  [9] vctrs_0.7.3                 reshape2_1.4.5             
     ## [11] stringr_1.6.0               ProtGenerics_1.44.0        
     ## [13] pkgconfig_2.0.3             MetaboCoreUtils_1.20.1     
     ## [15] fastmap_1.2.0               XVector_0.52.0             
     ## [17] rmarkdown_2.32              preprocessCore_1.75.1      
     ## [19] ragg_1.5.2                  purrr_1.2.2                
-    ## [21] xfun_0.61                   MultiAssayExperiment_1.38.0
+    ## [21] xfun_0.62                   MultiAssayExperiment_1.38.0
     ## [23] cachem_1.1.0                jsonlite_2.0.0             
     ## [25] DelayedArray_0.38.2         BiocParallel_1.46.0        
     ## [27] parallel_4.6.1              cluster_2.1.8.3            
@@ -464,7 +464,7 @@ for details).
     ## [73] fs_2.1.0                    XML_3.99-0.25              
     ## [75] grid_4.6.1                  impute_1.86.0              
     ## [77] tidyr_1.3.2                 MsCoreUtils_1.24.0         
-    ## [79] PSMatch_1.17.1              cli_3.6.6                  
+    ## [79] PSMatch_1.16.0              cli_3.6.6                  
     ## [81] textshaping_1.0.5           S4Arrays_1.12.1            
     ## [83] dplyr_1.2.1                 AnnotationFilter_1.36.0    
     ## [85] pcaMethods_2.4.0            gtable_0.3.6               

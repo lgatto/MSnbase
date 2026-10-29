@@ -75,20 +75,18 @@ files contains at least one spectrum, <code>FALSE</code> otherwise.</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">msdata</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/msdata/man/proteomics.html" class="external-link">proteomics</a></span><span class="op">(</span>full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'msdata::proteomics' is deprecated.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> Use 'MsDataHub::MsDataHub()' instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> See help("Deprecated")</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">MsDataHub</span><span class="fu">::</span><span class="fu"><a href="https://rformassspectrometry.github.io/MsDataHub/reference/MRM.html" class="external-link">MRM.standmix.5.mzML</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>       <span class="fu">MsDataHub</span><span class="fu">::</span><span class="fu"><a href="https://rformassspectrometry.github.io/MsDataHub/reference/MS3TMT.html" class="external-link">MS3TMT10_01022016_32917.33481.mzML.gz</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> see ?MsDataHub and browseVignettes('MsDataHub') for documentation</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> loading from cache</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> see ?MsDataHub and browseVignettes('MsDataHub') for documentation</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> loading from cache</span>
 <span class="r-in"><span><span class="fu">hasSpectra</span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                /__w/_temp/Library/msdata/proteomics/MRM-standmix-5.mzML.gz </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                      FALSE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> /__w/_temp/Library/msdata/proteomics/MS3TMT10_01022016_32917-33481.mzML.gz </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                       TRUE </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> EH10329 EH10410 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   FALSE    TRUE </span>
 <span class="r-in"><span><span class="fu">hasChromatograms</span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                /__w/_temp/Library/msdata/proteomics/MRM-standmix-5.mzML.gz </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                       TRUE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> /__w/_temp/Library/msdata/proteomics/MS3TMT10_01022016_32917-33481.mzML.gz </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                       TRUE </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> EH10329 EH10410 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    TRUE    TRUE </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

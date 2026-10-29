@@ -67,15 +67,13 @@ Johannes Rainer
 ``` r
 
 ## Read an example MRM/SRM data
-library(msdata)
-fl <- proteomics(full.names = TRUE, pattern = "MRM")
-#> Warning: 'proteomics' is deprecated.
-#> Use 'MsDataHub::MsDataHub()' instead.
-#> See help("Deprecated")
+fl <- MsDataHub::MRM.standmix.5.mzML()
+#> see ?MsDataHub and browseVignettes('MsDataHub') for documentation
+#> loading from cache
 
 ## Read the data
 mrm <- readSRMData(fl)
-#> Warning: file MRM-standmix-5.mzML.gz contains multiple chromatograms with identical polarity, precursor and product m/z values
+#> Warning: file 4f307d0651e_10396 contains multiple chromatograms with identical polarity, precursor and product m/z values
 
 ## The data is represented as a MChromatograms object, each column
 ## containing the data from one input file

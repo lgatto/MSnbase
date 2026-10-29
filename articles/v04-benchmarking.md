@@ -49,7 +49,7 @@ needed for this operation.
 `                                centroided. ``=`` ``TRUE``)``)`
 
     ##    user  system elapsed 
-    ##  41.062   0.371  41.262
+    ##  25.299   0.406  25.492
 
 Next, we use the `readMSData` function to generate an on-disk
 representation of the same data by setting `mode = "onDisk"`.
@@ -60,7 +60,7 @@ representation of the same data by setting `mode = "onDisk"`.
 `                                  centroided. ``=`` ``TRUE``)``)`
 
     ##    user  system elapsed 
-    ##   9.792   0.205   9.834
+    ##   6.960   0.275   7.026
 
 Creating the on-disk experiment is considerable faster and scales to
 much bigger, multi-file data, both in terms of object creation time, but
@@ -121,16 +121,16 @@ spectrum in-memory (i.e. pre-loaded and constructed) and on-disk
 `mb`
 
     ## Unit: microseconds
-    ##             expr         min          lq         mean      median          uq
-    ##   spectra(inmem)     922.239    1434.270    1764.1386    1916.486    2024.046
-    ##     inmem[[200]]      20.170      22.363      62.5161      57.170      81.742
-    ##  spectra(ondisk) 4004717.471 4020451.792 4734164.1678 4037820.935 5795670.019
-    ##    ondisk[[200]] 1597398.145 1609258.647 1619363.0977 1619704.890 1628712.366
+    ##             expr         min          lq         mean       median          uq
+    ##   spectra(inmem)     584.611     894.554    1481.8851    1611.7375    1875.045
+    ##     inmem[[200]]      10.636      13.400      50.9529      45.2925      78.236
+    ##  spectra(ondisk) 2719384.970 2748276.809 3393940.0956 2788800.8795 4300265.524
+    ##    ondisk[[200]] 1087411.302 1098209.675 1127122.5812 1124385.9305 1152115.417
     ##          max neval
-    ##     2371.571    10
-    ##      134.180    10
-    ##  5816314.962    10
-    ##  1640935.447    10
+    ##     2320.389    10
+    ##      119.548    10
+    ##  4424771.066    10
+    ##  1168358.650    10
 
 While it takes order or magnitudes more time to access the data
 on-the-fly rather than a pre-generated spectrum, accessing all spectra
@@ -156,13 +156,13 @@ for on-disk data:
 [`system.time`](https://rdrr.io/r/base/system.time.html)`(``inmem``[``i``]``)`
 
     ##    user  system elapsed 
-    ##   0.133   0.001   0.134
+    ##   0.087   0.000   0.086
 
 \
 [`system.time`](https://rdrr.io/r/base/system.time.html)`(``ondisk``[``i``]``)`
 
     ##    user  system elapsed 
-    ##   0.011   0.000   0.010
+    ##   0.008   0.000   0.008
 
 Operations on the spectra data, such as peak picking, smoothing,
 cleaning, … are cleverly cached and only applied when the data is
@@ -181,14 +181,14 @@ names).
 `                            method ``=`` ``"max"``)``)`
 
     ##    user  system elapsed 
-    ##   2.114   1.223   1.428
+    ##   1.155   1.112   1.014
 
 \
 [`system.time`](https://rdrr.io/r/base/system.time.html)`(``eod`` ``<-`` `[`quantify`](https://lgatto.github.io/MSnbase/reference/quantify-methods.md)`(``ondisk``[``1``:``100``]``, reporters ``=`` ``TMT6``,`\
 `                            method ``=`` ``"max"``)``)`
 
     ##    user  system elapsed 
-    ##   1.677   0.267   1.812
+    ##   1.208   0.272   1.339
 
 \
 [`all.equal`](https://rdrr.io/r/base/all.equal.html)`(``eim``, ``eod``, check.attributes ``=`` ``FALSE``)`

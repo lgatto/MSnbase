@@ -126,32 +126,32 @@ Johannes Rainer
 ## Read a test data file.
 library(BiocParallel)
 register(SerialParam())
-library(msdata)
-f <- c(system.file("microtofq/MM14.mzML", package = "msdata"),
-     system.file("microtofq/MM8.mzML", package = "msdata"))
+f <- MsDataHub::X20171016_POOL_POS_3_105.134.mzML()
+#> see ?MsDataHub and browseVignettes('MsDataHub') for documentation
+#> loading from cache
 
 ## Read the data as an MSnExp
-msd <- readMSData(f, msLevel = 1)
+msd <- readMSData(f, msLevel. = 1)
 
 ## Extract the total ion chromatogram for each file:
 tic <- chromatogram(msd)
 
 tic
-#> MChromatograms with 1 row and 2 columns
-#>           MM14.mzML       MM8.mzML
-#>      <Chromatogram> <Chromatogram>
-#> [1,]    length: 112    length: 198
+#> MChromatograms with 1 row and 1 column
+#>      4f307fac1468_7860
+#>         <Chromatogram>
+#> [1,]       length: 931
 #> phenoData with 1 variables
 #> featureData with 1 variables
 
-## Extract the TIC for the second file:
-tic[1, 2]
+## Extract the TIC for the first (only) file:
+tic[1, 1]
 #> Object of class: Chromatogram
 #> Intensity values aggregated using: sum 
-#> length of object: 198
-#> from file: 2
-#> mz range: [95.51765, 1005.043]
-#> rt range: [0.486, 66.7818]
+#> length of object: 931
+#> from file: 1
+#> mz range: [105.0002, 134]
+#> rt range: [0.275, 259.752]
 #> MS level: 1
 
 ## Plot the TIC for the first file
@@ -171,10 +171,11 @@ chrs <- chromatogram(msd, rt = rtr, mz = mzr)
 chrs[1, 1]
 #> Object of class: Chromatogram
 #> Intensity values aggregated using: sum 
-#> length of object: 0
+#> length of object: 180
 #> from file: 1
-#> mz range: [NA, NA]
-#> MS level: 1
+#> mz range: [140, 160]
+#> rt range: [10.04, 59.982]
+#> MS level: NA
 
 ## The mz and/or rt ranges used are provided as featureData of the object
 fData(chrs)
@@ -188,25 +189,23 @@ mz(chrs)
 #> [1,]   140   160
 #> [2,]   300   320
 
-## Also the Chromatogram for the second range in the second file is empty
-chrs[2, 2]
+## Also the Chromatogram for the second range in the first file is empty
+chrs[2, 1]
 #> Object of class: Chromatogram
 #> Intensity values aggregated using: sum 
 #> length of object: 0
-#> from file: 2
+#> from file: 1
 #> mz range: [NA, NA]
 #> MS level: 1
 
-## Get the extracted chromatogram for the first range in the second file
-chr <- chrs[1, 2]
+## Get the extracted chromatogram for the first range in the first file
+chr <- chrs[1, 1]
 chr
 #> Object of class: Chromatogram
 #> Intensity values aggregated using: sum 
-#> length of object: 148
-#> from file: 2
-#> mz range: [140.0022, 159.9989]
-#> rt range: [10.24602, 59.71602]
-#> MS level: 1
-
-plot(rtime(chr), intensity(chr), xlab = "rtime", ylab = "intensity")
+#> length of object: 180
+#> from file: 1
+#> mz range: [140, 160]
+#> rt range: [10.04, 59.982]
+#> MS level: NA
 ```

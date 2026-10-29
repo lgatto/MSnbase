@@ -4,7 +4,7 @@
 
 ### MSnbase 2.39.6
 
-- Use MsDataHub, drop msdata in vignettes.
+- Use MsDataHub, completely drop msdata.
 
 ### MSnbase 2.39.5
 

@@ -58,9 +58,10 @@ Johannes Rainer
 ``` r
 
 library(MSnbase)
-library(msdata)
-## Load a profile-mode LC-MS data file
-f <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[1]
+#' ## Load a profile-mode LC-MS data file
+f <- MsDataHub::X20171016_POOL_POS_3_105.134.mzML()
+#> see ?MsDataHub and browseVignettes('MsDataHub') for documentation
+#> loading from cache
 od <- readMSData(f, mode = "onDisk")
 im <- as(filterRt(od, c(10, 20)), "MSnExp")
 
@@ -74,10 +75,10 @@ plot(density(unlist(res)))
 idx <- which.max(unlist(spectrapply(im, peaksCount)))
 
 res[[idx]]
-#> [1] 0.0006662792
+#> [1] 0.0007795357
 abline(v = res[[idx]], lty = 2)
 
 estimateMzResolution(im[[idx]])
-#> [1] 0.001419494
+#> [1] 0.001423046
 ## As expected, the m/z scattering is much lower than the m/z resolution.
 ```

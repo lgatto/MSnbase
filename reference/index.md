@@ -771,8 +771,7 @@
   [`missingdata`](https://lgatto.github.io/MSnbase/reference/missing-data.md)
   : Documenting missing data visualisation
 
-- [`as`](https://lgatto.github.io/MSnbase/reference/mzRident2dfr.md)
-  [`as.data.frame.mzRident`](https://lgatto.github.io/MSnbase/reference/mzRident2dfr.md)
+- [`coerce(`*`<mzRident>`*`,`*`<data.frame>`*`)`](https://lgatto.github.io/MSnbase/reference/mzRident2dfr.md)
   :
 
   Coerce identification data to a `data.frame`

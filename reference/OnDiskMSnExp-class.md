@@ -494,21 +494,16 @@ Johannes Rainer \<johannes.rainer@eurac.edu\>
 ## Examples
 
 ``` r
-## Get some example mzML files
-library(msdata)
-#> 
-#>  IMPORTANT: msdata will be deprecated and replaced by the new
-#>  MsDataHub package -- see https://bioconductor.org/packages/MsDataHub.
-#>  Please open an issue at https://github.com/rformassspectrometry/MsDataHub/issues
-#>  to inform us of any data from msdata that would need to be moved to MsDataHub.
-mzfiles <- c(system.file("microtofq/MM14.mzML", package="msdata"),
-       system.file("microtofq/MM8.mzML", package="msdata"))
+mzfile <- MsDataHub::X20171016_POOL_POS_1_105.134.mzML()
+#> see ?MsDataHub and browseVignettes('MsDataHub') for documentation
+#> loading from cache
+
 ## Read the data as an OnDiskMSnExp
-odmse <- readMSData(mzfiles, msLevel=1, centroided = TRUE)
+odmse <- readMSData(mzfile, msLevel. = 1, centroided. = TRUE)
 
 ## Get the length of data, i.e. the total number of spectra.
 length(odmse)
-#> [1] 310
+#> [1] 931
 
 ## Get the MS level
 head(msLevel(odmse))
@@ -532,8 +527,7 @@ head(fromFile(odmse))
 
 ## And the file names:
 fileNames(odmse)
-#> [1] "/__w/_temp/Library/msdata/microtofq/MM14.mzML"
-#> [2] "/__w/_temp/Library/msdata/microtofq/MM8.mzML" 
+#> [1] "/github/home/.cache/R/ExperimentHub/61921ea20ba5_7859"
 
 ## Scan index and acquisitionNum
 head(scanIndex(odmse))
@@ -547,44 +541,44 @@ head(acquisitionNum(odmse))
 head(spectra(odmse))
 #> $F1.S001
 #> Object of class "Spectrum1"
-#>  Retention time: 4:30 
+#>  Retention time: 0:00 
 #>  MSn level: 1 
-#>  Total ion count: 1378 
+#>  Total ion count: 578 
 #>  Polarity: 1 
 #> 
 #> $F1.S002
 #> Object of class "Spectrum1"
-#>  Retention time: 4:31 
+#>  Retention time: 0:01 
 #>  MSn level: 1 
-#>  Total ion count: 1356 
+#>  Total ion count: 1529 
 #>  Polarity: 1 
 #> 
 #> $F1.S003
 #> Object of class "Spectrum1"
-#>  Retention time: 4:31 
+#>  Retention time: 0:01 
 #>  MSn level: 1 
-#>  Total ion count: 1404 
+#>  Total ion count: 1600 
 #>  Polarity: 1 
 #> 
 #> $F1.S004
 #> Object of class "Spectrum1"
-#>  Retention time: 4:31 
+#>  Retention time: 0:01 
 #>  MSn level: 1 
-#>  Total ion count: 1496 
+#>  Total ion count: 1664 
 #>  Polarity: 1 
 #> 
 #> $F1.S005
 #> Object of class "Spectrum1"
-#>  Retention time: 4:32 
+#>  Retention time: 0:01 
 #>  MSn level: 1 
-#>  Total ion count: 1525 
+#>  Total ion count: 1417 
 #>  Polarity: 1 
 #> 
 #> $F1.S006
 #> Object of class "Spectrum1"
-#>  Retention time: 4:32 
+#>  Retention time: 0:02 
 #>  MSn level: 1 
-#>  Total ion count: 1498 
+#>  Total ion count: 1602 
 #>  Polarity: 1 
 #> 
 
@@ -592,374 +586,374 @@ head(spectra(odmse))
 spectra(odmse[1:50])
 #> $F1.S001
 #> Object of class "Spectrum1"
-#>  Retention time: 4:30 
+#>  Retention time: 0:00 
 #>  MSn level: 1 
-#>  Total ion count: 1378 
+#>  Total ion count: 578 
 #>  Polarity: 1 
 #> 
 #> $F1.S002
 #> Object of class "Spectrum1"
-#>  Retention time: 4:31 
+#>  Retention time: 0:01 
 #>  MSn level: 1 
-#>  Total ion count: 1356 
+#>  Total ion count: 1529 
 #>  Polarity: 1 
 #> 
 #> $F1.S003
 #> Object of class "Spectrum1"
-#>  Retention time: 4:31 
+#>  Retention time: 0:01 
 #>  MSn level: 1 
-#>  Total ion count: 1404 
+#>  Total ion count: 1600 
 #>  Polarity: 1 
 #> 
 #> $F1.S004
 #> Object of class "Spectrum1"
-#>  Retention time: 4:31 
+#>  Retention time: 0:01 
 #>  MSn level: 1 
-#>  Total ion count: 1496 
+#>  Total ion count: 1664 
 #>  Polarity: 1 
 #> 
 #> $F1.S005
 #> Object of class "Spectrum1"
-#>  Retention time: 4:32 
+#>  Retention time: 0:01 
 #>  MSn level: 1 
-#>  Total ion count: 1525 
+#>  Total ion count: 1417 
 #>  Polarity: 1 
 #> 
 #> $F1.S006
 #> Object of class "Spectrum1"
-#>  Retention time: 4:32 
+#>  Retention time: 0:02 
 #>  MSn level: 1 
-#>  Total ion count: 1498 
+#>  Total ion count: 1602 
 #>  Polarity: 1 
 #> 
 #> $F1.S007
 #> Object of class "Spectrum1"
-#>  Retention time: 4:32 
+#>  Retention time: 0:02 
 #>  MSn level: 1 
-#>  Total ion count: 1484 
+#>  Total ion count: 1468 
 #>  Polarity: 1 
 #> 
 #> $F1.S008
 #> Object of class "Spectrum1"
-#>  Retention time: 4:33 
+#>  Retention time: 0:02 
 #>  MSn level: 1 
-#>  Total ion count: 1532 
+#>  Total ion count: 1440 
 #>  Polarity: 1 
 #> 
 #> $F1.S009
 #> Object of class "Spectrum1"
-#>  Retention time: 4:33 
+#>  Retention time: 0:03 
 #>  MSn level: 1 
-#>  Total ion count: 1532 
+#>  Total ion count: 1496 
 #>  Polarity: 1 
 #> 
 #> $F1.S010
 #> Object of class "Spectrum1"
-#>  Retention time: 4:33 
-#>  MSn level: 1 
-#>  Total ion count: 1513 
-#>  Polarity: 1 
-#> 
-#> $F1.S011
-#> Object of class "Spectrum1"
-#>  Retention time: 4:34 
-#>  MSn level: 1 
-#>  Total ion count: 1563 
-#>  Polarity: 1 
-#> 
-#> $F1.S012
-#> Object of class "Spectrum1"
-#>  Retention time: 4:34 
-#>  MSn level: 1 
-#>  Total ion count: 1522 
-#>  Polarity: 1 
-#> 
-#> $F1.S013
-#> Object of class "Spectrum1"
-#>  Retention time: 4:34 
-#>  MSn level: 1 
-#>  Total ion count: 1571 
-#>  Polarity: 1 
-#> 
-#> $F1.S014
-#> Object of class "Spectrum1"
-#>  Retention time: 4:35 
-#>  MSn level: 1 
-#>  Total ion count: 1553 
-#>  Polarity: 1 
-#> 
-#> $F1.S015
-#> Object of class "Spectrum1"
-#>  Retention time: 4:35 
-#>  MSn level: 1 
-#>  Total ion count: 1606 
-#>  Polarity: 1 
-#> 
-#> $F1.S016
-#> Object of class "Spectrum1"
-#>  Retention time: 4:35 
-#>  MSn level: 1 
-#>  Total ion count: 1583 
-#>  Polarity: 1 
-#> 
-#> $F1.S017
-#> Object of class "Spectrum1"
-#>  Retention time: 4:36 
-#>  MSn level: 1 
-#>  Total ion count: 1567 
-#>  Polarity: 1 
-#> 
-#> $F1.S018
-#> Object of class "Spectrum1"
-#>  Retention time: 4:36 
-#>  MSn level: 1 
-#>  Total ion count: 1662 
-#>  Polarity: 1 
-#> 
-#> $F1.S019
-#> Object of class "Spectrum1"
-#>  Retention time: 4:36 
-#>  MSn level: 1 
-#>  Total ion count: 1628 
-#>  Polarity: 1 
-#> 
-#> $F1.S020
-#> Object of class "Spectrum1"
-#>  Retention time: 4:37 
-#>  MSn level: 1 
-#>  Total ion count: 1604 
-#>  Polarity: 1 
-#> 
-#> $F1.S021
-#> Object of class "Spectrum1"
-#>  Retention time: 4:37 
-#>  MSn level: 1 
-#>  Total ion count: 1647 
-#>  Polarity: 1 
-#> 
-#> $F1.S022
-#> Object of class "Spectrum1"
-#>  Retention time: 4:37 
-#>  MSn level: 1 
-#>  Total ion count: 1594 
-#>  Polarity: 1 
-#> 
-#> $F1.S023
-#> Object of class "Spectrum1"
-#>  Retention time: 4:38 
-#>  MSn level: 1 
-#>  Total ion count: 1643 
-#>  Polarity: 1 
-#> 
-#> $F1.S024
-#> Object of class "Spectrum1"
-#>  Retention time: 4:38 
-#>  MSn level: 1 
-#>  Total ion count: 1673 
-#>  Polarity: 1 
-#> 
-#> $F1.S025
-#> Object of class "Spectrum1"
-#>  Retention time: 4:38 
-#>  MSn level: 1 
-#>  Total ion count: 1695 
-#>  Polarity: 1 
-#> 
-#> $F1.S026
-#> Object of class "Spectrum1"
-#>  Retention time: 4:39 
-#>  MSn level: 1 
-#>  Total ion count: 1595 
-#>  Polarity: 1 
-#> 
-#> $F1.S027
-#> Object of class "Spectrum1"
-#>  Retention time: 4:39 
-#>  MSn level: 1 
-#>  Total ion count: 1592 
-#>  Polarity: 1 
-#> 
-#> $F1.S028
-#> Object of class "Spectrum1"
-#>  Retention time: 4:39 
-#>  MSn level: 1 
-#>  Total ion count: 1614 
-#>  Polarity: 1 
-#> 
-#> $F1.S029
-#> Object of class "Spectrum1"
-#>  Retention time: 4:40 
-#>  MSn level: 1 
-#>  Total ion count: 1558 
-#>  Polarity: 1 
-#> 
-#> $F1.S030
-#> Object of class "Spectrum1"
-#>  Retention time: 4:40 
-#>  MSn level: 1 
-#>  Total ion count: 1539 
-#>  Polarity: 1 
-#> 
-#> $F1.S031
-#> Object of class "Spectrum1"
-#>  Retention time: 4:40 
-#>  MSn level: 1 
-#>  Total ion count: 1532 
-#>  Polarity: 1 
-#> 
-#> $F1.S032
-#> Object of class "Spectrum1"
-#>  Retention time: 4:41 
-#>  MSn level: 1 
-#>  Total ion count: 1546 
-#>  Polarity: 1 
-#> 
-#> $F1.S033
-#> Object of class "Spectrum1"
-#>  Retention time: 4:41 
-#>  MSn level: 1 
-#>  Total ion count: 1506 
-#>  Polarity: 1 
-#> 
-#> $F1.S034
-#> Object of class "Spectrum1"
-#>  Retention time: 4:41 
-#>  MSn level: 1 
-#>  Total ion count: 1428 
-#>  Polarity: 1 
-#> 
-#> $F1.S035
-#> Object of class "Spectrum1"
-#>  Retention time: 4:42 
-#>  MSn level: 1 
-#>  Total ion count: 1448 
-#>  Polarity: 1 
-#> 
-#> $F1.S036
-#> Object of class "Spectrum1"
-#>  Retention time: 4:42 
+#>  Retention time: 0:03 
 #>  MSn level: 1 
 #>  Total ion count: 1431 
 #>  Polarity: 1 
 #> 
-#> $F1.S037
+#> $F1.S011
 #> Object of class "Spectrum1"
-#>  Retention time: 4:42 
+#>  Retention time: 0:03 
 #>  MSn level: 1 
-#>  Total ion count: 1393 
+#>  Total ion count: 1489 
 #>  Polarity: 1 
 #> 
-#> $F1.S038
+#> $F1.S012
 #> Object of class "Spectrum1"
-#>  Retention time: 4:43 
-#>  MSn level: 1 
-#>  Total ion count: 1409 
-#>  Polarity: 1 
-#> 
-#> $F1.S039
-#> Object of class "Spectrum1"
-#>  Retention time: 4:43 
-#>  MSn level: 1 
-#>  Total ion count: 1410 
-#>  Polarity: 1 
-#> 
-#> $F1.S040
-#> Object of class "Spectrum1"
-#>  Retention time: 4:43 
-#>  MSn level: 1 
-#>  Total ion count: 1342 
-#>  Polarity: 1 
-#> 
-#> $F1.S041
-#> Object of class "Spectrum1"
-#>  Retention time: 4:44 
-#>  MSn level: 1 
-#>  Total ion count: 1366 
-#>  Polarity: 1 
-#> 
-#> $F1.S042
-#> Object of class "Spectrum1"
-#>  Retention time: 4:44 
-#>  MSn level: 1 
-#>  Total ion count: 1351 
-#>  Polarity: 1 
-#> 
-#> $F1.S043
-#> Object of class "Spectrum1"
-#>  Retention time: 4:44 
-#>  MSn level: 1 
-#>  Total ion count: 1367 
-#>  Polarity: 1 
-#> 
-#> $F1.S044
-#> Object of class "Spectrum1"
-#>  Retention time: 4:45 
-#>  MSn level: 1 
-#>  Total ion count: 1342 
-#>  Polarity: 1 
-#> 
-#> $F1.S045
-#> Object of class "Spectrum1"
-#>  Retention time: 4:45 
-#>  MSn level: 1 
-#>  Total ion count: 1365 
-#>  Polarity: 1 
-#> 
-#> $F1.S046
-#> Object of class "Spectrum1"
-#>  Retention time: 4:45 
-#>  MSn level: 1 
-#>  Total ion count: 1379 
-#>  Polarity: 1 
-#> 
-#> $F1.S047
-#> Object of class "Spectrum1"
-#>  Retention time: 4:46 
-#>  MSn level: 1 
-#>  Total ion count: 1325 
-#>  Polarity: 1 
-#> 
-#> $F1.S048
-#> Object of class "Spectrum1"
-#>  Retention time: 4:46 
+#>  Retention time: 0:03 
 #>  MSn level: 1 
 #>  Total ion count: 1349 
 #>  Polarity: 1 
 #> 
+#> $F1.S013
+#> Object of class "Spectrum1"
+#>  Retention time: 0:04 
+#>  MSn level: 1 
+#>  Total ion count: 1650 
+#>  Polarity: 1 
+#> 
+#> $F1.S014
+#> Object of class "Spectrum1"
+#>  Retention time: 0:04 
+#>  MSn level: 1 
+#>  Total ion count: 1697 
+#>  Polarity: 1 
+#> 
+#> $F1.S015
+#> Object of class "Spectrum1"
+#>  Retention time: 0:04 
+#>  MSn level: 1 
+#>  Total ion count: 1413 
+#>  Polarity: 1 
+#> 
+#> $F1.S016
+#> Object of class "Spectrum1"
+#>  Retention time: 0:04 
+#>  MSn level: 1 
+#>  Total ion count: 1593 
+#>  Polarity: 1 
+#> 
+#> $F1.S017
+#> Object of class "Spectrum1"
+#>  Retention time: 0:05 
+#>  MSn level: 1 
+#>  Total ion count: 1560 
+#>  Polarity: 1 
+#> 
+#> $F1.S018
+#> Object of class "Spectrum1"
+#>  Retention time: 0:05 
+#>  MSn level: 1 
+#>  Total ion count: 1477 
+#>  Polarity: 1 
+#> 
+#> $F1.S019
+#> Object of class "Spectrum1"
+#>  Retention time: 0:05 
+#>  MSn level: 1 
+#>  Total ion count: 1536 
+#>  Polarity: 1 
+#> 
+#> $F1.S020
+#> Object of class "Spectrum1"
+#>  Retention time: 0:06 
+#>  MSn level: 1 
+#>  Total ion count: 1491 
+#>  Polarity: 1 
+#> 
+#> $F1.S021
+#> Object of class "Spectrum1"
+#>  Retention time: 0:06 
+#>  MSn level: 1 
+#>  Total ion count: 1575 
+#>  Polarity: 1 
+#> 
+#> $F1.S022
+#> Object of class "Spectrum1"
+#>  Retention time: 0:06 
+#>  MSn level: 1 
+#>  Total ion count: 1503 
+#>  Polarity: 1 
+#> 
+#> $F1.S023
+#> Object of class "Spectrum1"
+#>  Retention time: 0:06 
+#>  MSn level: 1 
+#>  Total ion count: 1543 
+#>  Polarity: 1 
+#> 
+#> $F1.S024
+#> Object of class "Spectrum1"
+#>  Retention time: 0:07 
+#>  MSn level: 1 
+#>  Total ion count: 1604 
+#>  Polarity: 1 
+#> 
+#> $F1.S025
+#> Object of class "Spectrum1"
+#>  Retention time: 0:07 
+#>  MSn level: 1 
+#>  Total ion count: 1443 
+#>  Polarity: 1 
+#> 
+#> $F1.S026
+#> Object of class "Spectrum1"
+#>  Retention time: 0:07 
+#>  MSn level: 1 
+#>  Total ion count: 1579 
+#>  Polarity: 1 
+#> 
+#> $F1.S027
+#> Object of class "Spectrum1"
+#>  Retention time: 0:08 
+#>  MSn level: 1 
+#>  Total ion count: 1390 
+#>  Polarity: 1 
+#> 
+#> $F1.S028
+#> Object of class "Spectrum1"
+#>  Retention time: 0:08 
+#>  MSn level: 1 
+#>  Total ion count: 1436 
+#>  Polarity: 1 
+#> 
+#> $F1.S029
+#> Object of class "Spectrum1"
+#>  Retention time: 0:08 
+#>  MSn level: 1 
+#>  Total ion count: 1626 
+#>  Polarity: 1 
+#> 
+#> $F1.S030
+#> Object of class "Spectrum1"
+#>  Retention time: 0:08 
+#>  MSn level: 1 
+#>  Total ion count: 1552 
+#>  Polarity: 1 
+#> 
+#> $F1.S031
+#> Object of class "Spectrum1"
+#>  Retention time: 0:09 
+#>  MSn level: 1 
+#>  Total ion count: 1501 
+#>  Polarity: 1 
+#> 
+#> $F1.S032
+#> Object of class "Spectrum1"
+#>  Retention time: 0:09 
+#>  MSn level: 1 
+#>  Total ion count: 1516 
+#>  Polarity: 1 
+#> 
+#> $F1.S033
+#> Object of class "Spectrum1"
+#>  Retention time: 0:09 
+#>  MSn level: 1 
+#>  Total ion count: 1537 
+#>  Polarity: 1 
+#> 
+#> $F1.S034
+#> Object of class "Spectrum1"
+#>  Retention time: 0:09 
+#>  MSn level: 1 
+#>  Total ion count: 1386 
+#>  Polarity: 1 
+#> 
+#> $F1.S035
+#> Object of class "Spectrum1"
+#>  Retention time: 0:10 
+#>  MSn level: 1 
+#>  Total ion count: 1452 
+#>  Polarity: 1 
+#> 
+#> $F1.S036
+#> Object of class "Spectrum1"
+#>  Retention time: 0:10 
+#>  MSn level: 1 
+#>  Total ion count: 1578 
+#>  Polarity: 1 
+#> 
+#> $F1.S037
+#> Object of class "Spectrum1"
+#>  Retention time: 0:10 
+#>  MSn level: 1 
+#>  Total ion count: 1513 
+#>  Polarity: 1 
+#> 
+#> $F1.S038
+#> Object of class "Spectrum1"
+#>  Retention time: 0:11 
+#>  MSn level: 1 
+#>  Total ion count: 1520 
+#>  Polarity: 1 
+#> 
+#> $F1.S039
+#> Object of class "Spectrum1"
+#>  Retention time: 0:11 
+#>  MSn level: 1 
+#>  Total ion count: 1489 
+#>  Polarity: 1 
+#> 
+#> $F1.S040
+#> Object of class "Spectrum1"
+#>  Retention time: 0:11 
+#>  MSn level: 1 
+#>  Total ion count: 1399 
+#>  Polarity: 1 
+#> 
+#> $F1.S041
+#> Object of class "Spectrum1"
+#>  Retention time: 0:11 
+#>  MSn level: 1 
+#>  Total ion count: 1545 
+#>  Polarity: 1 
+#> 
+#> $F1.S042
+#> Object of class "Spectrum1"
+#>  Retention time: 0:12 
+#>  MSn level: 1 
+#>  Total ion count: 1440 
+#>  Polarity: 1 
+#> 
+#> $F1.S043
+#> Object of class "Spectrum1"
+#>  Retention time: 0:12 
+#>  MSn level: 1 
+#>  Total ion count: 1565 
+#>  Polarity: 1 
+#> 
+#> $F1.S044
+#> Object of class "Spectrum1"
+#>  Retention time: 0:12 
+#>  MSn level: 1 
+#>  Total ion count: 1330 
+#>  Polarity: 1 
+#> 
+#> $F1.S045
+#> Object of class "Spectrum1"
+#>  Retention time: 0:13 
+#>  MSn level: 1 
+#>  Total ion count: 1580 
+#>  Polarity: 1 
+#> 
+#> $F1.S046
+#> Object of class "Spectrum1"
+#>  Retention time: 0:13 
+#>  MSn level: 1 
+#>  Total ion count: 1524 
+#>  Polarity: 1 
+#> 
+#> $F1.S047
+#> Object of class "Spectrum1"
+#>  Retention time: 0:13 
+#>  MSn level: 1 
+#>  Total ion count: 1410 
+#>  Polarity: 1 
+#> 
+#> $F1.S048
+#> Object of class "Spectrum1"
+#>  Retention time: 0:13 
+#>  MSn level: 1 
+#>  Total ion count: 1397 
+#>  Polarity: 1 
+#> 
 #> $F1.S049
 #> Object of class "Spectrum1"
-#>  Retention time: 4:46 
+#>  Retention time: 0:14 
 #>  MSn level: 1 
-#>  Total ion count: 1383 
+#>  Total ion count: 1520 
 #>  Polarity: 1 
 #> 
 #> $F1.S050
 #> Object of class "Spectrum1"
-#>  Retention time: 4:47 
+#>  Retention time: 0:14 
 #>  MSn level: 1 
-#>  Total ion count: 1342 
+#>  Total ion count: 1650 
 #>  Polarity: 1 
 #> 
 
 ## Alternatively, we could also subset the whole object by spectra and/or samples:
 subs <- odmse[rtime(odmse) >= 2 & rtime(odmse) <= 20, ]
 fileNames(subs)
-#> [1] "/__w/_temp/Library/msdata/microtofq/MM8.mzML"
+#> [1] "/github/home/.cache/R/ExperimentHub/61921ea20ba5_7859"
 rtime(subs)
-#>   F2.S006   F2.S007   F2.S008   F2.S009   F2.S010   F2.S011   F2.S012   F2.S013 
-#>  2.169000  2.506002  2.842998  3.178998  3.516000  3.852000  4.188000  4.525002 
-#>   F2.S014   F2.S015   F2.S016   F2.S017   F2.S018   F2.S019   F2.S020   F2.S021 
-#>  4.861002  5.197998  5.533998  5.871000  6.207000  6.544020  6.880020  7.216980 
-#>   F2.S022   F2.S023   F2.S024   F2.S025   F2.S026   F2.S027   F2.S028   F2.S029 
-#>  7.554000  7.891020  8.227020  8.563980  8.899980  9.237000  9.573000  9.910020 
-#>   F2.S030   F2.S031   F2.S032   F2.S033   F2.S034   F2.S035   F2.S036   F2.S037 
-#> 10.246020 10.582020 10.918980 11.254980 11.592000 11.928000 12.265020 12.601020 
-#>   F2.S038   F2.S039   F2.S040   F2.S041   F2.S042   F2.S043   F2.S044   F2.S045 
-#> 12.937020 13.273980 13.609980 13.947000 14.283000 14.620020 14.956020 15.292020 
-#>   F2.S046   F2.S047   F2.S048   F2.S049   F2.S050   F2.S051   F2.S052   F2.S053 
-#> 15.628980 15.964980 16.302000 16.638000 16.975020 17.311020 17.649000 17.986020 
-#>   F2.S054   F2.S055   F2.S056   F2.S057   F2.S058 
-#> 18.322980 18.660000 18.996000 19.333020 19.669020 
+#> F1.S008 F1.S009 F1.S010 F1.S011 F1.S012 F1.S013 F1.S014 F1.S015 F1.S016 F1.S017 
+#>   2.233   2.512   2.791   3.070   3.349   3.628   3.907   4.186   4.465   4.744 
+#> F1.S018 F1.S019 F1.S020 F1.S021 F1.S022 F1.S023 F1.S024 F1.S025 F1.S026 F1.S027 
+#>   5.023   5.302   5.581   5.860   6.139   6.418   6.697   6.976   7.255   7.534 
+#> F1.S028 F1.S029 F1.S030 F1.S031 F1.S032 F1.S033 F1.S034 F1.S035 F1.S036 F1.S037 
+#>   7.813   8.092   8.371   8.650   8.929   9.208   9.487   9.766  10.045  10.324 
+#> F1.S038 F1.S039 F1.S040 F1.S041 F1.S042 F1.S043 F1.S044 F1.S045 F1.S046 F1.S047 
+#>  10.603  10.882  11.161  11.440  11.719  11.998  12.277  12.556  12.835  13.114 
+#> F1.S048 F1.S049 F1.S050 F1.S051 F1.S052 F1.S053 F1.S054 F1.S055 F1.S056 F1.S057 
+#>  13.393  13.672  13.951  14.230  14.509  14.788  15.067  15.346  15.625  15.904 
+#> F1.S058 F1.S059 F1.S060 F1.S061 F1.S062 F1.S063 F1.S064 F1.S065 F1.S066 F1.S067 
+#>  16.183  16.462  16.741  17.020  17.299  17.578  17.857  18.136  18.415  18.694 
+#> F1.S068 F1.S069 F1.S070 F1.S071 
+#>  18.973  19.252  19.531  19.810 
 
 ## Extract intensities and M/Z values per spectrum; the methods return a list,
 ## each element representing the values for one spectrum.
@@ -982,16 +976,16 @@ odmse <- clean(odmse)
 spectra(odmse[1:2])
 #> $F1.S001
 #> Object of class "Spectrum1"
-#>  Retention time: 4:30 
+#>  Retention time: 0:00 
 #>  MSn level: 1 
-#>  Total ion count: 0 
+#>  Total ion count: 20 
 #>  Polarity: 1 
 #> 
 #> $F1.S002
 #> Object of class "Spectrum1"
-#>  Retention time: 4:31 
+#>  Retention time: 0:01 
 #>  MSn level: 1 
-#>  Total ion count: 0 
+#>  Total ion count: 21 
 #>  Polarity: 1 
 #> 
 
@@ -1003,34 +997,32 @@ head(polarity(odmse))
 ## Get the retention time of all spectra
 head(rtime(odmse))
 #> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#> 270.334 270.671 271.007 271.343 271.680 272.016 
+#>   0.280   0.559   0.838   1.117   1.396   1.675 
 
 ## Get the intensities after removePeaks and clean
 intsAfter <- intensity(odmse)
 
 head(lengths(ints))
 #> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#>    1378    1356    1404    1496    1525    1498 
+#>     578    1529    1600    1664    1417    1602 
 head(lengths(intsAfter))
 #> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#>       0       0       0       3       6       9 
+#>      20      21      21      23      22      24 
 
 ## The same for the M/Z values
 mzsAfter <- intensity(odmse)
 head(lengths(mzs))
 #> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#>    1378    1356    1404    1496    1525    1498 
+#>     578    1529    1600    1664    1417    1602 
 head(lengths(mzsAfter))
 #> F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-#>       0       0       0       3       6       9 
-
+#>      20      21      21      23      22      24 
 
 ## Centroided or profile mode
-f <- msdata::proteomics(full.names = TRUE,
-      pattern = "MS3TMT11.mzML")
-#> Warning: 'msdata::proteomics' is deprecated.
-#> Use 'MsDataHub::MsDataHub()' instead.
-#> See help("Deprecated")
+f <- MsDataHub::MS3TMT11.mzML()
+#> see ?MsDataHub and browseVignettes('MsDataHub') for documentation
+#> loading from cache
+
 odmse <- readMSData(f, mode = "onDisk")
 validObject(odmse)
 #> [1] TRUE
@@ -1042,10 +1034,7 @@ odmse[[1]]
 #>  Polarity: 1 
 
 table(isCentroidedFromFile(odmse), msLevel(odmse))
-#>        
-#>           1   2   3
-#>   FALSE  30   0   0
-#>   TRUE    0 482 482
+#> < table of extent 0 x 3 >
 
 ## centroided status could be set manually
 centroided(odmse, msLevel = 1) <- FALSE
@@ -1054,7 +1043,7 @@ centroided(odmse, msLevel = 3) <- TRUE
 
 ## or when reading the data
 odmse2 <- readMSData(f, centroided = c(FALSE, TRUE, TRUE),
-         mode = "onDisk")
+                     mode = "onDisk")
 table(centroided(odmse), msLevel(odmse))
 #>        
 #>           1   2   3
@@ -1079,16 +1068,16 @@ head(msLevel(odmse))
 #>  Number of spectra: 35 
 #>  MSn retention times: 45:27 - 45:30 minutes
 #> - - - Processing information - - -
-#> Data loaded [Fri Oct  2 05:55:13 2026] 
-#> Filter: select parent/children scans for 21945 [Fri Oct  2 05:55:14 2026] 
+#> Data loaded [Thu Oct 29 09:04:07 2026] 
+#> Filter: select parent/children scans for 21945 [Thu Oct 29 09:04:08 2026] 
 #>  MSnbase version: 2.39.6 
 #> - - - Meta data  - - -
 #> phenoData
-#>   rowNames: MS3TMT11.mzML
+#>   rowNames: 61925a2e4f2a_10476
 #>   varLabels: sampleNames
 #>   varMetadata: labelDescription
 #> Loaded from:
-#>   MS3TMT11.mzML 
+#>   61925a2e4f2a_10476 
 #> protocolData: none
 #> featureData
 #>   featureNames: F1.S001 F1.S002 ... F1.S035 (35 total)
@@ -1111,16 +1100,16 @@ table(msLevel(from1))
 #>  Number of spectra: 3 
 #>  MSn retention times: 45:27 - 45:27 minutes
 #> - - - Processing information - - -
-#> Data loaded [Fri Oct  2 05:55:13 2026] 
-#> Filter: select parent/children scans for 21946 [Fri Oct  2 05:55:14 2026] 
+#> Data loaded [Thu Oct 29 09:04:07 2026] 
+#> Filter: select parent/children scans for 21946 [Thu Oct 29 09:04:08 2026] 
 #>  MSnbase version: 2.39.6 
 #> - - - Meta data  - - -
 #> phenoData
-#>   rowNames: MS3TMT11.mzML
+#>   rowNames: 61925a2e4f2a_10476
 #>   varLabels: sampleNames
 #>   varMetadata: labelDescription
 #> Loaded from:
-#>   MS3TMT11.mzML 
+#>   61925a2e4f2a_10476 
 #> protocolData: none
 #> featureData
 #>   featureNames: F1.S001 F1.S002 F1.S004

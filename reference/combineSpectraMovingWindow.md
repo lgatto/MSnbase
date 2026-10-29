@@ -138,10 +138,11 @@ Johannes Rainer, Sigurdur Smarason
 ``` r
 
 library(MSnbase)
-library(msdata)
-
+#'
 ## Read a profile-mode LC-MS data file.
-fl <- dir(system.file("sciex", package = "msdata"), full.names = TRUE)[1]
+fl <- MsDataHub::X20171016_POOL_POS_3_105.134.mzML()
+#> see ?MsDataHub and browseVignettes('MsDataHub') for documentation
+#> loading from cache
 od <- readMSData(fl, mode = "onDisk")
 
 ## Subset the object to the retention time range that includes the signal
@@ -161,22 +162,22 @@ length(od_comb)
 
 peaksCount(od)
 #> F1.S592 F1.S593 F1.S594 F1.S595 F1.S596 F1.S597 F1.S598 F1.S599 F1.S600 F1.S601 
-#>     681     745     763     848     713     963    1126    1016     756     796 
+#>     775    1001     732     929     979    1070     867     690     874     764 
 #> F1.S602 F1.S603 F1.S604 F1.S605 F1.S606 F1.S607 F1.S608 F1.S609 F1.S610 F1.S611 
-#>     861     830     710     815     739     693     659     734    1054    1246 
+#>     765     661     700     656     569     667     914    1236    1424    1625 
 #> F1.S612 F1.S613 F1.S614 F1.S615 F1.S616 F1.S617 F1.S618 F1.S619 F1.S620 F1.S621 
-#>    1509    1590    1943    2130    2166    2923    2816    2123    1744    1704 
+#>    1764    2121    2352    2522    2931    2305    1671    1746    1929    1990 
 #> F1.S622 F1.S623 F1.S624 F1.S625 F1.S626 F1.S627 
-#>    2073    2015    1910    1859    1853    1762 
+#>    1969    1782    1640    1766    1948    1920 
 peaksCount(od_comb)
 #> F1.S592 F1.S593 F1.S594 F1.S595 F1.S596 F1.S597 F1.S598 F1.S599 F1.S600 F1.S601 
-#>     681     745     763     848     713     963    1126    1016     756     796 
+#>     775    1001     732     929     979    1070     867     690     874     764 
 #> F1.S602 F1.S603 F1.S604 F1.S605 F1.S606 F1.S607 F1.S608 F1.S609 F1.S610 F1.S611 
-#>     861     830     710     815     739     693     659     734    1054    1246 
+#>     765     661     700     656     569     667     914    1236    1424    1625 
 #> F1.S612 F1.S613 F1.S614 F1.S615 F1.S616 F1.S617 F1.S618 F1.S619 F1.S620 F1.S621 
-#>    1509    1590    1943    2130    2166    2923    2816    2123    1744    1704 
+#>    1764    2121    2352    2522    2931    2305    1671    1746    1929    1990 
 #> F1.S622 F1.S623 F1.S624 F1.S625 F1.S626 F1.S627 
-#>    2073    2015    1910    1859    1853    1762 
+#>    1969    1782    1640    1766    1948    1920 
 
 ## Comparing the chromatographic signal for proline (m/z ~ 116.0706)
 ## before and after spectra data combination.

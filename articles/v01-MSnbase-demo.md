@@ -391,9 +391,11 @@ object. See also section @ref(sec:io3) for importing chromatographic
 data from SRM/MRM experiments.
 
 \
-`(``f`` ``<-`` `[`system.file`](https://rdrr.io/r/base/system.file.html)`(``"microtofq/MM14.mzML"``, package ``=`` ``"msdata"``)``)`
+`f`` ``<-`` ``MsDataHub``::`[`X20171016_POOL_POS_3_105.134.mzML`](https://rformassspectrometry.github.io/MsDataHub/reference/sciex.html)`(``)`
 
-    ## [1] "/__w/_temp/Library/msdata/microtofq/MM14.mzML"
+    ## see ?MsDataHub and browseVignettes('MsDataHub') for documentation
+
+    ## loading from cache
 
 \
 `mtof`` ``<-`` `[`readMSData`](https://lgatto.github.io/MSnbase/reference/readMSData.md)`(``f``, mode ``=`` ``"onDisk"``)`\
@@ -401,9 +403,9 @@ data from SRM/MRM experiments.
 `mtof_tic`
 
     ## MChromatograms with 1 row and 1 column
-    ##           MM14.mzML
-    ##      <Chromatogram>
-    ## [1,]    length: 112
+    ##      4f307fac1468_7860
+    ##         <Chromatogram>
+    ## [1,]       length: 931
     ## phenoData with 1 variables
     ## featureData with 1 variables
 
@@ -424,28 +426,28 @@ functions `intensity` and `rtime` to access the data, as well as the
 
     ## Object of class: Chromatogram
     ## Intensity values aggregated using: sum 
-    ## length of object: 112
+    ## length of object: 931
     ## from file: 1
-    ## mz range: [94.80679, 1004.962]
-    ## rt range: [270.334, 307.678]
+    ## mz range: [105.0002, 134]
+    ## rt range: [0.275, 259.752]
     ## MS level: 1
 
 \
 [`head`](https://rdrr.io/r/utils/head.html)`(`[`intensity`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``mtof_tic``[``1``, ``1``]``)``)`
 
     ## F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-    ##   64989   67445   77843  105097  155609  212760
+    ##  725013 1115422  979255  992255 1018768 1036237
 
 \
 [`head`](https://rdrr.io/r/utils/head.html)`(`[`rtime`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``mtof_tic``[``1``, ``1``]``)``)`
 
     ## F1.S001 F1.S002 F1.S003 F1.S004 F1.S005 F1.S006 
-    ## 270.334 270.671 271.007 271.343 271.680 272.016
+    ##   0.275   0.554   0.833   1.112   1.391   1.670
 
 \
 [`mz`](https://lgatto.github.io/MSnbase/reference/Spectrum-class.md)`(``mtof_tic``[``1``, ``1``]``)`
 
-    ## [1]   94.80679 1004.96155
+    ## [1] 105.0002 134.0000
 
 To extract the base peak chromatogram (the largest peak along the
 $`m/z`$ dimension for each retention time/spectrum) we set the
@@ -586,7 +588,7 @@ metadata, and keep the 6 from the *BSA* protein.
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Data [logically] subsetted 3 spectra: Fri Oct  2 05:56:53 2026 
+    ## Data [logically] subsetted 3 spectra: Thu Oct 29 09:05:37 2026 
     ##  MSnbase version: 1.1.22 
     ## - - - Meta data  - - -
     ## phenoData
@@ -616,7 +618,7 @@ as illustrated on figure @ref(fig:msnexpPlot).
 
 ![Experiment-wide raw MS2 spectra. The y-axes of the individual spectra
 are automatically rescaled to the same range. See section
-\\ref(sec:norm) to rescale peaks
+\\@ref(sec:norm) to rescale peaks
 identically.](v01-MSnbase-demo_files/figure-html/msnexpPlot-1.png)
 
 Experiment-wide raw MS2 spectra. The y-axes of the individual spectra
@@ -700,7 +702,7 @@ objects into `data.frames`.
     ##  $ scan.number.s.          : num  2949 6534 5674 4782 5839 ...
     ##  $ acquisitionNum          : num  2949 6534 5674 4782 5839 ...
     ##  $ spectrumFile            : chr  "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" ...
-    ##  $ idFile                  : chr  "50b428ab32cf_7857" "50b428ab32cf_7857" "50b428ab32cf_7857" "50b428ab32cf_7857" ...
+    ##  $ idFile                  : chr  "4f3058d82e4a_7857" "4f3058d82e4a_7857" "4f3058d82e4a_7857" "4f3058d82e4a_7857" ...
     ##  $ MS.GF.RawScore          : num  10 12 8 -5 8 7 21 -31 -31 -3 ...
     ##  $ MS.GF.DeNovoScore       : num  101 121 74 160 241 214 196 165 165 59 ...
     ##  $ MS.GF.SpecEValue        : num  4.62e-08 7.26e-08 9.34e-08 1.27e-07 1.32e-07 ...
@@ -1153,8 +1155,8 @@ full trimmed experiment to the original 1.9 Mb.
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Fri Oct  2 05:57:01 2026 
-    ## Spectra cleaned: Fri Oct  2 05:57:01 2026 
+    ## Curves <= 400 set to '0': Thu Oct 29 09:05:41 2026 
+    ## Spectra cleaned: Thu Oct 29 09:05:42 2026 
     ##  MSnbase version: 1.1.22 
     ## - - - Meta data  - - -
     ## phenoData
@@ -1263,9 +1265,9 @@ data is directly inherited from the *MSnExp* instance.
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Fri Oct  2 05:57:01 2026 
-    ## Spectra cleaned: Fri Oct  2 05:57:01 2026 
-    ## iTRAQ4 quantification by trapezoidation: Fri Oct  2 05:57:03 2026 
+    ## Curves <= 400 set to '0': Thu Oct 29 09:05:41 2026 
+    ## Spectra cleaned: Thu Oct 29 09:05:42 2026 
+    ## iTRAQ4 quantification by trapezoidation: Thu Oct 29 09:05:43 2026 
     ##  MSnbase version: 1.1.22
 
 \
@@ -1523,7 +1525,7 @@ data:
 [`processingData`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)`(``x``)`
 
     ## - - - Processing information - - -
-    ## Data imputation using min Fri Oct  2 05:57:06 2026 
+    ## Data imputation using min Thu Oct 29 09:05:45 2026 
     ##  MSnbase version: 1.15.6
 
 \
@@ -1608,7 +1610,7 @@ figure @ref(fig:miximp)).
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Data imputation using mixed Fri Oct  2 05:57:06 2026 
+    ## Data imputation using mixed Thu Oct 29 09:05:46 2026 
     ##  MSnbase version: 1.15.6
 
 Please read `?MsCoreUtils::impute_matix()` for a description of the
@@ -1690,7 +1692,7 @@ illustrated above and plot the data using `plot` (figure
 ![Experiment-wide normalised MS2 spectra. The y-axes of the individual
 spectra is now rescaled between 0 and 1 (highest peak), as opposed to
 figure
-\\ref(fig:msnexpPlot).](v01-MSnbase-demo_files/figure-html/msnexpNormPlot-1.png)
+\\@ref(fig:msnexpPlot).](v01-MSnbase-demo_files/figure-html/msnexpNormPlot-1.png)
 
 Experiment-wide normalised MS2 spectra. The y-axes of the individual
 spectra is now rescaled between 0 and 1 (highest peak), as opposed to
@@ -1775,13 +1777,13 @@ defined functions with `method=function(x) { ... }`. We will use the
     ## - - - Processing information - - -
     ## Data loaded: Wed May 11 18:54:39 2011 
     ## Updated from version 0.3.0 to 0.3.1 [Fri Jul  8 20:23:25 2016] 
-    ## Curves <= 400 set to '0': Fri Oct  2 05:57:01 2026 
-    ## Spectra cleaned: Fri Oct  2 05:57:01 2026 
-    ## iTRAQ4 quantification by trapezoidation: Fri Oct  2 05:57:03 2026 
-    ## Subset [55,4][54,4] Fri Oct  2 05:57:04 2026 
-    ## Removed features with more than 0 NAs: Fri Oct  2 05:57:04 2026 
-    ## Dropped featureData's levels Fri Oct  2 05:57:04 2026 
-    ## Combined 54 features into 40 using median: Fri Oct  2 05:57:08 2026 
+    ## Curves <= 400 set to '0': Thu Oct 29 09:05:41 2026 
+    ## Spectra cleaned: Thu Oct 29 09:05:42 2026 
+    ## iTRAQ4 quantification by trapezoidation: Thu Oct 29 09:05:43 2026 
+    ## Subset [55,4][54,4] Thu Oct 29 09:05:43 2026 
+    ## Removed features with more than 0 NAs: Thu Oct 29 09:05:43 2026 
+    ## Dropped featureData's levels Thu Oct 29 09:05:43 2026 
+    ## Combined 54 features into 40 using median: Thu Oct 29 09:05:46 2026 
     ##  MSnbase version: 2.39.6
 
 Of interest is also the `iPQF` spectra-to-protein summarisation method,
@@ -1869,11 +1871,11 @@ extracted automatically from the feature meta-data using the default
 [`processingData`](https://lgatto.github.io/MSnbase/reference/pSet-class.md)`(``siquant``)`
 
     ## - - - Processing information - - -
-    ## Data loaded: Fri Oct  2 05:57:00 2026 
-    ## Filtered 2 unidentified peptides out [Fri Oct  2 05:57:00 2026] 
-    ## Quantitation by total ion current [Fri Oct  2 05:57:08 2026] 
-    ## Combined 3 features into 3 using sum: Fri Oct  2 05:57:08 2026 
-    ## Quantification by SIn [Fri Oct  2 05:57:08 2026] 
+    ## Data loaded: Thu Oct 29 09:05:41 2026 
+    ## Filtered 2 unidentified peptides out [Thu Oct 29 09:05:41 2026] 
+    ## Quantitation by total ion current [Thu Oct 29 09:05:47 2026] 
+    ## Combined 3 features into 3 using sum: Thu Oct 29 09:05:47 2026 
+    ## Quantification by SIn [Thu Oct 29 09:05:47 2026] 
     ##  MSnbase version: 2.39.6
 
 \
@@ -2334,7 +2336,7 @@ missing values inserted appropriately.
     ## experimentData: use 'experimentData(object)'
     ## Annotation:  
     ## - - - Processing information - - -
-    ## Combined [27,4] and [24,4] MSnSets Fri Oct  2 05:57:15 2026 
+    ## Combined [27,4] and [24,4] MSnSets Thu Oct 29 09:05:51 2026 
     ##  MSnbase version: 2.39.6
 
 In summary, when experiments with different samples need to be combined
@@ -2495,7 +2497,7 @@ the `topN` method.
 
     ## R version 4.6.1 (2026-06-24)
     ## Platform: x86_64-pc-linux-gnu
-    ## Running under: Ubuntu 24.04.4 LTS
+    ## Running under: Ubuntu 24.04.5 LTS
     ## 
     ## Matrix products: default
     ## BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 
@@ -2532,7 +2534,7 @@ the `topN` method.
     ##   [5] hardhat_1.4.3               preprocessCore_1.75.1      
     ##   [7] pROC_1.19.1                 rpart_4.1.27               
     ##   [9] lifecycle_1.0.5             httr2_1.3.0                
-    ##  [11] doParallel_1.0.17           globals_0.19.1             
+    ##  [11] doParallel_1.0.17           globals_0.20.0             
     ##  [13] lattice_0.23-1              MASS_7.3-66                
     ##  [15] MultiAssayExperiment_1.38.0 dendextend_1.19.1          
     ##  [17] magrittr_2.0.5              limma_3.68.5               
@@ -2545,7 +2547,7 @@ the `topN` method.
     ##  [31] purrr_1.2.2                 mixtools_2.0.0.1           
     ##  [33] AnnotationFilter_1.36.0     nnet_7.3-21                
     ##  [35] rappdirs_0.3.4              ipred_0.9-16               
-    ##  [37] lava_1.9.3                  listenv_1.0.0              
+    ##  [37] lava_1.10                   listenv_1.1.0              
     ##  [39] parallelly_1.48.0           pkgdown_2.2.1.9000         
     ##  [41] ncdf4_1.24                  codetools_0.2-20           
     ##  [43] DelayedArray_0.38.2         tidyselect_1.2.1           
@@ -2553,26 +2555,26 @@ the `topN` method.
     ##  [47] viridis_0.6.5               matrixStats_1.5.0          
     ##  [49] BiocFileCache_3.2.0         Seqinfo_1.2.0              
     ##  [51] jsonlite_2.0.0              caret_7.0-1                
-    ##  [53] e1071_1.7-17                PTMods_1.1.1               
+    ##  [53] e1071_1.7-17                PTMods_1.0.0               
     ##  [55] survival_3.8-12             iterators_1.0.14           
     ##  [57] systemfonts_1.3.2           foreach_1.5.2              
     ##  [59] segmented_2.2-2             tools_4.6.1                
     ##  [61] progress_1.2.3              ragg_1.5.2                 
     ##  [63] glue_1.8.1                  prodlim_2026.03.11         
     ##  [65] gridExtra_2.3.1             SparseArray_1.12.3         
-    ##  [67] mgcv_1.9-4                  xfun_0.61                  
+    ##  [67] mgcv_1.9-4                  xfun_0.62                  
     ##  [69] MatrixGenerics_1.24.0       dplyr_1.2.1                
     ##  [71] withr_3.0.3                 BiocManager_1.30.27        
     ##  [73] fastmap_1.2.0               caTools_1.18.4             
     ##  [75] digest_0.6.39               timechange_0.4.0           
-    ##  [77] R6_2.6.1                    colorspace_2.1-3           
+    ##  [77] R6_2.6.1                    colorspace_2.1-4           
     ##  [79] textshaping_1.0.5           gtools_3.9.5               
     ##  [81] lpSolve_5.6.23              biomaRt_2.68.0             
     ##  [83] RSQLite_3.53.3              tidyr_1.3.2                
     ##  [85] hexbin_1.28.6               data.table_1.18.6.1        
     ##  [87] recipes_1.4.0               FNN_1.1.4.1                
     ##  [89] class_7.3-24                prettyunits_1.2.0          
-    ##  [91] PSMatch_1.17.1              httr_1.4.9                 
+    ##  [91] PSMatch_1.16.0              httr_1.4.9                 
     ##  [93] htmlwidgets_1.6.4           S4Arrays_1.12.1            
     ##  [95] ModelMetrics_1.2.2.2        pkgconfig_2.0.3            
     ##  [97] gtable_0.3.6                timeDate_4052.112          
@@ -2584,7 +2586,7 @@ the `topN` method.
     ## [109] png_0.1-9                   gower_1.0.2                
     ## [111] knitr_1.52                  MetaboCoreUtils_1.20.1     
     ## [113] reshape2_1.4.5              coda_0.19-4.1              
-    ## [115] nlme_3.1-171                curl_8.0.0                 
+    ## [115] nlme_3.1-171                curl_8.1.0                 
     ## [117] proxy_0.4-29                cachem_1.1.0               
     ## [119] stringr_1.6.0               KernSmooth_2.23-27         
     ## [121] BiocVersion_3.23.1          parallel_4.6.1             
@@ -2595,7 +2597,7 @@ the `topN` method.
     ## [131] xtable_1.8-8                evaluate_1.0.5             
     ## [133] mvtnorm_1.4-2               cli_3.6.6                  
     ## [135] compiler_4.6.1              rlang_1.3.0                
-    ## [137] crayon_1.5.3                future.apply_1.20.2        
+    ## [137] crayon_1.5.3                future.apply_1.21.0        
     ## [139] labeling_0.4.3              LaplacesDemon_16.1.8       
     ## [141] mclust_6.1.3                QFeatures_1.22.0           
     ## [143] affy_1.90.0                 plyr_1.8.9                 
@@ -2603,7 +2605,7 @@ the `topN` method.
     ## [147] viridisLite_0.4.3           Biostrings_2.80.2          
     ## [149] lazyeval_0.2.3              Matrix_1.7-6               
     ## [151] ExperimentHub_3.2.2         hms_1.1.4                  
-    ## [153] bit64_4.8.6                 future_1.76.0              
+    ## [153] bit64_4.8.6                 future_1.80.0              
     ## [155] KEGGREST_1.52.2             statmod_1.5.2              
     ## [157] AnnotationHub_4.2.2         SummarizedExperiment_1.42.0
     ## [159] kernlab_0.9-33              igraph_2.3.4               

@@ -171,32 +171,32 @@ classes that represent single and multiple chromatograms.</p></div>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## Read a test data file.</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/Bioconductor/BiocParallel" class="external-link">BiocParallel</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/register.html" class="external-link">register</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocParallel/man/SerialParam-class.html" class="external-link">SerialParam</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">msdata</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"microtofq/MM14.mzML"</span>, package <span class="op">=</span> <span class="st">"msdata"</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>     <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"microtofq/MM8.mzML"</span>, package <span class="op">=</span> <span class="st">"msdata"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu">MsDataHub</span><span class="fu">::</span><span class="fu"><a href="https://rformassspectrometry.github.io/MsDataHub/reference/sciex.html" class="external-link">X20171016_POOL_POS_3_105.134.mzML</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> see ?MsDataHub and browseVignettes('MsDataHub') for documentation</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> loading from cache</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Read the data as an MSnExp</span></span></span>
-<span class="r-in"><span><span class="va">msd</span> <span class="op">&lt;-</span> <span class="fu"><a href="readMSData.html">readMSData</a></span><span class="op">(</span><span class="va">f</span>, msLevel <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">msd</span> <span class="op">&lt;-</span> <span class="fu"><a href="readMSData.html">readMSData</a></span><span class="op">(</span><span class="va">f</span>, msLevel. <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Extract the total ion chromatogram for each file:</span></span></span>
 <span class="r-in"><span><span class="va">tic</span> <span class="op">&lt;-</span> <span class="fu">chromatogram</span><span class="op">(</span><span class="va">msd</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">tic</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MChromatograms with 1 row and 2 columns</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           MM14.mzML       MM8.mzML</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      &lt;Chromatogram&gt; &lt;Chromatogram&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    length: 112    length: 198</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MChromatograms with 1 row and 1 column</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      4f307fac1468_7860</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;Chromatogram&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]       length: 931</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> phenoData with 1 variables</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> featureData with 1 variables</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Extract the TIC for the second file:</span></span></span>
-<span class="r-in"><span><span class="va">tic</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="co">## Extract the TIC for the first (only) file:</span></span></span>
+<span class="r-in"><span><span class="va">tic</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class: Chromatogram</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Intensity values aggregated using: sum </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> length of object: 198</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> from file: 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mz range: [95.51765, 1005.043]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rt range: [0.486, 66.7818]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> length of object: 931</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> from file: 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mz range: [105.0002, 134]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rt range: [0.275, 259.752]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MS level: 1</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Plot the TIC for the first file</span></span></span>
@@ -216,10 +216,11 @@ classes that represent single and multiple chromatograms.</p></div>
 <span class="r-in"><span><span class="va">chrs</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class: Chromatogram</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Intensity values aggregated using: sum </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> length of object: 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> length of object: 180</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> from file: 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mz range: [NA, NA]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MS level: 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mz range: [140, 160]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rt range: [10.04, 59.982]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MS level: NA</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## The mz and/or rt ranges used are provided as featureData of the object</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/featureData.html" class="external-link">fData</a></span><span class="op">(</span><span class="va">chrs</span><span class="op">)</span></span></span>
@@ -233,28 +234,25 @@ classes that represent single and multiple chromatograms.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]   140   160</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]   300   320</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Also the Chromatogram for the second range in the second file is empty</span></span></span>
-<span class="r-in"><span><span class="va">chrs</span><span class="op">[</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="co">## Also the Chromatogram for the second range in the first file is empty</span></span></span>
+<span class="r-in"><span><span class="va">chrs</span><span class="op">[</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class: Chromatogram</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Intensity values aggregated using: sum </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> length of object: 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> from file: 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> from file: 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mz range: [NA, NA]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MS level: 1</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## Get the extracted chromatogram for the first range in the second file</span></span></span>
-<span class="r-in"><span><span class="va">chr</span> <span class="op">&lt;-</span> <span class="va">chrs</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="co">## Get the extracted chromatogram for the first range in the first file</span></span></span>
+<span class="r-in"><span><span class="va">chr</span> <span class="op">&lt;-</span> <span class="va">chrs</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">chr</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Object of class: Chromatogram</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Intensity values aggregated using: sum </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> length of object: 148</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> from file: 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> mz range: [140.0022, 159.9989]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> rt range: [10.24602, 59.71602]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MS level: 1</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="plot-methods.html">plot</a></span><span class="op">(</span><span class="fu"><a href="Spectrum-class.html">rtime</a></span><span class="op">(</span><span class="va">chr</span><span class="op">)</span>, <span class="fu"><a href="Spectrum-class.html">intensity</a></span><span class="op">(</span><span class="va">chr</span><span class="op">)</span>, xlab <span class="op">=</span> <span class="st">"rtime"</span>, ylab <span class="op">=</span> <span class="st">"intensity"</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="chromatogram-MSnExp-method-2.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> length of object: 180</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> from file: 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> mz range: [140, 160]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> rt range: [10.04, 59.982]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MS level: NA</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
